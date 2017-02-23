@@ -6,11 +6,7 @@ package com.mygdx.game.States;
 
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import com.badlogic.gdx.math.Vector3;
 public abstract class State implements Screen {
     //protected Vector3 mouse;    //Mouse xy
 

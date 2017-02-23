@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import me.boxcubed.main.States.GameStateManager;
+
 public class TopDown extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
@@ -15,7 +17,7 @@ public class TopDown extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		gsm = new GameStateManager();
-		gsm.push(new PlayState(gsm))
+		//gsm.push(new PlayState(gsm));
 	}
 
 	@Override

@@ -1,10 +1,10 @@
 package com.mygdx.game.States;
-import com.mygdx.game.States.State;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * Created by Tej Sidhu on 9/02/2017.
  */
 import java.util.Stack;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameStateManager {
     private Stack<State> states;//This holds an array of all the states such as the main menu, play and game over state
