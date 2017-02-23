@@ -4,7 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameState extends State implements Screen {
-	public GameState (me.boxcubed.main.States.GameStateManager gsm){
+	public GameState (GameStateManager gsm){
 		super(gsm);
 		//Basically the create method
 	}
@@ -21,8 +21,8 @@ public class GameState extends State implements Screen {
 
 	@Override
 	public void render(SpriteBatch batch) {
-
-	}
+        System.out.println("Hello World");
+    }
 
 	@Override
 	public void show() {
