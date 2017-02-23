@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 package me.boxcubed.main.Sprites;
 
 import com.badlogic.gdx.Input;
@@ -30,3 +31,27 @@ public class Player extends Sprite{
 		
 	}
 }
+=======
+package me.boxcubed.main.Sprites;
+
+/**
+ * Created by Tej Sidhu on 23/02/2017.
+ */
+public class Player {
+    public Player(){
+
+    }
+    public void goUP(){
+
+    }
+    public void goDOWN(){
+
+    }
+    public void goLEFT(){
+
+    }
+    public void goRIGHT(){
+
+    }
+}
+>>>>>>> Stashed changes

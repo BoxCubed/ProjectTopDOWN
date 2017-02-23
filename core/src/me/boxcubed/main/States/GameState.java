@@ -1,17 +1,26 @@
 package me.boxcubed.main.States;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import me.boxcubed.main.Entity.Camera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
+
 
 public class GameState extends State implements Screen {
+    World gameWORLD;
+    Box2DDebugRenderer b2dr;
+    Camera cam;
 	public GameState (GameStateManager gsm){
 		super(gsm);
 		//Basically the create method
+        cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+        gameWORLD = new World(new Vector2(0, 0), true);
+        b2dr = new Box2DDebugRenderer();
 	}
 
 	@Override
@@ -32,12 +41,13 @@ public class GameState extends State implements Screen {
 
 	@Override
 	public void update(float delta) {
-        Camera.update();
+        cam.update();
+        gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
-
+        b2dr.render(gameWORLD,cam.combined);//Some matrix int he second argument
     }
 
 	@Override
@@ -52,7 +62,7 @@ public class GameState extends State implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-	    Camera.update();
+        cam.update();
     }
 
 	@Override

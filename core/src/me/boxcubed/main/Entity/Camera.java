@@ -12,9 +12,10 @@ import javax.print.StreamPrintService;
  * Created by Tej Sidhu on 23/02/2017.
  */
 public class Camera {
-    private static OrthographicCamera cam;
+    public static OrthographicCamera cam;
     Vector2 camCoords;
     FitViewport viewport;
+
     public Camera(){
         camCoords = new Vector2();
         cam = new OrthographicCamera();
@@ -33,5 +34,9 @@ public class Camera {
     public void resized(SpriteBatch batch){//If the window has been resized
         batch.setTransformMatrix(viewport.getCamera().view);
         batch.setProjectionMatrix(viewport.getCamera().projection);
+    }
+    public void cameraMOVE(int x, int y){//This method can be called anytime the camera needs to be moved
+        cam.position.set(x, y, 0);
+        cam.update();
     }
 }
