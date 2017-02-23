@@ -1,12 +1,10 @@
-package me.boxcubed.main.Entity;
+package me.boxcubed.main.Objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import javax.print.StreamPrintService;
 
 /**
  * Created by Tej Sidhu on 23/02/2017.
