@@ -30,4 +30,8 @@ public class Camera {
     public static void update(){
         cam.update();
     }
+    public void resized(SpriteBatch batch){//If the window has been resized
+        batch.setTransformMatrix(viewport.getCamera().view);
+        batch.setProjectionMatrix(viewport.getCamera().projection);
+    }
 }
