@@ -1,7 +1,12 @@
 package me.boxcubed.main.States;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import me.boxcubed.main.Entity.Camera;
 
 public class GameState extends State implements Screen {
 	public GameState (GameStateManager gsm){
@@ -11,17 +16,28 @@ public class GameState extends State implements Screen {
 
 	@Override
 	protected void handleInput() {
-
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            //Player.goUp
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            //Player.goDown
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            //Player.goLeft
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            //Player.goRight
+        }
 	}
 
 	@Override
 	public void update(float delta) {
-
+        Camera.update();
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
-        System.out.println("Hello World");
+
     }
 
 	@Override
@@ -36,8 +52,8 @@ public class GameState extends State implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-
-	}
+	    Camera.update();
+    }
 
 	@Override
 	public void pause() {

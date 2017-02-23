@@ -9,21 +9,21 @@ import me.boxcubed.main.States.GameStateManager;
 
 public class TopDown extends ApplicationAdapter {
 	SpriteBatch batch;
-	GameStateManager gsm;
+	GameStateManager boob;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		gsm = new GameStateManager();
-		gsm.push(new GameState(gsm));
+		boob = new GameStateManager();
+		boob.push(new GameState(boob));
 	}
 
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		gsm.update(Gdx.graphics.getDeltaTime());
+		boob.update(Gdx.graphics.getDeltaTime());
 		batch.begin();
-		gsm.render(batch);
+		boob.render(batch);
 		batch.end();
 	}
 	
