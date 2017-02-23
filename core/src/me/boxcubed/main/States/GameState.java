@@ -21,7 +21,7 @@ public class GameState extends State implements Screen {
 
 	@Override
 	public void render(SpriteBatch batch) {
-        System.out.println("Hello World");
+
     }
 
 	@Override
