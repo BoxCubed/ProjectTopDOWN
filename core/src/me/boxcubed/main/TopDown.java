@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+import me.boxcubed.main.States.GameState;
 import me.boxcubed.main.States.GameStateManager;
 
 public class TopDown extends ApplicationAdapter {
@@ -15,9 +15,9 @@ public class TopDown extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		//img = new Texture("badlogic.jpg");
 		gsm = new GameStateManager();
-		//gsm.push(new PlayState(gsm));
+		gsm.push(new GameState(gsm));
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class TopDown extends ApplicationAdapter {
 		gsm.update(Gdx.graphics.getDeltaTime());
 		batch.begin();
 		gsm.render(batch);
-		batch.draw(img, 0, 0);
+		//batch.draw(img, 0, 0);
 		batch.end();
 	}
 	
