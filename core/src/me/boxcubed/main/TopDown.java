@@ -6,14 +6,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class TopDown extends ApplicationAdapter {
+public class TopDown extends Screen {
 	SpriteBatch batch;
 	Texture img;
-	
+	GameStateManager gsm;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		gsm = new GameStateManager();
+		gsm.push(new PlayState(gsm))
 	}
 
 	@Override
