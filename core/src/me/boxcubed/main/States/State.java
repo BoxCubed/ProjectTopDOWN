@@ -1,4 +1,4 @@
-package com.mygdx.game.States;
+package me.boxcubed.main.States;
 
 /**
  * Created by Tej Sidhu on 9/02/2017.
