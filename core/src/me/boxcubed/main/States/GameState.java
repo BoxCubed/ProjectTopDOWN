@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import me.boxcubed.main.Sprites.Player;
 
 
 public class GameState extends State implements Screen {
     public World gameWORLD;
     Box2DDebugRenderer b2dr;
     Camera cam;
+    Player player;
 	public GameState (GameStateManager gsm){
 		super(gsm);
 		//Basically the create method
@@ -26,16 +28,16 @@ public class GameState extends State implements Screen {
 	@Override
 	protected void handleInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            //Player.goUp
+			player.goUP();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            //Player.goDown
+            player.goDOWN();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            //Player.goLeft
+            player.goLEFT();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            //Player.goRight
+            player.goRIGHT();
         }
 	}
 
