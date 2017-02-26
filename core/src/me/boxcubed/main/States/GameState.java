@@ -17,12 +17,14 @@ public class GameState extends State implements Screen {
     Box2DDebugRenderer b2dr;
     Camera cam;
     Player player;
+    public static final int PPM = 200;
 	public GameState (GameStateManager gsm){
 		super(gsm);
 		//Basically the create method
         cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
         gameWORLD = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
+        player = new Player(gameWORLD);
 	}
 
 	@Override
