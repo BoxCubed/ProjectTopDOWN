@@ -10,13 +10,17 @@ public interface Entity {
 	    public void setPos(Vector2 pos);
 		public void setSprite(Sprite sprite);
 		public Sprite getSprite();
-
-	    public void goUP(int vel);
-	    public void goDown(int vel);
-	    public void goLeft(int vel);
-	    public void goRight(int vel);
-	    //public Animation animation();
-	    public Sprite sprite();
-
+        public Animation animation();
+        public Sprite sprite();
+        //Walking
+	    public void goUP();
+	    public void goDown();
+	    public void goLeft();
+	    public void goRight();
+	    //Running
+        public void runUP();
+        public void runDOWN();
+        public void runLEFT();
+        public void runRIGHT();
 }
   
