@@ -18,7 +18,7 @@ public class Player extends Sprite{
 	public Player(World w) {
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
-		playerDef.position.set(300, 400);
+		playerDef.position.set(300/GameState.PPM, 400/GameState.PPM);
 		//Shape
 		playerShape = new CircleShape();
 		playerShape.setRadius(1.5f);
@@ -39,9 +39,7 @@ public class Player extends Sprite{
 		
 	}
 	public void handleInput(Input i){
-		
-		
-		
+
 	}
     public void goUP(){
 
