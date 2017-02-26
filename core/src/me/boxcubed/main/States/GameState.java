@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 
 public class GameState extends State implements Screen {
-    World gameWORLD;
+    public World gameWORLD;
     Box2DDebugRenderer b2dr;
     Camera cam;
 	public GameState (GameStateManager gsm){

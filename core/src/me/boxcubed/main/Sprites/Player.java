@@ -7,18 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import me.boxcubed.main.States.GameState;
 
 /**
  * Created by Tej Sidhu on 23/02/2017.
  */
 public class Player extends Sprite{
-	World w;
-	Body b;
-	
+	Body body;
 	public Player(World w) {
-		this.w=w;
 		BodyDef bd=new BodyDef();
-		b=w.createBody(bd);
+		w.createBody(bd);
 	
 	}
 	public void render(SpriteBatch sb){
