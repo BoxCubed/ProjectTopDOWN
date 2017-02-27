@@ -32,6 +32,7 @@ public class GameState extends State implements Screen {
         gameWORLD = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
         player = new Player(gameWORLD);
+        
 	}
 
 	@Override
@@ -66,8 +67,10 @@ public class GameState extends State implements Screen {
 
 	@Override
 	public void update(float delta) {
-        cam.update();
+		  handleInput();
+		cam.update();
         gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
+      
 	}
 
 	@Override
