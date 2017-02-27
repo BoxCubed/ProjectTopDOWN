@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -35,6 +36,7 @@ public class GameState extends State implements Screen {
 			    player.runUP();
             }else{
                 player.goUP();
+                System.out.println("HELLO");
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
@@ -62,13 +64,16 @@ public class GameState extends State implements Screen {
 
 	@Override
 	public void update(float delta) {
+	    handleInput();
         cam.update();
         gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
-        b2dr.render(gameWORLD,cam.combined);//Some matrix int he second argument
+        Gdx.gl.glClearColor(0.3f, 0.5f, 0.4f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	    b2dr.render(gameWORLD,cam.combined);//Some matrix int he second argument
     }
 
 	@Override

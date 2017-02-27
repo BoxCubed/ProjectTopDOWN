@@ -17,7 +17,7 @@ public class Player extends Sprite implements Entity
 {
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;
-	CircleShape playerShape;
+	PolygonShape playerShape;
 	public Body playerBody;
 	Vector2 position;//Player position
 	public Player(World world) {
@@ -25,8 +25,8 @@ public class Player extends Sprite implements Entity
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		playerDef.position.set(300/GameState.PPM, 400/GameState.PPM);
 		//Shape
-		playerShape = new CircleShape();
-		playerShape.setRadius(1.5f);
+		playerShape = new PolygonShape();
+		playerShape.setAsBox(5, 5);
 		//Fixture def
 		fixtureDefPlayer = new FixtureDef();
 		fixtureDefPlayer.shape = playerShape;
