@@ -71,9 +71,9 @@ public class GameState extends State implements Screen {
 
 	@Override
 	public void render(SpriteBatch batch) {
-        Gdx.gl.glClearColor(0.3f, 0.5f, 0.4f, 1);
+        Gdx.gl.glClearColor(0.3f, 0.2f, 0.4f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	    b2dr.render(gameWORLD,cam.combined);//Some matrix int he second argument
+	    b2dr.render(gameWORLD,cam.combined);
     }
 
 	@Override

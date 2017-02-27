@@ -15,7 +15,7 @@ public class Camera {
     FitViewport viewport;
 
     public Camera(){
-        camCoords = new Vector2();
+        camCoords = new Vector2(0, 0);
         cam = new OrthographicCamera();
         viewport = new FitViewport(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/5);//Cbs working out the ratio of the width:height
     }
@@ -35,7 +35,7 @@ public class Camera {
         batch.setProjectionMatrix(viewport.getCamera().projection);
     }
     public void cameraMOVE(int x, int y){//This method can be called anytime the camera needs to be moved
-        cam.position.set(x, y, 0);
+        cam.position.set(camCoords.x + x, camCoords.y +y, 0);
         cam.update();
     }
 }
