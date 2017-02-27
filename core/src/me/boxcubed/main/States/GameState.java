@@ -28,32 +28,32 @@ public class GameState extends State implements Screen {
 	}
 
 	@Override
-	protected void handleInput() {
+	protected void handleInput() {//This piece of shit is a mess. Need to find a better way of doing this
 		//Walk controls
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
 			player.goUP();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            player.goDOWN();
+            player.goDown();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            player.goLEFT();
+            player.goLeft();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            player.goRIGHT();
+            player.goRight();
         }
         //Run controls
 		if(Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goUP();
+			player.runUP();
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goDOWN();
+			player.runDOWN();
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goLEFT();
+			player.runLEFT();
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goRIGHT();
+			player.runRIGHT();
 		}
 	}
 
