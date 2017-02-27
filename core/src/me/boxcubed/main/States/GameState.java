@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -33,6 +34,7 @@ public class GameState extends State implements Screen {
 	protected void handleInput() {//This piece of shit is a mess. Need to find a better way of doing this
 		//Walk controls
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+			System.out.println("Up");
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 			    player.runUP();
             }else{
@@ -40,6 +42,7 @@ public class GameState extends State implements Screen {
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+			System.out.println("Down");
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 				player.runDOWN();
 			}else{
@@ -47,14 +50,16 @@ public class GameState extends State implements Screen {
 			}
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+			System.out.println("Left");
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 				player.runLEFT();
-		
+
 			}else{
 				player.goLeft();
 			}
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+			System.out.println("Right");
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 				player.runRIGHT();
 			}else{
@@ -65,14 +70,18 @@ public class GameState extends State implements Screen {
 
 	@Override
 	public void update(float delta) {
+
 		handleInput();
+
         cam.update();
         gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
-        b2dr.render(gameWORLD,cam.combined);//Some matrix int he second argument
+        Gdx.gl.glClearColor(0.3f, 0.2f, 0.4f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	    b2dr.render(gameWORLD,cam.combined);
     }
 
 	@Override

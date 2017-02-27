@@ -23,22 +23,28 @@ public class Player extends Sprite implements Entity
 {
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;
-	CircleShape playerShape;
+	PolygonShape playerShape;
 	public Body playerBody;
 	Vector2 position;//Player position
 	public Player(World world) {
-		 BodyDef bdef = new BodyDef();
-	        bdef.position.set((Gdx.graphics.getWidth()/2)/GameState.PPM,(Gdx.graphics.getHeight()/2)/GameState.PPM);
-	        bdef.type=BodyDef.BodyType.DynamicBody;
-	        playerBody = world.createBody(bdef);
 
-	        FixtureDef fdef = new FixtureDef();
-	        PolygonShape shape1 = new PolygonShape();
+		playerDef = new BodyDef();
+		playerDef.type = BodyDef.BodyType.DynamicBody;
+		playerDef.position.set(300/GameState.PPM, 400/GameState.PPM);
+		//Shape
+		playerShape = new PolygonShape();
+		playerShape.setAsBox(5, 5);
+		//Fixture def
+		fixtureDefPlayer = new FixtureDef();
+		fixtureDefPlayer.shape = playerShape;
+		fixtureDefPlayer.density = 1f;
+		fixtureDefPlayer.restitution = 0f;
+		fixtureDefPlayer.friction = 2.5f;
+		//Creates the body
+        playerBody = world.createBody(playerDef);
+        playerBody.createFixture(fixtureDefPlayer);
+		//world.createBody(playerDef).createFixture(fixtureDefPlayer);
 
-	        shape1.setAsBox(5/GameState.PPM,5/GameState.PPM);
-
-	        fdef.shape=shape1;
-	        playerBody.createFixture(fdef);
 	
 	}
 	public void render(SpriteBatch sb){
@@ -84,7 +90,9 @@ public class Player extends Sprite implements Entity
 	}
 	@Override
 	public void goLeft() {
-		playerBody.applyLinearImpulse(new Vector2(-3f, 0),playerBody.getWorldCenter(), true);
+
+		playerBody.applyLinearImpulse(new Vector2(-50f, 0),playerBody.getWorldCenter(), true);
+
 	}
 	@Override
 	public void goRight() {
