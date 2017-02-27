@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+
 import me.boxcubed.main.Sprites.Player;
 
 
@@ -17,14 +18,15 @@ public class GameState extends State implements Screen {
     Box2DDebugRenderer b2dr;
     Camera cam;
     Player player;
-    public static final int PPM = 200;
+    public static final int PPM = 100;
 	public GameState (GameStateManager gsm){
 		super(gsm);
 		//Basically the create method
-        cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+        cam = new OrthographicCamera((Gdx.graphics.getWidth()/2)/PPM,(Gdx.graphics.getHeight()/2)/PPM);
         gameWORLD = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
         player = new Player(gameWORLD);
+        
 	}
 
 	@Override
@@ -39,29 +41,31 @@ public class GameState extends State implements Screen {
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-				player.goDown();
-			}else{
 				player.runDOWN();
+			}else{
+				player.goDown();
 			}
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-				player.goLeft();
-			}else{
 				player.runLEFT();
+		
+			}else{
+				player.goLeft();
 			}
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-				player.goRight();
-			}else{
 				player.runRIGHT();
+			}else{
+				player.goRight();
 			}
         }
 	}
 
 	@Override
 	public void update(float delta) {
+		handleInput();
         cam.update();
         gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 	}
