@@ -34,26 +34,26 @@ public class GameState extends State implements Screen {
 			player.goUP();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            player.goDOWN();
+            player.goDown();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            player.goLEFT();
+            player.goLeft();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            player.goRIGHT();
+            player.goRight();
         }
         //Run controls
 		if(Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 			player.goUP();
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goDOWN();
+			player.goDown();
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goLEFT();
+			player.goLeft();
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goRIGHT();
+			player.goRight();
 		}
 	}
 
