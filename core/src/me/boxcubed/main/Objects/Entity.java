@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 public interface Entity {
-	  public Vector2 getPos();
-
+	  	public Vector2 getPos();
 	    public void setPos(Vector2 pos);
 		public void setSprite(Sprite sprite);
 		public Sprite getSprite();
