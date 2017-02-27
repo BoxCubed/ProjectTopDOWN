@@ -45,7 +45,7 @@ public class GameState extends State implements Screen {
         //Run controls
 		if(Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 			player.runUP();
-		}
+		}//sh
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 			player.runDOWN();
 		}
