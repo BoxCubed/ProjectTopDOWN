@@ -1,5 +1,8 @@
 package me.boxcubed.main.States;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -9,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+
+import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
 
 
@@ -17,10 +22,12 @@ public class GameState extends State implements Screen {
     Box2DDebugRenderer b2dr;
     Camera cam;
     Player player;
+    List<LivingEntity>entities;
     public static final int PPM = 200;
 	public GameState (GameStateManager gsm){
 		super(gsm);
 		//Basically the create method
+		entities=new ArrayList<LivingEntity>();
         cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
         gameWORLD = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
@@ -30,31 +37,31 @@ public class GameState extends State implements Screen {
 	@Override
 	protected void handleInput() {
 		//Walk controls
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-			player.goUP();
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            player.goDown();
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            player.goLeft();
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            player.goRight();
-        }
-        //Run controls
-		if(Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goUP();
+		Input input=Gdx.input;
+	//And that, is how you actually do this without making a mess. Now which autistic kid decided to name the methods? cbs fixing for now
+		boolean shiftPressed=input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+		if(input.isKeyPressed(Input.Keys.UP)){
+			if(shiftPressed)
+			player.runUP();
+			else player.goUP();
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goDown();
+		if(input.isKeyPressed(Input.Keys.DOWN)){
+			if(shiftPressed)
+				player.runDOWN();
+			else player.goDown();
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goLeft();
+		if(input.isKeyPressed(Input.Keys.LEFT)){
+			if(shiftPressed)
+				player.runLEFT();
+			else player.goLeft();
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goRight();
+		if(input.isKeyPressed(Input.Keys.RIGHT)){
+			if(shiftPressed)
+				player.runRIGHT();
+			else player.goRight();
+			
 		}
+		
 	}
 
 	@Override
