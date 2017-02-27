@@ -32,14 +32,15 @@ public class GameState extends State implements Screen {
 	protected void handleInput() {//This piece of shit is a mess. Need to find a better way of doing this
 		//Walk controls
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+			System.out.println("Up");
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 			    player.runUP();
             }else{
                 player.goUP();
-                System.out.println("HELLO");
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+			System.out.println("Down");
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 				player.goDown();
 			}else{
@@ -47,13 +48,15 @@ public class GameState extends State implements Screen {
 			}
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+			System.out.println("Left");
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-				player.goLeft();
-			}else{
 				player.runLEFT();
+			}else{
+				player.goLeft();
 			}
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+			System.out.println("Right");
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
 				player.goRight();
 			}else{

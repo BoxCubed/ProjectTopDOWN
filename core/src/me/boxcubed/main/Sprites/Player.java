@@ -34,7 +34,9 @@ public class Player extends Sprite implements Entity
 		fixtureDefPlayer.restitution = 0f;
 		fixtureDefPlayer.friction = 2.5f;
 		//Creates the body
-		world.createBody(playerDef).createFixture(fixtureDefPlayer);
+        playerBody = world.createBody(playerDef);
+        playerBody.createFixture(fixtureDefPlayer);
+		//world.createBody(playerDef).createFixture(fixtureDefPlayer);
 	
 	}
 	public void render(SpriteBatch sb){
@@ -80,7 +82,8 @@ public class Player extends Sprite implements Entity
 	}
 	@Override
 	public void goLeft() {
-
+		playerBody.applyLinearImpulse(new Vector2(-50f, 0),playerBody.getWorldCenter(), true);
+		System.out.println("Going left");
 	}
 	@Override
 	public void goRight() {
