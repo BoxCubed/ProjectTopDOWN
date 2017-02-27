@@ -1,17 +1,23 @@
 
 package me.boxcubed.main.Sprites;
 
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+
 import me.boxcubed.main.Objects.Entity;
 import me.boxcubed.main.States.GameState;
 
 /**
- * Created by Tej Sidhu on 23/02/2017.
+ * Created by Dank Memes on 23/02/2017.
  */
 public class Player extends Sprite implements Entity
 {
@@ -21,6 +27,7 @@ public class Player extends Sprite implements Entity
 	public Body playerBody;
 	Vector2 position;//Player position
 	public Player(World world) {
+
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		playerDef.position.set(300/GameState.PPM, 400/GameState.PPM);
@@ -37,10 +44,11 @@ public class Player extends Sprite implements Entity
         playerBody = world.createBody(playerDef);
         playerBody.createFixture(fixtureDefPlayer);
 		//world.createBody(playerDef).createFixture(fixtureDefPlayer);
+
 	
 	}
 	public void render(SpriteBatch sb){
-		//Not sure if we need this
+		//we do
 	}
 	@Override
 	public Vector2 getPos() {
@@ -82,12 +90,13 @@ public class Player extends Sprite implements Entity
 	}
 	@Override
 	public void goLeft() {
+
 		playerBody.applyLinearImpulse(new Vector2(-50f, 0),playerBody.getWorldCenter(), true);
-		System.out.println("Going left");
+
 	}
 	@Override
 	public void goRight() {
-
+		playerBody.applyLinearImpulse(new Vector2(0.3f, 0),playerBody.getWorldCenter(), true);
 	}
 	//Running actions
 	@Override
