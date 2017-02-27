@@ -23,7 +23,7 @@ public class GameState extends State implements Screen {
 	public GameState (GameStateManager gsm){
 		super(gsm);
 		//Basically the create method
-        cam = new OrthographicCamera((Gdx.graphics.getWidth()/2)/PPM,(Gdx.graphics.getHeight()/2)/PPM);
+        cam = new OrthographicCamera((Gdx.graphics.getWidth()/2),(Gdx.graphics.getHeight()/2));
         gameWORLD = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
         player = new Player(gameWORLD);

@@ -43,8 +43,6 @@ public class Player extends Sprite implements Entity
 		//Creates the body
         playerBody = world.createBody(playerDef);
         playerBody.createFixture(fixtureDefPlayer);
-		//world.createBody(playerDef).createFixture(fixtureDefPlayer);
-
 	
 	}
 	public void render(SpriteBatch sb){
@@ -82,21 +80,21 @@ public class Player extends Sprite implements Entity
 	//Walking
 	@Override
 	public void goUP() {
+		playerBody.applyLinearImpulse(new Vector2(0, 50),playerBody.getWorldCenter(), true);
 
 	}
 	@Override
 	public void goDown() {
-
+		playerBody.applyLinearImpulse(new Vector2(0f, -50f),playerBody.getWorldCenter(), true);
 	}
 	@Override
 	public void goLeft() {
-
 		playerBody.applyLinearImpulse(new Vector2(-50f, 0),playerBody.getWorldCenter(), true);
 
 	}
 	@Override
 	public void goRight() {
-		playerBody.applyLinearImpulse(new Vector2(0.3f, 0),playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(50, 0),playerBody.getWorldCenter(), true);
 	}
 	//Running actions
 	@Override
