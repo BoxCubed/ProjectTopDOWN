@@ -1,6 +1,7 @@
 
 package me.boxcubed.main.Sprites;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,23 +17,24 @@ import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.States.GameState;
 
 /**
- * Created by Tej Sidhu on 23/02/2017.
+ * Created by Dank Memes on 23/02/2017.
  */
 public class Player extends Sprite implements LivingEntity
 {
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;
-	CircleShape playerShape;
+	PolygonShape playerShape;
 	public Body playerBody;
 	Fixture fixture;
 	Vector2 position;//Player position
 	public Player(World world) {
+
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		playerDef.position.set(300/GameState.PPM, 400/GameState.PPM);
 		//Shape
-		playerShape = new CircleShape();
-		playerShape.setRadius(1.5f);
+		playerShape = new PolygonShape();
+		playerShape.setAsBox(5, 5);
 		//Fixture def
 		fixtureDefPlayer = new FixtureDef();
 		fixtureDefPlayer.shape = playerShape;
@@ -45,7 +47,7 @@ public class Player extends Sprite implements LivingEntity
 	
 	}
 	public void render(SpriteBatch sb){
-		//Not sure if we need this
+		//we do
 	}
 	@Override
 	public Vector2 getPos() {
@@ -88,10 +90,12 @@ public class Player extends Sprite implements LivingEntity
 	@Override
 	public void goLeft() {
 
+		playerBody.applyLinearImpulse(new Vector2(-50f, 0),playerBody.getWorldCenter(), true);
+
 	}
 	@Override
 	public void goRight() {
-
+		playerBody.applyLinearImpulse(new Vector2(0.3f, 0),playerBody.getWorldCenter(), true);
 	}
 	//Running actions
 	@Override
