@@ -46,7 +46,7 @@ public class GameState extends State implements Screen {
 			if(shiftPressed)
 			player.runUP();
 			else player.goUP();
-		}
+		}//
 		if(input.isKeyPressed(Input.Keys.DOWN)){
 			if(shiftPressed)
 				player.runDOWN();
