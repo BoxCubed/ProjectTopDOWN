@@ -28,33 +28,36 @@ public class GameState extends State implements Screen {
 	}
 
 	@Override
-	protected void handleInput() {
+	protected void handleInput() {//This piece of shit is a mess. Need to find a better way of doing this
 		//Walk controls
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-			player.goUP();
+			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+			    player.runUP();
+            }else{
+                player.goUP();
+            }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            player.goDown();
+			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+				player.goDown();
+			}else{
+				player.runDOWN();
+			}
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            player.goLeft();
+			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+				player.goLeft();
+			}else{
+				player.runLEFT();
+			}
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            player.goRight();
+			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+				player.goRight();
+			}else{
+				player.runRIGHT();
+			}
         }
-        //Run controls
-		if(Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goUP();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goDown();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goLeft();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			player.goRight();
-		}
 	}
 
 	@Override
