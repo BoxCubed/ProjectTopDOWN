@@ -2,20 +2,25 @@
 package me.boxcubed.main.Sprites;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import me.boxcubed.main.Objects.Entity;
 import me.boxcubed.main.States.GameState;
 
 /**
  * Created by Tej Sidhu on 23/02/2017.
  */
-public class Player extends Sprite{
+public class Player extends Sprite implements Entity
+{
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;
 	CircleShape playerShape;
 	public Body playerBody;
-	public Player(World w) {
+	Vector2 position;//Player position
+	public Player(World world) {
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		playerDef.position.set(300/GameState.PPM, 400/GameState.PPM);
@@ -29,28 +34,76 @@ public class Player extends Sprite{
 		fixtureDefPlayer.restitution = 0f;
 		fixtureDefPlayer.friction = 2.5f;
 		//Creates the body
-		playerBody = w.createBody(playerDef);
-		playerBody.createFixture(fixtureDefPlayer);
-		//world.createBody(playerDef).createFixture(fixtureDefPlayer);
+		world.createBody(playerDef).createFixture(fixtureDefPlayer);
 	
 	}
 	public void render(SpriteBatch sb){
-		
-		
+		//Not sure if we need this
 	}
-	public void handleInput(Input i){
+	@Override
+	public Vector2 getPos() {
+		return position;
+	}
+
+	@Override
+	public void setPos(Vector2 pos) {
 
 	}
-    public void goUP(){
 
-    }
-    public void goDOWN(){
+	@Override
+	public void setSprite(Sprite sprite) {
 
-    }
-    public void goLEFT(){
+	}
 
-    }
-    public void goRIGHT(){
+	@Override
+	public Sprite getSprite() {
+		return null;
+	}
 
-    }
+	@Override
+	public Animation animation() {
+		return null;
+	}
+
+	@Override
+	public Sprite sprite() {
+		return null;
+	}
+	//Walking
+	@Override
+	public void goUP() {
+
+	}
+	@Override
+	public void goDown() {
+
+	}
+	@Override
+	public void goLeft() {
+
+	}
+	@Override
+	public void goRight() {
+
+	}
+	//Running actions
+	@Override
+	public void runUP() {
+
+	}
+
+	@Override
+	public void runDOWN() {
+
+	}
+
+	@Override
+	public void runLEFT() {
+
+	}
+
+	@Override
+	public void runRIGHT() {
+
+	}
 }

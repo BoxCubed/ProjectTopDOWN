@@ -29,6 +29,7 @@ public class GameState extends State implements Screen {
 
 	@Override
 	protected void handleInput() {
+		//Walk controls
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
 			player.goUP();
         }
@@ -41,6 +42,19 @@ public class GameState extends State implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             player.goRIGHT();
         }
+        //Run controls
+		if(Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+			player.goUP();
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+			player.goDOWN();
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+			player.goLEFT();
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+			player.goRIGHT();
+		}
 	}
 
 	@Override

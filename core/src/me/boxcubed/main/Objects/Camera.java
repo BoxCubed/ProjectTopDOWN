@@ -17,7 +17,7 @@ public class Camera {
     public Camera(){
         camCoords = new Vector2();
         cam = new OrthographicCamera();
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());//Cbs working out the ratio of the width:height
+        viewport = new FitViewport(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/5);//Cbs working out the ratio of the width:height
     }
     public Vector2 cameraXY(){
         //This returns the co-ordinates of the camera
@@ -29,6 +29,7 @@ public class Camera {
     public static void update(){
         cam.update();
     }
+
     public void resized(SpriteBatch batch){//If the window has been resized
         batch.setTransformMatrix(viewport.getCamera().view);
         batch.setProjectionMatrix(viewport.getCamera().projection);
