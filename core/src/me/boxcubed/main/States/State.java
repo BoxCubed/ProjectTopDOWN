@@ -7,24 +7,22 @@ package me.boxcubed.main.States;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-public abstract class State implements Screen {
+public interface State  extends Screen {
     //protected Vector3 mouse;    //Mouse xy
 
-    protected  GameStateManager gsm;
+    
 
 
 
-    protected State(GameStateManager gsm){
-        this.gsm = gsm;
-    }
+    
 
 
 
-    protected abstract void handleInput();
+    void handleInput();
 
-    public abstract void update(float delta);
+    public void update(float delta);
 
-    public abstract void render(SpriteBatch batch);
+    public void render(SpriteBatch batch);
 
-    public abstract void dispose();
+    public void dispose();
 }

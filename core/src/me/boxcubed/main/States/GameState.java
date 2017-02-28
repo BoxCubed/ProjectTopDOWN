@@ -17,15 +17,16 @@ import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
 
 
-public class GameState extends State implements Screen {
+public class GameState implements State {
     public World gameWORLD;
     Box2DDebugRenderer b2dr;
     Camera cam;
     Player player;
     List<LivingEntity>entities;
     public static final int PPM = 200;
+    GameStateManager gsm;
 	public GameState (GameStateManager gsm){
-		super(gsm);
+		this.gsm=gsm;
 		//Basically the create method
 		entities=new ArrayList<LivingEntity>();
         cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
@@ -37,7 +38,7 @@ public class GameState extends State implements Screen {
 	}
 
 	@Override
-	protected void handleInput() {
+	public void handleInput() {
 		//Walk controls
 		Input input=Gdx.input;
 	//And that, is how you actually do this without making a mess. Now which autistic kid decided to name the methods? cbs fixing for now

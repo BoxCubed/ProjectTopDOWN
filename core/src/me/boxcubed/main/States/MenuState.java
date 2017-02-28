@@ -1,18 +1,18 @@
 package me.boxcubed.main.States;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Created by Tej Sidhu on 23/02/2017.
  */
-public class MenuState extends State implements Screen {
+public class MenuState implements State {
+	GameStateManager gsm;
     protected MenuState(GameStateManager gsm) {
-        super(gsm);
+     this.gsm=gsm;   
     }
 
     @Override
-    protected void handleInput() {
+	public void handleInput() {
 
     }
 
