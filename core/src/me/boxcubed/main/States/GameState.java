@@ -1,6 +1,5 @@
 package me.boxcubed.main.States;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
 
@@ -28,19 +28,7 @@ public class GameState implements Screen,InputProcessor {
     List<LivingEntity>entities;
     public static final int PPM = 200;
     
-	public GameState (){
-		//Basically the create method
-		entities=new ArrayList<LivingEntity>();
-        cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
-        cam = new OrthographicCamera((Gdx.graphics.getWidth()/2),(Gdx.graphics.getHeight()/2));
-        gameWORLD = new World(new Vector2(0, 0), true);
-        b2dr = new Box2DDebugRenderer();
-        player = new Player(gameWORLD);
-        Gdx.input.setInputProcessor(this);
-        
-	}
-
-	/**/
+	
 	public void update(float delta) {
 		handleInput();
 		cam.update();
@@ -79,7 +67,16 @@ public class GameState implements Screen,InputProcessor {
 	}
 	@Override
 	public void show() {
-		new GameState();
+		
+		System.out.println("Init");
+		entities=new ArrayList<LivingEntity>();
+        cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+        cam = new OrthographicCamera((Gdx.graphics.getWidth()/2),(Gdx.graphics.getHeight()/2));
+        gameWORLD = new World(new Vector2(0, 0), true);
+        b2dr = new Box2DDebugRenderer();
+        player = new Player(gameWORLD);
+        Gdx.input.setInputProcessor(this);
+       
 	}
 
 	
@@ -101,12 +98,16 @@ public class GameState implements Screen,InputProcessor {
 
 	@Override
 	public void hide() {
-
+		dispose();
 	}
 
 	@Override
 	public void dispose() {
-
+		gameWORLD.dispose();
+		b2dr.dispose();
+		player=null;
+		entities.clear();
+		entities=null;
 	}
 	private boolean processMovment(String key){
 		String method;
@@ -137,7 +138,7 @@ public class GameState implements Screen,InputProcessor {
 		
 		switch(keycode){
 		case Keys.ESCAPE:
-		new GameState();break;
+		TopDown.instance.setScreen(new GameState());break;
 		default: return false;
 		
 		}
@@ -145,8 +146,10 @@ public class GameState implements Screen,InputProcessor {
 	}
 
 	@Override
-	public boolean keyUp(int keycode) {
+	public boolean keyUp(int key) {
 		// TODO Auto-generated method stub
+		if((key==Keys.UP||key==Keys.DOWN||key==Keys.LEFT||key==Keys.RIGHT)
+				&&(!Gdx.input.isKeyPressed(Keys.UP)&&!Gdx.input.isKeyPressed(Keys.DOWN)&&!Gdx.input.isKeyPressed(Keys.LEFT)&&!Gdx.input.isKeyPressed(Keys.RIGHT)))
 		player.stop();
 		return true;
 	}

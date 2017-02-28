@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.GL20;
 import me.boxcubed.main.States.GameState;
 
 public class TopDown extends Game {
+	public static TopDown instance;
+	
 	@Override
 	public void create () {
+		instance=this;
 		setScreen(new GameState());
 	}
 
