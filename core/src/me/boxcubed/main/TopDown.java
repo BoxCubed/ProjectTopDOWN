@@ -1,34 +1,29 @@
 package me.boxcubed.main;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import me.boxcubed.main.States.GameState;
-import me.boxcubed.main.States.GameStateManager;
 
-public class TopDown extends ApplicationAdapter {
-	SpriteBatch batch;
-	GameStateManager gsm;
+import me.boxcubed.main.States.GameState;
+
+public class TopDown extends Game {
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		gsm = new GameStateManager();
-		gsm.push(new GameState(gsm));
+		setScreen(new GameState());
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+        //Gdx.gl.glClearColor(0, 0, 0, 1);
+		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		gsm.update(Gdx.graphics.getDeltaTime());
-		batch.begin();
-		gsm.render(batch);
-		batch.end();
-	}
+		super.render();
+		
+			}
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
+		super.dispose();
+		//batch.dispose();
 	}
 }

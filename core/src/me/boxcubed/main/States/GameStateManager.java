@@ -30,9 +30,9 @@ public class GameStateManager {
     } //This gets rid of the previous state or any of the ones that need to be disposed.
 
     public void set(State state){ //This sets the new state and gets rid of the old one i4f there was any
-
+    	state.show();
         states.pop().dispose();
-
+        
         states.push(state);
 
     }

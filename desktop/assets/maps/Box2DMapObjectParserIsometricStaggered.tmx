@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="staggered" width="10" height="10" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="iso-64x64-outside" tilewidth="64" tileheight="64">
+  <image source="../img/iso-64x64-outside.png" width="640" height="1024"/>
+ </tileset>
+ <objectgroup color="#a0a0a4" name="collision">
+  <properties>
+   <property name="type" value="object"/>
+  </properties>
+  <object x="289.5" y="64.5">
+   <polygon points="0,0 32,-16 64,0 64,32 32,48 0,32"/>
+  </object>
+  <object x="-0.5" y="144.5">
+   <polyline points="0,0 64,32 96,16 128,32 160,16 192,32 224,16 256,32 288,16 320,32 352,16 384,32 416,16 448,32 480,16 512,32 544,16 576,32 608,16 640,32 672,16 640,0 672,-16 640,-32 672,-48 640,-64 672,-80 642,-95"/>
+  </object>
+  <object x="639.5" y="48">
+   <polyline points="0,0 32,-16 -32,-48 -64,-32 -96,-48 -128,-32 -160,-48 -192,-32 -224,-48 -256,-32 -288,-48 -320,-32 -352,-48 -384,-32 -416,-48 -448,-32 -480,-48 -512,-32 -544,-48 -576,-32 -608,-48 -640,-32 -608,-16 -640,0 -608,16 -640,32 -608,48 -640,64 -608,80 -640,96"/>
+  </object>
+  <object x="0" y="0" width="672" height="176"/>
+  <object x="32.1562" y="13.5597" width="147" height="147">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <layer name="Kachelebene 1" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYBqG2HEQuIEcDADMqAEI
+  </data>
+ </layer>
+</map>

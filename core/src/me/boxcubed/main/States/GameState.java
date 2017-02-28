@@ -8,7 +8,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -17,16 +16,15 @@ import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
 
 
-public class GameState implements State {
+public class GameState implements Screen {
     public World gameWORLD;
     Box2DDebugRenderer b2dr;
     Camera cam;
     Player player;
     List<LivingEntity>entities;
     public static final int PPM = 200;
-    GameStateManager gsm;
-	public GameState (GameStateManager gsm){
-		this.gsm=gsm;
+    
+	public GameState (){
 		//Basically the create method
 		entities=new ArrayList<LivingEntity>();
         cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
@@ -37,7 +35,6 @@ public class GameState implements State {
         
 	}
 
-	@Override
 	public void handleInput() {
 		//Walk controls
 		Input input=Gdx.input;
@@ -67,7 +64,6 @@ public class GameState implements State {
 
 	}
 
-	@Override
 	public void update(float delta) {
 		  handleInput();
 		cam.update();
@@ -76,7 +72,9 @@ public class GameState implements State {
 	}
 
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(float delta) {
+		System.out.println("RENDER");
+		update(delta);
         b2dr.render(gameWORLD,cam.combined);//Some matrix int he second argument
     }
 
@@ -85,10 +83,7 @@ public class GameState implements State {
 
 	}
 
-	@Override
-	public void render(float delta) {
-
-	}
+	
 
 	@Override
 	public void resize(int width, int height) {

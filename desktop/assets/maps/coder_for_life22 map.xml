@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="15" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="unitScale" value=".03125"/>
+ </properties>
+ <objectgroup draworder="topdown" name="layer1" width="25" height="15">
+  <object name="obj1" type="object" x="188" y="128" width="352" height="11">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+   </properties>
+  </object>
+  <object name="obj2" type="object" x="188" y="148" width="18" height="222">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+   </properties>
+  </object>
+  <object name="obj3" type="object" x="530" y="148" width="10" height="223">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

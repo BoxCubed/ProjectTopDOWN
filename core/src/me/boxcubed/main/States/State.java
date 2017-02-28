@@ -18,7 +18,7 @@ public interface State  extends Screen {
 
 
 
-    void handleInput();
+     void handleInput();
 
     public void update(float delta);
 
