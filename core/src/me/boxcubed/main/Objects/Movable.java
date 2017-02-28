@@ -3,9 +3,9 @@ package me.boxcubed.main.Objects;
 public interface Movable {
 	//Walking
     public void goUP();
-    public void goDown();
-    public void goLeft();
-    public void goRight();
+    public void goDOWN();
+    public void goLEFT();
+    public void goRIGHT();
     //Running
     public void runUP();
     public void runDOWN();

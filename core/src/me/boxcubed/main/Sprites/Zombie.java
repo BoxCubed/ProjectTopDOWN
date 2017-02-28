@@ -50,23 +50,8 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	}
 
-	@Override
-	public void goDown() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void goLeft() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void goRight() {
-		// TODO Auto-generated method stub
-
-	}
+	
+	
 
 	@Override
 	public void runUP() {
@@ -90,6 +75,24 @@ public class Zombie extends Sprite implements LivingEntity {
 	public void runRIGHT() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void goDOWN() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void goLEFT() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void goRIGHT() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -84,16 +84,16 @@ public class Player extends Sprite implements LivingEntity
 
 	}
 	@Override
-	public void goDown() {
+	public void goDOWN() {
 		playerBody.applyLinearImpulse(new Vector2(0f, -50f),playerBody.getWorldCenter(), true);
 	}
 	@Override
-	public void goLeft() {
+	public void goLEFT() {
 		playerBody.applyLinearImpulse(new Vector2(-50f, 0),playerBody.getWorldCenter(), true);
 
 	}
 	@Override
-	public void goRight() {
+	public void goRIGHT() {
 		playerBody.applyLinearImpulse(new Vector2(50, 0),playerBody.getWorldCenter(), true);
 	}
 	//Running actions
@@ -115,5 +115,9 @@ public class Player extends Sprite implements LivingEntity
 	@Override
 	public void runRIGHT() {
 
+	}
+	public void stop(){
+		playerBody.setLinearVelocity(0f, 0f);
+		playerBody.setAngularVelocity(0);
 	}
 }
