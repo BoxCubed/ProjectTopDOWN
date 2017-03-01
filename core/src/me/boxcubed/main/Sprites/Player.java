@@ -50,7 +50,9 @@ public class Player extends Sprite implements LivingEntity
 	}
 	@Override
 	public Vector2 getPos() {
-		return position;
+	    position.x = playerDef.position.x;
+	    position.y = playerDef.position.y;
+	    return position;
 	}
 
 	@Override
