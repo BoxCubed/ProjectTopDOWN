@@ -71,7 +71,6 @@ public class GameState implements Screen,InputProcessor {
 		System.out.println("Init");
 		entities=new ArrayList<LivingEntity>();
         cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
-        cam = new OrthographicCamera((Gdx.graphics.getWidth()/2),(Gdx.graphics.getHeight()/2));
         gameWORLD = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
         player = new Player(gameWORLD);

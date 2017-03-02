@@ -37,9 +37,8 @@ public class Player extends Sprite implements LivingEntity
 		//Fixture def
 		fixtureDefPlayer = new FixtureDef();
 		fixtureDefPlayer.shape = playerShape;
-		fixtureDefPlayer.density = 1f;
-		fixtureDefPlayer.restitution = 0f;
-		fixtureDefPlayer.friction = 2.5f;
+		
+		fixtureDefPlayer.friction = 0f;
 		//Creates the body and assigns vars to all important values
 	playerBody =world.createBody(playerDef);
 	fixture=playerBody.createFixture(fixtureDefPlayer);
@@ -80,21 +79,21 @@ public class Player extends Sprite implements LivingEntity
 	//Walking
 	@Override
 	public void goUP() {
-		playerBody.applyLinearImpulse(new Vector2(0, 50),playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0, 80),playerBody.getWorldCenter(), true);
 
 	}
 	@Override
 	public void goDOWN() {
-		playerBody.applyLinearImpulse(new Vector2(0f, -50f),playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0f, -80f),playerBody.getWorldCenter(), true);
 	}
 	@Override
 	public void goLEFT() {
-		playerBody.applyLinearImpulse(new Vector2(-50f, 0),playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(-80f, 0),playerBody.getWorldCenter(), true);
 
 	}
 	@Override
 	public void goRIGHT() {
-		playerBody.applyLinearImpulse(new Vector2(50, 0),playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(80, 0),playerBody.getWorldCenter(), true);
 	}
 	//Running actions
 	@Override
