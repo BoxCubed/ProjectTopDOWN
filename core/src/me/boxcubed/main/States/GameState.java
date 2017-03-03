@@ -117,7 +117,7 @@ public class GameState implements Screen,InputProcessor {
 	public void dispose() {
 		gameWORLD.dispose();
 		b2dr.dispose();
-		
+
 		player=null;
 		entities.clear();
 		entities=null;
@@ -127,7 +127,7 @@ public class GameState implements Screen,InputProcessor {
 		String method;
 		if(Gdx.input.isKeyJustPressed(Keys.SHIFT_LEFT))method="run";
 		else method="go";
-		
+
 		method+=key;
 		Method m;
 		try {
@@ -139,19 +139,19 @@ public class GameState implements Screen,InputProcessor {
 			e.printStackTrace();
 		}
 		return false;
-		
-		
-	
-	}
+
+
+
+        }
 //BEGIN INPUT DETECTION*****************************************************
-	//***************************************************************
-	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		
-		
-		switch(keycode){
-		case Keys.ESCAPE:
+        //***************************************************************
+        @Override
+        public boolean keyDown(int keycode) {
+            // TODO Auto-generated method stub
+
+
+            switch(keycode){
+                case Keys.ESCAPE:
 		TopDown.instance.setScreen(new GameState());break;
 		default: return false;
 		
