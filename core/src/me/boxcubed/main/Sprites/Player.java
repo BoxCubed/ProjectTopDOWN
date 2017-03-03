@@ -93,6 +93,7 @@ public class Player extends Sprite implements LivingEntity
 	@Override
 	public void goDOWN() {
 		playerBody.applyLinearImpulse(new Vector2(0f, -80f),playerBody.getWorldCenter(), true);
+		}
 
 
 	@Override
