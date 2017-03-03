@@ -8,7 +8,6 @@ public interface LivingEntity extends Movable {
 	  public Vector2 getPos();
 
 	    public void setPos(Vector2 pos);
-		public void setSprite(Sprite sprite);
 		public Sprite getSprite();
         public Animation animation();
         public Sprite sprite();

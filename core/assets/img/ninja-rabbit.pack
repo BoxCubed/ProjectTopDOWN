@@ -1,0 +1,130 @@
+ninja-rabbit.png
+format: RGBA4444
+filter: Linear,Linear
+repeat: none
+duck
+  rotate: false
+  xy: 479, 0
+  size: 186, 302
+  orig: 186, 302
+  offset: 0, 0
+  index: 0
+duck
+  rotate: false
+  xy: 665, 0
+  size: 190, 302
+  orig: 190, 302
+  offset: 0, 0
+  index: 1
+duck
+  rotate: false
+  xy: 256, 0
+  size: 223, 266
+  orig: 223, 266
+  offset: 0, 0
+  index: 2
+duck
+  rotate: false
+  xy: 0, 0
+  size: 256, 194
+  orig: 256, 194
+  offset: 0, 0
+  index: 3
+jump
+  rotate: false
+  xy: 372, 302
+  size: 186, 303
+  orig: 186, 303
+  offset: 0, 0
+  index: 0
+jump
+  rotate: false
+  xy: 558, 302
+  size: 186, 303
+  orig: 186, 303
+  offset: 0, 0
+  index: 1
+jump
+  rotate: false
+  xy: 744, 302
+  size: 192, 303
+  orig: 192, 303
+  offset: 0, 0
+  index: 2
+jump
+  rotate: false
+  xy: 936, 302
+  size: 184, 303
+  orig: 184, 303
+  offset: 0, 0
+  index: 3
+jump
+  rotate: false
+  xy: 1120, 302
+  size: 184, 303
+  orig: 184, 303
+  offset: 0, 0
+  index: 4
+jump
+  rotate: false
+  xy: 1304, 302
+  size: 186, 303
+  orig: 186, 303
+  offset: 0, 0
+  index: 5
+jump
+  rotate: false
+  xy: 1490, 302
+  size: 192, 303
+  orig: 192, 303
+  offset: 0, 0
+  index: 6
+walk
+  rotate: false
+  xy: 479, 0
+  size: 186, 302
+  orig: 186, 302
+  offset: 0, 0
+  index: 0
+walk
+  rotate: false
+  xy: 855, 0
+  size: 186, 302
+  orig: 186, 302
+  offset: 0, 0
+  index: 1
+walk
+  rotate: false
+  xy: 1041, 0
+  size: 186, 302
+  orig: 186, 302
+  offset: 0, 0
+  index: 2
+walk
+  rotate: false
+  xy: 1227, 0
+  size: 186, 302
+  orig: 186, 302
+  offset: 0, 0
+  index: 3
+walk
+  rotate: false
+  xy: 1413, 0
+  size: 186, 302
+  orig: 186, 302
+  offset: 0, 0
+  index: 4
+walk
+  rotate: false
+  xy: 0, 194
+  size: 186, 302
+  orig: 186, 302
+  offset: 0, 0
+  index: 5
+walk
+  rotate: false
+  xy: 186, 266
+  size: 186, 302
+  orig: 186, 302
+  offset: 0, 0
+  index: 6

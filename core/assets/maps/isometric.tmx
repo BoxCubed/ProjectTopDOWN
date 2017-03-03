@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="50" height="50" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
+  <image source="../img/iso-64x64-outside.png" width="640" height="1024"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3XMQqAMAxA0eLsHQQRPIWIjurg4v2vYhwKDtqKijbhD29yyScBaeacW8QoapEBAACcyBOYAQAsGRKY4YlpJ9ayvTerBGYONfiOUEspisD3VvRidt/8N6eTjistMY3oftrDUcvft/JGh5YWix2hNk0tsR1parF2Y3c6Untfxe5Mw06u7slKi9YOT/v81joAAAAAwJIVGVcMeBAnAAA=
+  </data>
+ </layer>
+ <layer name="Kachelebene 2" width="50" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3Wuw6CQBBG4X07HkciXipt6LwUikqhoo8qJBRkAxYy7B/hfMkUQ7NnOpwDAABTl6kDDJzVAQZO3v6UVNh6qAMM3NUBPaTqALQ6qgPQKlcHdNioA4CGbcf3KGgFoHNQBxjYqwMM7Lz9JqmwdQ3wxtD/FBdvfw/8XggvdYCBQh2Ar9blrOpZiFv6WJaTNOZfb/HvSLQ5PxvLHXM3jjsq1S1xPTNxCwAAU/IB0O/xCRAnAAA=
+  </data>
+ </layer>
+</map>

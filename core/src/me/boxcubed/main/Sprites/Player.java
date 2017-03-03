@@ -1,6 +1,8 @@
 
 package me.boxcubed.main.Sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,6 +22,7 @@ import me.boxcubed.main.States.GameState;
  */
 public class Player extends Sprite implements LivingEntity
 {
+	private static Texture tex = new Texture(Gdx.files.internal("assets/img/player.png"));
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;
 	PolygonShape playerShape;
@@ -27,19 +30,24 @@ public class Player extends Sprite implements LivingEntity
 	Fixture fixture;
 	Vector2 position;//Player position
 	public Player(World world) {
-
+		
+		super(tex);
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		playerDef.position.set(300/GameState.PPM, 400/GameState.PPM);
+		
+		
+		
+		
+		
 		//Shape
 		playerShape = new PolygonShape();
 		playerShape.setAsBox(5, 5);
 		//Fixture def
 		fixtureDefPlayer = new FixtureDef();
 		fixtureDefPlayer.shape = playerShape;
-		fixtureDefPlayer.density = 1f;
-		fixtureDefPlayer.restitution = 0f;
-		fixtureDefPlayer.friction = 2.5f;
+		
+		fixtureDefPlayer.friction = 0f;
 		//Creates the body and assigns vars to all important values
 	playerBody =world.createBody(playerDef);
 	fixture=playerBody.createFixture(fixtureDefPlayer);
@@ -60,14 +68,10 @@ public class Player extends Sprite implements LivingEntity
 
 	}
 
-	@Override
-	public void setSprite(Sprite sprite) {
-
-	}
 
 	@Override
 	public Sprite getSprite() {
-		return null;
+		return this;
 	}
 
 	@Override
@@ -82,21 +86,24 @@ public class Player extends Sprite implements LivingEntity
 	//Walking
 	@Override
 	public void goUP() {
-		playerBody.applyLinearImpulse(new Vector2(0, 50),playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0, 80),playerBody.getWorldCenter(), true);
 
 	}
-	@Override	public void goDOWN() {
-		playerBody.applyLinearImpulse(new Vector2(0f, -50f),playerBody.getWorldCenter(), true);
-	}
+
+	@Override
+	public void goDOWN() {
+		playerBody.applyLinearImpulse(new Vector2(0f, -80f),playerBody.getWorldCenter(), true);
+
+
 	@Override
 	public void goLEFT() {
-		playerBody.applyLinearImpulse(new Vector2(-50f, 0),playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(-80f, 0),playerBody.getWorldCenter(), true);
 
 	}
 	@Override
 	public void goRIGHT() {
-		playerBody.applyLinearImpulse(new Vector2(50, 0),playerBody.getWorldCenter(), true);
-	}
+		playerBody.applyLinearImpulse(new Vector2(80, 0),playerBody.getWorldCenter(), true);
+	}//d
 	//Running actions
 	@Override
 	public void runUP() {

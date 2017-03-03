@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="1000" height="1000" tilewidth="10" tileheight="10">
+ <properties>
+  <property name="linearDampingX" value="2"/>
+  <property name="linearDampingY" value="2"/>
+  <property name="unitScale" value=".03152"/>
+ </properties>
+ <objectgroup name="jelly" width="1000" height="1000">
+  <object name="jelly" type="fixture" x="4860" y="4910">
+   <properties>
+    <property name="body" value="jelly"/>
+    <property name="density" value="1"/>
+   </properties>
+   <polygon points="0,0 10,-10 30,-20 50,-20 70,-10 80,0 70,20 10,20"/>
+  </object>
+  <object name="jelly" type="body" x="4900" y="4910">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+    <property name="fixedRotation" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="fish" width="1000" height="1000">
+  <properties>
+   <property name="bodyType" value="DynamicBody"/>
+  </properties>
+  <object name="fishTemplate" type="template" x="4910" y="4910">
+   <properties>
+    <property name="density" value=".5"/>
+    <property name="friction" value=".2"/>
+    <property name="restitution" value=".75"/>
+   </properties>
+   <polygon points="83,2 73,-8 62,-8 53,-1 44,-9 45,9 53,2 62,8 73,8"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="environment" width="1000" height="1000">
+  <properties>
+   <property name="type" value="object"/>
+  </properties>
+  <object name="left" x="0" y="0">
+   <polyline points="0,0 0,10000"/>
+  </object>
+  <object name="bottom" x="0" y="10000">
+   <polyline points="0,0 10000,0"/>
+  </object>
+  <object name="right" x="10000" y="10000">
+   <polyline points="0,0 0,-10000"/>
+  </object>
+  <object name="top" x="10000" y="0">
+   <polyline points="0,0 -10000,0"/>
+  </object>
+ </objectgroup>
+</map>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="25" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="unitScale" value=".03125"/>
+ </properties>
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" spacing="1" margin="1">
+  <image source="../img/tiles.png" width="343" height="410"/>
+ </tileset>
+ <layer name="tiles" width="50" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztzrENgDAQBMFvghIpghhEC8b04f74AMfImZEmmOi00rWIaAAAAExpT8frHGzXCf53JV2ppnuw3T72BeAnHiebtqg=
+  </data>
+ </layer>
+ <objectgroup name="box2D" width="50" height="25">
+  <object name="environment" type="object" x="0" y="400">
+   <polyline points="0,0 0,-400 800,-400 800,0 0,0"/>
+  </object>
+  <object name="ground" type="fixture" x="0" y="304">
+   <properties>
+    <property name="body" value="environment"/>
+   </properties>
+   <polyline points="0,0 800,0"/>
+  </object>
+  <object name="house" type="object" x="432" y="272" width="64" height="32"/>
+  <object name="tree" type="object" x="672" y="272" width="16" height="32"/>
+  <object name="ball" type="object" x="288" y="96" width="64" height="64">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object name="triangle" type="fixture" x="224" y="256">
+   <properties>
+    <property name="body" value="ball"/>
+    <property name="density" value="1"/>
+   </properties>
+   <polygon points="0,0 64,-48 48,16"/>
+  </object>
+  <object name="joint" type="joint" x="320" y="0">
+   <properties>
+    <property name="bodyA" value="environment"/>
+    <property name="bodyB" value="ball"/>
+    <property name="jointType" value="RopeJoint"/>
+    <property name="localAnchorAX" value="20"/>
+    <property name="localAnchorAY" value="25"/>
+    <property name="localAnchorBX" value="0"/>
+    <property name="localAnchorBY" value="2"/>
+    <property name="maxLength" value="6"/>
+   </properties>
+   <polyline points="0,0 0,96"/>
+  </object>
+  <object name="convex" type="object" x="432" y="112">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+    <property name="density" value="1"/>
+    <property name="linearVelocityX" value="5000"/>
+   </properties>
+   <polygon points="0,0 96,-32 32,0 176,16 0,80 144,80 112,128 16,112 -80,64 0,32 80,32"/>
+  </object>
+ </objectgroup>
+</map>

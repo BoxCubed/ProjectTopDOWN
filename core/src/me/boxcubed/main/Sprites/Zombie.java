@@ -20,16 +20,11 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	}
 
-	@Override
-	public void setSprite(Sprite sprite) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	@Override
 	public Sprite getSprite() {
 		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	@Override

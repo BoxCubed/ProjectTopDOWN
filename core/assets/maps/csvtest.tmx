@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="32" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="unitScale" value=".03125"/>
+ </properties>
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" spacing="1" margin="1">
+  <tileoffset x="1" y="1"/>
+  <image source="../img/tiles.png" width="343" height="410"/>
+ </tileset>
+ <layer name="image" width="32" height="32">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,131,132,132,132,134,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,151,133,152,153,154,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,0,0,0,0,0,0,0,0,0,0,0,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,
+21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21
+</data>
+ </layer>
+ <objectgroup color="#a0a0a4" name="collision" width="32" height="32">
+  <properties>
+   <property name="type" value="object"/>
+  </properties>
+  <object name="ground" type="object" x="0" y="352">
+   <properties>
+    <property name="body" value="environment"/>
+    <property name="bodyType" value="StaticBody"/>
+    <property name="friction" value=".8"/>
+    <property name="restitution" value="0"/>
+   </properties>
+   <polyline points="0,1 15,1 17,17 192,18 195,2 241,1 243,-15 512,-15"/>
+  </object>
+  <object name="testObject" x="272" y="208">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+    <property name="density" value="5"/>
+   </properties>
+   <polygon points="0,0 33,-2 15,-26"/>
+  </object>
+  <object name="testJoint" type="joint" x="-310" y="246">
+   <properties>
+    <property name="bodyA" value="ground"/>
+    <property name="bodyB" value="testObject"/>
+    <property name="collideConnected" value="true"/>
+    <property name="jointType" value="RopeJoint"/>
+    <property name="localAnchorAX" value="16"/>
+    <property name="localAnchorAY" value="22"/>
+    <property name="localAnchorBX" value="0"/>
+    <property name="localAnchorBY" value="0"/>
+    <property name="maxLength" value="16"/>
+   </properties>
+   <polyline points="582,-38 582,-246"/>
+  </object>
+  <object name="ball" type="object" x="128" y="96" width="16" height="16">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+    <property name="density" value="2"/>
+    <property name="linearVelocityX" value="10"/>
+    <property name="linearVelocityY" value="5"/>
+    <property name="restitution" value="1.1"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object name="ballCage" type="object" x="96" y="144">
+   <polyline points="0,16 -16,112 96,96 80,-96 -80,-112 -80,-16 -16,0"/>
+  </object>
+  <object name="craziness" type="object" x="322" y="160">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+    <property name="density" value="1.5"/>
+    <property name="userData" value="WHAAASSZZUUUPPPPB"/>
+   </properties>
+   <polygon points="0,0 14,-60 13,-2 23,-58 24,-2 35,-56 35,-2 46,-55 50,-5 56,-52 63,-8 69,-50 73,-11 79,-49 86,-16 94,-46 118,-1 168,-45 110,-60 166,-69 118,-85 155,-101 109,-117 88,-71 40,-130 63,-82 17,-113 60,-79 -17,-90 97,-60 -16,-79 6,-66"/>
+  </object>
+  <object name="failedness" type="object" x="280" y="265">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+    <property name="density" value=".5"/>
+   </properties>
+   <polygon points="0,0 71,-35 9,7 73,-26 9,16 32,41 28,25 45,32 45,18 57,23 58,9 70,11 70,-3 81,2 80,-11 94,-6 47,47 21,59 -37,-3 -39,-28 -16,-18 -14,-41 10,-19 63,-40"/>
+  </object>
+  <object type="object" x="10" y="0" width="20" height="20">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+    <property name="density" value="1"/>
+    <property name="restitution" value=".25"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object name="edgeShape" type="object" x="-32" y="304">
+   <polyline points="0,0 -32,-64"/>
+  </object>
+  <object name="bigConvex" x="128" y="-32">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+    <property name="density" value="1"/>
+   </properties>
+   <polygon points="0,0 0,-128 16,-160 32,-176 48,-192 64,-192 80,-192 128,-176 144,-160 160,-144 160,-112 160,-80 160,-48 144,0 128,16 112,32 80,48 64,48 32,32 16,16"/>
+  </object>
+  <object x="352" y="304" width="80" height="32"/>
+  <object name="circle" type="fixture" x="-128" y="80" width="144" height="144">
+   <properties>
+    <property name="body" value="circleBody"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object name="circleBody" type="body" x="-54" y="150">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

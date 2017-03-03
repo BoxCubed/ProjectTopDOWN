@@ -11,6 +11,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -26,20 +27,32 @@ public class GameState implements Screen,InputProcessor {
     Camera cam;
     Player player;
     List<LivingEntity>entities;
+    SpriteBatch sb;
     public static final int PPM = 200;
     
-	
+	public GameState(){
+		
+	}
+    
 	public void update(float delta) {
 		handleInput();
 		cam.update();
         gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
-
+       
 	}
 
 	@Override
 	public void render(float delta) {
 		update(delta);
-        b2dr.render(gameWORLD,cam.combined);//Some matrix int he second argument
+		sb.begin();
+		
+		player.setX(Gdx.graphics.getWidth()/2);
+		player.setY(Gdx.graphics.getHeight()/2);
+		
+		player.draw(sb);
+		 b2dr.render(gameWORLD,cam.combined);//Some matrix int he second argument
+		sb.end();
+       
     }
 
 	
@@ -68,9 +81,9 @@ public class GameState implements Screen,InputProcessor {
 	public void show() {
 		
 		System.out.println("Init");
+		sb = new SpriteBatch();
 		entities=new ArrayList<LivingEntity>();
         cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
-        cam = new OrthographicCamera((Gdx.graphics.getWidth()/2),(Gdx.graphics.getHeight()/2));
         gameWORLD = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
         player = new Player(gameWORLD);
@@ -104,9 +117,11 @@ public class GameState implements Screen,InputProcessor {
 	public void dispose() {
 		gameWORLD.dispose();
 		b2dr.dispose();
+		
 		player=null;
 		entities.clear();
 		entities=null;
+		sb.dispose();
 	}
 	private boolean processMovment(String key){
 		String method;
