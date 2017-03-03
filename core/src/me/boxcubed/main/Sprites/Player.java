@@ -58,7 +58,9 @@ public class Player extends Sprite implements LivingEntity
 	}
 	@Override
 	public Vector2 getPos() {
-		return position;
+	    position.x = playerDef.position.x;
+	    position.y = playerDef.position.y;
+	    return position;
 	}
 
 	@Override
@@ -87,10 +89,12 @@ public class Player extends Sprite implements LivingEntity
 		playerBody.applyLinearImpulse(new Vector2(0, 80),playerBody.getWorldCenter(), true);
 
 	}
+
 	@Override
 	public void goDOWN() {
 		playerBody.applyLinearImpulse(new Vector2(0f, -80f),playerBody.getWorldCenter(), true);
-	}
+
+
 	@Override
 	public void goLEFT() {
 		playerBody.applyLinearImpulse(new Vector2(-80f, 0),playerBody.getWorldCenter(), true);
