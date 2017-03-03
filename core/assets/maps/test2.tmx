@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="192" height="64" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" spacing="1" margin="1">
+  <tileoffset x="1" y="1"/>
+  <image source="../img/tiles.png" width="343" height="410"/>
+ </tileset>
+ <layer name="tiles" width="192" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3ZOUoDYRjH4ckVlBSi4IJL5QIuYOkCbngI9QBiod5CLK3VztpGPYN4BvEgvoMDhpA0hkxezFM8zXww/D74d1+zKIomAAAAAAAAAAC0GWkUxWhj8B0wCPOx/QX7BwAAAAAAIDFvugwzb7oM2k2YDFNhOkEP1Knc/2pYC+ttZ7cJ+qCfyv3vhf1w0HZm//x35f7Pw124aPn+EB4T9EE/3Rc/W29l9wAAkNtLeK28JeiBOr2H58pHgh6o02fxu/+vBD2dnITTylmCHqjTZbiqXCfogTqNhfHKRIIeqNNiWArLYSVBD3QzE2Z7MNfhn1thO+yE3QR3hG42wlMPNhPcAf7qMBz14DjBHQAAAAAAAAAAAAAAAAAAAAAAAIbBNxiZPaUAwAAA
+  </data>
+ </layer>
+ <objectgroup name="collision" width="192" height="64">
+  <properties>
+   <property name="scale" value="0.03125"/>
+  </properties>
+  <object name="sea" type="fixture" x="480" y="496" width="64" height="48">
+   <properties>
+    <property name="body" value="level"/>
+   </properties>
+  </object>
+  <object name="path" type="fixture" x="800" y="592" width="272" height="48">
+   <properties>
+    <property name="body" value="level"/>
+   </properties>
+  </object>
+  <object name="house" type="fixture" x="720" y="368" width="48" height="64">
+   <properties>
+    <property name="body" value="level"/>
+   </properties>
+  </object>
+  <object name="house ground" type="fixture" x="704" y="368">
+   <properties>
+    <property name="body" value="level"/>
+   </properties>
+   <polyline points="0,0 0,80 96,80 96,64 128,64 128,16"/>
+  </object>
+  <object name="big house" type="fixture" x="1136" y="528" width="64" height="80">
+   <properties>
+    <property name="body" value="level"/>
+   </properties>
+  </object>
+  <object name="rock" type="fixture" x="1200" y="336" width="32" height="32">
+   <properties>
+    <property name="body" value="level"/>
+   </properties>
+  </object>
+  <object name="rock 2" type="fixture" x="1376" y="176" width="32" height="32">
+   <properties>
+    <property name="body" value="level"/>
+   </properties>
+  </object>
+  <object type="fixture" x="16" y="1024">
+   <properties>
+    <property name="body" value="level"/>
+   </properties>
+   <polyline points="0,0 3056,0"/>
+  </object>
+  <object name="level" type="object" x="0" y="1024">
+   <polyline points="0,0 0,-1024 3072,-1024 3072,-16"/>
+  </object>
+  <object type="fixture" x="3072" y="1024">
+   <properties>
+    <property name="body" value="level"/>
+   </properties>
+   <polyline points="0,0 0,-1024"/>
+  </object>
+ </objectgroup>
+</map>

@@ -1,6 +1,7 @@
 
 package me.boxcubed.main.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -21,8 +22,7 @@ import me.boxcubed.main.States.GameState;
  */
 public class Player extends Sprite implements LivingEntity
 {
-	Sprite playerSprite;
-	Texture tex;
+	private static Texture tex = new Texture(Gdx.files.internal("assets/img/player.png"));
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;
 	PolygonShape playerShape;
@@ -30,14 +30,15 @@ public class Player extends Sprite implements LivingEntity
 	Fixture fixture;
 	Vector2 position;//Player position
 	public Player(World world) {
-
+		
+		super(tex);
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		playerDef.position.set(300/GameState.PPM, 400/GameState.PPM);
 		
-		tex = new Texture("C:/Users/LuhaR/git/ProjectTopDOWN/desktop/assets/img/ball.png");
 		
-		playerSprite=new Sprite(tex);
+		
+		
 		
 		//Shape
 		playerShape = new PolygonShape();
@@ -65,14 +66,10 @@ public class Player extends Sprite implements LivingEntity
 
 	}
 
-	@Override
-	public void setSprite(Sprite sprite) {
-
-	}
 
 	@Override
 	public Sprite getSprite() {
-		return playerSprite;
+		return this;
 	}
 
 	@Override

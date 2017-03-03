@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="unitScale" value=".03125"/>
+ </properties>
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" spacing="1" margin="1">
+  <image source="../img/tiles.png" width="343" height="410"/>
+ </tileset>
+ <layer name="tiles" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztzrEJgDAURdG/hCM6hLXiCjHumB38hVVACDZanOI0Dy68FhENAAAAAAAAAPjMmrbbPtjMP/jdK+lINZ2DzfKwTwDwwgXyubVt
+  </data>
+ </layer>
+ <objectgroup name="Box2D" width="50" height="50">
+  <object name="environment" type="object" x="0" y="800">
+   <polyline points="0,0 800,0 800,-800 0,-800 0,0"/>
+  </object>
+  <object name="ground" type="fixture" x="0" y="672">
+   <properties>
+    <property name="body" value="environment"/>
+   </properties>
+   <polyline points="0,0 800,0"/>
+  </object>
+  <object name="house" type="object" x="496" y="640" width="64" height="32"/>
+  <object name="tree" type="object" x="704" y="640" width="16" height="32"/>
+  <object name="stomp" type="object" x="496" y="672">
+   <polygon points="0,0 -32,-32 -32,-80 16,-96 48,-112 48,-80 80,-112 96,-64 112,-16 80,0 80,-32 64,-48 16,-48 0,-32"/>
+  </object>
+ </objectgroup>
+</map>

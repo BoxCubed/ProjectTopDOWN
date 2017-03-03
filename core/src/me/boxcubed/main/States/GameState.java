@@ -31,7 +31,7 @@ public class GameState implements Screen,InputProcessor {
     public static final int PPM = 200;
     
 	public GameState(){
-		sb = new SpriteBatch();
+		
 	}
     
 	public void update(float delta) {
@@ -45,9 +45,11 @@ public class GameState implements Screen,InputProcessor {
 	public void render(float delta) {
 		update(delta);
 		sb.begin();
-		player.getSprite().draw(sb);
-		player.getSprite().setX(Gdx.graphics.getWidth()/2);
-		player.getSprite().setY(Gdx.graphics.getHeight()/2);
+		
+		player.setX(Gdx.graphics.getWidth()/2);
+		player.setY(Gdx.graphics.getHeight()/2);
+		
+		player.draw(sb);
 		 b2dr.render(gameWORLD,cam.combined);//Some matrix int he second argument
 		sb.end();
        
@@ -80,6 +82,7 @@ public class GameState implements Screen,InputProcessor {
 	public void show() {
 		
 		System.out.println("Init");
+		sb = new SpriteBatch();
 		entities=new ArrayList<LivingEntity>();
         cam = new OrthographicCamera(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
         gameWORLD = new World(new Vector2(0, 0), true);
@@ -115,9 +118,11 @@ public class GameState implements Screen,InputProcessor {
 	public void dispose() {
 		gameWORLD.dispose();
 		b2dr.dispose();
+		
 		player=null;
 		entities.clear();
 		entities=null;
+		sb.dispose();
 	}
 	private boolean processMovment(String key){
 		String method;
