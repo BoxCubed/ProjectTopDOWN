@@ -44,10 +44,8 @@ public class GameState implements Screen, InputProcessor {
 	public void render(float delta) {
 		update(delta);
 		sb.begin();
-
-		
-		
-		sb.draw(player, player.getX(),player.getY());
+		sb.setProjectionMatrix(cam.combined);
+		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
 		//b2dr.render(gameWORLD, cam.combined);
 		// Some matrix int he second argument
 		sb.end();
