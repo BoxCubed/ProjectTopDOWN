@@ -50,7 +50,6 @@ public class GameState implements Screen,InputProcessor {
 		//boolean shiftPressed=input.isKeyPressed(Input.Keys.SHIFT_LEFT);
 		
 		if(input.isKeyPressed(Input.Keys.UP)){
-			
 			processMovment("UP");
 		}//
 		if(input.isKeyPressed(Input.Keys.DOWN)){
