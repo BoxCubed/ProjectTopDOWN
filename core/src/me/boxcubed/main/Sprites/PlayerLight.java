@@ -18,7 +18,7 @@ public class PlayerLight extends GameState{
         //LIGHT init
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.5f);
-        pointLight = new PointLight(rayHandler, 120, Color.BLUE, 50, 0,0);
+        pointLight = new PointLight(rayHandler, 300, Color.FIREBRICK, 200, 0,0);
     }
 
     public void updateLightPos(float x, float y){

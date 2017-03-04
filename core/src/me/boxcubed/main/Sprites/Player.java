@@ -86,23 +86,25 @@ public class Player extends Sprite implements LivingEntity {
 	@Override
 	public void goUP() {
 		playerBody.applyLinearImpulse(new Vector2(0, 80), playerBody.getWorldCenter(), true);
-
+		playerBody.setAngularVelocity(5f);
 	}
 
 	@Override
 	public void goDOWN() {
 		playerBody.applyLinearImpulse(new Vector2(0f, -80f), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(-5f);
 	}
 
 	@Override
 	public void goLEFT() {
 		playerBody.applyLinearImpulse(new Vector2(-80f, 0), playerBody.getWorldCenter(), true);
-
+		playerBody.setAngularVelocity(5f);
 	}
 
 	@Override
 	public void goRIGHT() {
 		playerBody.applyLinearImpulse(new Vector2(80, 0), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(-5f);
 	}// d
 		// Running actions
 

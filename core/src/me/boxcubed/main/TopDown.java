@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 import me.boxcubed.main.States.GameState;
+import me.boxcubed.main.States.MenuState;
 
 public class TopDown extends Game {
 	public static TopDown instance;
@@ -12,7 +13,7 @@ public class TopDown extends Game {
 	@Override
 	public void create () {
 		instance=this;
-		setScreen(new GameState());
+		setScreen(new MenuState());
 	}
 
 	@Override
