@@ -12,23 +12,25 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
 
 public class GameState implements Screen, InputProcessor {
-	public World gameWORLD;
+	World gameWORLD;
 	Box2DDebugRenderer b2dr;
 	Camera cam;
 	Player player;
 	List<LivingEntity> entities;
 	SpriteBatch sb;
 	public static final int PPM = 200;
-
+	private PlayerLight playerLight;
 	public GameState() {
 
 	}
@@ -38,15 +40,24 @@ public class GameState implements Screen, InputProcessor {
 		cam.update();
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
+		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
+		playerLight.rayHandler.update();
 	}
-
+	public World getWorld(){
+		return gameWORLD;
+	}
+	public Matrix4 camCombined(){
+		return cam.combined;
+	}
 	@Override
 	public void render(float delta) {
 		update(delta);
 		sb.begin();
 		sb.setProjectionMatrix(cam.combined);
+		playerLight.rayHandler.setCombinedMatrix(cam.combined);
+		playerLight.rayHandler.render();
 		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
-		//b2dr.render(gameWORLD, cam.combined);
+		b2dr.render(gameWORLD, cam.combined);
 		// Some matrix int he second argument
 		sb.end();
 
@@ -86,7 +97,7 @@ public class GameState implements Screen, InputProcessor {
 		b2dr = new Box2DDebugRenderer();
 		player = new Player(gameWORLD);
 		Gdx.input.setInputProcessor(this);
-
+		playerLight = new PlayerLight(gameWORLD);
 	}
 
 	@Override
@@ -113,7 +124,7 @@ public class GameState implements Screen, InputProcessor {
 	public void dispose() {
 		gameWORLD.dispose();
 		b2dr.dispose();
-
+		playerLight.rayHandler.dispose();
 		player = null;
 		entities.clear();
 		entities = null;
@@ -146,8 +157,6 @@ public class GameState implements Screen, InputProcessor {
 	// ***************************************************************
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-
 		switch (keycode) {
 		case Keys.ESCAPE:
 			TopDown.instance.setScreen(new GameState());
@@ -161,7 +170,6 @@ public class GameState implements Screen, InputProcessor {
 
 	@Override
 	public boolean keyUp(int key) {
-		// TODO Auto-generated method stub
 		if ((key == Keys.UP || key == Keys.DOWN || key == Keys.LEFT || key == Keys.RIGHT)
 				&& (!Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.DOWN)
 						&& !Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)))
@@ -171,37 +179,31 @@ public class GameState implements Screen, InputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

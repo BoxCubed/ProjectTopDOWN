@@ -28,9 +28,8 @@ public class Player extends Sprite implements LivingEntity {
 	public Body playerBody;
 	Fixture fixture;
 	Vector2 position;// Player position
-
+	PlayerLight playerLight;
 	public Player(World world) {
-
 		super(tex);
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
@@ -47,17 +46,19 @@ public class Player extends Sprite implements LivingEntity {
 		// Creates the body and assigns vars to all important values
 		playerBody = world.createBody(playerDef);
 		fixture = playerBody.createFixture(fixtureDefPlayer);
-
+		playerLight = new PlayerLight(world);
+		//playerLight.updateLightPos(0, 0);
 	}
 
 	public void render(SpriteBatch sb) {
 		// we do
+
 	}
 
 	@Override
 	public Vector2 getPos() {
-		position.x = playerDef.position.x;
-		position.y = playerDef.position.y;
+		position.x = playerBody.getPosition().x;
+		position.y = playerBody.getPosition().y;
 		return position;
 	}
 
