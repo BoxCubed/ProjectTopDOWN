@@ -2,6 +2,7 @@ package me.boxcubed.main.Sprites;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import me.boxcubed.main.Objects.Entity;
 
@@ -39,43 +40,16 @@ public class Enemy implements Entity {
         return null;
     }
 
-    @Override
-    public void goUP() {
+   
+	@Override
+	public void update(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    }
-
-    @Override
-    public void goDown() {
-
-    }
-
-    @Override
-    public void goLeft() {
-
-    }
-
-    @Override
-    public void goRight() {
-
-    }
-
-    @Override
-    public void runUP() {
-
-    }
-
-    @Override
-    public void runDOWN() {
-
-    }
-
-    @Override
-    public void runLEFT() {
-
-    }
-
-    @Override
-    public void runRIGHT() {
-
-    }
+	@Override
+	public void render(SpriteBatch sb) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -21,18 +21,22 @@ import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
+import me.boxcubed.main.Sprites.Zombie;
 
 public class GameState implements Screen, InputProcessor {
-	World gameWORLD;
+	public World gameWORLD;
 	Box2DDebugRenderer b2dr;
 	Camera cam;
-	Player player;
+	public Player player;
+	public static GameState instance;
 	List<LivingEntity> entities;
 	SpriteBatch sb;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
-	public GameState() {
+	Zombie zombie;
 
+	public GameState() {
+		instance=this;
 	}
 
 	public void update(float delta) {
@@ -42,6 +46,9 @@ public class GameState implements Screen, InputProcessor {
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.rayHandler.update();
+		zombie.update(delta);
+
+		System.out.println(player.getPos());
 	}
 	public World getWorld(){
 		return gameWORLD;
@@ -57,7 +64,7 @@ public class GameState implements Screen, InputProcessor {
 		playerLight.rayHandler.setCombinedMatrix(cam.combined);
 		playerLight.rayHandler.render();
 		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
-		b2dr.render(gameWORLD, cam.combined);
+		//b2dr.render(gameWORLD, cam.combined);
 		// Some matrix int he second argument
 		sb.end();
 
@@ -96,6 +103,7 @@ public class GameState implements Screen, InputProcessor {
 		gameWORLD = new World(new Vector2(0, 0), true);
 		b2dr = new Box2DDebugRenderer();
 		player = new Player(gameWORLD);
+		zombie=new Zombie(gameWORLD);
 		Gdx.input.setInputProcessor(this);
 		playerLight = new PlayerLight(gameWORLD);
 	}
