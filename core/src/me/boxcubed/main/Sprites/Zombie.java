@@ -43,7 +43,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	@Override
 	public void update(float delta) {
 		position=Body.getPosition();
-		target=GameState.instance.player.getPos();
+		target=GameState.instance.player.playerBody.getPosition();
 		vel=target.cpy().sub(position).nor().scl(100);
 		Body.applyLinearImpulse(target, vel, true);		
 				
