@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 /**
  * Created by Tej Sidhu on 23/02/2017.
  */
-public class MenuState extends ApplicationAdapter implements State {//LOL
+public class MenuState extends ApplicationAdapter implements State {//LOL//
     class MyActor extends Actor{
         Texture button = new Texture("assets/img/icon.png");//THIS IS JUST FOR A TEST
         private static final int buttonXNY =200;
