@@ -56,9 +56,7 @@ public class Player extends Sprite implements LivingEntity {
 
 	@Override
 	public Vector2 getPos() {
-		position.x = playerDef.position.x;
-		position.y = playerDef.position.y;
-		return position;
+		return playerBody.getPosition();
 	}
 
 	@Override
@@ -128,5 +126,17 @@ public class Player extends Sprite implements LivingEntity {
 	public void stop() {
 		playerBody.setLinearVelocity(0f, 0f);
 		playerBody.setAngularVelocity(0);
+	}
+
+	@Override
+	public void setSprite(Sprite sprite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(float delta) {
+		// TODO Auto-generated method stub
+		
 	}
 }
