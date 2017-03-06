@@ -56,6 +56,7 @@ public class GameState implements Screen, InputProcessor {
 		initMap();
 		gameWORLD = new World(new Vector2(0, 0), true);
 		player = new Player(gameWORLD);
+		player.setSize(20, 20);
 		zombie=new Zombie(gameWORLD);
 		Gdx.input.setInputProcessor(this);
 		playerLight = new PlayerLight(gameWORLD);
@@ -83,6 +84,7 @@ public class GameState implements Screen, InputProcessor {
 	public Matrix4 camCombined(){
 		return cam.combined;
 	}
+	float rotation=0;
 	@Override
 	public void render(float delta) {
 		update(delta);
@@ -97,8 +99,8 @@ public class GameState implements Screen, InputProcessor {
 		playerLight.rayHandler.render();*/
 		sb.begin();
 		
-	
-		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
+	      
+		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y,0,0,30,30,1,1,rotation);
 		sb.draw(zombie, zombie.Body.getPosition().x, zombie.Body.getPosition().y, 0, 0, player.getWidth(), player.getHeight(), 1, 1, 0);
 		sb.end();
 		
@@ -110,14 +112,22 @@ public class GameState implements Screen, InputProcessor {
 		// And that, is how you actually do this without making a mess. Now
 		// which autistic kid decided to name the methods? cbs fixing for now
 		// boolean shiftPressed=input.isKeyPressed(Input.Keys.SHIFT_LEFT);
-		if (input.isKeyPressed(Input.Keys.UP))
+		if (input.isKeyPressed(Input.Keys.UP)){
 			processMovment("UP");
-		if (input.isKeyPressed(Input.Keys.DOWN))
+			rotation=90;
+			}
+		if (input.isKeyPressed(Input.Keys.DOWN)){
 			processMovment("DOWN");
-		if (input.isKeyPressed(Input.Keys.LEFT))
+			rotation=-90;
+			}
+		if (input.isKeyPressed(Input.Keys.LEFT)){
 			processMovment("LEFT");
-		if (input.isKeyPressed(Input.Keys.RIGHT))
+			rotation=-180;
+			}
+		if (input.isKeyPressed(Input.Keys.RIGHT)){
 			processMovment("RIGHT");
+			rotation=0;
+			}
 	}
 
 	
