@@ -1,11 +1,8 @@
-
-
 package me.boxcubed.main.States;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -102,10 +99,8 @@ public class GameState implements Screen, InputProcessor {
 	
 		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
 		sb.draw(zombie, zombie.Body.getPosition().x, zombie.Body.getPosition().y, 0, 0, player.getWidth(), player.getHeight(), 1, 1, 0);
-		// Some matrix int he second argument
 		sb.end();
-
-		//b2dr.render(gameWORLD, cam.combined);
+		b2dr.render(gameWORLD, cam.combined);
 		
 	}
 
@@ -115,26 +110,19 @@ public class GameState implements Screen, InputProcessor {
 		// And that, is how you actually do this without making a mess. Now
 		// which autistic kid decided to name the methods? cbs fixing for now
 		// boolean shiftPressed=input.isKeyPressed(Input.Keys.SHIFT_LEFT);
-
-		if (input.isKeyPressed(Input.Keys.UP)) {
+		if (input.isKeyPressed(Input.Keys.UP))
 			processMovment("UP");
-		} //
-		if (input.isKeyPressed(Input.Keys.DOWN)) {
+		if (input.isKeyPressed(Input.Keys.DOWN))
 			processMovment("DOWN");
-		}
-		if (input.isKeyPressed(Input.Keys.LEFT)) {
+		if (input.isKeyPressed(Input.Keys.LEFT))
 			processMovment("LEFT");
-		}
-		if (input.isKeyPressed(Input.Keys.RIGHT)) {
+		if (input.isKeyPressed(Input.Keys.RIGHT))
 			processMovment("RIGHT");
-
-		}
-
 	}
 
 	
 	private void initMap(){
-		
+
        //MapCollision map = new MapCollision(tm,gameWORLD); 
 	}
 	@Override
@@ -243,4 +231,4 @@ public class GameState implements Screen, InputProcessor {
 	}
 
 }
-		//port = new FitViewport(Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2,cam);
+		//port = new FitViewport(Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2,cam);

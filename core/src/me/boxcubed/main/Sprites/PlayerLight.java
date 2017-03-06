@@ -17,13 +17,13 @@ public class PlayerLight extends GameState{
     public PlayerLight(World world){
         //LIGHT init
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(.5f);
-        pointLight = new PointLight(rayHandler, 300, Color.FIREBRICK, 200, 0,0);
+        rayHandler.setAmbientLight(2f);
+        pointLight = new PointLight(rayHandler, 300, Color.CYAN, 600, 0,0);
     }
 
     public void updateLightPos(float x, float y){
         //Makes sure that the light moves with the player
-        pointLight.setPosition(x, y);
+        pointLight.setPosition(x+2.5f, y+2.5f);
         rayHandler.update();
 
     }
