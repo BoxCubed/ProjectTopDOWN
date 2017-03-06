@@ -61,6 +61,8 @@ public class GameState implements Screen, InputProcessor {
 		Gdx.input.setInputProcessor(this);
 		playerLight = new PlayerLight(gameWORLD);
 		
+		zombie.setPosition(500, 400);
+		
 	}
 
 	public void update(float delta) {
@@ -127,6 +129,10 @@ public class GameState implements Screen, InputProcessor {
 			processMovment("RIGHT");
 			rotation=0;
 			}
+		
+		if(input.isKeyPressed(Input.Keys.ESCAPE)){
+			System.exit(0);
+		}
 	}
 
 	
