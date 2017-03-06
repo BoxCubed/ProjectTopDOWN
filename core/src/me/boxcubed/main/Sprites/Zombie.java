@@ -1,5 +1,7 @@
 package me.boxcubed.main.Sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,6 +24,8 @@ public class Zombie extends Sprite implements LivingEntity {
 	public Body Body;
 	Fixture fixture;
 	public Zombie(World world) {
+		super( new Texture(Gdx.files.internal("assets/img/luigiFront.png")));
+		setSize(50, 50);
 		Def = new BodyDef();
 		Def.type = BodyDef.BodyType.DynamicBody;
 		Def.position.set(300 / GameState.PPM, 400 / GameState.PPM);

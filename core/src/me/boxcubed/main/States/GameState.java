@@ -59,11 +59,14 @@ public class GameState implements Screen, InputProcessor {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		sb.begin();
+		
 		sb.setProjectionMatrix(cam.combined);
+		
 		playerLight.rayHandler.setCombinedMatrix(cam.combined);
 		playerLight.rayHandler.render();
+		sb.begin();
 		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
+		sb.draw(zombie, zombie.Body.getPosition().x,zombie.Body.getPosition().x);
 		//b2dr.render(gameWORLD, cam.combined);
 		// Some matrix int he second argument
 		sb.end();
