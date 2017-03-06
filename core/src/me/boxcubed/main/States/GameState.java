@@ -41,12 +41,10 @@ public class GameState implements Screen, InputProcessor {
 	private PlayerLight playerLight;
 	Zombie zombie;
 	
+	FitViewport port;
+	
 	TiledMap tm;
 	TiledMapRenderer tmr;
-	FitViewport port=new FitViewport(1280/GameState.PPM, 720/GameState.PPM);
-	
-
-
 	
 
 	public void update(float delta) {
@@ -117,14 +115,17 @@ public class GameState implements Screen, InputProcessor {
 		
 		instance=this;
 		System.out.println("Init");
+		
+		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		port = new FitViewport(Gdx.graphics.getWidth() / 2,  Gdx.graphics.getHeight() / 2,cam);
+		cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
+		
 		sb = new SpriteBatch();
 		entities = new ArrayList<LivingEntity>();
-		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
+		
 
 		initMap();
 		gameWORLD = new World(new Vector2(0, 0), true);
-		b2dr = new Box2DDebugRenderer();
 		player = new Player(gameWORLD);
 		zombie=new Zombie(gameWORLD);
 		Gdx.input.setInputProcessor(this);
@@ -134,10 +135,8 @@ public class GameState implements Screen, InputProcessor {
 	}
 	private void initMap(){
 		
-		
 		tm = new TmxMapLoader().load("assets/maps/map.tmx");
        tmr = new OrthogonalTiledMapRenderer(tm,1/GameState.PPM);
-       tmr.setView(cam);
 		
        
        //MapCollision map = new MapCollision(tm,gameWORLD); 
@@ -165,7 +164,6 @@ public class GameState implements Screen, InputProcessor {
 	@Override
 	public void dispose() {
 		gameWORLD.dispose();
-		b2dr.dispose();
 		playerLight.rayHandler.dispose();
 		player = null;
 		entities.clear();
