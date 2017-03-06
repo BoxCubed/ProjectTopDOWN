@@ -70,8 +70,9 @@ public class GameState implements Screen, InputProcessor {
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.rayHandler.update();
-		//zombie.update(delta);
-		//change is good
+		
+		zombie.update(delta);
+		
 		cam.position.set(player.getPos(),0);
 		
 		//System.out.println(player.getPos());
@@ -100,7 +101,6 @@ public class GameState implements Screen, InputProcessor {
 		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
 		sb.draw(zombie, zombie.Body.getPosition().x, zombie.Body.getPosition().y, 0, 0, player.getWidth(), player.getHeight(), 1, 1, 0);
 		sb.end();
-		b2dr.render(gameWORLD, cam.combined);
 		
 	}
 
