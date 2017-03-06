@@ -51,7 +51,7 @@ public class SteeringAI implements Steerable<Vector2> {
 			anyAcc=true;
 		}else if(!getLinearVelocity().isZero()){
 			float newOr=vectorToAngle(getLinearVelocity());
-			getBody().setAngularVelocity((newOr-getAngularVelocity())*delta);
+			//getBody().setAngularVelocity((newOr-getAngularVelocity())*delta);
 			getBody().setTransform(getBody().getPosition(), newOr);
 		}
 		if(anyAcc){
