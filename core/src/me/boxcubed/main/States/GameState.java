@@ -74,7 +74,7 @@ public class GameState implements Screen, InputProcessor {
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.rayHandler.update();
 		//zombie.update(delta);
-		
+		//change is good
 		cam.position.set(player.getPos(),0);
 		
 		//System.out.println(player.getPos());
