@@ -49,7 +49,17 @@ public class Zombie extends Sprite implements LivingEntity {
 		position=Body.getPosition();
 		target=GameState.instance.player.getPos();
 		vel=target.cpy().sub(position).nor().scl(100);
-		Body.applyLinearImpulse(target, vel, true);		
+		
+		float x,y;
+		if(target.x>position.x){
+			x=position.x+delta*50;}
+		else x=position.x-delta*50;
+		if(target.y>position.y)
+			y=position.y+delta*50;
+		else y=position.y-delta*50;
+		Body.setLinearVelocity(0,0);
+		Body.setTransform(x, y,0);
+		//Body.applyLinearImpulse(target, vel, true);
 				
 	}
 	@Override

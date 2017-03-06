@@ -112,11 +112,10 @@ public class GameState implements Screen, InputProcessor {
 		
 		instance=this;
 		System.out.println("Init");
-<<<<<<< Updated upstream
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		port = new FitViewport(Gdx.graphics.getWidth() / 2,  Gdx.graphics.getHeight() / 2,cam);
-		cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
+		//port = new FitViewport(Gdx.graphics.getWidth() / 2,  Gdx.graphics.getHeight() / 2,cam);
+		//cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
 		
 		sb = new SpriteBatch();
 		entities = new ArrayList<LivingEntity>();
