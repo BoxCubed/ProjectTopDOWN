@@ -34,7 +34,6 @@ public class Player extends Sprite implements LivingEntity {
 		super(tex);
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
-		playerDef.position.set(300 / GameState.PPM, 400 / GameState.PPM);
 
 		// Shape
 		playerShape = new PolygonShape();
@@ -49,6 +48,8 @@ public class Player extends Sprite implements LivingEntity {
 		playerBody = world.createBody(playerDef);
 		fixture = playerBody.createFixture(fixtureDefPlayer);
 		playerLight = new PlayerLight(world);
+		
+		playerBody.setTransform(100, 100, 0);
 
 		BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -60,6 +61,7 @@ public class Player extends Sprite implements LivingEntity {
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
         shape.dispose();
+        
 	}
 
 	public void render(SpriteBatch sb) {

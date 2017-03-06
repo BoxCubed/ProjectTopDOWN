@@ -17,10 +17,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.LivingEntity;
+import me.boxcubed.main.Objects.MapCollision;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.Sprites.Zombie;
@@ -38,6 +40,9 @@ public class GameState implements Screen, InputProcessor {
 	
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
+	Box2DDebugRenderer b2dr;
+	
+	MapCollision mp;
 	
 	@Override
 	public void show() {
@@ -48,6 +53,8 @@ public class GameState implements Screen, InputProcessor {
 		cam.update();
 		tiledMap = new TmxMapLoader().load("assets/maps/map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        b2dr=new Box2DDebugRenderer();
+        
 		
 		sb = new SpriteBatch();
 		entities = new ArrayList<LivingEntity>();
@@ -61,7 +68,7 @@ public class GameState implements Screen, InputProcessor {
 		Gdx.input.setInputProcessor(this);
 		playerLight = new PlayerLight(gameWORLD);
 		
-		zombie.setPosition(500, 400);
+		mp=new MapCollision(tiledMap,gameWORLD);
 		
 	}
 
@@ -70,6 +77,7 @@ public class GameState implements Screen, InputProcessor {
 		//cam.position.x=player.getPos().x;
 		cam.update();
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
+		
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.rayHandler.update();
@@ -100,6 +108,8 @@ public class GameState implements Screen, InputProcessor {
 		playerLight.rayHandler.setCombinedMatrix(cam);
 		playerLight.rayHandler.render();*/
 		sb.begin();
+		
+		//b2dr.render(gameWORLD, cam.combined);
 		
 		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y,10,10,30,30,1,1,rotation);
 		sb.draw(zombie, zombie.Body.getPosition().x, zombie.Body.getPosition().y, 0, 0, player.getWidth(), player.getHeight(), 1, 1, 0);
