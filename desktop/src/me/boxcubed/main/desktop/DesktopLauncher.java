@@ -11,8 +11,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new TopDown(), config);
 		config.resizable = true;
-		config.height = 110;
-		config.width = 200;
+		config.height = 1100;
+		config.width = 1800;
 		config.fullscreen = true;
 
 	}
