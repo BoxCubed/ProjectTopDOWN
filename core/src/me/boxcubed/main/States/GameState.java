@@ -1,3 +1,5 @@
+
+
 package me.boxcubed.main.States;
 
 import java.lang.reflect.Method;
@@ -9,9 +11,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -19,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.LivingEntity;
+import me.boxcubed.main.Objects.MapCollision;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.Sprites.Zombie;
@@ -26,7 +32,7 @@ import me.boxcubed.main.Sprites.Zombie;
 public class GameState implements Screen, InputProcessor {
 	public World gameWORLD;
 	Box2DDebugRenderer b2dr;
-	Camera cam;
+	OrthographicCamera cam;
 	public Player player;
 	public static GameState instance;
 	List<LivingEntity> entities;
@@ -34,9 +40,21 @@ public class GameState implements Screen, InputProcessor {
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
 	Zombie zombie;
+	
+	TiledMap tm;
+	TiledMapRenderer tmr;
+	
+
 
 	public GameState() {
+		cam = new OrthographicCamera();
 		
+		tm = new TmxMapLoader().load("assets/maps/map.tmx");
+       tmr = new OrthogonalTiledMapRenderer(tm,1/GameState.PPM);
+		
+       b2dr = new Box2DDebugRenderer();
+       
+       MapCollision map = new MapCollision(tm,gameWORLD); 
 	}
 
 	public void update(float delta) {
@@ -49,6 +67,7 @@ public class GameState implements Screen, InputProcessor {
 		zombie.update(delta);
 
 		//System.out.println(player.getPos());
+		tmr.setView(cam);
 	}
 	public World getWorld(){
 		return gameWORLD;
@@ -59,18 +78,17 @@ public class GameState implements Screen, InputProcessor {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		
-		sb.setProjectionMatrix(cam.combined);
-		
-		playerLight.rayHandler.setCombinedMatrix(cam.combined);
-		playerLight.rayHandler.render();
 		sb.begin();
-		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
-		sb.draw(zombie, zombie.Body.getPosition().x,zombie.Body.getPosition().x);
-		//b2dr.render(gameWORLD, cam.combined);
+		sb.setProjectionMatrix(cam.combined);
+//		playerLight.rayHandler.setCombinedMatrix(cam.combined);
+//		playerLight.rayHandler.render();
+//		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
+		
 		// Some matrix int he second argument
 		sb.end();
 
+		b2dr.render(gameWORLD, cam.combined);
+		tmr.render();
 	}
 
 	public void handleInput() {
