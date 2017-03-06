@@ -40,6 +40,12 @@ public class GameState implements Screen, InputProcessor {
 	private PlayerLight playerLight;
 	Zombie zombie;
 	
+	FitViewport port;
+	
+	TiledMap tm;
+	TiledMapRenderer tmr;
+	
+
 	public void update(float delta) {
 		handleInput();
 		//cam.position.x=player.getPos().x;
@@ -48,7 +54,7 @@ public class GameState implements Screen, InputProcessor {
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.rayHandler.update();
-		//zombie.update(delta);
+		zombie.update(delta);
 
 		//System.out.println(player.getPos());
 	}
@@ -106,9 +112,11 @@ public class GameState implements Screen, InputProcessor {
 		
 		instance=this;
 		System.out.println("Init");
+<<<<<<< Updated upstream
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		//port = new FitViewport(Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2,cam);
+		port = new FitViewport(Gdx.graphics.getWidth() / 2,  Gdx.graphics.getHeight() / 2,cam);
+		cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
 		
 		sb = new SpriteBatch();
 		entities = new ArrayList<LivingEntity>();
@@ -233,3 +241,4 @@ public class GameState implements Screen, InputProcessor {
 	}
 
 }
+		//port = new FitViewport(Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2,cam);
