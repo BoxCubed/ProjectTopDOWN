@@ -31,7 +31,6 @@ import me.boxcubed.main.Sprites.Zombie;
 
 public class GameState implements Screen, InputProcessor {
 	public World gameWORLD;
-	Box2DDebugRenderer b2dr;
 	OrthographicCamera cam;
 	public Player player;
 	public static GameState instance;
@@ -41,12 +40,6 @@ public class GameState implements Screen, InputProcessor {
 	private PlayerLight playerLight;
 	Zombie zombie;
 	
-	FitViewport port;
-	
-	TiledMap tm;
-	TiledMapRenderer tmr;
-	
-
 	public void update(float delta) {
 		handleInput();
 		//cam.position.x=player.getPos().x;
@@ -58,7 +51,6 @@ public class GameState implements Screen, InputProcessor {
 		//zombie.update(delta);
 
 		//System.out.println(player.getPos());
-		tmr.setView(cam);
 	}
 	public World getWorld(){
 		return gameWORLD;
@@ -71,7 +63,6 @@ public class GameState implements Screen, InputProcessor {
 		update(delta);
 		
 		sb.setProjectionMatrix(cam.combined);
-		tmr.render();
 		
 		playerLight.rayHandler.setCombinedMatrix(cam);
 		playerLight.rayHandler.render();
@@ -117,8 +108,7 @@ public class GameState implements Screen, InputProcessor {
 		System.out.println("Init");
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		port = new FitViewport(Gdx.graphics.getWidth() / 2,  Gdx.graphics.getHeight() / 2,cam);
-		cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
+		//port = new FitViewport(Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2,cam);
 		
 		sb = new SpriteBatch();
 		entities = new ArrayList<LivingEntity>();
@@ -135,15 +125,10 @@ public class GameState implements Screen, InputProcessor {
 	}
 	private void initMap(){
 		
-		tm = new TmxMapLoader().load("assets/maps/map.tmx");
-       tmr = new OrthogonalTiledMapRenderer(tm,1/GameState.PPM);
-		
-       
        //MapCollision map = new MapCollision(tm,gameWORLD); 
 	}
 	@Override
 	public void resize(int width, int height) {
-		port.update(width, height);
 	}
 
 	@Override
@@ -169,7 +154,6 @@ public class GameState implements Screen, InputProcessor {
 		entities.clear();
 		entities = null;
 		sb.dispose();
-		tm.dispose();
 	}
 
 	private boolean processMovment(String key) {
