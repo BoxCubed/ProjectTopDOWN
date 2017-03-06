@@ -1,0 +1,146 @@
+
+playersheet.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+survivor-move_handgun
+  rotate: false
+  xy: 2, 668
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 0
+survivor-move_handgun
+  rotate: false
+  xy: 2, 446
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 1
+survivor-move_handgun
+  rotate: false
+  xy: 2, 446
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 19
+survivor-move_handgun
+  rotate: false
+  xy: 262, 668
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 2
+survivor-move_handgun
+  rotate: false
+  xy: 262, 668
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 18
+survivor-move_handgun
+  rotate: false
+  xy: 2, 224
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 3
+survivor-move_handgun
+  rotate: false
+  xy: 2, 224
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 17
+survivor-move_handgun
+  rotate: false
+  xy: 262, 446
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 4
+survivor-move_handgun
+  rotate: false
+  xy: 262, 446
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 16
+survivor-move_handgun
+  rotate: false
+  xy: 522, 668
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 5
+survivor-move_handgun
+  rotate: false
+  xy: 522, 668
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 15
+survivor-move_handgun
+  rotate: false
+  xy: 2, 2
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 6
+survivor-move_handgun
+  rotate: false
+  xy: 2, 2
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 14
+survivor-move_handgun
+  rotate: false
+  xy: 262, 224
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 7
+survivor-move_handgun
+  rotate: false
+  xy: 262, 224
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 13
+survivor-move_handgun
+  rotate: false
+  xy: 522, 446
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 8
+survivor-move_handgun
+  rotate: false
+  xy: 522, 446
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 12
+survivor-move_handgun
+  rotate: false
+  xy: 262, 2
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 9
+survivor-move_handgun
+  rotate: false
+  xy: 262, 2
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 11
+survivor-move_handgun
+  rotate: false
+  xy: 522, 224
+  size: 258, 220
+  orig: 258, 220
+  offset: 0, 0
+  index: 10
