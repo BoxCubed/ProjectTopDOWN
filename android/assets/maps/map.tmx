@@ -129,7 +129,7 @@
  </tileset>
  <layer name="background" width="50" height="25">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC92WORLCMAwA/YCkzIthqOkIlJgv5H+40UzGI6PTwkmxTeJDa8nHllLaDsaCQP2n+mjnlcD1sM6jXY+aufE9O3m0xrfGJ+EelA+K6SQeZ8lHzaVwrbg5ekjH1/IorIXnjhfSDvaW1IM7/pHryrpXvTywmCUeGFF12Nsjqg57e3Dg1ONEtNN6/HMvjJoPjxxyPLTvn8icjZYPzfk2J9n9EbG+2vNt1PeVFIuH9o7rkVeLx2hvLXBpeeTOa+mVK8oDXADp+NnYn/KDewFi/eWx543E1uJj7K+Zh+sxOpjHFz65yqOIEwAA
+   H4sIAAAAAAAAC92WPQ7DIAyFOUAy9sSNMnfrz1hyhdyvLJEiBPLPA9dh+BYENo9nA3sIYR+MG5NecdF8aJ48lzbGXBmPjXTU4qP7k/Aw8oNiGkTHKH7k3BNLxtpQhzS+lmfilXif+BTmHb0l1cGNf+W6QnvVi44SVnXYW4dVHXq4rzj1OBHztDr+2Qte/WjhIUeH9v9j6Zk3PzT32yzUYXG+2vvNmx9aEB3aN66Hr4gOb38tSkvsfJatvOJ4Ek9I40dwPaXveBcoDTnfwt5qbOB6JM+I/AC5oCduiBMAAA==
   </data>
  </layer>
  <objectgroup name="Collision">

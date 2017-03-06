@@ -11,6 +11,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -19,9 +20,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.LivingEntity;
@@ -40,11 +39,31 @@ public class GameState implements Screen, InputProcessor {
 	private PlayerLight playerLight;
 	Zombie zombie;
 	
-	FitViewport port;
+	TiledMap tiledMap;
+	TiledMapRenderer tiledMapRenderer;
 	
-	TiledMap tm;
-	TiledMapRenderer tmr;
-	
+	@Override
+	public void show() {
+		instance=this;
+		System.out.println("Init");
+		
+		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		cam.update();
+		tiledMap = new TmxMapLoader().load("assets/maps/map.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+		
+		sb = new SpriteBatch();
+		entities = new ArrayList<LivingEntity>();
+		
+
+		initMap();
+		gameWORLD = new World(new Vector2(0, 0), true);
+		player = new Player(gameWORLD);
+		zombie=new Zombie(gameWORLD);
+		Gdx.input.setInputProcessor(this);
+		playerLight = new PlayerLight(gameWORLD);
+		
+	}
 
 	public void update(float delta) {
 		handleInput();
@@ -54,8 +73,10 @@ public class GameState implements Screen, InputProcessor {
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.rayHandler.update();
-		zombie.update(delta);
-
+		//zombie.update(delta);
+		
+		cam.position.set(player.getPos(),0);
+		
 		//System.out.println(player.getPos());
 	}
 	public World getWorld(){
@@ -70,11 +91,15 @@ public class GameState implements Screen, InputProcessor {
 		
 		sb.setProjectionMatrix(cam.combined);
 		
+        cam.update();
+        tiledMapRenderer.setView(cam);
+        tiledMapRenderer.render();
+	/*	
 		playerLight.rayHandler.setCombinedMatrix(cam);
-		playerLight.rayHandler.render();
+		playerLight.rayHandler.render();*/
 		sb.begin();
 		
-//		
+	
 		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
 		sb.draw(zombie, zombie.Body.getPosition().x, zombie.Body.getPosition().y, 0, 0, player.getWidth(), player.getHeight(), 1, 1, 0);
 		// Some matrix int he second argument
@@ -107,30 +132,7 @@ public class GameState implements Screen, InputProcessor {
 
 	}
 
-	@Override
-	public void show() {
-		
-		instance=this;
-		System.out.println("Init");
-<<<<<<< Updated upstream
-		
-		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		port = new FitViewport(Gdx.graphics.getWidth() / 2,  Gdx.graphics.getHeight() / 2,cam);
-		cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
-		
-		sb = new SpriteBatch();
-		entities = new ArrayList<LivingEntity>();
-		
-
-		initMap();
-		gameWORLD = new World(new Vector2(0, 0), true);
-		player = new Player(gameWORLD);
-		zombie=new Zombie(gameWORLD);
-		Gdx.input.setInputProcessor(this);
-		playerLight = new PlayerLight(gameWORLD);
-		
-		
-	}
+	
 	private void initMap(){
 		
        //MapCollision map = new MapCollision(tm,gameWORLD); 
