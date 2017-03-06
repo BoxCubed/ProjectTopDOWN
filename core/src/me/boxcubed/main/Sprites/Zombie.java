@@ -24,7 +24,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	Fixture fixture;
 	Vector2 position,vel,target;
 	public Zombie(World world) {
-		super( new Texture(Gdx.files.internal("assets/img/luigiFront.png")));
+		super( new Texture(Gdx.files.internal("assets/img/skeleton-idle_0.png")));
 		setSize(50, 50);
 		Def = new BodyDef();
 		Def.type = BodyDef.BodyType.DynamicBody;

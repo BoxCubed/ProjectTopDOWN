@@ -3,12 +3,12 @@ package me.boxcubed.main.States;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -99,8 +99,7 @@ public class GameState implements Screen, InputProcessor {
 		playerLight.rayHandler.render();*/
 		sb.begin();
 		
-	      
-		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y,0,0,30,30,1,1,rotation);
+		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y,10,10,30,30,1,1,rotation);
 		sb.draw(zombie, zombie.Body.getPosition().x, zombie.Body.getPosition().y, 0, 0, player.getWidth(), player.getHeight(), 1, 1, 0);
 		sb.end();
 		

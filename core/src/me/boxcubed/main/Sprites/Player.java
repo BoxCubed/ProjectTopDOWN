@@ -39,6 +39,7 @@ public class Player extends Sprite implements LivingEntity {
 		// Shape
 		playerShape = new PolygonShape();
 		playerShape.setAsBox(5, 5);
+		
 		// Fixture def
 		fixtureDefPlayer = new FixtureDef();
 		fixtureDefPlayer.shape = playerShape;
@@ -58,7 +59,6 @@ public class Player extends Sprite implements LivingEntity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-        Fixture fixture = body.createFixture(fixtureDef);
         shape.dispose();
 	}
 
