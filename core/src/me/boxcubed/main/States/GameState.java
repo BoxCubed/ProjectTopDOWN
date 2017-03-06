@@ -46,16 +46,7 @@ public class GameState implements Screen, InputProcessor {
 	
 
 
-	public GameState() {
-		cam = new OrthographicCamera();
-		
-		tm = new TmxMapLoader().load("assets/maps/map.tmx");
-       tmr = new OrthogonalTiledMapRenderer(tm,1/GameState.PPM);
-		
-       b2dr = new Box2DDebugRenderer();
-       
-       MapCollision map = new MapCollision(tm,gameWORLD); 
-	}
+	
 
 	public void update(float delta) {
 		handleInput();
@@ -78,17 +69,22 @@ public class GameState implements Screen, InputProcessor {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		sb.begin();
-		sb.setProjectionMatrix(cam.combined);
-//		playerLight.rayHandler.setCombinedMatrix(cam.combined);
-//		playerLight.rayHandler.render();
-//		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
 		
+		sb.setProjectionMatrix(cam.combined);
+		tmr.render();
+		
+		playerLight.rayHandler.setCombinedMatrix(cam);
+		playerLight.rayHandler.render();
+		sb.begin();
+		
+//		
+		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
+		sb.draw(zombie, zombie.Body.getPosition().x, zombie.Body.getPosition().y, 0, 0, player.getWidth(), player.getHeight(), 1, 1, 0);
 		// Some matrix int he second argument
 		sb.end();
 
-		b2dr.render(gameWORLD, cam.combined);
-		tmr.render();
+		//b2dr.render(gameWORLD, cam.combined);
+		
 	}
 
 	public void handleInput() {
@@ -116,19 +112,31 @@ public class GameState implements Screen, InputProcessor {
 
 	@Override
 	public void show() {
+		
 		instance=this;
 		System.out.println("Init");
 		sb = new SpriteBatch();
 		entities = new ArrayList<LivingEntity>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		initMap();
 		gameWORLD = new World(new Vector2(0, 0), true);
 		b2dr = new Box2DDebugRenderer();
 		player = new Player(gameWORLD);
 		zombie=new Zombie(gameWORLD);
 		Gdx.input.setInputProcessor(this);
 		playerLight = new PlayerLight(gameWORLD);
+		
 	}
-
+	private void initMap(){
+		
+		
+		tm = new TmxMapLoader().load("assets/maps/map.tmx");
+       tmr = new OrthogonalTiledMapRenderer(tm,1/GameState.PPM);
+       tmr.setView(cam);
+		
+       
+       //MapCollision map = new MapCollision(tm,gameWORLD); 
+	}
 	@Override
 	public void resize(int width, int height) {
 		cam.update();

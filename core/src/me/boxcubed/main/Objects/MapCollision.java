@@ -1,11 +1,16 @@
 package me.boxcubed.main.Objects;
 
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+
+import me.boxcubed.main.States.GameState;
 
 public class MapCollision {
 	TiledMap tm;
@@ -22,23 +27,24 @@ public class MapCollision {
     }
     
     public void init(){
-//        bdef = new BodyDef();
-//        shape = new PolygonShape();
-//        fdef = new FixtureDef();
-//           
-//        for(MapObject object : tm.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
-//            Rectangle rect = ((RectangleMapObject)object).getRectangle();
-//            bdef.type = BodyDef.BodyType.StaticBody;
-//            bdef.position.set((rect.getX()+rect.getWidth()/2) / GameState.PPM , (rect.getY()+rect.getHeight() / 2) / GameState.PPM);
-//
-//            body = world.createBody(bdef);
-//
-//            shape.setAsBox(rect.getWidth() / 2 / GameState.PPM,rect.getHeight() / 2 / GameState.PPM);
-//
-//            fdef.shape=shape;
-//
-//            body.createFixture(fdef);
-//        }
+    	//learn to comment next time
+        bdef = new BodyDef();
+        shape = new PolygonShape();
+        fdef = new FixtureDef();
+           
+        for(MapObject object : tm.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject)object).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX()+rect.getWidth()/2) / GameState.PPM , (rect.getY()+rect.getHeight() / 2) / GameState.PPM);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 / GameState.PPM,rect.getHeight() / 2 / GameState.PPM);
+
+            fdef.shape=shape;
+
+            body.createFixture(fdef);
+        }
       
     }
     public FixtureDef getFdef(){
