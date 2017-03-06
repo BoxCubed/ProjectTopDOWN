@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Objects.MapCollision;
+import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.Sprites.Zombie;
@@ -43,11 +44,12 @@ public class GameState implements Screen, InputProcessor {
 	Box2DDebugRenderer b2dr;
 	
 	MapCollision mp;
-	
+	SteeringAI zombieAI;
 	@Override
 	public void show() {
 		instance=this;
 		System.out.println("Init");
+		
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
@@ -65,6 +67,7 @@ public class GameState implements Screen, InputProcessor {
 		player = new Player(gameWORLD);
 		player.setSize(20, 20);
 		zombie=new Zombie(gameWORLD);
+		zombieAI=new SteeringAI(zombie, player.getWidth());
 		Gdx.input.setInputProcessor(this);
 		playerLight = new PlayerLight(gameWORLD);
 		
@@ -83,7 +86,7 @@ public class GameState implements Screen, InputProcessor {
 		playerLight.rayHandler.update();
 		
 		zombie.update(delta);
-		
+		//zombieAI.update(delta);
 		cam.position.set(player.getPos(),0);
 		
 		//System.out.println(player.getPos());
