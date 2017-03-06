@@ -39,14 +39,14 @@ public class GameState implements Screen, InputProcessor {
 	SpriteBatch sb;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
-	Zombie zombie;
+	//Zombie zombie;
 	
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
 	
 	MapCollision mp;
-	SteeringAI zombieAI;
+	//SteeringAI zombieAI;
 	@Override
 	public void show() {
 		instance=this;
@@ -68,8 +68,13 @@ public class GameState implements Screen, InputProcessor {
 		gameWORLD = new World(new Vector2(0, 0), true);
 		player = new Player(gameWORLD);
 		player.setSize(20, 20);
-		zombie=new Zombie(gameWORLD);
-		zombieAI=new SteeringAI(zombie, player.getWidth());
+		SteeringAI playerAI=new SteeringAI(player, player.getWidth());
+		for(int i=0;i<1;i++)
+		entities.add(new Zombie(gameWORLD,playerAI));
+		
+		
+		
+		
 		Gdx.input.setInputProcessor(this);
 		playerLight = new PlayerLight(gameWORLD);
 		
@@ -87,8 +92,9 @@ public class GameState implements Screen, InputProcessor {
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.rayHandler.update();
 		
-		zombie.update(delta);
-		//zombieAI.update(delta);
+		//zombie.update(delta);
+		entities.forEach(entity->entity.update(delta));
+		player.update(delta);
 		cam.position.set(player.getPos(),0);
 		
 		//System.out.println(player.getPos());
@@ -112,12 +118,14 @@ public class GameState implements Screen, InputProcessor {
 	
 		/*playerLight.rayHandler.setCombinedMatrix(cam);
 		playerLight.rayHandler.render();*/
+        b2dr.render(gameWORLD, cam.combined);
 		sb.begin();
 		
-		//b2dr.render(gameWORLD, cam.combined);
+		
 		
 		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y,10,10,30,30,1,1,rotation);
-		sb.draw(zombie, zombie.Body.getPosition().x, zombie.Body.getPosition().y, 0, 0, player.getWidth(), player.getHeight(), 1, 1, 0);
+		entities.forEach(entity->entity.render(sb));
+		
 		sb.end();
 		
 	}
@@ -128,21 +136,26 @@ public class GameState implements Screen, InputProcessor {
 		// And that, is how you actually do this without making a mess. Now
 		// which autistic kid decided to name the methods? cbs fixing for now
 		// boolean shiftPressed=input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+		boolean keyPressed=false;
 		if (input.isKeyPressed(Input.Keys.UP)){
+			keyPressed=true;
 			processMovment("UP");
 			rotation=90;
 			}
 		if (input.isKeyPressed(Input.Keys.DOWN)){
+			keyPressed=true;
 			processMovment("DOWN");
 			rotation=-90;
 			}
 		if (input.isKeyPressed(Input.Keys.LEFT)){
+			keyPressed=true;
 			processMovment("LEFT");
 			rotation=-180;
 			if(input.isKeyPressed(Keys.DOWN))rotation+=45;
 			else if(input.isKeyPressed(Input.Keys.UP))rotation-=45;
 			}
 		if (input.isKeyPressed(Input.Keys.RIGHT)){
+			keyPressed=true;
 			processMovment("RIGHT");
 			rotation=0;
 			if(input.isKeyPressed(Keys.DOWN))rotation-=45;
@@ -150,9 +163,9 @@ public class GameState implements Screen, InputProcessor {
 		}
 		
 		if(input.isKeyPressed(Input.Keys.ESCAPE)){
-			System.exit(0);
+			Gdx.app.exit();
 		}
-		
+		if(!keyPressed)player.stop();
 	}
 
 	
@@ -182,7 +195,7 @@ public class GameState implements Screen, InputProcessor {
 	@Override
 	public void dispose() {
 		
-		playerLight.rayHandler.dispose();
+		//playerLight.rayHandler.dispose();
 		player = null;
 		entities.clear();
 		entities = null;
