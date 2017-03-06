@@ -36,7 +36,7 @@ public class GameState implements Screen, InputProcessor {
 	Zombie zombie;
 
 	public GameState() {
-		instance=this;
+		
 	}
 
 	public void update(float delta) {
@@ -48,7 +48,7 @@ public class GameState implements Screen, InputProcessor {
 		playerLight.rayHandler.update();
 		zombie.update(delta);
 
-		System.out.println(player.getPos());
+		//System.out.println(player.getPos());
 	}
 	public World getWorld(){
 		return gameWORLD;
@@ -95,7 +95,7 @@ public class GameState implements Screen, InputProcessor {
 
 	@Override
 	public void show() {
-
+		instance=this;
 		System.out.println("Init");
 		sb = new SpriteBatch();
 		entities = new ArrayList<LivingEntity>();

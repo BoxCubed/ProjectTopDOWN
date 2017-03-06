@@ -37,13 +37,13 @@ public class Zombie extends Sprite implements LivingEntity {
 		// Creates the body and assigns vars to all important values
 		Body = world.createBody(Def);
 		fixture = Body.createFixture(fixtureDef);
-		Body.setTransform(-100, -100, 0);
+		//Body.setTransform(-100, -100, 0);
 	}
 	Vector2 position,vel,target;
 	@Override
 	public void update(float delta) {
 		position=Body.getPosition();
-		target=GameState.instance.player.playerBody.getPosition();
+		target=GameState.instance.player.getPos();
 		vel=target.cpy().sub(position).nor().scl(100);
 		Body.applyLinearImpulse(target, vel, true);		
 				
