@@ -69,7 +69,7 @@ public class GameState implements Screen, InputProcessor {
 		player = new Player(gameWORLD);
 		player.setSize(20, 20);
 		SteeringAI playerAI=new SteeringAI(player, player.getWidth());
-		for(int i=0;i<1;i++)
+		for(int i=0;i<10;i++)
 		entities.add(new Zombie(gameWORLD,playerAI));
 		
 		
@@ -108,7 +108,7 @@ public class GameState implements Screen, InputProcessor {
 	float rotation=0;
 	@Override
 	public void render(float delta) {
-		update(delta);
+		update(delta*100);
 		
 		sb.setProjectionMatrix(cam.combined);
 		

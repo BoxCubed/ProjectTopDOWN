@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -21,7 +22,7 @@ import me.boxcubed.main.States.GameState;
 public class Zombie extends Sprite implements LivingEntity {
 	public BodyDef Def;
 	FixtureDef fixtureDef;
-	PolygonShape Shape;
+	CircleShape Shape;
 	public Body Body;
 	Fixture fixture;
 	Vector2 position,vel,target;
@@ -36,8 +37,9 @@ public class Zombie extends Sprite implements LivingEntity {
 		Def.position.set(300 / GameState.PPM, 400 / GameState.PPM);
 
 		// Shape
-		Shape = new PolygonShape();
-		Shape.setAsBox(5, 5);
+		Shape = new CircleShape();
+		Shape.setRadius(5);
+		
 		// Fixture def
 		fixtureDef = new FixtureDef();
 		fixtureDef.shape = Shape;
@@ -47,6 +49,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		Body = world.createBody(Def);
 		fixture = Body.createFixture(fixtureDef);
 		Body.setTransform(100, 100, 0);
+		Shape.dispose();
 	}
 
 	@Override
