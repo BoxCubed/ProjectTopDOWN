@@ -23,6 +23,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	PolygonShape Shape;
 	public Body Body;
 	Fixture fixture;
+	Vector2 position,vel,target;
 	public Zombie(World world) {
 		super( new Texture(Gdx.files.internal("assets/img/luigiFront.png")));
 		setSize(50, 50);
@@ -43,7 +44,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		fixture = Body.createFixture(fixtureDef);
 		//Body.setTransform(-100, -100, 0);
 	}
-	Vector2 position,vel,target;
+
 	@Override
 	public void update(float delta) {
 		position=Body.getPosition();
@@ -59,38 +60,32 @@ public class Zombie extends Sprite implements LivingEntity {
 	}
 	@Override
 	public Vector2 getPos() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setPos(Vector2 pos) {
-		// TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
 	public Sprite getSprite() {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
 	public Animation animation() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Sprite sprite() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void goUP() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -99,49 +94,41 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public void runUP() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void runDOWN() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void runLEFT() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void runRIGHT() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void goDOWN() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void goLEFT() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void goRIGHT() {
-		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	public void setSprite(Sprite sprite) {
-		// TODO Auto-generated method stub
-		
+
 	}
 	
 

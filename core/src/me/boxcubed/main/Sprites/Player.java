@@ -29,6 +29,7 @@ public class Player extends Sprite implements LivingEntity {
 	Fixture fixture;
 	Vector2 position;// Player position
 	PlayerLight playerLight;
+	Body body;
 	public Player(World world) {
 		super(tex);
 		playerDef = new BodyDef();
@@ -47,7 +48,18 @@ public class Player extends Sprite implements LivingEntity {
 		playerBody = world.createBody(playerDef);
 		fixture = playerBody.createFixture(fixtureDefPlayer);
 		playerLight = new PlayerLight(world);
-		//playerLight.updateLightPos(0, 0);
+
+		BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(200, 200);
+        body = world.createBody(bodyDef);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(20, 20);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f;
+        Fixture fixture = body.createFixture(fixtureDef);
+        shape.dispose();
 	}
 
 	public void render(SpriteBatch sb) {
@@ -132,14 +144,8 @@ public class Player extends Sprite implements LivingEntity {
 	}
 
 	@Override
-	public void setSprite(Sprite sprite) {
-		// TODO Auto-generated method stub
-
-	}
+	public void setSprite(Sprite sprite) {}
 
 	@Override
-	public void update(float delta) {
-		// TODO Auto-generated method stub
-
-	}
+	public void update(float delta) {	}
 }

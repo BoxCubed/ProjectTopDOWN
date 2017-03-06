@@ -1,11 +1,8 @@
-
-
 package me.boxcubed.main.States;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -22,7 +19,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
@@ -39,9 +35,9 @@ public class GameState implements Screen, InputProcessor {
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
 	Zombie zombie;
-	
+	Box2DDebugRenderer b2dr;
 	FitViewport port;
-	
+
 	TiledMap tm;
 	TiledMapRenderer tmr;
 	
@@ -72,15 +68,12 @@ public class GameState implements Screen, InputProcessor {
 		
 		playerLight.rayHandler.setCombinedMatrix(cam);
 		playerLight.rayHandler.render();
+		//Beginning of sprite batch
 		sb.begin();
-		
-//		
 		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y);
 		sb.draw(zombie, zombie.Body.getPosition().x, zombie.Body.getPosition().y, 0, 0, player.getWidth(), player.getHeight(), 1, 1, 0);
-		// Some matrix int he second argument
 		sb.end();
-
-		//b2dr.render(gameWORLD, cam.combined);
+		b2dr.render(gameWORLD, cam.combined);
 		
 	}
 
@@ -90,37 +83,30 @@ public class GameState implements Screen, InputProcessor {
 		// And that, is how you actually do this without making a mess. Now
 		// which autistic kid decided to name the methods? cbs fixing for now
 		// boolean shiftPressed=input.isKeyPressed(Input.Keys.SHIFT_LEFT);
-
-		if (input.isKeyPressed(Input.Keys.UP)) {
+		if (input.isKeyPressed(Input.Keys.UP))
 			processMovment("UP");
-		} //
-		if (input.isKeyPressed(Input.Keys.DOWN)) {
+		if (input.isKeyPressed(Input.Keys.DOWN))
 			processMovment("DOWN");
-		}
-		if (input.isKeyPressed(Input.Keys.LEFT)) {
+		if (input.isKeyPressed(Input.Keys.LEFT))
 			processMovment("LEFT");
-		}
-		if (input.isKeyPressed(Input.Keys.RIGHT)) {
+		if (input.isKeyPressed(Input.Keys.RIGHT))
 			processMovment("RIGHT");
-
-		}
-
 	}
 
 	@Override
 	public void show() {
-		
+		b2dr = new Box2DDebugRenderer();
 		instance=this;
 		System.out.println("Init");
-<<<<<<< Updated upstream
-		
+		sb = new SpriteBatch();
+		entities = new ArrayList<LivingEntity>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		port = new FitViewport(Gdx.graphics.getWidth() / 2,  Gdx.graphics.getHeight() / 2,cam);
 		cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
-		
+
 		sb = new SpriteBatch();
 		entities = new ArrayList<LivingEntity>();
-		
+
 
 		initMap();
 		gameWORLD = new World(new Vector2(0, 0), true);
@@ -132,7 +118,7 @@ public class GameState implements Screen, InputProcessor {
 		
 	}
 	private void initMap(){
-		
+
        //MapCollision map = new MapCollision(tm,gameWORLD); 
 	}
 	@Override
@@ -241,4 +227,4 @@ public class GameState implements Screen, InputProcessor {
 	}
 
 }
-		//port = new FitViewport(Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2,cam);
+		//port = new FitViewport(Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2,cam);
