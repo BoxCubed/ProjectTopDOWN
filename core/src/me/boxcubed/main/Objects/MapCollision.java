@@ -44,8 +44,10 @@ public class MapCollision {
             fdef.shape=shape;
 
             body.createFixture(fdef);
+            
         }
-      
+        shape.dispose();
+        
     }
     public FixtureDef getFdef(){
         return fdef;

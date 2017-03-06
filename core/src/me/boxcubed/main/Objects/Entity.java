@@ -4,15 +4,15 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 
 public interface Entity {
 	  public Vector2 getPos();
+	  public Body getBody();
 
 	    public void setPos(Vector2 pos);
-		public void setSprite(Sprite sprite);
 		public Sprite getSprite();
         public Animation animation();
-        public Sprite sprite();
        
         public void update(float delta);
         public void render(SpriteBatch sb);

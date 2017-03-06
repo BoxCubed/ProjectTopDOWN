@@ -41,7 +41,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		// Creates the body and assigns vars to all important values
 		Body = world.createBody(Def);
 		fixture = Body.createFixture(fixtureDef);
-		//Body.setTransform(-100, -100, 0);
+		Body.setTransform(100, 100, 0);
 	}
 
 	@Override
@@ -88,10 +88,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		return null;
 	}
 
-	@Override
-	public Sprite sprite() {
-		return null;
-	}
+	
 
 	@Override
 	public void goUP() {
@@ -135,9 +132,12 @@ public class Zombie extends Sprite implements LivingEntity {
 	public void goRIGHT() {
 
 	}
-	@Override
-	public void setSprite(Sprite sprite) {
+	
 
+	@Override
+	public Body getBody() {
+		// TODO Auto-generated method stub
+		return Body;
 	}
 	
 

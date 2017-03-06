@@ -15,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.Objects.LivingEntity;
-import me.boxcubed.main.States.GameState;
 
 /**
  * Created by Dank Memes on 23/02/2017.
@@ -51,7 +50,7 @@ public class Player extends Sprite implements LivingEntity {
 		
 		playerBody.setTransform(100, 100, 0);
 
-		BodyDef bodyDef = new BodyDef();
+		/*BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(200, 200);
         body = world.createBody(bodyDef);
@@ -59,8 +58,8 @@ public class Player extends Sprite implements LivingEntity {
         shape.setAsBox(20, 20);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-        shape.dispose();
+        fixtureDef.density = 1f;*/
+        playerShape.dispose();
         
 	}
 
@@ -89,11 +88,7 @@ public class Player extends Sprite implements LivingEntity {
 		return null;
 	}
 
-	@Override
-	public Sprite sprite() {
-		return null;
-	}
-
+	
 	// Walking
 	@Override
 	public void goUP() {
@@ -145,9 +140,13 @@ public class Player extends Sprite implements LivingEntity {
 		playerBody.setAngularVelocity(0);
 	}
 
-	@Override
-	public void setSprite(Sprite sprite) {}
-
+	
 	@Override
 	public void update(float delta) {	}
+
+	@Override
+	public Body getBody() {
+		// TODO Auto-generated method stub
+		return playerBody;
+	}
 }

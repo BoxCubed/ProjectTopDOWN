@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+
 import me.boxcubed.main.Objects.Entity;
 
 /**
@@ -20,10 +22,7 @@ public class Enemy implements Entity {
 
     }
 
-    @Override
-    public void setSprite(Sprite sprite) {
-
-    }
+  
 
     @Override
     public Sprite getSprite() {
@@ -35,11 +34,7 @@ public class Enemy implements Entity {
         return null;
     }
 
-    @Override
-    public Sprite sprite() {
-        return null;
-    }
-
+    
    
 	@Override
 	public void update(float delta) {
@@ -51,5 +46,11 @@ public class Enemy implements Entity {
 	public void render(SpriteBatch sb) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Body getBody() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
