@@ -104,8 +104,8 @@ public class GameState implements Screen, InputProcessor {
         cam.update();
         tiledMapRenderer.setView(cam);
         tiledMapRenderer.render();
-	/*	
-		playerLight.rayHandler.setCombinedMatrix(cam);
+	
+		/*playerLight.rayHandler.setCombinedMatrix(cam);
 		playerLight.rayHandler.render();*/
 		sb.begin();
 		
@@ -134,15 +134,20 @@ public class GameState implements Screen, InputProcessor {
 		if (input.isKeyPressed(Input.Keys.LEFT)){
 			processMovment("LEFT");
 			rotation=-180;
+			if(input.isKeyPressed(Keys.DOWN))rotation+=45;
+			else if(input.isKeyPressed(Input.Keys.UP))rotation-=45;
 			}
 		if (input.isKeyPressed(Input.Keys.RIGHT)){
 			processMovment("RIGHT");
 			rotation=0;
-			}
+			if(input.isKeyPressed(Keys.DOWN))rotation-=45;
+			else if(input.isKeyPressed(Input.Keys.UP))rotation+=45;
+		}
 		
 		if(input.isKeyPressed(Input.Keys.ESCAPE)){
 			System.exit(0);
 		}
+		
 	}
 
 	
@@ -166,16 +171,19 @@ public class GameState implements Screen, InputProcessor {
 
 	@Override
 	public void hide() {
-		dispose();
+		//dispose();
 	}
 
 	@Override
 	public void dispose() {
-		gameWORLD.dispose();
+		
 		playerLight.rayHandler.dispose();
 		player = null;
 		entities.clear();
 		entities = null;
+		tiledMap.dispose();
+		playerLight.dispose();
+		gameWORLD.dispose();
 		sb.dispose();
 	}
 
