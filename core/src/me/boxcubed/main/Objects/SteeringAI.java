@@ -16,12 +16,12 @@ public class SteeringAI implements Steerable<Vector2> {
 		  boundingRadius;
 	SteeringBehavior<Vector2>behavior;
 	SteeringAcceleration<Vector2>steeringOutput;
-	float speedZeroLin=50;
+	float speedZeroLin=500;
 	
 	public SteeringAI(LivingEntity entity,float boundingRadius){
 		this.entity=entity;
 		this.boundingRadius=boundingRadius;
-		speedMax=500;
+		speedMax=50;
 		speedMaxAcc=5000;
 		speedMaxAng=30;
 		speedMaxAngAcc=5;
@@ -39,6 +39,7 @@ public class SteeringAI implements Steerable<Vector2> {
 		}
 	}
 	private void apply(float delta){
+		if(delta<1f)delta=1f;
 		boolean anyAcc=false;
 		if(!steeringOutput.linear.isZero()){
 			Vector2 force=steeringOutput.linear.scl(delta);
@@ -48,6 +49,10 @@ public class SteeringAI implements Steerable<Vector2> {
 		if(steeringOutput.angular!=0){
 			getBody().applyTorque(steeringOutput.angular*delta, true);
 			anyAcc=true;
+		}else if(!getLinearVelocity().isZero()){
+			float newOr=vectorToAngle(getLinearVelocity());
+			getBody().setAngularVelocity((newOr-getAngularVelocity())*delta);
+			getBody().setTransform(getBody().getPosition(), newOr);
 		}
 		if(anyAcc){
 			Vector2 vel=getBody().getLinearVelocity();

@@ -1,6 +1,7 @@
 package me.boxcubed.main.Sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.Objects.LivingEntity;
+import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.States.GameState;
 
 public class Zombie extends Sprite implements LivingEntity {
@@ -23,9 +25,12 @@ public class Zombie extends Sprite implements LivingEntity {
 	public Body Body;
 	Fixture fixture;
 	Vector2 position,vel,target;
-	public Zombie(World world) {
+	SteeringAI ai;
+	public Zombie(World world,SteeringAI playerAI) {
 		super( new Texture(Gdx.files.internal("assets/img/skeleton-idle_0.png")));
 		setSize(50, 50);
+		ai=new SteeringAI(this, 50);
+		ai.setBehavior(new Arrive<>(ai, playerAI).setArrivalTolerance(2f).setDecelerationRadius(10));
 		Def = new BodyDef();
 		Def.type = BodyDef.BodyType.DynamicBody;
 		Def.position.set(300 / GameState.PPM, 400 / GameState.PPM);
@@ -46,7 +51,7 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public void update(float delta) {
-		position=Body.getPosition();
+		/*position=Body.getPosition();
 		target=GameState.instance.player.getPos();
 		vel=target.cpy().sub(position).nor().scl(100);
 		
@@ -58,13 +63,15 @@ public class Zombie extends Sprite implements LivingEntity {
 			y=position.y+delta*50;
 		else y=position.y-delta*50;
 		Body.setLinearVelocity(0,0);
-		Body.setTransform(x, y,0);
+		Body.setTransform(x, y,0);*/
 		//Body.applyLinearImpulse(target, vel, true);
+		ai.update(delta);
 				
 	}
 	@Override
 	public void render(SpriteBatch sb) {
-		
+		sb.draw(this, Body.getPosition().x, Body.getPosition().y, 0, 0, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
+				1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		
 	}
 	@Override

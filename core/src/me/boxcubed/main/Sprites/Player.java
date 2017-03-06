@@ -20,6 +20,7 @@ import me.boxcubed.main.Objects.LivingEntity;
  * Created by Dank Memes on 23/02/2017.
  */
 public class Player extends Sprite implements LivingEntity {
+	private float delta;
 	private static Texture tex = new Texture(Gdx.files.internal("assets/img/player.png"));
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;
@@ -92,25 +93,25 @@ public class Player extends Sprite implements LivingEntity {
 	// Walking
 	@Override
 	public void goUP() {
-		playerBody.applyLinearImpulse(new Vector2(0, 80), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0, 80*delta), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(5f);
 	}
 
 	@Override
 	public void goDOWN() {
-		playerBody.applyLinearImpulse(new Vector2(0f, -80f), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0f, -80f*delta), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(-5f);
 	}
 
 	@Override
 	public void goLEFT() {
-		playerBody.applyLinearImpulse(new Vector2(-80f, 0), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(-80f*delta, 0), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(5f);
 	}
 
 	@Override
 	public void goRIGHT() {
-		playerBody.applyLinearImpulse(new Vector2(80, 0), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(80*delta, 0), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(-5f);
 	}// d
 		// Running actions
@@ -142,7 +143,7 @@ public class Player extends Sprite implements LivingEntity {
 
 	
 	@Override
-	public void update(float delta) {	}
+	public void update(float delta) {	if(delta<1f)this.delta=1f; else this.delta=delta; }
 
 	@Override
 	public Body getBody() {
