@@ -30,6 +30,7 @@ public class Player extends Sprite implements LivingEntity {
 	Vector2 position;// Player position
 	PlayerLight playerLight;
 	Body body;
+	public float rotation=0;
 	public Player(World world) {
 		super(tex);
 		playerDef = new BodyDef();
@@ -65,8 +66,7 @@ public class Player extends Sprite implements LivingEntity {
 	}
 
 	public void render(SpriteBatch sb) {
-		// we do
-
+		sb.draw(this, playerBody.getPosition().x-getWidth()/2,playerBody.getPosition().y-getHeight()/2,10,10,30,30,1,1,rotation);
 	}
 
 	@Override

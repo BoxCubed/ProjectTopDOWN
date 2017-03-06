@@ -99,13 +99,7 @@ public class GameState implements Screen, InputProcessor {
 		
 		//System.out.println(player.getPos());
 	}
-	public World getWorld(){
-		return gameWORLD;
-	}
-	public Matrix4 camCombined(){
-		return cam.combined;
-	}
-	float rotation=0;
+	
 	@Override
 	public void render(float delta) {
 		update(delta*100);
@@ -123,13 +117,19 @@ public class GameState implements Screen, InputProcessor {
 		
 		
 		
-		sb.draw(player, player.playerBody.getPosition().x,player.playerBody.getPosition().y,10,10,30,30,1,1,rotation);
+		player.render(sb);
 		entities.forEach(entity->entity.render(sb));
 		
 		sb.end();
 		
 	}
-
+	public World getWorld(){
+		return gameWORLD;
+	}
+	public Matrix4 camCombined(){
+		return cam.combined;
+	}
+	float rotation=0;
 	public void handleInput() {
 		// Walk controls
 		Input input = Gdx.input;
@@ -140,26 +140,26 @@ public class GameState implements Screen, InputProcessor {
 		if (input.isKeyPressed(Input.Keys.UP)){
 			keyPressed=true;
 			processMovment("UP");
-			rotation=90;
+			player.rotation=90;
 			}
 		if (input.isKeyPressed(Input.Keys.DOWN)){
 			keyPressed=true;
 			processMovment("DOWN");
-			rotation=-90;
+			player.rotation=-90;
 			}
 		if (input.isKeyPressed(Input.Keys.LEFT)){
 			keyPressed=true;
 			processMovment("LEFT");
-			rotation=-180;
-			if(input.isKeyPressed(Keys.DOWN))rotation+=45;
-			else if(input.isKeyPressed(Input.Keys.UP))rotation-=45;
+			player.rotation=-180;
+			if(input.isKeyPressed(Keys.DOWN))player.rotation+=45;
+			else if(input.isKeyPressed(Input.Keys.UP))player.rotation-=45;
 			}
 		if (input.isKeyPressed(Input.Keys.RIGHT)){
 			keyPressed=true;
 			processMovment("RIGHT");
-			rotation=0;
-			if(input.isKeyPressed(Keys.DOWN))rotation-=45;
-			else if(input.isKeyPressed(Input.Keys.UP))rotation+=45;
+			player.rotation=0;
+			if(input.isKeyPressed(Keys.DOWN))player.rotation-=45;
+			else if(input.isKeyPressed(Input.Keys.UP))player.rotation+=45;
 		}
 		
 		if(input.isKeyPressed(Input.Keys.ESCAPE)){
