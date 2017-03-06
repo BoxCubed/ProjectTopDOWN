@@ -21,10 +21,10 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.LivingEntity;
-import me.boxcubed.main.Objects.MapCollision;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.Sprites.Zombie;
@@ -43,6 +43,7 @@ public class GameState implements Screen, InputProcessor {
 	
 	TiledMap tm;
 	TiledMapRenderer tmr;
+	FitViewport port=new FitViewport(1280/GameState.PPM, 720/GameState.PPM);
 	
 
 
@@ -50,12 +51,13 @@ public class GameState implements Screen, InputProcessor {
 
 	public void update(float delta) {
 		handleInput();
+		//cam.position.x=player.getPos().x;
 		cam.update();
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.rayHandler.update();
-		zombie.update(delta);
+		//zombie.update(delta);
 
 		//System.out.println(player.getPos());
 		tmr.setView(cam);
@@ -118,6 +120,8 @@ public class GameState implements Screen, InputProcessor {
 		sb = new SpriteBatch();
 		entities = new ArrayList<LivingEntity>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		cam.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
+
 		initMap();
 		gameWORLD = new World(new Vector2(0, 0), true);
 		b2dr = new Box2DDebugRenderer();
@@ -125,6 +129,7 @@ public class GameState implements Screen, InputProcessor {
 		zombie=new Zombie(gameWORLD);
 		Gdx.input.setInputProcessor(this);
 		playerLight = new PlayerLight(gameWORLD);
+		
 		
 	}
 	private void initMap(){
@@ -139,7 +144,7 @@ public class GameState implements Screen, InputProcessor {
 	}
 	@Override
 	public void resize(int width, int height) {
-		cam.update();
+		port.update(width, height);
 	}
 
 	@Override
@@ -166,6 +171,7 @@ public class GameState implements Screen, InputProcessor {
 		entities.clear();
 		entities = null;
 		sb.dispose();
+		tm.dispose();
 	}
 
 	private boolean processMovment(String key) {
