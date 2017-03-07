@@ -1,14 +1,11 @@
 package me.boxcubed.main.States;
 
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -178,7 +175,7 @@ public class GameState implements Screen{
 
 	@Override
 	public void dispose() {
-		
+		entities.forEach(entity->entity.dispose());
 		playerLight.rayHandler.dispose();
 		player = null;
 		entities.clear();

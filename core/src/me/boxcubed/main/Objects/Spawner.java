@@ -1,5 +1,7 @@
 package me.boxcubed.main.Objects;
 
+import java.util.Random;
+
 import com.badlogic.gdx.math.Vector2;
 
 import me.boxcubed.main.Sprites.Zombie;
@@ -11,6 +13,11 @@ import me.boxcubed.main.States.GameState;
  *
  */
 public class Spawner {
+	/*
+	 * Map limits: y: 40-345
+	 * x: 22-680
+	 */
+	Random random=new Random();
 	EntityType entity;
 	Vector2 loc;
 	private float elapsedTime=0;
@@ -28,6 +35,8 @@ public class Spawner {
 		elapsedTime+=delta;
 		if(elapsedTime>=delay){
 			if(entity.equals(EntityType.ZOMBIE)){
+				loc.x=random.nextInt(680-22)+22;
+				loc.y=random.nextInt(345-40)+40;
 				Zombie spawn=new Zombie(GameState.instance.getWorld(),  GameState.instance.playerAI);
 				spawn.getBody().setTransform(loc, spawn.getBody().getAngle());
 			GameState.instance.entities.add(spawn);
