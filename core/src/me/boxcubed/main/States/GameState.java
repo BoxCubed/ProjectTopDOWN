@@ -56,7 +56,7 @@ public class GameState implements Screen, InputProcessor {
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
-		tiledMap = new TmxMapLoader().load("assets/maps/map.tmx");
+		tiledMap = new TmxMapLoader().load("assets/maps/map2.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         b2dr=new Box2DDebugRenderer();
         
@@ -116,7 +116,7 @@ public class GameState implements Screen, InputProcessor {
 	
 		/*playerLight.rayHandler.setCombinedMatrix(cam);
 		playerLight.rayHandler.render();*/
-        b2dr.render(gameWORLD, cam.combined);
+       // b2dr.render(gameWORLD, cam.combined);
 		sb.begin();
 		
 		
