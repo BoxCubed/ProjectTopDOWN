@@ -33,7 +33,7 @@ public class GameState implements Screen, InputProcessor {
 	OrthographicCamera cam;
 	public Player player;
 	public static GameState instance;
-	List<LivingEntity> entities;
+	public List<LivingEntity> entities;
 	SpriteBatch sb;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
@@ -42,7 +42,7 @@ public class GameState implements Screen, InputProcessor {
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
-	
+	public SteeringAI playerAI;
 	MapCollision mp;
 	//SteeringAI zombieAI;
 	@Override
@@ -66,7 +66,7 @@ public class GameState implements Screen, InputProcessor {
 		gameWORLD = new World(new Vector2(0, 0), true);
 		player = new Player(gameWORLD);
 		player.setSize(20, 20);
-		SteeringAI playerAI=new SteeringAI(player, player.getWidth());
+		playerAI=new SteeringAI(player, player.getWidth());
 		for(int i=0;i<10;i++)
 		entities.add(new Zombie(gameWORLD,playerAI));
 		
