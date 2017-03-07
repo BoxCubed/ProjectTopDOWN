@@ -9,4 +9,4 @@ public class Spawner {
 	public Spawner(Zombie zombie, Vector2 pos){
 		
 	}
-}
+}// lol noob
