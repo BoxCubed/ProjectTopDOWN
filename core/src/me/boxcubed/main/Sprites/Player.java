@@ -66,7 +66,7 @@ public class Player extends Sprite implements LivingEntity {
 	}
 
 	public void render(SpriteBatch sb) {
-		sb.draw(this, playerBody.getPosition().x-getWidth()/2,playerBody.getPosition().y-getHeight()/2,10,10,30,30,1,1,rotation);
+		sb.draw(this, playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,rotation);
 	}
 
 	@Override

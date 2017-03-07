@@ -47,7 +47,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		// Creates the body and assigns vars to all important values
 		Body = world.createBody(Def);
 		fixture = Body.createFixture(fixtureDef);
-		Body.setTransform(100, 100, 0);
+		Body.setTransform(400, 100, 0);
 		Shape.dispose();
 	}
 
@@ -58,7 +58,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	}
 	@Override
 	public void render(SpriteBatch sb) {
-		sb.draw(this, Body.getPosition().x-5, Body.getPosition().y-5, 5, 5, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
+		sb.draw(this, Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
 				1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		
 	}
