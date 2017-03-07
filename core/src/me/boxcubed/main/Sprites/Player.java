@@ -1,7 +1,11 @@
 
 package me.boxcubed.main.Sprites;
 
+import java.lang.reflect.Method;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -65,11 +69,68 @@ public class Player extends Sprite implements LivingEntity {
         playerShape.dispose();
         
 	}
+	@Override
+	public void update(float delta) {	if(delta<1f)this.delta=1f; else this.delta=delta; 
+	handleInput();
+	}
 
 	public void render(SpriteBatch sb) {
 		sb.draw(this, playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,rotation);
 	}
+	public void handleInput() {
+		// Walk controls
+		Input input = Gdx.input;
+		// And that, is how you actually do this without making a mess. Now
+		// which autistic kid decided to name the methods? cbs fixing for now
+		// boolean shiftPressed=input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+		boolean keyPressed=false;
+		if (input.isKeyPressed(Input.Keys.UP)){
+			keyPressed=true;
+			processMovment("UP");
+			rotation=90;
+			}
+		if (input.isKeyPressed(Input.Keys.DOWN)){
+			keyPressed=true;
+			processMovment("DOWN");
+			rotation=-90;
+			}
+		if (input.isKeyPressed(Input.Keys.LEFT)){
+			keyPressed=true;
+			processMovment("LEFT");
+			rotation=-180;
+			if(input.isKeyPressed(Keys.DOWN))rotation+=45;
+			else if(input.isKeyPressed(Input.Keys.UP))rotation-=45;
+			}
+		if (input.isKeyPressed(Input.Keys.RIGHT)){
+			keyPressed=true;
+			processMovment("RIGHT");
+			rotation=0;
+			if(input.isKeyPressed(Keys.DOWN))rotation-=45;
+			else if(input.isKeyPressed(Input.Keys.UP))rotation+=45;
+		}
+		
+		if(!keyPressed)stop();
+	}
+	private boolean processMovment(String key) {
+		String method;
+		if (Gdx.input.isKeyJustPressed(Keys.SHIFT_LEFT))
+			method = "run";
+		else
+			method = "go";
 
+		method += key;
+		Method m;
+		try {
+			// this, my friends, is reflection. Learn it. Its good.
+			m = getClass().getMethod(method, null);
+			m.invoke(this, null);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+
+	}
 	@Override
 	public Vector2 getPos() {
 		return playerBody.getPosition();
@@ -143,9 +204,7 @@ public class Player extends Sprite implements LivingEntity {
 	}
 
 	
-	@Override
-	public void update(float delta) {	if(delta<1f)this.delta=1f; else this.delta=delta; }
-
+	
 	@Override
 	public Body getBody() {
 		// TODO Auto-generated method stub
