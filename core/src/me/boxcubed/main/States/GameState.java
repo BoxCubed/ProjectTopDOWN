@@ -72,7 +72,7 @@ public class GameState implements Screen, InputProcessor {
 		playerAI=new SteeringAI(player, player.getWidth());
 /*		for(int i=0;i<10;i++)
 		entities.add(new Zombie(gameWORLD,playerAI));*/
-		zombieSpawner=new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100);
+		zombieSpawner=new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100,4);
 		
 		
 		
