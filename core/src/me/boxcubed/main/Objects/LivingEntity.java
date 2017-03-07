@@ -1,6 +1,6 @@
 package me.boxcubed.main.Objects;
 
-public interface LivingEntity extends Movable,Entity {
+public interface LivingEntity extends Entity {
 
 }
   

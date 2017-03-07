@@ -1,14 +1,11 @@
 package me.boxcubed.main.States;
 
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -30,7 +27,7 @@ import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 
-public class GameState implements Screen, InputProcessor {
+public class GameState implements Screen{
 	public World gameWORLD;
 	OrthographicCamera cam,textCam;
 	public Player player;
@@ -79,7 +76,6 @@ public class GameState implements Screen, InputProcessor {
 		
 		
 		
-		Gdx.input.setInputProcessor(this);
 		playerLight = new PlayerLight(gameWORLD);
 		
 		mp=new MapCollision(tiledMap,gameWORLD);
@@ -105,6 +101,17 @@ public class GameState implements Screen, InputProcessor {
 		
 		//System.out.println(player.getPos());
 	}
+	private void handleInput() {
+		Input input=Gdx.input;
+		if(input.isKeyJustPressed(Input.Keys.R)){
+			GameState.instance.entities.forEach(entity->entity.dispose());
+			GameState.instance.entities.clear();
+		}
+		if(input.isKeyPressed(Input.Keys.ESCAPE)){
+			Gdx.app.exit();
+		}
+		
+	}
 	BitmapFont font=new BitmapFont();
 	DecimalFormat format=new DecimalFormat("#.##");
 	@Override
@@ -129,6 +136,7 @@ public class GameState implements Screen, InputProcessor {
 		sb.setProjectionMatrix(textCam.combined);
 		font.draw(sb, "Delta: "+format.format(delta*100), 100, textCam.viewportHeight/2);
 		font.draw(sb, "Entity.Amount: "+entities.size(), -100, textCam.viewportHeight/2);
+		font.draw(sb, "Player.Loc: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -400, textCam.viewportHeight/2);
 		
 		sb.end();
 		
@@ -140,44 +148,7 @@ public class GameState implements Screen, InputProcessor {
 		return cam.combined;
 	}
 	float rotation=0;
-	public void handleInput() {
-		// Walk controls
-		Input input = Gdx.input;
-		// And that, is how you actually do this without making a mess. Now
-		// which autistic kid decided to name the methods? cbs fixing for now
-		// boolean shiftPressed=input.isKeyPressed(Input.Keys.SHIFT_LEFT);
-		boolean keyPressed=false;
-		if (input.isKeyPressed(Input.Keys.UP)){
-			keyPressed=true;
-			processMovment("UP");
-			player.rotation=90;
-			}
-		if (input.isKeyPressed(Input.Keys.DOWN)){
-			keyPressed=true;
-			processMovment("DOWN");
-			player.rotation=-90;
-			}
-		if (input.isKeyPressed(Input.Keys.LEFT)){
-			keyPressed=true;
-			processMovment("LEFT");
-			player.rotation=-180;
-			if(input.isKeyPressed(Keys.DOWN))player.rotation+=45;
-			else if(input.isKeyPressed(Input.Keys.UP))player.rotation-=45;
-			}
-		if (input.isKeyPressed(Input.Keys.RIGHT)){
-			keyPressed=true;
-			processMovment("RIGHT");
-			player.rotation=0;
-			if(input.isKeyPressed(Keys.DOWN))player.rotation-=45;
-			else if(input.isKeyPressed(Input.Keys.UP))player.rotation+=45;
-		}
-		
-		if(input.isKeyPressed(Input.Keys.ESCAPE)){
-			Gdx.app.exit();
-		}
-		if(!keyPressed)player.stop();
-	}
-
+	
 	
 	private void initMap(){
 
@@ -204,8 +175,8 @@ public class GameState implements Screen, InputProcessor {
 
 	@Override
 	public void dispose() {
-		
-		//playerLight.rayHandler.dispose();
+		entities.forEach(entity->entity.dispose());
+		playerLight.rayHandler.dispose();
 		player = null;
 		entities.clear();
 		entities = null;
@@ -215,82 +186,9 @@ public class GameState implements Screen, InputProcessor {
 		sb.dispose();
 	}
 
-	private boolean processMovment(String key) {
-		String method;
-		if (Gdx.input.isKeyJustPressed(Keys.SHIFT_LEFT))
-			method = "run";
-		else
-			method = "go";
+	
 
-		method += key;
-		Method m;
-		try {
-			// this, my friends, is reflection. Learn it. Its good.
-			m = player.getClass().getMethod(method, null);
-			m.invoke(player, null);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-
-	}
-
-	// BEGIN INPUT
-	// DETECTION*****************************************************
-	// ***************************************************************
-	@Override
-	public boolean keyDown(int keycode) {
-		switch (keycode) {
-		case Keys.R:
-			entities.forEach(entity->entity.dispose());
-			entities.clear();
-			break;
-		default:
-			return false;
-
-		}
-		return true;
-	}
-
-	@Override
-	public boolean keyUp(int key) {
-		if ((key == Keys.UP || key == Keys.DOWN || key == Keys.LEFT || key == Keys.RIGHT)
-				&& (!Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.DOWN)
-						&& !Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)))
-			player.stop();
-		return true;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
-	}
+	
 
 }
 		//port = new FitViewport(Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2,cam);

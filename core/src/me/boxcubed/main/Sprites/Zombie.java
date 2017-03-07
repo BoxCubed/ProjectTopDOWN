@@ -86,48 +86,7 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	
 
-	@Override
-	public void goUP() {
-
-	}
-
 	
-	
-
-	@Override
-	public void runUP() {
-
-	}
-
-	@Override
-	public void runDOWN() {
-
-	}
-
-	@Override
-	public void runLEFT() {
-
-	}
-
-	@Override
-	public void runRIGHT() {
-
-	}
-
-	@Override
-	public void goDOWN() {
-
-	}
-
-	@Override
-	public void goLEFT() {
-
-	}
-
-	@Override
-	public void goRIGHT() {
-
-	}
 	
 
 	@Override
