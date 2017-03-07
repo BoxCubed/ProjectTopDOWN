@@ -21,8 +21,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.TopDown;
+import me.boxcubed.main.Objects.EntityType;
 import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Objects.MapCollision;
+import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
@@ -33,7 +35,7 @@ public class GameState implements Screen, InputProcessor {
 	OrthographicCamera cam;
 	public Player player;
 	public static GameState instance;
-	List<LivingEntity> entities;
+	public List<LivingEntity> entities;
 	SpriteBatch sb;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
@@ -42,8 +44,9 @@ public class GameState implements Screen, InputProcessor {
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
-	
+	public SteeringAI playerAI;
 	MapCollision mp;
+	Spawner zombieSpawner;
 	//SteeringAI zombieAI;
 	@Override
 	public void show() {
@@ -66,9 +69,10 @@ public class GameState implements Screen, InputProcessor {
 		gameWORLD = new World(new Vector2(0, 0), true);
 		player = new Player(gameWORLD);
 		player.setSize(20, 20);
-		SteeringAI playerAI=new SteeringAI(player, player.getWidth());
-		for(int i=0;i<10;i++)
-		entities.add(new Zombie(gameWORLD,playerAI));
+		playerAI=new SteeringAI(player, player.getWidth());
+/*		for(int i=0;i<10;i++)
+		entities.add(new Zombie(gameWORLD,playerAI));*/
+		zombieSpawner=new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100);
 		
 		
 		
@@ -91,9 +95,11 @@ public class GameState implements Screen, InputProcessor {
 		playerLight.rayHandler.update();
 		
 		//zombie.update(delta);
+		zombieSpawner.update(delta);
 		entities.forEach(entity->entity.update(delta));
 		player.update(delta);
 		cam.position.set(player.getPos(),0);
+		
 		
 		//System.out.println(player.getPos());
 	}
