@@ -54,8 +54,10 @@ public class GameState implements Screen{
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
 		tiledMap = new TmxMapLoader().load("assets/maps/map2.tmx");
-		textCam.update();
+	
 		textCam=new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		textCam.update();
+		
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         b2dr=new Box2DDebugRenderer();
         
