@@ -1,6 +1,5 @@
 package me.boxcubed.main.Objects;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 
 import me.boxcubed.main.Sprites.Zombie;
@@ -12,11 +11,11 @@ import me.boxcubed.main.States.GameState;
  *
  */
 public class Spawner {
-	LivingEntity entity;
+	EntityType entity;
 	Vector2 loc;
 	private float elapsedTime=0;
 	private float delay;
-	public Spawner(LivingEntity entity, Vector2 loc,float delay){
+	public Spawner(EntityType entity, Vector2 loc,float delay){
 		this.loc=loc;
 		this.entity=entity;
 		this.delay=delay;
@@ -28,7 +27,12 @@ public class Spawner {
 	public void update(float delta){
 		elapsedTime+=delta;
 		if(elapsedTime>=delay){
-			GameState.instance.entities.add(new Zombie(GameState.instance.getWorld(), GameState.instance.playerAI));
+			if(entity.equals(EntityType.ZOMBIE)){
+				Zombie spawn=new Zombie(GameState.instance.getWorld(),  GameState.instance.playerAI);
+				spawn.getBody().setTransform(loc, spawn.getBody().getAngle());
+			GameState.instance.entities.add(spawn);
+			}
+			elapsedTime=0;
 		}
 		
 	}
