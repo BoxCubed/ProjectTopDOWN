@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.Objects.LivingEntity;
+import me.boxcubed.main.States.GameState;
 
 /**
  * Created by Dank Memes on 23/02/2017.
@@ -149,5 +150,10 @@ public class Player extends Sprite implements LivingEntity {
 	public Body getBody() {
 		// TODO Auto-generated method stub
 		return playerBody;
+	}
+
+	@Override
+	public void dispose() {
+		GameState.instance.getWorld().destroyBody(playerBody);
 	}
 }

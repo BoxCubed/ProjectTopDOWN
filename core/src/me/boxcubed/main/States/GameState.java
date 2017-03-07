@@ -1,6 +1,7 @@
 package me.boxcubed.main.States;
 
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -20,7 +22,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
-import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.EntityType;
 import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Objects.MapCollision;
@@ -28,11 +29,10 @@ import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
-import me.boxcubed.main.Sprites.Zombie;
 
 public class GameState implements Screen, InputProcessor {
 	public World gameWORLD;
-	OrthographicCamera cam;
+	OrthographicCamera cam,textCam;
 	public Player player;
 	public static GameState instance;
 	public List<LivingEntity> entities;
@@ -56,6 +56,8 @@ public class GameState implements Screen, InputProcessor {
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
+		textCam=new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		textCam.update();
 		tiledMap = new TmxMapLoader().load("assets/maps/map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         b2dr=new Box2DDebugRenderer();
@@ -87,7 +89,7 @@ public class GameState implements Screen, InputProcessor {
 	public void update(float delta) {
 		handleInput();
 		//cam.position.x=player.getPos().x;
-		cam.update();
+		textCam.update();
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 		
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
@@ -103,7 +105,8 @@ public class GameState implements Screen, InputProcessor {
 		
 		//System.out.println(player.getPos());
 	}
-	
+	BitmapFont font=new BitmapFont();
+	DecimalFormat format=new DecimalFormat("#.##");
 	@Override
 	public void render(float delta) {
 		update(delta*100);
@@ -123,6 +126,9 @@ public class GameState implements Screen, InputProcessor {
 		
 		player.render(sb);
 		entities.forEach(entity->entity.render(sb));
+		sb.setProjectionMatrix(textCam.combined);
+		font.draw(sb, "Delta: "+format.format(delta*100), 100, textCam.viewportHeight/2);
+		font.draw(sb, "Entity.Amount: "+entities.size(), -100, textCam.viewportHeight/2);
 		
 		sb.end();
 		
@@ -236,8 +242,9 @@ public class GameState implements Screen, InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		switch (keycode) {
-		case Keys.ESCAPE:
-			TopDown.instance.setScreen(new GameState());
+		case Keys.R:
+			entities.forEach(entity->entity.dispose());
+			entities.clear();
 			break;
 		default:
 			return false;
