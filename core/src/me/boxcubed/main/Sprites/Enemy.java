@@ -53,4 +53,10 @@ public class Enemy implements Entity {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
 }

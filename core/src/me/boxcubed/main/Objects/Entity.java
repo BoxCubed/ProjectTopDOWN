@@ -16,5 +16,6 @@ public interface Entity {
        
         public void update(float delta);
         public void render(SpriteBatch sb);
+        public void dispose();
         }
   
