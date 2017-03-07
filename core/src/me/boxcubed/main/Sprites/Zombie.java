@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.Objects.LivingEntity;
@@ -54,26 +53,12 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public void update(float delta) {
-		/*position=Body.getPosition();
-		target=GameState.instance.player.getPos();
-		vel=target.cpy().sub(position).nor().scl(100);
-		
-		float x,y;
-		if(target.x>position.x){
-			x=position.x+delta*50;}
-		else x=position.x-delta*50;
-		if(target.y>position.y)
-			y=position.y+delta*50;
-		else y=position.y-delta*50;
-		Body.setLinearVelocity(0,0);
-		Body.setTransform(x, y,0);*/
-		//Body.applyLinearImpulse(target, vel, true);
 		ai.update(delta);
 				
 	}
 	@Override
 	public void render(SpriteBatch sb) {
-		sb.draw(this, Body.getPosition().x, Body.getPosition().y, 0, 0, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
+		sb.draw(this, Body.getPosition().x-5, Body.getPosition().y-5, 5, 5, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
 				1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		
 	}
