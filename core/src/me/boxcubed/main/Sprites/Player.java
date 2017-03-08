@@ -73,12 +73,17 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	}
 	float elapsedTime=0;
 	@Override
-	public void update(float delta) {	if(delta<1f)this.delta=1f; else this.delta=delta; 
-	handleInput();
-	elapsedTime+=delta;
+	public void update(float delta) {
+		if(isAlive()){
+			if(delta<1f)this.delta=1f; else this.delta=delta; 
+			handleInput();
+			elapsedTime+=delta;
+		}
+	
 	}
 
 	public void render(SpriteBatch sb) {
+		if(isAlive()){
 		if(playerBody.getLinearVelocity().isZero())
 		sb.draw(this, playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,rotation);
 		else{ 
@@ -87,6 +92,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 				playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2
 				,15,15,30,30,1,1,rotation);
 		}
+		}else{dispose();}
 	//finished bullets		
 	}
 	public void handleInput() {
@@ -249,4 +255,5 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		// TODO Auto-generated method stub
 		return 1000;
 	}
+
 }
