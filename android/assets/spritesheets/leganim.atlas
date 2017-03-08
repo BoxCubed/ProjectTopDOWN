@@ -1,0 +1,146 @@
+
+leganim.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+survivor-walk
+  rotate: false
+  xy: 2, 380
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 0
+survivor-walk
+  rotate: false
+  xy: 2, 254
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 1
+survivor-walk
+  rotate: false
+  xy: 2, 254
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 19
+survivor-walk
+  rotate: false
+  xy: 176, 380
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 2
+survivor-walk
+  rotate: false
+  xy: 176, 380
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 18
+survivor-walk
+  rotate: false
+  xy: 2, 128
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 3
+survivor-walk
+  rotate: false
+  xy: 2, 128
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 17
+survivor-walk
+  rotate: false
+  xy: 176, 254
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 4
+survivor-walk
+  rotate: false
+  xy: 176, 254
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 16
+survivor-walk
+  rotate: false
+  xy: 350, 380
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 5
+survivor-walk
+  rotate: false
+  xy: 350, 380
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 15
+survivor-walk
+  rotate: false
+  xy: 2, 2
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 6
+survivor-walk
+  rotate: false
+  xy: 2, 2
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 14
+survivor-walk
+  rotate: false
+  xy: 176, 128
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 7
+survivor-walk
+  rotate: false
+  xy: 176, 128
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 13
+survivor-walk
+  rotate: false
+  xy: 350, 254
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 8
+survivor-walk
+  rotate: false
+  xy: 524, 380
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 9
+survivor-walk
+  rotate: false
+  xy: 524, 380
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 11
+survivor-walk
+  rotate: false
+  xy: 176, 2
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 10
+survivor-walk
+  rotate: false
+  xy: 350, 128
+  size: 172, 124
+  orig: 172, 124
+  offset: 0, 0
+  index: 12

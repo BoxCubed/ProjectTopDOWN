@@ -38,13 +38,15 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	Vector2 position;// Player position
 	PlayerLight playerLight;
 	Body body;
-	private Animation<TextureRegion> animation;
-	private TextureAtlas atlas;
+	private Animation<TextureRegion> animation,animation2;
+	private TextureAtlas atlas,atlas2;
 	public float rotation=0;
 	public Player(World world) {
 		super(tex);
 		atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
+		atlas2=new TextureAtlas(Gdx.files.internal("assets/spritesheets/leganim.atlas"));
 		animation = new Animation<TextureRegion>(1f/30f*100,atlas.getRegions());
+		animation2 = new Animation<TextureRegion>(1f/30f*100,atlas2.getRegions());
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 
@@ -64,15 +66,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		
 		playerBody.setTransform(100, 100, 0);
 
-		/*BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(200, 200);
-        body = world.createBody(bodyDef);
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(20, 20);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;*/
         playerShape.dispose();
         
 	}
@@ -86,16 +79,18 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public void render(SpriteBatch sb) {
 		if(playerBody.getLinearVelocity().isZero())
 		sb.draw(this, playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,rotation);
-		else sb.draw(animation.getKeyFrame(elapsedTime, true), playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,rotation);
-		
+		else{ 
+		sb.draw(animation2.getKeyFrame(elapsedTime, true), playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,15,15,18,18,1,1,rotation);
+		sb.draw(animation.getKeyFrame(elapsedTime, true), 
+				playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2
+				,15,15,30,30,1,1,rotation);
+		}
 			
 	}
 	public void handleInput() {
 		// Walk controls
 		Input input = Gdx.input;
-		// And that, is how you actually do this without making a mess. Now
-		// which autistic kid decided to name the methods? cbs fixing for now
-		// boolean shiftPressed=input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+		// and tej was that autistic kid
 		boolean keyPressed=false;
 		if (input.isKeyPressed(Input.Keys.UP)){
 			keyPressed=true;
