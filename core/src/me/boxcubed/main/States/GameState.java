@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import me.boxcubed.main.Objects.CollisionDetection;
 import me.boxcubed.main.Objects.EntityType;
 import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Objects.MapCollision;
@@ -68,6 +69,7 @@ public class GameState implements Screen{
 
 		initMap();
 		gameWORLD = new World(new Vector2(0, 0), true);
+		gameWORLD.setContactListener(new CollisionDetection());
 		player = new Player(gameWORLD);
 		player.setSize(20, 20);
 		playerAI=new SteeringAI(player, player.getWidth());
@@ -128,7 +130,7 @@ public class GameState implements Screen{
 	
 		/*playerLight.rayHandler.setCombinedMatrix(cam);
 		playerLight.rayHandler.render();*/
-       // b2dr.render(gameWORLD, cam.combined);
+        b2dr.render(gameWORLD, cam.combined);
 		sb.begin();
 		
 		
