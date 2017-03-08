@@ -85,7 +85,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 				playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2
 				,15,15,30,30,1,1,rotation);
 		}
-			
+	//finished bullets		
 	}
 	public void handleInput() {
 		// Walk controls
