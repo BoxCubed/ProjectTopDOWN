@@ -38,6 +38,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	Vector2 position;// Player position
 	PlayerLight playerLight;
 	Body body;
+	double health=1000;
 	private Animation<TextureRegion> animation,animation2;
 	private TextureAtlas atlas,atlas2;
 	public float rotation=0;
@@ -229,5 +230,23 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public Fixture getFixture() {
 		// TODO Auto-generated method stub
 		return fixture;
+	}
+	
+	@Override
+	public double getHealth() {
+		// TODO Auto-generated method stub
+		return health;
+	}
+
+	@Override
+	public void setHealth(double health) {
+		// TODO Auto-generated method stub
+		 this.health=health;
+	}
+
+	@Override
+	public double getMaxHealth() {
+		// TODO Auto-generated method stub
+		return 1000;
 	}
 }

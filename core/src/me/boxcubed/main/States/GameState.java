@@ -116,7 +116,7 @@ public class GameState implements Screen{
 		}
 		
 	}
-	public int healthNum=100;
+	
 	BitmapFont font=new BitmapFont();
 	DecimalFormat format=new DecimalFormat("#.##");
 	@Override
@@ -132,7 +132,7 @@ public class GameState implements Screen{
 		/*playerLight.rayHandler.setCombinedMatrix(cam);
 		playerLight.rayHandler.render();*/
         String health="";
-        for(int i=0;i<healthNum;i++){
+        for(int i=0;i<player.getHealth()/player.getMaxHealth()*100f;i++){
         	health+="|";
         }
         b2dr.render(gameWORLD, cam.combined);

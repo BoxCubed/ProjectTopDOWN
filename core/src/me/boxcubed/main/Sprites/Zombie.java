@@ -24,11 +24,13 @@ public class Zombie extends Sprite implements LivingEntity {
 	CircleShape Shape;
 	public Body Body;
 	Fixture fixture;
+	double health;
 	Vector2 position,vel,target;
 	SteeringAI ai;
 	public Zombie(World world,SteeringAI playerAI) {
 		super( new Texture(Gdx.files.internal("assets/img/skeleton-idle_0.png")));
 		setSize(50, 50);
+		health=100;
 		ai=new SteeringAI(this, 50);
 		ai.setBehavior(new Arrive<>(ai, playerAI).setArrivalTolerance(2f).setDecelerationRadius(10));
 		Def = new BodyDef();
@@ -106,6 +108,24 @@ public class Zombie extends Sprite implements LivingEntity {
 	public Fixture getFixture() {
 		// TODO Auto-generated method stub
 		return fixture;
+	}
+
+	@Override
+	public double getHealth() {
+		// TODO Auto-generated method stub
+		return health;
+	}
+
+	@Override
+	public void setHealth(double health) {
+		// TODO Auto-generated method stub
+		this.health=health;
+	}
+
+	@Override
+	public double getMaxHealth() {
+		// TODO Auto-generated method stub
+		return 100;
 	}
 	
 

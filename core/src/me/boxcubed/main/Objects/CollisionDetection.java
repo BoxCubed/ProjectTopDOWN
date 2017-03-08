@@ -21,8 +21,8 @@ public class CollisionDetection implements ContactListener{
 			
 			if((entity.getFixture().getUserData().equals(contact.getFixtureA().getUserData())||entity.getFixture().getUserData().equals(contact.getFixtureB().getUserData()))
 					&&(contact.getFixtureA().getUserData().equals("PLAYER")||contact.getFixtureA().getUserData().equals("PLAYER"))){
-				System.out.println("Player touched zombie");
-				GameState.instance.healthNum-=1;}
+				//System.out.println("Player touched zombie");
+				GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);}
 		}
 	}
 
