@@ -47,6 +47,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		// Creates the body and assigns vars to all important values
 		Body = world.createBody(Def);
 		fixture = Body.createFixture(fixtureDef);
+		fixture.setUserData("ZOMBIE");
 		Body.setTransform(400, 100, 0);
 		Shape.dispose();
 		
@@ -99,6 +100,12 @@ public class Zombie extends Sprite implements LivingEntity {
 	public void dispose() {
 		GameState.instance.getWorld().destroyBody(Body);
 		
+	}
+
+	@Override
+	public Fixture getFixture() {
+		// TODO Auto-generated method stub
+		return fixture;
 	}
 	
 

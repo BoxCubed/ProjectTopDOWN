@@ -20,8 +20,8 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.Objects.CollisionDetection;
+import me.boxcubed.main.Objects.Entity;
 import me.boxcubed.main.Objects.EntityType;
-import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Objects.MapCollision;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
@@ -33,7 +33,7 @@ public class GameState implements Screen{
 	OrthographicCamera cam,textCam;
 	public Player player;
 	public static GameState instance;
-	public List<LivingEntity> entities;
+	public List<Entity> entities;
 	SpriteBatch sb;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
@@ -64,7 +64,7 @@ public class GameState implements Screen{
         
 		
 		sb = new SpriteBatch();
-		entities = new ArrayList<LivingEntity>();
+		entities = new ArrayList<Entity>();
 		
 
 		initMap();
@@ -116,6 +116,7 @@ public class GameState implements Screen{
 		}
 		
 	}
+	public int healthNum=100;
 	BitmapFont font=new BitmapFont();
 	DecimalFormat format=new DecimalFormat("#.##");
 	@Override
@@ -130,6 +131,10 @@ public class GameState implements Screen{
 	
 		/*playerLight.rayHandler.setCombinedMatrix(cam);
 		playerLight.rayHandler.render();*/
+        String health="";
+        for(int i=0;i<healthNum;i++){
+        	health+="|";
+        }
         b2dr.render(gameWORLD, cam.combined);
 		sb.begin();
 		
@@ -141,7 +146,7 @@ public class GameState implements Screen{
 		font.draw(sb, "Delta: "+format.format(delta*100), 100, textCam.viewportHeight/2);
 		font.draw(sb, "Entity.Amount: "+entities.size(), -100, textCam.viewportHeight/2);
 		font.draw(sb, "Player.Loc: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -400, textCam.viewportHeight/2);
-		
+		font.draw(sb, health, -400, textCam.viewportHeight/2-50);
 		sb.end();
 		
 	}

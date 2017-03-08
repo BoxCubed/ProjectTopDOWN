@@ -43,7 +43,7 @@ public class MapCollision {
 
             fdef.shape=shape;
 
-            body.createFixture(fdef);
+            body.createFixture(fdef).setUserData("WALL");;
             
         }
         shape.dispose();

@@ -5,10 +5,25 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import me.boxcubed.main.States.GameState;
+
 public class CollisionDetection implements ContactListener{
 
 	@Override
 	public void beginContact(Contact contact) {
+		for(Entity entity:GameState.instance.entities){
+			/*if((entity.getBody().equals(contact.getFixtureA().getBody())
+					||entity.getBody().equals(contact.getFixtureA().getBody()))
+					&&(GameState.instance.player.getBody().equals(contact.getFixtureA().getBody())
+							||GameState.instance.player.getBody().equals(contact.getFixtureA().getBody()))){
+				GameState.instance.healthNum-=1;
+			}*/
+			
+			if((entity.getFixture().getUserData().equals(contact.getFixtureA().getUserData())||entity.getFixture().getUserData().equals(contact.getFixtureB().getUserData()))
+					&&(contact.getFixtureA().getUserData().equals("PLAYER")||contact.getFixtureA().getUserData().equals("PLAYER"))){
+				System.out.println("Player touched zombie");
+				GameState.instance.healthNum-=1;}
+		}
 	}
 
 	@Override

@@ -62,6 +62,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		// Creates the body and assigns vars to all important values
 		playerBody = world.createBody(playerDef);
 		fixture = playerBody.createFixture(fixtureDefPlayer);
+		fixture.setUserData("PLAYER");
 		playerLight = new PlayerLight(world);
 		
 		playerBody.setTransform(100, 100, 0);
@@ -222,5 +223,11 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	@Override
 	public void dispose() {
 		GameState.instance.getWorld().destroyBody(playerBody);
+	}
+
+	@Override
+	public Fixture getFixture() {
+		// TODO Auto-generated method stub
+		return fixture;
 	}
 }
