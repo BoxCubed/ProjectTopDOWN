@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 /**
  * 
- * @author ryan9
+ * @author not this guy ->ryan9
  *
  */
 public class Bullet implements Entity{
