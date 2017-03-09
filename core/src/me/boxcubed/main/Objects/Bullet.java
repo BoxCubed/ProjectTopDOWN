@@ -3,6 +3,7 @@ package me.boxcubed.main.Objects;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -43,7 +44,7 @@ public class Bullet implements Entity{
 	}
 
 	@Override
-	public Animation animation() {
+	public Animation<TextureRegion> animation() {
 		// TODO Auto-generated method stub
 		return null;
 	}
