@@ -261,7 +261,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	@Override
 	public double getMaxHealth() {
 		// TODO Auto-generated method stub
-		return 100;
+		return 60;
 	}
 
 }
