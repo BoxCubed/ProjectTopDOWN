@@ -144,7 +144,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		try {
 			// this, my friends, is reflection. Learn it. Its good.
 			m = getClass().getMethod(method, (Class<?>[])null);
-			m.invoke( this,  (Class<?>)null);
+			m.invoke( this,  (Object[])null);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -261,7 +261,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	@Override
 	public double getMaxHealth() {
 		// TODO Auto-generated method stub
-		return 1;
+		return 100;
 	}
 
 }
