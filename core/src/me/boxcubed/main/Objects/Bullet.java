@@ -48,7 +48,7 @@ public class Bullet implements Entity{
 	}
 
 	@Override
-	public Animation animation() {
+	public Animation<TextureRegion> animation() {
 		// TODO Auto-generated method stub
 		return sexwithryansdad;
 	}
