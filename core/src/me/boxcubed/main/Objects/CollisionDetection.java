@@ -25,7 +25,6 @@ public class CollisionDetection implements ContactListener{
 				GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);}
 		}
 	}
-
 	@Override
 	public void endContact(Contact contact) {
 		// TODO Auto-generated method stub

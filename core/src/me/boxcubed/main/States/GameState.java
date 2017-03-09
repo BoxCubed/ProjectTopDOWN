@@ -98,8 +98,9 @@ public class GameState implements Screen{
 		
 		//zombie.update(delta);
 		zombieSpawner.update(delta);
-		entities.forEach(entity->entity.update(delta));
 		player.update(delta);
+		entities.forEach(entity->entity.update(delta));
+		
 		cam.position.set(player.getPos(),0);
 		
 		

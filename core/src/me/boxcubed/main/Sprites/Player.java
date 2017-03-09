@@ -38,7 +38,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	Vector2 position;// Player position
 	PlayerLight playerLight;
 	Body body;
-	double health=1000;
+	double health=getMaxHealth();
 	private Animation<TextureRegion> animation,animation2;
 	private TextureAtlas atlas,atlas2;
 	public float rotation=0;
@@ -79,9 +79,14 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			handleInput();
 			elapsedTime+=delta;
 		}
+		else{
+			getBody().setAngularVelocity(0);
+			getBody().setLinearVelocity(0, 0);
+		}
 	
 	}
-
+	Vector2 diePos;
+	boolean isDisposed= false;
 	public void render(SpriteBatch sb) {
 		if(isAlive()){
 		if(playerBody.getLinearVelocity().isZero())
@@ -92,7 +97,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 				playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2
 				,15,15,30,30,1,1,rotation);
 		}
-		}
+		}else if(!isDisposed){dispose();isDisposed=true;}else{getBody().setTransform(diePos, 0);System.out.println(diePos.toString());}
 	//finished bullets		
 	}
 	public void handleInput() {
@@ -229,7 +234,10 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
 	@Override
 	public void dispose() {
-		GameState.instance.getWorld().destroyBody(playerBody);
+		//GameState.instance.getWorld().destroyBody(playerBody);
+		//GameState.instance.player=new Player(GameState.instance.getWorld());
+		diePos=getBody().getPosition();
+	
 	}
 
 	@Override
@@ -253,7 +261,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	@Override
 	public double getMaxHealth() {
 		// TODO Auto-generated method stub
-		return 1000;
+		return 100;
 	}
 
 }
