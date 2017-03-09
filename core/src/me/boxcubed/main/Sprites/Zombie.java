@@ -57,8 +57,12 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public void update(float delta) {
-		//if(GameState.instance.player.isAlive())
+		if(GameState.instance.player.isAlive())
 		ai.update(delta);
+		else{
+			getBody().setLinearVelocity(0,0);
+			getBody().setAngularVelocity(0);
+		}
 		
 				
 	}
