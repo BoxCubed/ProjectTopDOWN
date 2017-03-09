@@ -20,12 +20,12 @@ public class Spawner {
 	 */
 	Random random=new Random();
 	EntityType entity;
-	Vector2 loc;
+	Vector2 pos;
 	private float elapsedTime=0;
 	private float delay;
 	private int limit;
-	public Spawner(EntityType entity, Vector2 loc,float delay,int limit){
-		this.loc=loc;
+	public Spawner(EntityType entity, Vector2 pos,float delay,int limit){
+		this.pos=pos;
 		this.entity=entity;
 		this.delay=delay;
 		this.limit=limit;
@@ -37,8 +37,8 @@ public class Spawner {
 	public void update(float delta){
 		elapsedTime+=delta;
 		if(elapsedTime>=delay){
-			loc.x=random.nextInt(680-22)+22;
-			loc.y=random.nextInt(345-40)+40;
+			pos.x=random.nextInt(680-22)+22;
+			pos.y=random.nextInt(345-40)+40;
 			LivingEntity spawnEntity=null;
 			if(GameState.instance.entities.size()<limit){          //ryan if you get rid of the limiter again I will murder you 
 				if(entity.equals(EntityType.ZOMBIE))
@@ -50,7 +50,7 @@ public class Spawner {
 					spawnEntity=new Player(GameState.instance.getWorld());
 				
 				if(spawnEntity!=null){
-				spawnEntity.getBody().setTransform(loc, spawnEntity.getBody().getAngle());
+				spawnEntity.getBody().setTransform(pos, spawnEntity.getBody().getAngle());
 				GameState.instance.entities.add(spawnEntity);
 				}
 				elapsedTime=0;
