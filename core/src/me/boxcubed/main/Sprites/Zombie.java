@@ -57,7 +57,9 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public void update(float delta) {
+		//if(GameState.instance.player.isAlive())
 		ai.update(delta);
+		
 				
 	}
 	@Override
@@ -101,6 +103,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	@Override
 	public void dispose() {
 		GameState.instance.getWorld().destroyBody(Body);
+		
 		
 	}
 
