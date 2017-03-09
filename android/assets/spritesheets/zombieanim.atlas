@@ -1,0 +1,69 @@
+
+zombieanim.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+skeleton-attack
+  rotate: false
+  xy: 2, 594
+  size: 318, 294
+  orig: 318, 294
+  offset: 0, 0
+  index: 0
+skeleton-attack
+  rotate: false
+  xy: 2, 594
+  size: 318, 294
+  orig: 318, 294
+  offset: 0, 0
+  index: 8
+skeleton-attack
+  rotate: false
+  xy: 2, 298
+  size: 318, 294
+  orig: 318, 294
+  offset: 0, 0
+  index: 1
+skeleton-attack
+  rotate: false
+  xy: 322, 594
+  size: 318, 294
+  orig: 318, 294
+  offset: 0, 0
+  index: 2
+skeleton-attack
+  rotate: false
+  xy: 2, 2
+  size: 318, 294
+  orig: 318, 294
+  offset: 0, 0
+  index: 3
+skeleton-attack
+  rotate: false
+  xy: 322, 298
+  size: 318, 294
+  orig: 318, 294
+  offset: 0, 0
+  index: 4
+skeleton-attack
+  rotate: false
+  xy: 642, 594
+  size: 318, 294
+  orig: 318, 294
+  offset: 0, 0
+  index: 5
+skeleton-attack
+  rotate: false
+  xy: 322, 2
+  size: 318, 294
+  orig: 318, 294
+  offset: 0, 0
+  index: 6
+skeleton-attack
+  rotate: false
+  xy: 642, 298
+  size: 318, 294
+  orig: 318, 294
+  offset: 0, 0
+  index: 7

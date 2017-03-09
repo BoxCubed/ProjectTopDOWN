@@ -34,7 +34,7 @@ public class GameState implements Screen{
 	public Player player;
 	public static GameState instance;
 	public List<Entity> entities;
-	SpriteBatch sb;
+	public SpriteBatch sb;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
 	//Zombie zombie;
