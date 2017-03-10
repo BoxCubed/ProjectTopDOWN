@@ -20,12 +20,10 @@
   <object id="9" x="656" y="0" width="16" height="16"/>
   <object id="10" x="672" y="0" width="16"/>
   <object id="11" x="730.5" y="0" width="5.5" height="192"/>
-  <object id="12" x="800" y="0" width="32" height="768"/>
-  <object id="13" x="800" y="768" width="32" height="32"/>
-  <object id="16" x="-32" y="784" width="832" height="16"/>
-  <object id="19" x="-32" y="32" width="32" height="752"/>
-  <object id="20" x="-32" y="0" width="864" height="16"/>
-  <object id="21" x="-32" y="16" width="32" height="16"/>
+  <object id="12" x="798" y="0" width="4" height="793"/>
+  <object id="16" x="0" y="796" width="800" height="4"/>
+  <object id="19" x="1" y="7" width="6" height="777"/>
+  <object id="20" x="2" y="0" width="801" height="4"/>
   <object id="22" x="118.5" y="0" width="3.5" height="192"/>
   <object id="23" x="128" y="320" width="160" height="59"/>
   <object id="24" x="288" y="371.5" width="48" height="7"/>
@@ -44,11 +42,11 @@
   <object id="40" x="480" y="717" width="144" height="51"/>
   <object id="41" x="518.333" y="704" width="57.6667" height="16"/>
   <object id="42" x="32" y="528" width="32" height="208"/>
-  <object id="43" x="16" y="576" width="110.5" height="176"/>
+  <object id="43" x="16" y="576" width="110.5" height="169"/>
   <object id="44" x="64" y="546.5" width="48" height="29.5"/>
   <object id="45" x="119.5" y="528" width="4.5" height="48"/>
   <object id="46" x="22.5" y="528" width="9.5" height="48"/>
-  <object id="47" x="0" y="720" width="48" height="64"/>
+  <object id="47" x="0" y="720" width="40" height="75"/>
   <object id="48" x="144" y="416" width="32" height="80"/>
   <object id="49" x="144" y="432" width="48" height="48"/>
   <object id="50" x="240" y="496" width="48" height="64"/>
