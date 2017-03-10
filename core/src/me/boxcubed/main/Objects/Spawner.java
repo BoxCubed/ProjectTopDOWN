@@ -35,12 +35,14 @@ public class Spawner {
 	 * @param delta in same units as delay given
 	 */
 	public void update(float delta){
-		elapsedTime+=delta;
+		
+		if(GameState.instance.entities.size()<limit){  
+			elapsedTime+=delta;
 		if(elapsedTime>=delay){
 			pos.x=random.nextInt(680-22)+22;
 			pos.y=random.nextInt(345-40)+40;
 			LivingEntity spawnEntity=null;
-			if(GameState.instance.entities.size()<limit){          //ryan if you get rid of the limiter again I will murder you 
+			        //ryan if you get rid of the limiter again I will murder you 
 				if(entity.equals(EntityType.ZOMBIE))
 					
 					spawnEntity=new Zombie(GameState.instance.getWorld(),  GameState.instance.playerAI);
@@ -54,9 +56,9 @@ public class Spawner {
 				GameState.instance.entities.add(spawnEntity);
 				}
 				elapsedTime=0;
-			}
+			
 		
-				}
+				}}
 		}
 	
 }// lol noob
