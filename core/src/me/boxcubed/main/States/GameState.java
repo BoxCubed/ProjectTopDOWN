@@ -7,6 +7,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -71,7 +72,7 @@ public class GameState implements Screen{
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
 		player = new Player(gameWORLD);
-		player.setSize(20, 20);
+		//player.setSize(20, 20);
 		playerAI=new SteeringAI(player, player.getWidth());
 /*		for(int i=0;i<10;i++)
 		entities.add(new Zombie(gameWORLD,playerAI));*/
@@ -114,6 +115,11 @@ public class GameState implements Screen{
 		}
 		if(input.isKeyPressed(Input.Keys.ESCAPE)){
 			Gdx.app.exit();
+		}
+		if(input.isKeyJustPressed(Keys.H)){
+			if(player.isAlive())
+				player.setHealth(player.getMaxHealth());
+			else player=new Player(gameWORLD);
 		}
 		
 	}

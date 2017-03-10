@@ -39,15 +39,15 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	PlayerLight playerLight;
 	Body body;
 	double health=getMaxHealth();
-	private Animation<TextureRegion> animation,animation2;
+	private Animation<TextureRegion> animation,animationLeg;
 	private TextureAtlas atlas,atlas2;
-	public float rotation=0;
+	public float rotation=0,legOffX=15,legOffY=15;
 	public Player(World world) {
 		super(tex);
 		atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
 		atlas2=new TextureAtlas(Gdx.files.internal("assets/spritesheets/leganim.atlas"));
 		animation = new Animation<TextureRegion>(1f/30f*100,atlas.getRegions());
-		animation2 = new Animation<TextureRegion>(1f/30f*100,atlas2.getRegions());
+		animationLeg = new Animation<TextureRegion>(1f/30f*100,atlas2.getRegions());
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 
@@ -69,6 +69,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		playerBody.setTransform(100, 100, 0);
 
         playerShape.dispose();
+        setSize(20, 20);
         
 	}
 	float elapsedTime=0;
@@ -92,7 +93,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		if(playerBody.getLinearVelocity().isZero())
 		sb.draw(this, playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,rotation);
 		else{ 
-		sb.draw(animation2.getKeyFrame(elapsedTime, true), playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,15,15,18,18,1,1,rotation);
+		sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,legOffX,legOffY,18,18,1,1,rotation);
 		sb.draw(animation.getKeyFrame(elapsedTime, true), 
 				playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2
 				,15,15,30,30,1,1,rotation);
@@ -107,16 +108,19 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		boolean keyPressed=false;
 		if (input.isKeyPressed(Input.Keys.UP)){
 			keyPressed=true;
+			legOffY=15;
 			processMovment("UP");
 			rotation=90;
 			}
 		if (input.isKeyPressed(Input.Keys.DOWN)){
 			keyPressed=true;
+			legOffY=15;
 			processMovment("DOWN");
 			rotation=-90;
 			}
 		if (input.isKeyPressed(Input.Keys.LEFT)){
 			keyPressed=true;
+			legOffY=14;
 			processMovment("LEFT");
 			rotation=-180;
 			if(input.isKeyPressed(Keys.DOWN))rotation+=45;
@@ -124,6 +128,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			}
 		if (input.isKeyPressed(Input.Keys.RIGHT)){
 			keyPressed=true;
+			legOffY=15;
 			processMovment("RIGHT");
 			rotation=0;
 			if(input.isKeyPressed(Keys.DOWN))rotation-=45;
