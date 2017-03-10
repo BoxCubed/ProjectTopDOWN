@@ -6,18 +6,16 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.particles.emitters.Emitter;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -108,7 +106,9 @@ public class GameState implements Screen{
 		player.update(delta);
 		entities.forEach(entity->entity.update(delta));
 		
-		cam.position.set(player.getPos(),0);
+		//cam.position.set(player.getPos(),0);
+		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth/2, 650 - cam.viewportHeight/2);
+		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight/2, 800 - cam.viewportHeight/2);
 		
 		
 		//System.out.println(player.getPos());

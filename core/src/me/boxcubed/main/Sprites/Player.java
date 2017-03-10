@@ -84,7 +84,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public void update(float delta) {
 		if(isAlive()){
 			if(delta<1f)this.delta=1f; else this.delta=delta; 
-			handleInput();
+			handleInput(); 
 			
 			if(shooting){
 			effect.setPosition(getX(), getY());
