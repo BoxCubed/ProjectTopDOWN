@@ -8,6 +8,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -38,10 +40,12 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	Vector2 position;// Player position
 	PlayerLight playerLight;
 	Body body;
+	ParticleEffect effect;
 	double health=getMaxHealth();
 	private Animation<TextureRegion> animation,animationLeg;
 	private TextureAtlas atlas,atlas2;
 	public float rotation=0,legOffX=15,legOffY=15;
+	boolean shooting=false;
 	public Player(World world) {
 		super(tex);
 		atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
@@ -70,6 +74,9 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
         playerShape.dispose();
         setSize(20, 20);
+        effect=new ParticleEffect();
+		effect.load(Gdx.files.internal("assets/maps/effects/flame.p"),Gdx.files.internal( "assets/maps/effects/"));
+		effect.start();
         
 	}
 	float elapsedTime=0;
@@ -78,7 +85,26 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		if(isAlive()){
 			if(delta<1f)this.delta=1f; else this.delta=delta; 
 			handleInput();
+			
+			if(shooting){
+			effect.setPosition(getX(), getY());
+			for(ParticleEmitter emit:effect.getEmitters()){
+				emit.getAngle().setHigh(rotation+20);
+				emit.getAngle().setLow(rotation-20);
+			}
+			effect.setDuration(100);
+			
+			if(effect.isComplete()){effect.reset();effect.start();}
+			}else effect.allowCompletion();
+			
+			effect.update(delta/100);
+			
 			elapsedTime+=delta;
+		
+		
+		
+		
+		
 		}
 		else{
 			getBody().setAngularVelocity(0);
@@ -90,6 +116,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	boolean isDisposed= false;
 	public void render(SpriteBatch sb) {
 		if(isAlive()){
+			
+			effect.draw(sb);
 		if(playerBody.getLinearVelocity().isZero())
 		sb.draw(this, playerBody.getPosition().x-getWidth()-2/2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,rotation);
 		else{ 
@@ -134,6 +162,9 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			if(input.isKeyPressed(Keys.DOWN))rotation-=45;
 			else if(input.isKeyPressed(Input.Keys.UP))rotation+=45;
 		}
+		if(input.isKeyPressed(Keys.SPACE))
+			shooting=true;
+		else shooting=false;
 		
 		if(!keyPressed)stop();
 	}

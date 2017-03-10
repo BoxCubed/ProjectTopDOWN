@@ -10,7 +10,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.particles.emitters.Emitter;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -47,11 +50,13 @@ public class GameState implements Screen{
 	MapCollision mp;
 	Spawner zombieSpawner;
 	BitmapFont font=new BitmapFont();
+	
 	//SteeringAI zombieAI;
 	@Override
 	public void show() {
 		instance=this;
 		System.out.println("Init");
+		
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
@@ -97,6 +102,7 @@ public class GameState implements Screen{
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		playerLight.rayHandler.update();
 		
+		
 		//zombie.update(delta);
 		zombieSpawner.update(delta);
 		player.update(delta);
@@ -121,6 +127,7 @@ public class GameState implements Screen{
 				player.setHealth(player.getMaxHealth());
 			else player=new Player(gameWORLD);
 		}
+		
 		
 	}
 	
@@ -160,7 +167,9 @@ public class GameState implements Screen{
 		
 		
 		player.render(sb);
+		
 		entities.forEach(entity->entity.render(sb));
+		
 		sb.setProjectionMatrix(textCam.combined);
 		font.draw(sb, "delta: "+format.format(delta*100), 100, textCam.viewportHeight/2);
 		font.draw(sb, "entity amt: "+entities.size(), -100, textCam.viewportHeight/2);
@@ -220,4 +229,3 @@ public class GameState implements Screen{
 	
 
 }
-		//port = new FitViewport(Gdx.graphics.getWidth()/2,  Gdx.graphics.getHeight()/2,cam);

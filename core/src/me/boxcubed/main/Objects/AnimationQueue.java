@@ -23,8 +23,8 @@ public class AnimationQueue {
 		
 		for(int i=0;i<queue.size();){
 			AnimationItem anim=queue.get(i);
-			if(anim.anim.isAnimationFinished(anim.watch.getElapsedTimeSecs())){queue.remove(anim);continue;}
-			sb.draw(anim.anim.getKeyFrame(anim.watch.getElapsedTimeSecs(), false), anim.vect.x, anim.vect.y);
+			if(anim.anim.isAnimationFinished(anim.watch.getElapsedTime())){queue.remove(anim);continue;}
+			sb.draw(anim.anim.getKeyFrame(anim.watch.getElapsedTime(), false), anim.vect.x, anim.vect.y);
 			i++;
 			
 			
