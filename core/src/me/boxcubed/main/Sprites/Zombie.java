@@ -6,20 +6,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
-import me.boxcubed.main.Objects.Entity;
 import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.States.GameState;
@@ -33,6 +29,11 @@ public class Zombie extends Sprite implements LivingEntity {
 	double health;
 	Vector2 position,vel,target;
 	SteeringAI ai;
+	boolean attack;
+	float attackTime;
+	private TextureAtlas zombieAtlas;
+	private Animation<TextureRegion> zombieAnim;
+	
 	public Zombie(World world,SteeringAI playerAI) {
 		super( new Texture(Gdx.files.internal("assets/img/skeleton-idle_0.png")));
 		setSize(50, 50);
@@ -58,24 +59,40 @@ public class Zombie extends Sprite implements LivingEntity {
 		fixture.setUserData("ZOMBIE");
 		Body.setTransform(400, 100, 0);
 		Shape.dispose();
+		zombieAtlas = new TextureAtlas(Gdx.files.internal("assets/spritesheets/zombieanim.atlas"));
+		zombieAnim = new Animation<TextureRegion>(1f/30f*100f,zombieAtlas.getRegions());
 		
 	}
 
 	@Override
 	public void update(float delta) {
-		if(GameState.instance.player.isAlive())
+		if(GameState.instance.player.isAlive()){
 		ai.update(delta);
+		if(attack)attackTime+=delta;
+		
+		
+		}
 		else{
 			getBody().setLinearVelocity(0,0);
 			getBody().setAngularVelocity(0);
 		}
 		
+		
 				
 	}
 	@Override
 	public void render(SpriteBatch sb) {
+		if(!attack)
 		sb.draw(this, Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
 				1, 1, (float)Math.toDegrees(Body.getAngle())+90);
+		else {
+			sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
+					1, 1, (float)Math.toDegrees(Body.getAngle())+90);
+			
+			if(zombieAnim.isAnimationFinished(attackTime))
+			attack=false;	
+		
+		}
 		
 	}
 	@Override
@@ -94,11 +111,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		return this;
 	}
 
-	@Override
-	public Animation<TextureRegion> animation() {
-		return null;
-	}
-
+	
 	
 
 	
@@ -106,7 +119,6 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public Body getBody() {
-		// TODO Auto-generated method stub
 		return Body;
 	}
 
@@ -119,26 +131,28 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public Fixture getFixture() {
-		// TODO Auto-generated method stub
 		return fixture;
 	}
 
 	@Override
 	public double getHealth() {
-		// TODO Auto-generated method stub
 		return health;
 	}
 
 	@Override
 	public void setHealth(double health) {
-		// TODO Auto-generated method stub
 		this.health=health;
 	}
 
 	@Override
 	public double getMaxHealth() {
-		// TODO Auto-generated method stub
 		return 100;
+	}
+
+	@Override
+	public void playAnimation(String key) {
+		if(key.toUpperCase().equals("ATTACK")){attack=true;attackTime=0;}
+		
 	}
 
 }

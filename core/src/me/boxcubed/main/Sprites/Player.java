@@ -167,10 +167,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		return this;
 	}
 
-	@Override
-	public Animation<TextureRegion> animation() {
-		return animation;
-	}
+	
 
 	
 	// Walking
@@ -262,6 +259,11 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public double getMaxHealth() {
 		// TODO Auto-generated method stub
 		return 100;
+	}
+	@Override
+	public void playAnimation(String key) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

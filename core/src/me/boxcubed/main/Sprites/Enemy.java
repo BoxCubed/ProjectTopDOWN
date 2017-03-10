@@ -31,10 +31,7 @@ public class Enemy implements Entity {
         return null;
     }
 
-    @Override
-    public Animation<TextureRegion> animation() {
-        return null;
-    }
+   
 
     
    
@@ -66,5 +63,11 @@ public class Enemy implements Entity {
 	public Fixture getFixture() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void playAnimation(String key) {
+		// TODO Auto-generated method stub
+		
 	}
 }

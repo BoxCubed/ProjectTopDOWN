@@ -1,4 +1,4 @@
-package me.boxcubed.main.Objects;
+package me.boxcubed.main.Sprites;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-import me.boxcubed.main.Sprites.Player;
+import me.boxcubed.main.Objects.Entity;
 import me.boxcubed.main.States.GameState;
 
 /**
@@ -47,12 +47,7 @@ public class Bullet implements Entity{
 		return null;
 	}
 
-	@Override
-	public Animation<TextureRegion> animation() {
-		// TODO Auto-generated method stub
-		return sexwithryansdad;
-	}
-
+	
 	@Override
 	public void update(float delta) {
 		// TODO Auto-generated method stub
@@ -75,6 +70,12 @@ public class Bullet implements Entity{
 	public Fixture getFixture() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void playAnimation(String key) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
