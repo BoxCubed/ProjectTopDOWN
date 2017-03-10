@@ -17,7 +17,7 @@ private TextureAtlas zombieAtlas;
 
 public CollisionDetection(){
 	zombieAtlas = new TextureAtlas(Gdx.files.internal("assets/spritesheets/zombieanim.atlas"));
-	zombieAnim = new Animation<TextureRegion>(1f/30f*100,zombieAtlas.getRegions());
+	zombieAnim = new Animation<TextureRegion>(1f/30f,zombieAtlas.getRegions());
 }
 	@Override
 	public void beginContact(Contact contact) {
@@ -25,7 +25,7 @@ public CollisionDetection(){
 			if((entity.getFixture().getUserData().equals(contact.getFixtureA().getUserData())||entity.getFixture().getUserData().equals(contact.getFixtureB().getUserData()))
 					&&(contact.getFixtureA().getUserData().equals("PLAYER")||contact.getFixtureA().getUserData().equals("PLAYER"))){
 				elapsedTime+=Gdx.graphics.getDeltaTime();
-				GameState.instance.sb.draw(zombieAnim.getKeyFrame(elapsedTime, true),0,0);
+			    AnimationQueue.addAnim(zombieAnim, entity.getBody().getPosition());
 				GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);}
 		
 		}

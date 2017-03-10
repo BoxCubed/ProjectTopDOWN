@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import me.boxcubed.main.Objects.AnimationQueue;
 import me.boxcubed.main.Objects.CollisionDetection;
 import me.boxcubed.main.Objects.Entity;
 import me.boxcubed.main.Objects.EntityType;
@@ -45,12 +46,13 @@ public class GameState implements Screen{
 	public SteeringAI playerAI;
 	MapCollision mp;
 	Spawner zombieSpawner;
+	AnimationQueue queue;
 	//SteeringAI zombieAI;
 	@Override
 	public void show() {
 		instance=this;
 		System.out.println("Init");
-		
+		queue=new AnimationQueue();
 		
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
@@ -148,6 +150,7 @@ public class GameState implements Screen{
 		font.draw(sb, "entity amt: "+entities.size(), -100, textCam.viewportHeight/2);
 		font.draw(sb, "player pos: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -400, textCam.viewportHeight/2);
 		font.draw(sb, health, -400, textCam.viewportHeight/2-50);
+		queue.render(sb);
 		sb.end();
 		
 	}

@@ -13,9 +13,11 @@ import com.badlogic.gdx.math.Vector2;
  *
  */
 public class AnimationQueue {
-	public List<AnimationItem> queue;
+	public static List<AnimationItem> queue;
+	private static AnimationQueue instance;
 	public AnimationQueue(){
 		queue=new ArrayList<>();
+		instance=this;
 	}
 	public void render(SpriteBatch sb){
 		
@@ -28,10 +30,10 @@ public class AnimationQueue {
 			
 		}
 	}
-	public void addAnim(Animation<TextureRegion> anim,Vector2 vect){
-		queue.add(new AnimationItem(anim,vect));
+	public static void addAnim(Animation<TextureRegion> anim,Vector2 vect){
+		queue.add(instance.new AnimationItem(anim,vect));
 	}
-private class AnimationItem{
+public class AnimationItem{
 	public StopWatch watch;
 	public Animation<TextureRegion> anim;
 	public Vector2 vect;
