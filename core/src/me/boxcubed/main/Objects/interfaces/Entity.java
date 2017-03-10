@@ -1,4 +1,4 @@
-package me.boxcubed.main.Objects;
+package me.boxcubed.main.Objects.interfaces;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

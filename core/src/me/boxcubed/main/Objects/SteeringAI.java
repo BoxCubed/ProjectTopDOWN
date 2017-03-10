@@ -7,6 +7,8 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import me.boxcubed.main.Objects.interfaces.LivingEntity;
+
 public class SteeringAI implements Steerable<Vector2> {
 	LivingEntity entity;
 	boolean tagged;

@@ -7,8 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
- * Created by Tej Sidhu on 23/02/2017.
+ * @deprecated Not used, could be tho to make GameState neater
+ * 
+ * 
  */
+
 public class Camera {
     public static OrthographicCamera cam;
     Vector2 camCoords;

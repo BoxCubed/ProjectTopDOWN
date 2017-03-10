@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-import me.boxcubed.main.Objects.Entity;
+import me.boxcubed.main.Objects.interfaces.Entity;
 
 /**
  * Created by Tej Sidhu on 27/02/2017.

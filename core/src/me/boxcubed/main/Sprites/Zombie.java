@@ -16,8 +16,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-import me.boxcubed.main.Objects.LivingEntity;
 import me.boxcubed.main.Objects.SteeringAI;
+import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.States.GameState;
 
 public class Zombie extends Sprite implements LivingEntity {

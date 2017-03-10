@@ -1,4 +1,4 @@
-package me.boxcubed.main.Objects;
+package me.boxcubed.main.Objects.collision;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;

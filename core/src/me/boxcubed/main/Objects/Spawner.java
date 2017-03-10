@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
+import me.boxcubed.main.Objects.interfaces.EntityType;
+import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.Zombie;
 import me.boxcubed.main.States.GameState;

@@ -20,12 +20,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
-import me.boxcubed.main.Objects.CollisionDetection;
-import me.boxcubed.main.Objects.Entity;
-import me.boxcubed.main.Objects.EntityType;
-import me.boxcubed.main.Objects.MapCollision;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
+import me.boxcubed.main.Objects.collision.CollisionDetection;
+import me.boxcubed.main.Objects.collision.MapCollision;
+import me.boxcubed.main.Objects.interfaces.Entity;
+import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 

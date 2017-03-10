@@ -1,4 +1,4 @@
-package me.boxcubed.main.Objects;
+package me.boxcubed.main.Objects.interfaces;
 
 public interface LivingEntity extends Entity {
 	public double getHealth();
