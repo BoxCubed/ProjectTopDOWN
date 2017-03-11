@@ -24,7 +24,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
-import me.boxcubed.main.Objects.collision.MapCollision;
+import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Player;
@@ -45,7 +45,7 @@ public class GameState implements Screen{
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
 	public SteeringAI playerAI;
-	MapCollision mp;
+	//MapCollision mp;
 	Spawner zombieSpawner;
 	BitmapFont font=new BitmapFont();
 	
@@ -86,7 +86,8 @@ public class GameState implements Screen{
 		
 		playerLight = new PlayerLight(gameWORLD);
 		
-		mp=new MapCollision(tiledMap,gameWORLD);
+		//mp=new MapCollision(tiledMap,gameWORLD);
+		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
 		
 	}
 
@@ -107,6 +108,7 @@ public class GameState implements Screen{
 		entities.forEach(entity->entity.update(delta));
 		
 		//cam.position.set(player.getPos(),0);
+		//TODO don't divide by 2 every time
 		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth/2, 650 - cam.viewportHeight/2);
 		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight/2, 800 - cam.viewportHeight/2);
 		
