@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
+import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.Sprites.Zombie;
 import me.boxcubed.main.States.GameState;
 
@@ -37,7 +38,7 @@ public class Spawner {
 	 * @param delta in same units as delay given
 	 */
 	public void update(float delta){
-		
+		if(PlayerLight.amlight>0.3f)return;
 		if(GameState.instance.entities.size()<limit){  
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){

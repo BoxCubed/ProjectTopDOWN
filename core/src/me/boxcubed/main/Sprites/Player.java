@@ -68,7 +68,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		playerBody = world.createBody(playerDef);
 		fixture = playerBody.createFixture(fixtureDefPlayer);
 		fixture.setUserData("PLAYER");
-		playerLight = new PlayerLight(world);
+		playerLight = new PlayerLight(world,playerBody);
 		
 		playerBody.setTransform(100, 100, 0);
 

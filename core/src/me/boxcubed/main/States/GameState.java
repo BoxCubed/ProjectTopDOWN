@@ -84,7 +84,7 @@ public class GameState implements Screen{
 		
 		
 		
-		playerLight = new PlayerLight(gameWORLD);
+		playerLight = new PlayerLight(gameWORLD,player.getBody());
 		
 		//mp=new MapCollision(tiledMap,gameWORLD);
 		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
@@ -98,7 +98,7 @@ public class GameState implements Screen{
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 		
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
-		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
+		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,player.rotation,delta);
 		playerLight.rayHandler.update();
 		
 		
@@ -146,8 +146,8 @@ public class GameState implements Screen{
         tiledMapRenderer.setView(cam);
         tiledMapRenderer.render();
 	
-		/*playerLight.rayHandler.setCombinedMatrix(cam);
-		playerLight.rayHandler.render();*/
+		playerLight.rayHandler.setCombinedMatrix(cam);
+		playerLight.rayHandler.render();
         String health="";
         int i;
         //cool text bars:
@@ -163,7 +163,7 @@ public class GameState implements Screen{
         }
         for(;i<100;i++)
         	health+="-";
-        b2dr.render(gameWORLD, cam.combined);
+       // b2dr.render(gameWORLD, cam.combined);
 		sb.begin();
 		
 		
