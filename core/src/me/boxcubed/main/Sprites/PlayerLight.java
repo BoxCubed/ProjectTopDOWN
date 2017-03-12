@@ -45,8 +45,8 @@ public class PlayerLight{
         
         if(amlight<=0||amlight>=1)
         	night=!night;
-        if(night) amlight+=0.001*delta;
-        else amlight-=0.001*delta;
+        if(night) amlight+=0.0005*delta;
+        else amlight-=0.0005*delta;
         rayHandler.setAmbientLight(amlight);
         rayHandler.update();
 
