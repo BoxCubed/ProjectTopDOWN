@@ -231,7 +231,7 @@ public class GameState implements Screen{
 	@Override
 	public void dispose() {
 		entities.forEach(entity->entity.dispose());
-		playerLight.rayHandler.dispose();
+		playerLight.dispose();
 		player = null;
 		entities.clear();
 		entities = null;
