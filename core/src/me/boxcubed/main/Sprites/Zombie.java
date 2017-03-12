@@ -60,7 +60,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		Body.setTransform(400, 100, 0);
 		Shape.dispose();
 		zombieAtlas = new TextureAtlas(Gdx.files.internal("assets/spritesheets/zombieanim.atlas"));
-		zombieAnim = new Animation<TextureRegion>(1f/30f*100f,zombieAtlas.getRegions());
+		zombieAnim = new Animation<TextureRegion>(1f/30f*150f,zombieAtlas.getRegions());
 		
 	}
 
@@ -86,7 +86,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		sb.draw(this, Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
 				1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		else {
-			sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
+			sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, 25, 25, 
 					1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 			
 			if(zombieAnim.isAnimationFinished(attackTime))
