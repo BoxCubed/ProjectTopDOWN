@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
@@ -34,6 +35,9 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	private TextureAtlas atlas,atlas2;
 	public float rotation=0,legOffX=15,legOffY=15;
 	boolean shooting=false;
+	
+	float mouseX, mouseY;
+	
 	public Player(World world) {
 		super(tex);
 		atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
@@ -57,7 +61,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		fixture.setUserData("PLAYER");
 		playerLight = new PlayerLight(world,playerBody);
 		
-		playerBody.setTransform(100, 100, 0);
+		playerBody.setTransform(340, 300, 0);
 
         playerShape.dispose();
         setSize(20, 20);
@@ -91,9 +95,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			elapsedTime+=delta;
 		
 		
-		
-		
-		
 		}
 		else{
 			getBody().setAngularVelocity(0);
@@ -108,12 +109,12 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			
 			effect.draw(sb);
 		if(playerBody.getLinearVelocity().isZero())
-		sb.draw(this, playerBody.getPosition().x-getWidth()/2-2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,rotation);
+		sb.draw(this, playerBody.getPosition().x-getWidth()/2-2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,getRotation());
 		else{ 
-		sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x-getWidth()/2-1,playerBody.getPosition().y-getHeight()/2+5,legOffX,legOffY,18,18,1,1,rotation);
+		sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x-getWidth()/2-1,playerBody.getPosition().y-getHeight()/2+5,legOffX,legOffY,18,18,1,1,getRotation());
 		sb.draw(animation.getKeyFrame(elapsedTime, true), 
 				playerBody.getPosition().x-getWidth()/2-5,playerBody.getPosition().y-getHeight()/2
-				,15,15,30,30,1,1,rotation);
+				,15,15,30,30,1,1,getRotation());
 		}
 		}else if(!isDisposed){dispose();isDisposed=true;}
 	//finished bullets		
@@ -124,34 +125,28 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		// Walk controls
 		Input input = Gdx.input;
 		// and tej was that autistic kid
+		
 		boolean keyPressed=false;
+		
 		if (input.isKeyPressed(Input.Keys.UP)){
 			keyPressed=true;
 		
 			processMovment("UP");
-			rotation=90;
 			}
 		if (input.isKeyPressed(Input.Keys.DOWN)){
 			keyPressed=true;
 		
 			processMovment("DOWN");
-			rotation=-90;
 			}
 		if (input.isKeyPressed(Input.Keys.LEFT)){
 			keyPressed=true;
 		
 			processMovment("LEFT");
-			rotation=-180;
-			if(input.isKeyPressed(Keys.DOWN))rotation+=45;
-			else if(input.isKeyPressed(Input.Keys.UP))rotation-=45;
 			}
 		if (input.isKeyPressed(Input.Keys.RIGHT)){
 			keyPressed=true;
 		
 			processMovment("RIGHT");
-			rotation=0;
-			if(input.isKeyPressed(Keys.DOWN))rotation-=45;
-			else if(input.isKeyPressed(Input.Keys.UP))rotation+=45;
 		}
 		if(input.isKeyPressed(Keys.SPACE))
 			shooting=true;
@@ -177,6 +172,10 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		}
 		return false;
 
+	}
+	
+	public void setRot(float rotation){
+		this.rotation=rotation;
 	}
 	@Override
 	public Vector2 getPos() {

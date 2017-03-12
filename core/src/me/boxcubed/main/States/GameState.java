@@ -3,6 +3,7 @@ package me.boxcubed.main.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -30,9 +31,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameState implements Screen{
+public class GameState implements Screen,InputProcessor{
 	public World gameWORLD;
-	OrthographicCamera cam,textCam;
+	public OrthographicCamera cam,textCam;
 	public Player player;
 	public static GameState instance;
 	public List<Entity> entities;
@@ -52,11 +53,17 @@ public class GameState implements Screen{
 	ArrayList<Bullet> bullets;
 	Bullet bullet;
 	
+	 Vector2 maths;
+	
 	boolean noZombie=false,noTime=false;
 	@Override
 	public void show() {
 		instance=this;
 		System.out.println("Init");
+		
+	     maths = new Vector2(0, 0);
+	     Gdx.input.setInputProcessor(this);
+		
 		bullets = new ArrayList<Bullet>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
@@ -83,10 +90,6 @@ public class GameState implements Screen{
 		entities.add(new Zombie(gameWORLD,playerAI));*/
 		
 		zombieSpawner=new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100,20);
-		
-		
-		
-		
 		
 		playerLight = new PlayerLight(gameWORLD,player.getBody());
 		
@@ -249,6 +252,62 @@ public class GameState implements Screen{
 		gameWORLD.dispose();
 		font.dispose();
 		sb.dispose();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	  float nx, ny, angle;
+	  private void setRotation(int x, int y){
+	      nx = player.getX() + player.getOriginX();
+	      ny = player.getY() + player.getOriginY();
+	      maths.x = (x - nx);
+	      maths.y = (y - ny);
+	      player.setRotation(maths.angle());
+	   }
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		 setRotation(screenX, (Gdx.graphics.getHeight()-screenY));
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	
