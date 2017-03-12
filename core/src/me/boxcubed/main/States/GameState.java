@@ -1,9 +1,5 @@
 package me.boxcubed.main.States;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -20,7 +16,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
@@ -30,6 +25,10 @@ import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameState implements Screen{
 	public World gameWORLD;
@@ -150,7 +149,7 @@ public class GameState implements Screen{
 			else player=new Player(gameWORLD);
 		}
 		if (input.isKeyJustPressed(Keys.S)) {
-			bullets.add(new Bullet());
+			bullets.add(new Bullet(gameWORLD));
 		}
 		
 	}
@@ -189,15 +188,13 @@ public class GameState implements Screen{
         }
         for(;i<100;i++)
         	health+="-";
-       // b2dr.render(gameWORLD, cam.combined);
+       b2dr.render(gameWORLD, cam.combined);
 		sb.begin();
-		
-		
-		
+
 		player.render(sb);
 		
 		entities.forEach(entity->entity.render(sb));
-		
+
 		sb.setProjectionMatrix(textCam.combined);
 		font.draw(sb, "Delta: "+format.format(delta*100), -230, textCam.viewportHeight/2);
 		font.draw(sb, "Entity Number: "+entities.size(), -380, textCam.viewportHeight/2);
@@ -207,8 +204,6 @@ public class GameState implements Screen{
 		font.draw(sb, "Player Position: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -600, textCam.viewportHeight/2);
 		font.draw(sb, health, -200, textCam.viewportHeight/2-50);
 		sb.end();
-
-		
 	}
 	public World getWorld(){
 		return gameWORLD;

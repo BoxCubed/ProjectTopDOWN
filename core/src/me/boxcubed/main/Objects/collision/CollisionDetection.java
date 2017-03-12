@@ -18,8 +18,6 @@ public CollisionDetection(){
 		for(Entity entity:GameState.instance.entities){
 			if((entity.getFixture().equals(contact.getFixtureA())||entity.getFixture().equals(contact.getFixtureB()))
 					&&(contact.getFixtureA().getUserData().equals("PLAYER")||contact.getFixtureA().getUserData().equals("PLAYER"))){
-				
-				
 					  entity.playAnimation("attack");
 						GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);
 					
