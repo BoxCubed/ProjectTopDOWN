@@ -1,5 +1,9 @@
 package me.boxcubed.main.States;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -16,6 +20,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
@@ -25,10 +30,6 @@ import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameState implements Screen{
 	public World gameWORLD;
@@ -104,7 +105,11 @@ public class GameState implements Screen{
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,player.rotation,delta);
 		playerLight.rayHandler.update();
 		
+		for(int i=0;i<gameWORLD.getContactList().size;i++){
+			/*Contact contact = gameWORLD.getContactList().get(i);               just in case*/
+		}
 		
+				
 		//zombie.update(delta);
 		zombieSpawner.update(delta);
 		player.update(delta);
@@ -165,14 +170,7 @@ public class GameState implements Screen{
 		playerLight.rayHandler.render();
         String health="";
         int i;
-        //cool text bars:
-        /*████████░░
-         * ⬤⬤⬤⬤⬤⬤⬤⬤○○
-         * ⬛⬛⬛⬛⬛⬛⬛⬛⬜⬜
-         * ▰▰▰▰▰▰▰▰▱▱
-         * ████████▁▁
-         * ⣿⣿⣿⣿⣿⣿⣿⣿⣀⣀
-         */
+       
         for(i=0;i<player.getHealth()/player.getMaxHealth()*100f;i++){
         	health+="|";
         }

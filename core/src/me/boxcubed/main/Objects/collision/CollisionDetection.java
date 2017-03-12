@@ -10,24 +10,24 @@ import me.boxcubed.main.States.GameState;
 
 public class CollisionDetection implements ContactListener{
 
-
 public CollisionDetection(){
-	
+
 }
 	@Override
 	public void beginContact(Contact contact) {
 		for(Entity entity:GameState.instance.entities){
 			if((entity.getFixture().equals(contact.getFixtureA())||entity.getFixture().equals(contact.getFixtureB()))
 					&&(contact.getFixtureA().getUserData().equals("PLAYER")||contact.getFixtureA().getUserData().equals("PLAYER"))){
-			    entity.playAnimation("attack");
-				GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);
-				}
-		
+				
+				
+					  entity.playAnimation("attack");
+						GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);
+					
+		}
 		}
 	}
 	@Override
 	public void endContact(Contact contact) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -42,6 +42,4 @@ public CollisionDetection(){
 		// TODO Auto-generated method stub
 		
 	}
-
-	
 }
