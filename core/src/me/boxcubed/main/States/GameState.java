@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import me.boxcubed.main.Objects.Spawner;
@@ -289,18 +290,21 @@ public class GameState implements Screen,InputProcessor{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	Vector3 getMousePosInGameWorld() {
+		 return cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+		}
 	  float nx, ny, angle;
 	  private void setRotation(int x, int y){
 	      nx = player.getX() + player.getOriginX();
 	      ny = player.getY() + player.getOriginY();
-	      maths.x = (x - nx);
-	      maths.y = (y - ny);
+	      maths.x = (getMousePosInGameWorld().x - nx);
+	      maths.y = (getMousePosInGameWorld().y - ny);
 	      player.setRotation(maths.angle());
 	   }
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		 setRotation(screenX, (Gdx.graphics.getHeight()-screenY));
+		 setRotation(screenX, (int)(cam.viewportHeight-screenY));
 		return false;
 	}
 
