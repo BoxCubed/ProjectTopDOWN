@@ -67,4 +67,10 @@ public class Bullet implements Entity{
 
 	}
 
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

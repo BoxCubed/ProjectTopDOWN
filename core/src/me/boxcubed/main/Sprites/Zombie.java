@@ -155,4 +155,10 @@ public class Zombie extends Sprite implements LivingEntity {
 		
 	}
 
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return "Zombie";
+	}
+
 }

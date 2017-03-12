@@ -68,4 +68,10 @@ public class Enemy implements Entity {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

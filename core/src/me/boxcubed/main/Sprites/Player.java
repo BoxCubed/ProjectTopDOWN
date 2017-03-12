@@ -284,12 +284,17 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	@Override
 	public double getMaxHealth() {
 		// TODO Auto-generated method stub
-		return 100;
+		return 50;
 	}
 	@Override
 	public void playAnimation(String key) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

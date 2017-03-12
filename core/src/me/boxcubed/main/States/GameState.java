@@ -52,6 +52,8 @@ public class GameState implements Screen{
 	//Bullet
 	ArrayList<Bullet> bullets;
 	Bullet bullet;
+	
+	boolean noZombie=false,noTime=false;
 	@Override
 	public void show() {
 		instance=this;
@@ -80,7 +82,9 @@ public class GameState implements Screen{
 		playerAI=new SteeringAI(player, player.getWidth());
 /*		for(int i=0;i<10;i++)
 		entities.add(new Zombie(gameWORLD,playerAI));*/
+		
 		zombieSpawner=new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100,20);
+		
 		
 		
 		
@@ -108,10 +112,9 @@ public class GameState implements Screen{
 		for(int i=0;i<gameWORLD.getContactList().size;i++){
 			/*Contact contact = gameWORLD.getContactList().get(i);               just in case*/
 		}
-		
 				
-		//zombie.update(delta);
-		zombieSpawner.update(delta);
+		if(!noZombie){zombieSpawner.update(delta);}
+		
 		player.update(delta);
 		entities.forEach(entity->entity.update(delta));
 		
@@ -122,12 +125,22 @@ public class GameState implements Screen{
 		//System.out.println(player.getPos());
 
 	}
+	int counter=0;
 	private void handleInput() {
+
 		Input input=Gdx.input;
-		if(input.isKeyJustPressed(Input.Keys.R)){
+		if(input.isKeyJustPressed(Input.Keys.Z)){
 			GameState.instance.entities.forEach(entity->entity.dispose());
 			GameState.instance.entities.clear();
+			noZombie=!noZombie;
 		}
+		if(input.isKeyJustPressed(Input.Keys.T)){
+			noTime=!noTime;
+			if(noTime){
+				PlayerLight.amlight=13;
+			}else{PlayerLight.amlight=1f;}
+		}
+		
 		if(input.isKeyPressed(Input.Keys.ESCAPE)){
 			Gdx.app.exit();
 		}
@@ -186,11 +199,13 @@ public class GameState implements Screen{
 		entities.forEach(entity->entity.render(sb));
 		
 		sb.setProjectionMatrix(textCam.combined);
-		font.draw(sb, "Delta: "+format.format(delta*100), 100, textCam.viewportHeight/2);
-		font.draw(sb, "Entity Number: "+entities.size(), -100, textCam.viewportHeight/2);
-		font.draw(sb, "Time: "+(PlayerLight.amlight*100)/8, 200, textCam.viewportHeight/2);
-		font.draw(sb, "Player Position: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -400, textCam.viewportHeight/2);
-		font.draw(sb, health, -400, textCam.viewportHeight/2-50);
+		font.draw(sb, "Delta: "+format.format(delta*100), -230, textCam.viewportHeight/2);
+		font.draw(sb, "Entity Number: "+entities.size(), -380, textCam.viewportHeight/2);
+		font.draw(sb, "Time: "+(PlayerLight.amlight*100)/8, -120, textCam.viewportHeight/2);
+		font.draw(sb, "noZombieMode: "+noZombie, 0, textCam.viewportHeight/2);
+		font.draw(sb, "noTimeMode: "+noTime, 150, textCam.viewportHeight/2);
+		font.draw(sb, "Player Position: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -600, textCam.viewportHeight/2);
+		font.draw(sb, health, -200, textCam.viewportHeight/2-50);
 		sb.end();
 
 		
