@@ -6,35 +6,29 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
-
 import me.boxcubed.main.Objects.interfaces.Entity;
-import me.boxcubed.main.States.GameState;
 
 /**
  * 
- * @author not this guy ->ryan9
+ * @author
  *
  */
 public class Bullet implements Entity{
-	Body tej;
-	BodyDef definitionofgay;
-	Vector2 tejspositioninlife;
 	Animation<TextureRegion> sexwithryansdad;
-	public Bullet(Vector2 pos){
-		tej=GameState.instance.gameWORLD.createBody(definitionofgay);
-		tejspositioninlife=new Vector2(0,0);
+	public Boolean remove;
+	public Bullet(){
+
 	}
 
 	@Override
 	public Vector2 getPos() {
-		return tejspositioninlife;
+		return null;
 	}
 
 	@Override
 	public Body getBody() {
-		return tej;
+		return null;
 	}
 
 	@Override
@@ -50,32 +44,27 @@ public class Bullet implements Entity{
 	
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
-		
+        remove = true;
 	}
 
 	@Override
 	public void render(SpriteBatch sb) {
-		// TODO Auto-generated method stub
-		
-	}
+        System.out.println("Hello");
+    }
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public Fixture getFixture() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void playAnimation(String key) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

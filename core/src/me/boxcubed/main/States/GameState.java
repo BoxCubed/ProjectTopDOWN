@@ -1,9 +1,5 @@
 package me.boxcubed.main.States;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -20,15 +16,19 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
+import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameState implements Screen{
 	public World gameWORLD;
@@ -40,7 +40,6 @@ public class GameState implements Screen{
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
 	//Zombie zombie;
-	
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
@@ -48,14 +47,15 @@ public class GameState implements Screen{
 	//MapCollision mp;
 	Spawner zombieSpawner;
 	BitmapFont font=new BitmapFont();
-	
 	//SteeringAI zombieAI;
+	//Bullet
+	ArrayList<Bullet> bullets;
+	Bullet bullet;
 	@Override
 	public void show() {
 		instance=this;
 		System.out.println("Init");
-		
-		
+		bullets = new ArrayList<Bullet>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
 		tiledMap = new TmxMapLoader().load("assets/maps/map2.tmx");
@@ -88,10 +88,13 @@ public class GameState implements Screen{
 		
 		//mp=new MapCollision(tiledMap,gameWORLD);
 		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
-		
+
 	}
 
 	public void update(float delta) {
+		//Removes bullets after they are not needed
+
+
 		handleInput();
 		//cam.position.x=player.getPos().x;
 		textCam.update();
@@ -111,9 +114,8 @@ public class GameState implements Screen{
 		//TODO don't divide by 2 every time
 		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth/2, 650 - cam.viewportHeight/2);
 		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight/2, 800 - cam.viewportHeight/2);
-		
-		
 		//System.out.println(player.getPos());
+
 	}
 	private void handleInput() {
 		Input input=Gdx.input;
@@ -129,7 +131,9 @@ public class GameState implements Screen{
 				player.setHealth(player.getMaxHealth());
 			else player=new Player(gameWORLD);
 		}
-		
+		if (input.isKeyJustPressed(Keys.S)) {
+			bullets.add(new Bullet());
+		}
 		
 	}
 	
@@ -138,6 +142,17 @@ public class GameState implements Screen{
 	DecimalFormat format=new DecimalFormat("#.##");
 	@Override
 	public void render(float delta) {
+        ArrayList<Bullet> ryanisGAYYYY = new ArrayList<Bullet>();
+        for (Bullet bullet : bullets){
+            bullet.render(sb);
+        }
+        for(Bullet bullet: bullets){
+            bullet.update(delta);
+            if(bullet.remove){
+                ryanisGAYYYY.add(bullet);
+            }
+        }
+        bullets.removeAll(ryanisGAYYYY);
 		update(delta*100);
 		
 		sb.setProjectionMatrix(cam.combined);
@@ -178,6 +193,7 @@ public class GameState implements Screen{
 		font.draw(sb, "player pos: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -400, textCam.viewportHeight/2);
 		font.draw(sb, health, -400, textCam.viewportHeight/2-50);
 		sb.end();
+
 		
 	}
 	public World getWorld(){

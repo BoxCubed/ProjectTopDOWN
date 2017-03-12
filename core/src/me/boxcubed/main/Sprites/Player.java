@@ -1,30 +1,18 @@
 
 package me.boxcubed.main.Sprites;
 
-import java.lang.reflect.Method;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-
+import com.badlogic.gdx.physics.box2d.*;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
 import me.boxcubed.main.States.GameState;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by Dank Memes on 23/02/2017.
@@ -54,7 +42,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		animationLeg = new Animation<TextureRegion>(1f/30f*100,atlas2.getRegions());
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
-
 		// Shape
 		playerShape = new PolygonShape();
 		playerShape.setAsBox(5, 5);
@@ -130,6 +117,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	//finished bullets		
 	}
 	public void handleInput() {
+		//Reflection is a gay piece of shit.
+		//At least meake it in the gamestate class
 		// Walk controls
 		Input input = Gdx.input;
 		// and tej was that autistic kid
@@ -165,7 +154,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		if(input.isKeyPressed(Keys.SPACE))
 			shooting=true;
 		else shooting=false;
-		
 		if(!keyPressed)stop();
 	}
 	private boolean processMovment(String key) {

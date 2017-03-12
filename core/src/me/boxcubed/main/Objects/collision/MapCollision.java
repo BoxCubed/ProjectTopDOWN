@@ -12,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 /**
- * @deprecated Better one found
- * @author ryan9
+ * @deprecated Better one found depreeeciated
+ * @author ryantheautism
  *
  */
 public class MapCollision {
