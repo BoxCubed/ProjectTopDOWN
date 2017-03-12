@@ -186,9 +186,10 @@ public class GameState implements Screen{
 		entities.forEach(entity->entity.render(sb));
 		
 		sb.setProjectionMatrix(textCam.combined);
-		font.draw(sb, "delta: "+format.format(delta*100), 100, textCam.viewportHeight/2);
-		font.draw(sb, "entity amt: "+entities.size(), -100, textCam.viewportHeight/2);
-		font.draw(sb, "player pos: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -400, textCam.viewportHeight/2);
+		font.draw(sb, "Delta: "+format.format(delta*100), 100, textCam.viewportHeight/2);
+		font.draw(sb, "Entity Number: "+entities.size(), -100, textCam.viewportHeight/2);
+		font.draw(sb, "Time: "+(PlayerLight.amlight*100)/8, 200, textCam.viewportHeight/2);
+		font.draw(sb, "Player Position: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -400, textCam.viewportHeight/2);
 		font.draw(sb, health, -400, textCam.viewportHeight/2-50);
 		sb.end();
 
