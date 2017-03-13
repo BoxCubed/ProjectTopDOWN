@@ -6,6 +6,26 @@ import me.boxcubed.main.States.GameState;
 
 /**
  * Created by Tej Sidhu on 13/03/2017.
+ * @deprecated Thats right. How do u feel. Now go move this into a class that works
+ *        _..-''--'----_.
+           ,''.-''| .---/ _`-._
+         ,' \ \  ;| | ,/ / `-._`-.
+       ,' ,',\ \( | |// /,-._  / /
+       ;.`. `,\ \`| |/ / |   )/ /
+      / /`_`.\_\ \| /_.-.'-''/ /
+     / /_|_:.`. \ |;'`..')  / /
+     `-._`-._`.`.;`.\  ,'  / /
+         `-._`.`/    ,'-._/ /
+           : `-/     \`-.._/
+           |  :      ;._ (
+           :  |      \  ` \
+            \         \   |
+             :        :   ;
+             |           /
+             ;         ,'
+            /         /
+           /         /
+                    /
  */
 public class BulletContactListener implements ContactListener {
     @Override

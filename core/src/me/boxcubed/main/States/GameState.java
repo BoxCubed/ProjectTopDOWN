@@ -82,7 +82,7 @@ public class GameState implements Screen{
 		initMap();
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
-        gameWORLD.setContactListener(new BulletContactListener());
+       // gameWORLD.setContactListener(new BulletContactListener());
 		player = new Player(gameWORLD);
 		//player.setSize(20, 20);
 		playerAI=new SteeringAI(player, player.getWidth());
