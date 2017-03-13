@@ -139,7 +139,6 @@ public class GameState implements Screen{
 		float originX = player.playerBody.getPosition().x;
 		float originY = player.playerBody.getPosition().y;
 				
-		System.out.println(mouseX+", "+player.getX());
 		double angle = MathUtils.radiansToDegrees*MathUtils.atan2(mouseY - originY, mouseX - originX);
 		if(angle<0){
 			angle+=360;

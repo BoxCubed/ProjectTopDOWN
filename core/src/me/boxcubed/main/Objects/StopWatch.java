@@ -5,11 +5,16 @@ public class StopWatch {
 	private long startTime = 0;
 	private long stopTime = 0;
 	private boolean running = false;
+	private int counter=0;
 
 	public void start() {
-		this.startTime = System.currentTimeMillis();
-		this.running = true;
-
+		if(counter<=0){
+			running = true;
+			System.out.println("Timer Started");
+			this.startTime = System.currentTimeMillis();
+			this.running = true;
+			counter++;
+		}
 	}
 
 	public boolean isRunning() {
@@ -23,7 +28,9 @@ public class StopWatch {
 
 	public void reset() {
 		stop();
-		start();
+		stopTime=0;
+		startTime=0;
+		counter=0;
 	}
 
 	// elaspsed time in milliseconds
