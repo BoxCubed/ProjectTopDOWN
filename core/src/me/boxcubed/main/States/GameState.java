@@ -131,13 +131,19 @@ public class GameState implements Screen{
 
 		Input input=Gdx.input;
 		
-		float mouseX = input.getX();
+		float mouseX = input.getX()-300;
 		float mouseY = Gdx.graphics.getHeight()-input.getY();
 		
-		float angle = (float) Math.atan2(mouseY - player.getX(), mouseX - player.getY());
-		angle = (float) Math.toDegrees(angle);
+		float originX = player.playerBody.getPosition().x;
+		float originY = player.playerBody.getPosition().y;
+				
+		System.out.println(mouseX+", "+player.getX());
+		double angle = MathUtils.radiansToDegrees*MathUtils.atan2(mouseY - originY, mouseX - originX);
+		if(angle<0){
+			angle+=360;
+		}
 		
-		player.setRotation(angle);
+		player.setRotation((float) angle);
 		if(input.isKeyJustPressed(Input.Keys.Z)){
 			GameState.instance.entities.forEach(entity->entity.dispose());
 			GameState.instance.entities.clear();
