@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -86,6 +87,7 @@ public class GameState implements Screen,InputProcessor{
 		player = new Player(gameWORLD);
 		//player.setSize(20, 20);
 		playerAI=new SteeringAI(player, player.getWidth());
+		playerAI.setBehavior(new LookWhereYouAreGoing<Vector2>(playerAI));
 /*		for(int i=0;i<10;i++)
 		entities.add(new Zombie(gameWORLD,playerAI));*/
 		
@@ -181,8 +183,7 @@ public class GameState implements Screen,InputProcessor{
         tiledMapRenderer.setView(cam);
         tiledMapRenderer.render();
 	
-		playerLight.rayHandler.setCombinedMatrix(cam);
-		playerLight.rayHandler.render();
+		
         String health="";
         int i;
        
@@ -192,21 +193,31 @@ public class GameState implements Screen,InputProcessor{
         for(;i<100;i++)
         	health+="-";
        b2dr.render(gameWORLD, cam.combined);
+       playerLight.rayHandler.setCombinedMatrix(cam);
+		
 		sb.begin();
 
-		player.render(sb);
+		
 		
 		entities.forEach(entity->entity.render(sb));
+		
 
+		
+		sb.end();
+		playerLight.rayHandler.render();
+		sb.begin();
+		player.render(sb);
 		sb.setProjectionMatrix(textCam.combined);
 		font.draw(sb, "Delta: "+format.format(delta*100), -230, textCam.viewportHeight/2);
 		font.draw(sb, "Entity Number: "+entities.size(), -380, textCam.viewportHeight/2);
-		font.draw(sb, "Time: "+(PlayerLight.amlight*100)/8, -120, textCam.viewportHeight/2);
+		font.draw(sb, "Time: "+format.format((PlayerLight.amlight*100)/8), -120, textCam.viewportHeight/2);
 		font.draw(sb, "noZombieMode: "+noZombie, 0, textCam.viewportHeight/2);
 		font.draw(sb, "noTimeMode: "+noTime, 150, textCam.viewportHeight/2);
 		font.draw(sb, "Player Position: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -600, textCam.viewportHeight/2);
 		font.draw(sb, health, -200, textCam.viewportHeight/2-50);
+		
 		sb.end();
+		
 	}
 	public World getWorld(){
 		return gameWORLD;

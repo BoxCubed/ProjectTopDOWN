@@ -111,7 +111,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		if(playerBody.getLinearVelocity().isZero())
 		sb.draw(this, playerBody.getPosition().x-getWidth()/2-2,playerBody.getPosition().y-getHeight()/2,15,15,30,30,1,1,getRotation());
 		else{ 
-		sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x-getWidth()/2-1,playerBody.getPosition().y-getHeight()/2+5,legOffX,legOffY,18,18,1,1,getRotation());
+		sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x-getWidth()/2-1,playerBody.getPosition().y-getHeight()/2+5
+				,legOffX,legOffY,18,18,1,1,getRotation());
 		sb.draw(animation.getKeyFrame(elapsedTime, true), 
 				playerBody.getPosition().x-getWidth()/2-5,playerBody.getPosition().y-getHeight()/2
 				,15,15,30,30,1,1,getRotation());
@@ -243,7 +244,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
 	public void stop() {
 		playerBody.setLinearVelocity(0f, 0f);
-		playerBody.setAngularVelocity(0);
+		//playerBody.setAngularVelocity(0);
 	}
 
 	
@@ -293,7 +294,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	@Override
 	public String getID() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Player";
 	}
 
 }
