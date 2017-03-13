@@ -112,9 +112,20 @@ public class GameState implements Screen{
 		}
 				
 		if(!noZombie){zombieSpawner.update(delta);}
-		
+		List<Entity>dispose=new ArrayList<>();
 		player.update(delta);
-		entities.forEach(entity->entity.update(delta));
+		entities.forEach(entity->{
+			if(entity.isDisposable()){
+				entity.dispose();
+				dispose.add(entity);
+				
+			}else entity.update(delta);
+			
+				
+			
+		});
+		entities.removeAll(dispose);
+		dispose.clear();
 		
 		//cam.position.set(player.getPos(),0);
 		//TODO don't divide by 2 every time

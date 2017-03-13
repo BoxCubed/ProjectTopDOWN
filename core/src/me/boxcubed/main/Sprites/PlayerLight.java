@@ -39,8 +39,10 @@ public class PlayerLight{
     	flashlightState=!flashlightState;
       }
       
-    	if(flashlightState){pointLight.setDistance(0);}else{pointLight.setDistance(100);}
-        
+    	if(flashlightState){pointLight.setDistance(100);}else{pointLight.setDistance(0);}
+        if(Gdx.input.isKeyPressed(Keys.L)){
+        	if(flashlightState)pointLight.setDistance(400);}
+        else if(flashlightState)pointLight.setDistance(100);
         
         if(Gdx.input.isKeyPressed(Keys.EQUALS))
         	amlight+=0.01f;
@@ -50,7 +52,7 @@ public class PlayerLight{
         if(amlight<0.07||amlight>1){
         	night=!night;}
         if(night){timer.start();}
-        if(timer.getElapsedTimeSecs()>5){timer.reset();amlight+=0.0005;}
+        if(timer.getElapsedTimeSecs()>5){timer.stop();amlight+=0.0005;}
         if(!night&&!timer.isRunning()){amlight-=0.0005*delta;}
         
         rayHandler.setAmbientLight(amlight);

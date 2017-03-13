@@ -19,5 +19,7 @@ public interface Entity {
         public void render(SpriteBatch sb);
         public void dispose();
         public Fixture getFixture();
+        public boolean isDisposable();
+        public void setDisposable(boolean disposable);
         }
   

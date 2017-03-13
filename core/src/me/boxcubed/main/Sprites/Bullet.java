@@ -41,6 +41,7 @@ public class Bullet implements Entity{
 	 @Override
 	    public void update(float delta) {
 	    	 /*System.out.println(playerDirection);*/
+		 if(isDisposable())return;
 	        int velX = 0, velY = 0;
 	        remove = true;
 	        switch ((int) GameState.instance.player.getRotation()){
@@ -115,6 +116,15 @@ public class Bullet implements Entity{
     @Override
 	public String getID() {
 		return "Bullet";
+	}
+    boolean disposable=false;
+	@Override
+	public boolean isDisposable() {
+		return disposable;
+	}
+	@Override
+	public void setDisposable(boolean disposable) {
+		this.disposable=disposable;
 	}
 
 }

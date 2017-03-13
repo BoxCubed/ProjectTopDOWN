@@ -16,23 +16,22 @@ public CollisionDetection(){
 }
 	@Override
 	public void beginContact(Contact contact) {
-		for(int i=0;i<GameState.instance.entities.size();){
-			Entity entity=GameState.instance.entities.get(i);
+		for(Entity entity:GameState.instance.entities){
 			if((entity.getFixture().equals(contact.getFixtureA())||entity.getFixture().equals(contact.getFixtureB()))){
 					if(isOneOf("PLAYER", contact)){
 					  entity.playAnimation("attack");
 						GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);
 					
 		}else if(isOneOf("BULLET", contact)&&isOneOf("ZOMBIE", contact)){
-			/*entity.dispose();
-			GameState.instance.entities.remove(entity);
-			continue;*/
+			entity.setDisposable(true);
 			Gdx.app.log("[TopDown]", "Bullet HIT!");
+			continue;
+			
 		}
 			
 			
 			
-		}i++;}
+		}}
 	}
 	private boolean isOneOf(String key,Contact contact){
 		return contact.getFixtureA().getUserData().equals(key)||contact.getFixtureB().getUserData().equals(key);
