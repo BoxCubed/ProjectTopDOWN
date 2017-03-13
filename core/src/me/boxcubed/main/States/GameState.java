@@ -129,8 +129,8 @@ public class GameState implements Screen{
 		
 		//cam.position.set(player.getPos(),0);
 		//TODO don't divide by 2 every time
-		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth/2, 1300 - cam.viewportHeight/2);
-		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight/2, 1500 - cam.viewportHeight/2);
+		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth/2, 1576- cam.viewportWidth/2);
+		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight/2, 1576 - cam.viewportHeight/2);
 		//System.out.println(player.getPos());
 
 	}
