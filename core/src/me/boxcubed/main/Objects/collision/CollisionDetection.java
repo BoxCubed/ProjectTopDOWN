@@ -21,9 +21,13 @@ public CollisionDetection(){
 					if(isOneOf("PLAYER", contact)){
 					  entity.playAnimation("attack");
 						GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);
+						continue;
 					
-		}else if(isOneOf("BULLET", contact)&&isOneOf("ZOMBIE", contact)){
-			entity.setDisposable(true);
+		}else if(isOneOf("BULLET", contact)){
+			if(isOneOf("ZOMBIE", contact))
+				entity.setDisposable(true);
+			if(entity.getFixture().getUserData().equals("BULLET"))
+				entity.setDisposable(true);
 			Gdx.app.log("[TopDown]", "Bullet HIT!");
 			continue;
 			

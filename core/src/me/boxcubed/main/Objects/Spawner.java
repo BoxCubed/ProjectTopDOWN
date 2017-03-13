@@ -44,8 +44,8 @@ public class Spawner {
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){
 			amount++;
-			pos.x=random.nextInt(680-22)+22;
-			pos.y=random.nextInt(345-40)+40;
+			pos.x=random.nextInt(1570);
+			pos.y=random.nextInt(1570);
 			LivingEntity spawnEntity=null;
 			        //ryan if you get rid of the limiter again I will murder you 
 				if(entity.equals(EntityType.ZOMBIE))
