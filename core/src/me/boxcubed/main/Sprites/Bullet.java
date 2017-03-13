@@ -16,13 +16,14 @@ public class Bullet implements Entity{
 	Body bulletBody;
 	Fixture fixture;
 	public Boolean remove;
-	public Bullet(World world){
-	    remove = new Boolean(false);
+	Player player;
+	public Bullet(World world, float x, float y){
+		System.out.println(x + "	" + y );
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
 		bulletShape = new PolygonShape();
-		bulletShape.setAsBox(5, 5);
+		bulletShape.setAsBox(2, 2);
 
 		// Fixture def
 		fixtureDefBullet = new FixtureDef();
@@ -34,9 +35,10 @@ public class Bullet implements Entity{
 		fixture = bulletBody.createFixture(fixtureDefBullet);
 
 		System.out.println("Bullet created  " + world.getBodyCount());
-		bulletBody.setTransform(100, 100, 0);
-
+		/*bulletBody.setTransform(player.playerBody.getPosition().x, player.playerBody.getPosition().y, 0);*/
+        bulletBody.setTransform(x+3, y+3, 0);
 		bulletShape.dispose();
+		bulletBody.setLinearVelocity(200, 0);
 	}
 
 	@Override
@@ -60,10 +62,26 @@ public class Bullet implements Entity{
 	}
 
 	
-	@Override
-	public void update(float delta) {
+
+	public void update(float delta, float playerDirection) {//Player direction is need to see which way to fire the bullet
+        /*System.out.println(playerDirection);*/
+        int velX = 0, velY = 0;
         remove = true;
-        bulletBody.setLinearVelocity(20, 0);
+        switch ((int) playerDirection){
+            case 0:  //RIGHT
+                velX = 200;
+            case -180: //LEFT
+                velX = -200;
+            case 90: //UP
+                velY = 200;
+            case -90:   //DOWN
+                velY = -200;
+            default:
+            	velX = 0;
+            	velY = 0;
+        }
+        System.out.println(velX + " " + velY);
+        //This method is not needed yet
         System.out.println(bulletBody.getPosition().x + "" + bulletBody.getPosition().y);
     }
 
@@ -88,7 +106,12 @@ public class Bullet implements Entity{
 
 	}
 
-	@Override
+    @Override
+    public void update(float delta) {
+
+    }
+
+    @Override
 	public String getID() {
 		// TODO Auto-generated method stub
 		return null;

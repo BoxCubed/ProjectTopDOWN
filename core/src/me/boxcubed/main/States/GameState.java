@@ -1,9 +1,5 @@
 package me.boxcubed.main.States;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -21,7 +17,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
@@ -31,6 +26,10 @@ import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameState implements Screen{
 	public World gameWORLD;
@@ -55,7 +54,7 @@ public class GameState implements Screen{
 	Bullet bullet;
 	
 	 Vector2 maths;
-	
+
 	boolean noZombie=false,noTime=false;
 	@Override
 	public void show() {
@@ -132,18 +131,25 @@ public class GameState implements Screen{
 	private void handleInput() {
 
 		Input input=Gdx.input;
-		
+
+		//float mouseX = input.getX();
+
 		float mouseX = input.getX()-300;
 		float mouseY = Gdx.graphics.getHeight()-input.getY();
-		
+
+		float angle = (float) Math.atan2(mouseY - player.getX(), mouseX - player.getY());
+		angle = (float) Math.toDegrees(angle);
+
+		player.setRotation(angle);
+
 		float originX = player.playerBody.getPosition().x;
 		float originY = player.playerBody.getPosition().y;
-				
-		double angle = MathUtils.radiansToDegrees*MathUtils.atan2(mouseY - originY, mouseX - originX);
+
+		//System.out.println(mouseX+", "+player.getX());
 		if(angle<0){
 			angle+=360;
 		}
-		
+
 		player.setRotation((float) angle);
 		if(input.isKeyJustPressed(Input.Keys.Z)){
 			GameState.instance.entities.forEach(entity->entity.dispose());
@@ -166,7 +172,8 @@ public class GameState implements Screen{
 			else player=new Player(gameWORLD);
 		}
 		if (input.isKeyJustPressed(Keys.S)) {
-			bullets.add(new Bullet(gameWORLD));
+		    //Creates new bullet
+			bullets.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
 		}
 		
 	}
@@ -177,16 +184,6 @@ public class GameState implements Screen{
 	@Override
 	public void render(float delta) {
         ArrayList<Bullet> ryanisGAYYYY = new ArrayList<Bullet>();
-        for (Bullet bullet : bullets){
-            bullet.render(sb);
-        }
-        for(Bullet bullet: bullets){
-            bullet.update(delta);
-            if(bullet.remove){
-                ryanisGAYYYY.add(bullet);
-            }
-        }
-        bullets.removeAll(ryanisGAYYYY);
 		update(delta*100);
 		
 		sb.setProjectionMatrix(cam.combined);
@@ -195,7 +192,7 @@ public class GameState implements Screen{
         tiledMapRenderer.setView(cam);
         tiledMapRenderer.render();
 	
-		
+
         String health="";
         int i;
        
@@ -204,12 +201,24 @@ public class GameState implements Screen{
         }
         for(;i<100;i++)
         	health+="-";
+
+        for (Bullet bullet : bullets){
+            bullet.render(sb);
+        }
+        for(Bullet bullet: bullets){
+            bullet.update(delta, -90);//The second parameter is for which direction the player is facings.
+            if(bullet.remove){
+                ryanisGAYYYY.add(bullet);
+            }
+        }
+        bullets.removeAll(ryanisGAYYYY);
+        b2dr.render(gameWORLD, cam.combined);
        b2dr.render(gameWORLD, cam.combined);
        playerLight.rayHandler.setCombinedMatrix(cam);
-		
+
 		sb.begin();
 
-		
+
 		
 		entities.forEach(entity->entity.render(sb));
 		

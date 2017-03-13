@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
@@ -131,22 +130,18 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		
 		if (input.isKeyPressed(Input.Keys.UP)){
 			keyPressed=true;
-		
 			processMovment("UP");
 			}
 		if (input.isKeyPressed(Input.Keys.DOWN)){
 			keyPressed=true;
-		
 			processMovment("DOWN");
 			}
 		if (input.isKeyPressed(Input.Keys.LEFT)){
 			keyPressed=true;
-		
 			processMovment("LEFT");
 			}
 		if (input.isKeyPressed(Input.Keys.RIGHT)){
 			keyPressed=true;
-		
 			processMovment("RIGHT");
 		}
 		if(input.isKeyPressed(Keys.SPACE))
@@ -164,12 +159,13 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		method += key;
 		Method m;
 		try {
-			// this, my friends, is reflection. Learn it. Its good.
+			// this, my friends, is reflection. Learn it. Its no good.
 			m = getClass().getMethod(method, (Class<?>[])null);
 			m.invoke( this,  (Object[])null);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			//PUssie. Scared about errors are we?
 		}
 		return false;
 
@@ -177,6 +173,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	
 	@Override
 	public Vector2 getPos() {
+		//This shitttt pissed me off soo many times. Whenever i wanted the player pos, this stupid shit kept
+		//On giving me the wrong values and for so long i wondered why it never worked properly
 		return playerBody.getPosition();
 	}
 
@@ -198,7 +196,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public void goUP() {
 		playerBody.applyLinearImpulse(new Vector2(0, 80*delta), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(5f);
-	}
+    }
 
 	@Override
 	public void goDOWN() {
@@ -248,7 +246,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	
 	@Override
 	public Body getBody() {
-		// TODO Auto-generated method stub
 		return playerBody;
 	}
 
@@ -262,35 +259,29 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
 	@Override
 	public Fixture getFixture() {
-		// TODO Auto-generated method stub
 		return fixture;
 	}
 	
 	@Override
 	public double getHealth() {
-		// TODO Auto-generated method stub
 		return health;
 	}
 
 	@Override
 	public void setHealth(double health) {
-		// TODO Auto-generated method stub
 		 this.health=health;
 	}
 
 	@Override
 	public double getMaxHealth() {
-		// TODO Auto-generated method stub
 		return 50;
 	}
 	@Override
 	public void playAnimation(String key) {
-		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
 		return "Player";
 	}
 
