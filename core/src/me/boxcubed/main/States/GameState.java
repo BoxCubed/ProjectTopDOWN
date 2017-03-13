@@ -19,7 +19,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
-import me.boxcubed.main.Objects.collision.BulletContactListener;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
@@ -64,7 +63,7 @@ public class GameState implements Screen{
 	    maths = new Vector2(0, 0);
 		
 		bullets = new ArrayList<Bullet>();
-		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		cam = new OrthographicCamera(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		cam.update();
 		tiledMap = new TmxMapLoader().load("assets/maps/map.tmx");
 	
@@ -82,7 +81,6 @@ public class GameState implements Screen{
 		initMap();
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
-       // gameWORLD.setContactListener(new BulletContactListener());
 		player = new Player(gameWORLD);
 		//player.setSize(20, 20);
 		playerAI=new SteeringAI(player, player.getWidth());
@@ -123,8 +121,8 @@ public class GameState implements Screen{
 		
 		//cam.position.set(player.getPos(),0);
 		//TODO don't divide by 2 every time
-		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth/2, 650 - cam.viewportHeight/2);
-		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight/2, 800 - cam.viewportHeight/2);
+		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth/2, 1300 - cam.viewportHeight/2);
+		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight/2, 1500 - cam.viewportHeight/2);
 		//System.out.println(player.getPos());
 
 	}
@@ -142,9 +140,6 @@ public class GameState implements Screen{
 		angle = (float) Math.toDegrees(angle);
 
 		player.setRotation(angle);
-
-		float originX = player.playerBody.getPosition().x;
-		float originY = player.playerBody.getPosition().y;
 
 		//System.out.println(mouseX+", "+player.getX());
 		if(angle<0){
@@ -214,7 +209,6 @@ public class GameState implements Screen{
         }
         bullets.removeAll(ryanisGAYYYY);
         b2dr.render(gameWORLD, cam.combined);
-       b2dr.render(gameWORLD, cam.combined);
        playerLight.rayHandler.setCombinedMatrix(cam);
 
 		sb.begin();
