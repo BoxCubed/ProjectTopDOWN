@@ -225,7 +225,7 @@ public class GameState implements Screen{
 		sb.setProjectionMatrix(textCam.combined);
 		font.draw(sb, "Delta: "+format.format(delta*100), -230, textCam.viewportHeight/2);
 		font.draw(sb, "Entity Number: "+entities.size(), -380, textCam.viewportHeight/2);
-		font.draw(sb, "Time: "+format.format((PlayerLight.amlight*100)/8), -120, textCam.viewportHeight/2);
+		font.draw(sb, "Time: "+/*format.format((PlayerLight.amlight*100)/8)*/PlayerLight.amToTime(), -120, textCam.viewportHeight/2);
 		font.draw(sb, "noZombieMode: "+noZombie, 0, textCam.viewportHeight/2);
 		font.draw(sb, "noTimeMode: "+noTime, 150, textCam.viewportHeight/2);
 		font.draw(sb, "Player Position: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -600, textCam.viewportHeight/2);

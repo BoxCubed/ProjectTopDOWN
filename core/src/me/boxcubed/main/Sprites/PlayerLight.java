@@ -19,7 +19,7 @@ public class PlayerLight{
     ConeLight pointLight;
     StopWatch timer;
     Player player;
-    boolean night=false;
+   private static boolean night=false;
    public static float amlight=1f;
     public PlayerLight(World world,Body bod){
     	timer = new StopWatch();
@@ -29,7 +29,7 @@ public class PlayerLight{
      
         //pointLight.attachToBody(bod);
     }
-
+    
     public void updateLightPos(float x, float y,float angle,float delta){
         //Makes sure that the light moves with the player
     	  pointLight.setPosition(x+2.5f, y+2.5f);
@@ -69,5 +69,21 @@ public class PlayerLight{
 		rayHandler.dispose();
 		pointLight.dispose();
 		
+	}
+	public static String amToTime(){
+		float hrs,mins;
+		if(night){
+		hrs=(amlight*12);
+		mins=hrs*60-(int)hrs*60;
+		return (int)hrs+":"+(int)mins+"am";
+				}
+		else{
+			hrs=12-(amlight*12);
+			mins=hrs*60-(int)hrs*60;
+			return (int)hrs+":"+(int)mins+"pm";
+		}
+		
+		
+		//return Float.toString(amlight);
 	}
 }
