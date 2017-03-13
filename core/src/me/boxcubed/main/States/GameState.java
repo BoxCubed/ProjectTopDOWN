@@ -50,8 +50,6 @@ public class GameState implements Screen{
 	BitmapFont font=new BitmapFont();
 	//SteeringAI zombieAI;
 	//Bullet
-	ArrayList<Bullet> bullets;
-	Bullet bullet;
 	
 	 Vector2 maths;
 
@@ -62,7 +60,6 @@ public class GameState implements Screen{
 		System.out.println("Init");
 	    maths = new Vector2(0, 0);
 		
-		bullets = new ArrayList<Bullet>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		cam.update();
 		tiledMap = new TmxMapLoader().load("assets/maps/map.tmx");
@@ -99,7 +96,7 @@ public class GameState implements Screen{
 
 	public void update(float delta) {
 		//Removes bullets after they are not needed
-
+//TODO BULLET
 
 		handleInput();
 		//cam.position.x=player.getPos().x;
@@ -169,7 +166,8 @@ public class GameState implements Screen{
 		}
 		if (input.isKeyJustPressed(Keys.S)) {
 		    //Creates new bullet
-			bullets.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
+			//bullets.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
+			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
 		}
 		
 	}
@@ -179,7 +177,6 @@ public class GameState implements Screen{
 	DecimalFormat format=new DecimalFormat("#.##");
 	@Override
 	public void render(float delta) {
-        ArrayList<Bullet> ryanisGAYYYY = new ArrayList<Bullet>();
 		update(delta*100);
 		
 		sb.setProjectionMatrix(cam.combined);
@@ -198,16 +195,7 @@ public class GameState implements Screen{
         for(;i<100;i++)
         	health+="-";
 
-        for (Bullet bullet : bullets){
-            bullet.render(sb);
-        }
-        for(Bullet bullet: bullets){
-            bullet.update(delta, -90);//The second parameter is for which direction the player is facings.
-            if(bullet.remove){
-                ryanisGAYYYY.add(bullet);
-            }
-        }
-        bullets.removeAll(ryanisGAYYYY);
+        
         b2dr.render(gameWORLD, cam.combined);
        playerLight.rayHandler.setCombinedMatrix(cam);
 

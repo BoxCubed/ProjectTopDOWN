@@ -1,5 +1,6 @@
 package me.boxcubed.main.Objects.collision;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -15,14 +16,26 @@ public CollisionDetection(){
 }
 	@Override
 	public void beginContact(Contact contact) {
-		for(Entity entity:GameState.instance.entities){
-			if((entity.getFixture().equals(contact.getFixtureA())||entity.getFixture().equals(contact.getFixtureB()))
-					&&(contact.getFixtureA().getUserData().equals("PLAYER")||contact.getFixtureA().getUserData().equals("PLAYER"))){
+		for(int i=0;i<GameState.instance.entities.size();){
+			Entity entity=GameState.instance.entities.get(i);
+			if((entity.getFixture().equals(contact.getFixtureA())||entity.getFixture().equals(contact.getFixtureB()))){
+					if(isOneOf("PLAYER", contact)){
 					  entity.playAnimation("attack");
 						GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);
 					
+		}else if(isOneOf("BULLET", contact)&&isOneOf("ZOMBIE", contact)){
+			/*entity.dispose();
+			GameState.instance.entities.remove(entity);
+			continue;*/
+			Gdx.app.log("[TopDown]", "Bullet HIT!");
 		}
-		}
+			
+			
+			
+		}i++;}
+	}
+	private boolean isOneOf(String key,Contact contact){
+		return contact.getFixtureA().getUserData().equals(key)||contact.getFixtureB().getUserData().equals(key);
 	}
 	@Override
 	public void endContact(Contact contact) {
