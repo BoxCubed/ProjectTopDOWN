@@ -107,7 +107,7 @@ public class GameState implements Screen{
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 		
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
-		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,player.rotation,delta);
+		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,player.getRotation(),delta);
 		playerLight.rayHandler.update();
 		
 		for(int i=0;i<gameWORLD.getContactList().size;i++){
@@ -130,6 +130,14 @@ public class GameState implements Screen{
 	private void handleInput() {
 
 		Input input=Gdx.input;
+		
+		float mouseX = input.getX();
+		float mouseY = Gdx.graphics.getHeight()-input.getY();
+		
+		float angle = (float) Math.atan2(mouseY - player.getX(), mouseX - player.getY());
+		angle = (float) Math.toDegrees(angle);
+		
+		player.setRotation(angle);
 		if(input.isKeyJustPressed(Input.Keys.Z)){
 			GameState.instance.entities.forEach(entity->entity.dispose());
 			GameState.instance.entities.clear();
