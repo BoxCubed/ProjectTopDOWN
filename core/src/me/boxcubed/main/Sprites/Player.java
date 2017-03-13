@@ -14,9 +14,6 @@ import me.boxcubed.main.States.GameState;
 
 import java.lang.reflect.Method;
 
-/**
- * Created by Dank Memes on 23/02/2017.
- */
 public class Player extends Sprite implements LivingEntity,Movable {
 	private float delta;
 	private static Texture tex = new Texture(Gdx.files.internal("assets/img/player.png"));

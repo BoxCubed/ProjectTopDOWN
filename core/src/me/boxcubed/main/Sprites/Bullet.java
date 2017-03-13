@@ -18,7 +18,6 @@ public class Bullet implements Entity{
 	public Boolean remove;
 	Player player;
 	public Bullet(World world, float x, float y){
-		System.out.println(x + "	" + y );
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
@@ -32,18 +31,18 @@ public class Bullet implements Entity{
 		fixtureDefBullet.friction = 0f;
 		// Creates the body and assigns vars to all important values
 		bulletBody = world.createBody(playerDef);
-		fixture = bulletBody.createFixture(fixtureDefBullet);
+		bulletBody.createFixture(fixtureDefBullet).setUserData("BULLET");
 
-		System.out.println("Bullet created  " + world.getBodyCount());
-		/*bulletBody.setTransform(player.playerBody.getPosition().x, player.playerBody.getPosition().y, 0);*/
-        bulletBody.setTransform(x+3, y+3, 0);
+		bulletBody.setTransform(x+3, y+3, 0);
 		bulletShape.dispose();
-		bulletBody.setLinearVelocity(200, 0);
 	}
+	public void hit(){
+        System.out.println("Ive been hit");
+    }
 
 	@Override
 	public Vector2 getPos() {
-		return null;
+        return bulletBody.getPosition();
 	}
 
 	@Override
@@ -114,7 +113,7 @@ public class Bullet implements Entity{
     @Override
 	public String getID() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Bullet";
 	}
 
 }

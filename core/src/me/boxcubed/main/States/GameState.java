@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
+import me.boxcubed.main.Objects.collision.BulletContactListener;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
@@ -60,8 +61,7 @@ public class GameState implements Screen{
 	public void show() {
 		instance=this;
 		System.out.println("Init");
-		
-	     maths = new Vector2(0, 0);
+	    maths = new Vector2(0, 0);
 		
 		bullets = new ArrayList<Bullet>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
@@ -82,6 +82,7 @@ public class GameState implements Screen{
 		initMap();
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
+        gameWORLD.setContactListener(new BulletContactListener());
 		player = new Player(gameWORLD);
 		//player.setSize(20, 20);
 		playerAI=new SteeringAI(player, player.getWidth());
