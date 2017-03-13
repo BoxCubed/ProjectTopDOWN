@@ -66,7 +66,7 @@ public class GameState implements Screen{
 		bullets = new ArrayList<Bullet>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
-		tiledMap = new TmxMapLoader().load("assets/maps/map2.tmx");
+		tiledMap = new TmxMapLoader().load("assets/maps/map.tmx");
 	
 		textCam=new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		textCam.update();
