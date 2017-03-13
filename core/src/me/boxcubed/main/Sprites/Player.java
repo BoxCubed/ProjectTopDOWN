@@ -33,7 +33,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	double health=getMaxHealth();
 	private Animation<TextureRegion> animation,animationLeg;
 	private TextureAtlas atlas,atlas2;
-	public float rotation=0,legOffX=15,legOffY=15;
+	public float legOffX=15,legOffY=15;
 	boolean shooting=false;
 	
 	float mouseX, mouseY;
@@ -82,8 +82,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			if(shooting){
 			effect.setPosition(getX(), getY());
 			for(ParticleEmitter emit:effect.getEmitters()){
-				emit.getAngle().setHigh(rotation+20);
-				emit.getAngle().setLow(rotation-20);
+				emit.getAngle().setHigh(getRotation()+20);
+				emit.getAngle().setLow(getRotation()-20);
 			}
 			effect.setDuration(100);
 			
@@ -175,9 +175,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
 	}
 	
-	public void setRot(float rotation){
-		this.rotation=rotation;
-	}
 	@Override
 	public Vector2 getPos() {
 		return playerBody.getPosition();

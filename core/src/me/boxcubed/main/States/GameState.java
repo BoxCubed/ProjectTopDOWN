@@ -1,9 +1,12 @@
 package me.boxcubed.main.States;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,6 +21,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
@@ -28,11 +32,7 @@ import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-public class GameState implements Screen,InputProcessor{
+public class GameState implements Screen{
 	public World gameWORLD;
 	public OrthographicCamera cam,textCam;
 	public Player player;
@@ -63,7 +63,6 @@ public class GameState implements Screen,InputProcessor{
 		System.out.println("Init");
 		
 	     maths = new Vector2(0, 0);
-	     Gdx.input.setInputProcessor(this);
 		
 		bullets = new ArrayList<Bullet>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
@@ -110,7 +109,7 @@ public class GameState implements Screen,InputProcessor{
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 		
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
-		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,player.rotation,delta);
+		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,player.getRotation(),delta);
 		playerLight.rayHandler.update();
 		
 		for(int i=0;i<gameWORLD.getContactList().size;i++){
@@ -133,6 +132,14 @@ public class GameState implements Screen,InputProcessor{
 	private void handleInput() {
 
 		Input input=Gdx.input;
+		
+		float mouseX = input.getX();
+		float mouseY = Gdx.graphics.getHeight()-input.getY();
+		
+		float angle = (float) Math.atan2(mouseY - player.getX(), mouseX - player.getY());
+		angle = (float) Math.toDegrees(angle);
+		
+		player.setRotation(angle);
 		if(input.isKeyJustPressed(Input.Keys.Z)){
 			GameState.instance.entities.forEach(entity->entity.dispose());
 			GameState.instance.entities.clear();
@@ -264,65 +271,6 @@ public class GameState implements Screen,InputProcessor{
 		font.dispose();
 		sb.dispose();
 	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	  float nx, ny, angle;
-	  private void setRotation(int x, int y){
-	      nx = player.getX() + player.getOriginX();
-	      ny = player.getY() + player.getOriginY();
-	      maths.x = (x - nx);
-	      maths.y = (y - ny);
-	      player.setRotation(maths.angle());
-	   }
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		 setRotation(screenX, (Gdx.graphics.getHeight()-screenY));
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	
-
 	
 
 }
