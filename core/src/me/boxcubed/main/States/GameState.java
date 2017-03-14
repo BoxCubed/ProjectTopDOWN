@@ -2,7 +2,6 @@ package me.boxcubed.main.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
@@ -162,7 +161,7 @@ public class GameState implements Screen{
 			GameState.instance.entities.clear();
 			noZombie=!noZombie;
 		}
-		if(input.isKeyJustPressed(Input.Keys.X)){
+		if(input.isKeyJustPressed(Input.Keys.T)){
 			noTime=!noTime;
 			if(noTime){
 				PlayerLight.amlight=13;
@@ -177,7 +176,7 @@ public class GameState implements Screen{
 				player.setHealth(player.getMaxHealth());
 			else player=new Player(gameWORLD);
 		}
-		if (input.isButtonPressed(Buttons.LEFT)) {
+		if (input.isKeyJustPressed(Keys.SPACE)) {
 		    //Creates new bullet
 			//bullets.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
 			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
