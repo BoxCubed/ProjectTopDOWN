@@ -28,7 +28,7 @@ public class MapBodyBuilder {
 
     public static Array<Body> buildShapes(Map map, float pixels, World world) {
         ppt = pixels;
-        MapObjects objects = map.getLayers().get("Objects").getObjects();
+        MapObjects objects = map.getLayers().get("Collision").getObjects();
 
         Array<Body> bodies = new Array<Body>();
 

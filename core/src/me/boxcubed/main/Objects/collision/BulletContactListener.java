@@ -6,6 +6,26 @@ import me.boxcubed.main.States.GameState;
 
 /**
  * Created by Tej Sidhu on 13/03/2017.
+ * @deprecated Thats right. How do u feel. Now go move this into a class that works
+ *        _..-''--'----_.
+           ,''.-''| .---/ _`-._
+         ,' \ \  ;| | ,/ / `-._`-.
+       ,' ,',\ \( | |// /,-._  / /
+       ;.`. `,\ \`| |/ / |   )/ /
+      / /`_`.\_\ \| /_.-.'-''/ /
+     / /_|_:.`. \ |;'`..')  / /
+     `-._`-._`.`.;`.\  ,'  / /
+         `-._`.`/    ,'-._/ /
+           : `-/     \`-.._/
+           |  :      ;._ (
+           :  |      \  ` \
+            \         \   |
+             :        :   ;
+             |           /
+             ;         ,'
+            /         /
+           /         /
+                    /
  */
 public class BulletContactListener implements ContactListener {
     @Override
@@ -17,7 +37,7 @@ public class BulletContactListener implements ContactListener {
         if(fa.getUserData() == null || fb.getUserData() == null)
             return;
         for(Entity entity: GameState.instance.entities){
-            if((entity.getFixture().equals(contact.getFixtureA())||entity.getFixture().equals(contact.getFixtureB()))
+            if((entity.getFixture().equals(fa)||entity.getFixture().equals(fb))
                     &&(contact.getFixtureA().getUserData().equals("BULLET")||contact.getFixtureA().getUserData().equals("BULLET"))){
                 System.out.println("HIT");
 

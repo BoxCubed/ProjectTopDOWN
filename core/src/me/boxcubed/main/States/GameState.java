@@ -50,8 +50,6 @@ public class GameState implements Screen{
 	BitmapFont font=new BitmapFont();
 	//SteeringAI zombieAI;
 	//Bullet
-	ArrayList<Bullet> bullets;
-	Bullet bullet;
 	
 	 Vector2 maths;
 
@@ -62,7 +60,6 @@ public class GameState implements Screen{
 		System.out.println("Init");
 	    maths = new Vector2(0, 0);
 		
-		bullets = new ArrayList<Bullet>();
 		cam = new OrthographicCamera(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		cam.update();
 		tiledMap = new TmxMapLoader().load("assets/maps/map.tmx");
@@ -99,7 +96,7 @@ public class GameState implements Screen{
 
 	public void update(float delta) {
 		//Removes bullets after they are not needed
-
+//TODO BULLET
 
 		handleInput();
 		//cam.position.x=player.getPos().x;
@@ -115,14 +112,25 @@ public class GameState implements Screen{
 		}
 				
 		if(!noZombie){zombieSpawner.update(delta);}
-		
+		List<Entity>dispose=new ArrayList<>();
 		player.update(delta);
-		entities.forEach(entity->entity.update(delta));
+		entities.forEach(entity->{
+			if(entity.isDisposable()){
+				entity.dispose();
+				dispose.add(entity);
+				
+			}else entity.update(delta);
+			
+				
+			
+		});
+		entities.removeAll(dispose);
+		dispose.clear();
 		
 		//cam.position.set(player.getPos(),0);
 		//TODO don't divide by 2 every time
-		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth/2, 1300 - cam.viewportHeight/2);
-		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight/2, 1500 - cam.viewportHeight/2);
+		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth/2, 1576- cam.viewportWidth/2);
+		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight/2, 1576 - cam.viewportHeight/2);
 		//System.out.println(player.getPos());
 
 	}
@@ -169,7 +177,8 @@ public class GameState implements Screen{
 		}
 		if (input.isKeyJustPressed(Keys.S)) {
 		    //Creates new bullet
-			bullets.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
+			//bullets.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
+			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
 		}
 		
 	}
@@ -179,7 +188,6 @@ public class GameState implements Screen{
 	DecimalFormat format=new DecimalFormat("#.##");
 	@Override
 	public void render(float delta) {
-        ArrayList<Bullet> ryanisGAYYYY = new ArrayList<Bullet>();
 		update(delta*100);
 		
 		sb.setProjectionMatrix(cam.combined);
@@ -198,16 +206,7 @@ public class GameState implements Screen{
         for(;i<100;i++)
         	health+="-";
 
-        for (Bullet bullet : bullets){
-            bullet.render(sb);
-        }
-        for(Bullet bullet: bullets){
-            bullet.update(delta, -90);//The second parameter is for which direction the player is facings.
-            if(bullet.remove){
-                ryanisGAYYYY.add(bullet);
-            }
-        }
-        bullets.removeAll(ryanisGAYYYY);
+        
         b2dr.render(gameWORLD, cam.combined);
        playerLight.rayHandler.setCombinedMatrix(cam);
 
@@ -226,7 +225,7 @@ public class GameState implements Screen{
 		sb.setProjectionMatrix(textCam.combined);
 		font.draw(sb, "Delta: "+format.format(delta*100), -230, textCam.viewportHeight/2);
 		font.draw(sb, "Entity Number: "+entities.size(), -380, textCam.viewportHeight/2);
-		font.draw(sb, "Time: "+format.format((PlayerLight.amlight*100)/8), -120, textCam.viewportHeight/2);
+		font.draw(sb, "Time: "+/*format.format((PlayerLight.amlight*100)/8)*/PlayerLight.amToTime(), -120, textCam.viewportHeight/2);
 		font.draw(sb, "noZombieMode: "+noZombie, 0, textCam.viewportHeight/2);
 		font.draw(sb, "noTimeMode: "+noTime, 150, textCam.viewportHeight/2);
 		font.draw(sb, "Player Position: "+format.format(player.getBody().getPosition().x)+","+format.format(player.getBody().getPosition().y), -600, textCam.viewportHeight/2);

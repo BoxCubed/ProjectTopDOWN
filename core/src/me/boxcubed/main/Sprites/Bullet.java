@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import me.boxcubed.main.Objects.interfaces.Entity;
+import me.boxcubed.main.States.GameState;
 
 public class Bullet implements Entity{
 	Animation<TextureRegion> sexwithryansdad;
@@ -31,15 +32,43 @@ public class Bullet implements Entity{
 		fixtureDefBullet.friction = 0f;
 		// Creates the body and assigns vars to all important values
 		bulletBody = world.createBody(playerDef);
-		bulletBody.createFixture(fixtureDefBullet).setUserData("BULLET");
+		fixture=bulletBody.createFixture(fixtureDefBullet);
+		fixture.setUserData("BULLET");
 
 		bulletBody.setTransform(x+3, y+3, 0);
 		bulletShape.dispose();
 	}
-	public void hit(){
-        System.out.println("Ive been hit");
-    }
+	 @Override
+	    public void update(float delta) {
+	    	 /*System.out.println(playerDirection);*/
+		 if(isDisposable())return;
+	        int velX = 0, velY = 0;
+	        remove = true;
+	        switch ((int) GameState.instance.player.getRotation()){
+	            case 0:  //RIGHT
+	                velX = 200;
+	            case -180: //LEFT
+	                velX = -200;
+	            case 90: //UP
+	                velY = 200;
+	            case -90:   //DOWN
+	                velY = -200;
+	            default:
+	            	velX = 0;
+	            	velY = 0;
+	        }
+	        getBody().setLinearVelocity(new Vector2(velX, velY));
+	        /*System.out.println(velX + " " + velY);
+	        //This method is not needed yet
+	        System.out.println(bulletBody.getPosition().x + "" + bulletBody.getPosition().y);*/
+	        //No, just no
+	    }
+	 public void render(SpriteBatch sb) {
 
+	 	
+	 }
+
+	
 	@Override
 	public Vector2 getPos() {
         return bulletBody.getPosition();
@@ -47,7 +76,7 @@ public class Bullet implements Entity{
 
 	@Override
 	public Body getBody() {
-		return null;
+		return bulletBody;
 	}
 
 	@Override
@@ -57,47 +86,24 @@ public class Bullet implements Entity{
 
 	@Override
 	public Sprite getSprite() {
+		//TODO Add sprite
 		return null;
 	}
 
 	
 
-	public void update(float delta, float playerDirection) {//Player direction is need to see which way to fire the bullet
-        /*System.out.println(playerDirection);*/
-        int velX = 0, velY = 0;
-        remove = true;
-        switch ((int) playerDirection){
-            case 0:  //RIGHT
-                velX = 200;
-            case -180: //LEFT
-                velX = -200;
-            case 90: //UP
-                velY = 200;
-            case -90:   //DOWN
-                velY = -200;
-            default:
-            	velX = 0;
-            	velY = 0;
-        }
-        System.out.println(velX + " " + velY);
-        //This method is not needed yet
-        System.out.println(bulletBody.getPosition().x + "" + bulletBody.getPosition().y);
-    }
+	
 
 
-    public void render(SpriteBatch sb) {
-     //Render the bullet
-
-    }
-
+    
 	@Override
 	public void dispose() {
-
+		GameState.instance.getWorld().destroyBody(bulletBody);
 	}
 
 	@Override
 	public Fixture getFixture() {
-		return null;
+		return fixture;
 	}
 
 	@Override
@@ -105,15 +111,20 @@ public class Bullet implements Entity{
 
 	}
 
-    @Override
-    public void update(float delta) {
-
-    }
+   
 
     @Override
 	public String getID() {
-		// TODO Auto-generated method stub
 		return "Bullet";
+	}
+    boolean disposable=false;
+	@Override
+	public boolean isDisposable() {
+		return disposable;
+	}
+	@Override
+	public void setDisposable(boolean disposable) {
+		this.disposable=disposable;
 	}
 
 }

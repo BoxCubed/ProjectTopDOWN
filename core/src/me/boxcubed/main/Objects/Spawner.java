@@ -27,6 +27,7 @@ public class Spawner {
 	private float elapsedTime=0;
 	private float delay;
 	private int limit;
+	private int amount;
 	public Spawner(EntityType entity, Vector2 pos,float delay,int limit){
 		this.pos=pos;
 		this.entity=entity;
@@ -39,11 +40,12 @@ public class Spawner {
 	 */
 	public void update(float delta){
 		if(PlayerLight.amlight>0.3f)return;
-		if(GameState.instance.entities.size()<limit){  
+		if(amount<limit){  
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){
-			pos.x=random.nextInt(680-22)+22;
-			pos.y=random.nextInt(345-40)+40;
+			amount++;
+			pos.x=random.nextInt(1570);
+			pos.y=random.nextInt(1570);
 			LivingEntity spawnEntity=null;
 			        //ryan if you get rid of the limiter again I will murder you 
 				if(entity.equals(EntityType.ZOMBIE))

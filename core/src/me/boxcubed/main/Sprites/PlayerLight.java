@@ -19,7 +19,7 @@ public class PlayerLight{
     ConeLight pointLight;
     StopWatch timer;
     Player player;
-    boolean night=false;
+   private static boolean night=false;
    public static float amlight=1f;
     public PlayerLight(World world,Body bod){
     	timer = new StopWatch();
@@ -29,7 +29,7 @@ public class PlayerLight{
      
         //pointLight.attachToBody(bod);
     }
-
+    
     public void updateLightPos(float x, float y,float angle,float delta){
         //Makes sure that the light moves with the player
     	  pointLight.setPosition(x+2.5f, y+2.5f);
@@ -39,8 +39,10 @@ public class PlayerLight{
     	flashlightState=!flashlightState;
       }
       
-    	if(flashlightState){pointLight.setDistance(0);}else{pointLight.setDistance(100);}
-        
+    	if(flashlightState){pointLight.setDistance(100);}else{pointLight.setDistance(0);}
+        if(Gdx.input.isKeyPressed(Keys.L)){
+        	if(flashlightState)pointLight.setDistance(400);}
+        else if(flashlightState)pointLight.setDistance(100);
         
         if(Gdx.input.isKeyPressed(Keys.EQUALS))
         	amlight+=0.01f;
@@ -50,7 +52,7 @@ public class PlayerLight{
         if(amlight<0.07||amlight>1){
         	night=!night;}
         if(night){timer.start();}
-        if(timer.getElapsedTimeSecs()>5){timer.reset();amlight+=0.0005;}
+        if(timer.getElapsedTimeSecs()>5){timer.stop();amlight+=0.0005;}
         if(!night&&!timer.isRunning()){amlight-=0.0005*delta;}
         
         rayHandler.setAmbientLight(amlight);
@@ -67,5 +69,21 @@ public class PlayerLight{
 		rayHandler.dispose();
 		pointLight.dispose();
 		
+	}
+	public static String amToTime(){
+		float hrs,mins;
+		if(night){
+		hrs=(amlight*12);
+		mins=hrs*60-(int)hrs*60;
+		return (int)hrs+":"+(int)mins+"am";
+				}
+		else{
+			hrs=12-(amlight*12);
+			mins=hrs*60-(int)hrs*60;
+			return (int)hrs+":"+(int)mins+"pm";
+		}
+		
+		
+		//return Float.toString(amlight);
 	}
 }

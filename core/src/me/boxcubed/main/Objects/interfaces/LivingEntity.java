@@ -10,5 +10,15 @@ public interface LivingEntity extends Entity {
 		}
 		return false;
 	};
+	@Override
+	default boolean isDisposable() {
+		return !isAlive();
+	}
+	@Override
+	default void setDisposable(boolean disposable) {
+		if(disposable)
+			setHealth(0);
+		
+	}
 }
   

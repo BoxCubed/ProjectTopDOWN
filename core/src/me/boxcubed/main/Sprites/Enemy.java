@@ -10,6 +10,7 @@ import me.boxcubed.main.Objects.interfaces.Entity;
 
 /**
  * Created by Tej Sidhu on 27/02/2017.
+ * @deprecated Why do we have this?
  */
 public class Enemy implements Entity {
     @Override
@@ -73,5 +74,17 @@ public class Enemy implements Entity {
 	public String getID() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean isDisposable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setDisposable(boolean disposable) {
+		// TODO Auto-generated method stub
+		
 	}
 }
