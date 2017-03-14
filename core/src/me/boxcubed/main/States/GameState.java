@@ -224,19 +224,26 @@ public class GameState implements Screen, InputProcessor {
 	}
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-
+		
 		Vector2 centerPosition = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
 
 		screenY = Gdx.graphics.getHeight() - screenY;
 
 		Vector2 mouseLoc = new Vector2(screenX, screenY);
 
+		mouseX = mouseLoc.x;
+		mouseY = mouseLoc.y;
+		
 		Vector2 direction = mouseLoc.sub(centerPosition);
 		float mouseAngle = direction
 				.angle();
 		player.setRotation(mouseAngle);
 
 		return true;
+	}
+	
+	public Vector2 getMouseCords(){
+		return new Vector2(mouseX, mouseY);
 	}
 
 	public World getWorld() {
