@@ -2,6 +2,7 @@ package me.boxcubed.main.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
@@ -41,6 +42,9 @@ public class GameState implements Screen{
 	public SpriteBatch sb;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
+	
+	public float mouseX, mouseY;
+	
 	//Zombie zombie;
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
@@ -131,15 +135,17 @@ public class GameState implements Screen{
 
 	}
 	int counter=0;
+
 	private void handleInput() {
 
 		Input input=Gdx.input;
-
-		//float mouseX = input.getX();
-
-		float mouseX = input.getX()-300;
-		float mouseY = Gdx.graphics.getHeight()-input.getY();
-
+		
+		mouseY = input.getY();
+		mouseY =Gdx.graphics.getHeight() - mouseY ;
+		
+		Vector2 centerPosition = new Vector2((float)Gdx.graphics.getWidth() / 2, (float)Gdx.graphics.getHeight() / 2);
+		Vector2 mousePos= new Vector2(mouseX,mouseY);
+		
 		float angle = (float) Math.atan2(mouseY - player.getX(), mouseX - player.getY());
 		angle = (float) Math.toDegrees(angle);
 
@@ -156,7 +162,7 @@ public class GameState implements Screen{
 			GameState.instance.entities.clear();
 			noZombie=!noZombie;
 		}
-		if(input.isKeyJustPressed(Input.Keys.T)){
+		if(input.isKeyJustPressed(Input.Keys.X)){
 			noTime=!noTime;
 			if(noTime){
 				PlayerLight.amlight=13;
@@ -171,7 +177,7 @@ public class GameState implements Screen{
 				player.setHealth(player.getMaxHealth());
 			else player=new Player(gameWORLD);
 		}
-		if (input.isKeyJustPressed(Keys.S)) {
+		if (input.isButtonPressed(Buttons.LEFT)) {
 		    //Creates new bullet
 			//bullets.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
 			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));

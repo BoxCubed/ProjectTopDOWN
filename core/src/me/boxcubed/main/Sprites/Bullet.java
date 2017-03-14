@@ -38,8 +38,8 @@ public class Bullet implements Entity{
         }
 
 		bulletShape.dispose();
-        float mouseX = Gdx.input.getX()-300;
-        float mouseY = Gdx.graphics.getHeight()-Gdx.input.getY();
+		float mouseX = GameState.instance.mouseX;
+		float mouseY = GameState.instance.mouseY;
         System.out.println(GameState.instance.player.getRotation());
         double vX = (mouseX - GameState.instance.player.getBody().getPosition().x)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().x) * (mouseX - GameState.instance.player.getBody().getPosition().x)) + ((mouseY - GameState.instance.player.getBody().getPosition().y) *(mouseY - GameState.instance.player.getBody().getPosition().y)));
         double vY = (mouseY - GameState.instance.player.getBody().getPosition().y)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().y) * (mouseX - GameState.instance.player.getBody().getPosition().y)) + ((mouseY - GameState.instance.player.getBody().getPosition().x) *(mouseY - GameState.instance.player.getBody().getPosition().x)));
