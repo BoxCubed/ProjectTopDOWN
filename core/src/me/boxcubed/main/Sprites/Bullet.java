@@ -45,11 +45,10 @@ public class Bullet implements Entity{
         }else{
             bulletBody.setTransform(x - 10, y , GameState.instance.player.getRotation());
         }
-
+        
 		bulletShape.dispose();
-		float mouseX = GameState.instance.mouseX;
-		float mouseY = GameState.instance.mouseY;
-        System.out.println(GameState.instance.player.getRotation());
+		  float mouseX = GameState.instance.getMouseCords().x;
+	      float mouseY = GameState.instance.getMouseCords().y;
         vX = (mouseX - GameState.instance.player.getBody().getPosition().x)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().x) * (mouseX - GameState.instance.player.getBody().getPosition().x)) + ((mouseY - GameState.instance.player.getBody().getPosition().y) *(mouseY - GameState.instance.player.getBody().getPosition().y)));
         vY = (mouseY - GameState.instance.player.getBody().getPosition().y)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().y) * (mouseX - GameState.instance.player.getBody().getPosition().y)) + ((mouseY - GameState.instance.player.getBody().getPosition().x) *(mouseY - GameState.instance.player.getBody().getPosition().x)));
         bulletBody.setLinearVelocity((float) vX *200, (float) vY *200);
