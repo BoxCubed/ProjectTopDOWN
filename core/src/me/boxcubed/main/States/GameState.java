@@ -217,7 +217,7 @@ public class GameState implements Screen, InputProcessor {
 		player.render(sb);
 		sb.setProjectionMatrix(hud.textCam.combined);
 		
-		hud.render(sb, delta);
+		hud.render(sb);
 		
 		sb.end();
 
