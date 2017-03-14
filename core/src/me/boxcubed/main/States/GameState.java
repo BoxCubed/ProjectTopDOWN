@@ -24,7 +24,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.Hud;
 import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
 
-
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
@@ -187,6 +187,9 @@ public class GameState implements Screen, InputProcessor {
 		}
 		if (input.isKeyJustPressed(Keys.SPACE)) {
 			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
+		}
+		if (input.isKeyJustPressed(Keys.M)) {
+			TopDown.instance.setScreen(new MenuState());
 		}
 
 	}

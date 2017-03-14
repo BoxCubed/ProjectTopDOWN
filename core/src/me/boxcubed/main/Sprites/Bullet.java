@@ -28,7 +28,7 @@ public class Bullet implements Entity{
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
 		bulletShape = new PolygonShape();
-		bulletShape.setAsBox(2, 2);
+		bulletShape.setAsBox(1, 1);
 
 		// Fixture def
 		fixtureDefBullet = new FixtureDef();
