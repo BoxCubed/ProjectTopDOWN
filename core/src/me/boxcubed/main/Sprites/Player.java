@@ -125,7 +125,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		
 		boolean keyPressed=false;
 		
-		if (input.isKeyPressed(Input.Keys.UP)){
+		if (input.isKeyPressed(Input.Keys.UP)){//
 			keyPressed=true;
 			processMovment("UP");
 			}
