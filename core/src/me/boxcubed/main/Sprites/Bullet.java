@@ -1,7 +1,10 @@
 package me.boxcubed.main.Sprites;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,6 +24,7 @@ public class Bullet implements Entity{
 	Body bulletBody;
 	Fixture fixture;
 	private double vX,vY;
+	private float rotation;
 	
 	
 	public Bullet(World world, float x, float y){
@@ -47,6 +51,7 @@ public class Bullet implements Entity{
         }
         
 		bulletShape.dispose();
+		rotation=GameState.instance.player.getRotation();
 		  float mouseX = GameState.instance.getMouseCords().x;
 	      float mouseY = GameState.instance.getMouseCords().y;
         vX = (mouseX - GameState.instance.player.getBody().getPosition().x)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().x) * (mouseX - GameState.instance.player.getBody().getPosition().x)) + ((mouseY - GameState.instance.player.getBody().getPosition().y) *(mouseY - GameState.instance.player.getBody().getPosition().y)));
@@ -61,10 +66,18 @@ public class Bullet implements Entity{
 		 if(isDisposable())return;
           bulletBody.setLinearVelocity((float) vX *200, (float) vY *200);
 	    }
-	 public void render(SpriteBatch sb) {
+	 @Override
+	 public void renderShapes(ShapeRenderer renderer) {
+		 renderer.set(ShapeType.Filled);
+		 renderer.setColor(Color.YELLOW);
+		 renderer.rect(getPos().x-2, getPos().y-4, 1, 5, 2, 10, 1, 1, rotation+90);
 
-	 	
 	 }
+	 @Override
+		public void render(SpriteBatch sb) {
+			// TODO Auto-generated method stub
+			
+		}
 
 	
 	@Override
@@ -124,5 +137,6 @@ public class Bullet implements Entity{
 	public void setDisposable(boolean disposable) {
 		this.disposable=disposable;
 	}
+	
 
 }

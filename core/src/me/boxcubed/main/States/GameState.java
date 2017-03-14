@@ -12,6 +12,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -47,6 +48,7 @@ public class GameState implements Screen, InputProcessor {
 	public static GameState instance;
 
 	public SpriteBatch sb;
+	private ShapeRenderer sr;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
 
@@ -90,7 +92,8 @@ public class GameState implements Screen, InputProcessor {
 
 		// Rendering
 		sb = new SpriteBatch();
-
+		sr=new ShapeRenderer();
+		
 		// Lists
 		entities = new ArrayList<Entity>();
 		dispose =new ArrayList<Entity>();
@@ -208,19 +211,31 @@ public class GameState implements Screen, InputProcessor {
 
 		b2dr.render(gameWORLD, cam.combined);
 		playerLight.rayHandler.setCombinedMatrix(cam);
-
+		//Entity render
 		sb.begin();                                                   //-------------------------------------\\
                                                                       //       SEE THIS RENDER METHOD?       \\
 		entities.forEach(entity -> entity.render(sb));                //    SEE HOW IT'S CLEAN, AND NOT      \\
                                                                       //   AUSTIC, I'D LIKE TO KEEP IT THAT  \\
 		sb.end();                                                     //                 WAY                 \\
-		                                                              //-------------------------------------\\                                            
+		//Light render                                                //-------------------------------------\\     
 		playerLight.rayHandler.render();
+		
+		//rendering not affected by light
+		
+		//Shape rendering
+		//TODO get a texture for all shapes
+		sr.setProjectionMatrix(camCombined());
+		sr.setAutoShapeType(true);
+		sr.begin();
+		entities.forEach(entity->entity.renderShapes(sr));
+		sr.end();
+		
+		//rendering of hud and player
 		sb.begin();
 		player.render(sb);
 		sb.setProjectionMatrix(hud.textCam.combined);
 		
-		hud.render(sb, delta);
+		hud.render(sb);
 		
 		sb.end();
 

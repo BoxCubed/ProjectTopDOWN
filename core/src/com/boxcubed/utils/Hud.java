@@ -23,7 +23,7 @@ public class Hud {
 		
 		format = new DecimalFormat("#.##");
 	}
-	public void render(SpriteBatch sb,float delta){
+	public void render(SpriteBatch sb){
 		String health = "";
 		int i;
 
@@ -32,16 +32,23 @@ public class Hud {
 		}
 		for (; i < 100; i++)
 			health += "-";
+								//TODO fix alignment
+		font.draw(sb, "FPS/Delta: " + Gdx.graphics.getFramesPerSecond()+"/"+
+				  format.format(Gdx.graphics.getRawDeltaTime()*100), -250, textCam.viewportHeight / 2);
 		
-		font.draw(sb, "FPS: " + Gdx.graphics.getFramesPerSecond(), -250, textCam.viewportHeight / 2);
 		font.draw(sb, "Entity Number: " + GameState.instance.entities.size(), -380, textCam.viewportHeight / 2);
-		font.draw(sb,
+		
+		font.draw(sb,														//TODO make time work with night 5 sec delay
 				"Time: " + /* format.format((PlayerLight.amlight*100)/8) */PlayerLight.amToTime(), -120,
 				textCam.viewportHeight / 2);
+		
 		font.draw(sb, "noZombieMode: " + GameState.instance.noZombie, 0, textCam.viewportHeight / 2);
+		
 		font.draw(sb, "noTimeMode: " + GameState.instance.noTime, 150, textCam.viewportHeight / 2);
+		
 		font.draw(sb, "Player Position: " + format.format(GameState.instance.player.getBody().getPosition().x) + ","
 				+ format.format(GameState.instance.player.getBody().getPosition().y), -600, textCam.viewportHeight / 2);
+		
 		font.draw(sb, health, -200, textCam.viewportHeight / 2 - 50);
 	}
 	
