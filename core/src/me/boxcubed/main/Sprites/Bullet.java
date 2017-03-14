@@ -1,20 +1,28 @@
 package me.boxcubed.main.Sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.States.GameState;
 
 public class Bullet implements Entity{
+	
 	BodyDef bulletDef;
 	PolygonShape bulletShape;
 	FixtureDef fixtureDefBullet;
 	Body bulletBody;
 	Fixture fixture;
 	private double vX,vY;
+	
+	
 	public Bullet(World world, float x, float y){
 		bulletDef = new BodyDef();
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
@@ -31,6 +39,7 @@ public class Bullet implements Entity{
 		bulletBody = world.createBody(bulletDef);
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
+		
         if(GameState.instance.player.getRotation() < 90 && GameState.instance.player.getRotation() >0 || GameState.instance.player.getRotation() > 275){
             bulletBody.setTransform(x + 10, y , GameState.instance.player.getRotation());
         }else{
@@ -52,25 +61,6 @@ public class Bullet implements Entity{
 	    	 /*System.out.println(playerDirection);*/
 		 if(isDisposable())return;
           bulletBody.setLinearVelocity((float) vX *200, (float) vY *200);
-
-	       /* switch ((int) GameState.instance.player.getRotation()){
-	            case 0:  //RIGHT
-	                velX = 200;
-	            case -180: //LEFT
-	                velX = -200;
-	            case 90: //UP
-	                velY = 200;
-	            case -90:   //DOWN
-	                velY = -200;
-	            default:
-	            	velX = 0;
-	            	velY = 0;
-	        }*/
-
-	        /*System.out.println(velX + " " + velY);
-	        //This method is not needed yet
-	        System.out.println(bulletBody.getPosition().x + "" + bulletBody.getPosition().y);*/
-	        //No, just no
 	    }
 	 public void render(SpriteBatch sb) {
 
