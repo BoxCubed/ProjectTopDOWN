@@ -34,13 +34,19 @@ public class Bullet implements Entity{
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
 
-		bulletBody.setTransform(x+3, y+3, 0);
+		bulletBody.setTransform(x+10, y+10, GameState.instance.player.getRotation());
 		bulletShape.dispose();
         float mouseX = Gdx.input.getX()-300;
         float mouseY = Gdx.graphics.getHeight()-Gdx.input.getY();
         double velY = (Math.sqrt(Math.pow((GameState.instance.player.getBody().getPosition().x - mouseX), 2) + Math.pow((GameState.instance.player.getBody().getPosition().y - mouseY ),2)))* Math.sin(GameState.instance.player.getRotation());
         double velX = (Math.sqrt(Math.pow((GameState.instance.player.getBody().getPosition().x - mouseX), 2) + Math.pow((GameState.instance.player.getBody().getPosition().y - mouseY ),2)))* Math.cos(GameState.instance.player.getRotation());;
-        bulletBody.setLinearVelocity(new Vector2((int)velX,(int) velY));
+
+        double vX = (mouseX - GameState.instance.player.getBody().getPosition().x)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().x) * (mouseX - GameState.instance.player.getBody().getPosition().x)) + ((mouseY - GameState.instance.player.getBody().getPosition().y) *(mouseY - GameState.instance.player.getBody().getPosition().y)));
+        double vY = (mouseY - GameState.instance.player.getBody().getPosition().y)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().y) * (mouseX - GameState.instance.player.getBody().getPosition().y)) + ((mouseY - GameState.instance.player.getBody().getPosition().x) *(mouseY - GameState.instance.player.getBody().getPosition().x)));
+        System.out.println(vX*100 + "   " + vY*100);
+        bulletBody.setLinearVelocity((float) vX *100, (float) vY *100);
+
+
     }
 	 @Override
 	    public void update(float delta) {
