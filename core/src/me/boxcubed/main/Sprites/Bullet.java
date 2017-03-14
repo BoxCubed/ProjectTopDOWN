@@ -9,17 +9,16 @@ import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.States.GameState;
 
 public class Bullet implements Entity{
-	BodyDef playerDef;
+	Animation<TextureRegion> sexwithryansdad;
+	BodyDef bulletDef;
 	PolygonShape bulletShape;
 	FixtureDef fixtureDefBullet;
 	Body bulletBody;
 	Fixture fixture;
 	public Boolean remove;
-	Player player;
-	GameState gameState;
 	public Bullet(World world, float x, float y){
-		playerDef = new BodyDef();
-		playerDef.type = BodyDef.BodyType.DynamicBody;
+		bulletDef = new BodyDef();
+		bulletDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
 		bulletShape = new PolygonShape();
 		bulletShape.setAsBox(2, 2);
@@ -30,7 +29,7 @@ public class Bullet implements Entity{
 
 		fixtureDefBullet.friction = 0f;
 		// Creates the body and assigns vars to all important values
-		bulletBody = world.createBody(playerDef);
+		bulletBody = world.createBody(bulletDef);
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
 
