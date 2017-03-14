@@ -21,6 +21,9 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.boxcubed.utils.Hud;
+import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
+
 
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
@@ -53,11 +56,15 @@ public class GameState implements Screen, InputProcessor {
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
+	
+	Hud hud;
 
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
 
-	boolean noZombie = false, noTime = false;
+	public boolean noZombie = false;
+
+	public boolean noTime = false;
 
 	@Override
 	public void show() {
@@ -72,10 +79,10 @@ public class GameState implements Screen, InputProcessor {
 		// World Init
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
-
+		
 		// HUD initializing
-		textCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		textCam.update();
+		hud = new Hud();
+		hud.update();
 
 		// Box2D Stuff
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
@@ -96,8 +103,13 @@ public class GameState implements Screen, InputProcessor {
 
 		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 
+		//Ryan better rename this to Zombie AI
+	    playerAI=new SteeringAI(player, player.getWidth());
+		playerAI.setBehavior(new LookWhereYouAreGoing<Vector2>(playerAI));
+		
 		// Apparently the lighting to the whole map, not sure why its player
 		// light
+		
 		playerLight = new PlayerLight(gameWORLD, player.getBody());
 
 		// Making all the collision shapes
@@ -112,7 +124,7 @@ public class GameState implements Screen, InputProcessor {
 		handleInput();
 
 		//Updating HUD
-		textCam.update();
+		hud.update();
 		
 		//Updating World
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
@@ -195,15 +207,6 @@ public class GameState implements Screen, InputProcessor {
 		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();
 
-		String health = "";
-		int i;
-
-		for (i = 0; i < player.getHealth() / player.getMaxHealth() * 100f; i++) {
-			health += "|";
-		}
-		for (; i < 100; i++)
-			health += "-";
-
 		b2dr.render(gameWORLD, cam.combined);
 		playerLight.rayHandler.setCombinedMatrix(cam);
 
@@ -216,18 +219,10 @@ public class GameState implements Screen, InputProcessor {
 		sb.begin();
 		player.render(sb);
 		// UGLY SHIT
-		sb.setProjectionMatrix(textCam.combined);
-		font.draw(sb, "Delta: " + format.format(delta * 100), -230, textCam.viewportHeight / 2);
-		font.draw(sb, "Entity Number: " + entities.size(), -380, textCam.viewportHeight / 2);
-		font.draw(sb,
-				"Time: " + /* format.format((PlayerLight.amlight*100)/8) */PlayerLight.amToTime(), -120,
-				textCam.viewportHeight / 2);
-		font.draw(sb, "noZombieMode: " + noZombie, 0, textCam.viewportHeight / 2);
-		font.draw(sb, "noTimeMode: " + noTime, 150, textCam.viewportHeight / 2);
-		font.draw(sb, "Player Position: " + format.format(player.getBody().getPosition().x) + ","
-				+ format.format(player.getBody().getPosition().y), -600, textCam.viewportHeight / 2);
-		font.draw(sb, health, -200, textCam.viewportHeight / 2 - 50);
-
+		sb.setProjectionMatrix(hud.textCam.combined);
+		
+		hud.render(sb, delta);
+		
 		sb.end();
 
 	}
