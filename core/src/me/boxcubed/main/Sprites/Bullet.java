@@ -9,7 +9,6 @@ import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.States.GameState;
 
 public class Bullet implements Entity{
-	Animation<TextureRegion> sexwithryansdad;
 	BodyDef bulletDef;
 	PolygonShape bulletShape;
 	FixtureDef fixtureDefBullet;
