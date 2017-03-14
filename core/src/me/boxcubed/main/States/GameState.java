@@ -3,6 +3,7 @@ package me.boxcubed.main.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -31,7 +32,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameState implements Screen{
+public class GameState implements Screen,InputProcessor{
 	public World gameWORLD;
 	public OrthographicCamera cam,textCam;
 	public Player player;
@@ -94,12 +95,13 @@ public class GameState implements Screen{
 		
 		//mp=new MapCollision(tiledMap,gameWORLD);
 		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
+		
+		Gdx.input.setInputProcessor(this);
 
 	}
 
 	public void update(float delta) {
-		//Removes bullets after they are not needed
-		//TODO BULLET
+		
 
 		handleInput();
 		//cam.position.x=player.getPos().x;
@@ -138,24 +140,7 @@ public class GameState implements Screen{
 	private void handleInput() {
 
 		Input input=Gdx.input;
-		
-		mouseY = input.getY();
-		mouseY =Gdx.graphics.getHeight() - mouseY ;
-		
-		Vector2 centerPosition = new Vector2((float)Gdx.graphics.getWidth() / 2, (float)Gdx.graphics.getHeight() / 2);
-		Vector2 mousePos= new Vector2(mouseX,mouseY);
-		
-		float angle = (float) Math.atan2(mouseY - player.getX(), mouseX - player.getY());
-		angle = (float) Math.toDegrees(angle);
 
-		player.setRotation(angle);
-
-		//System.out.println(mouseX+", "+player.getX());
-		if(angle<0){
-			angle+=360;
-		}
-
-		player.setRotation((float) angle);
 		if(input.isKeyJustPressed(Input.Keys.Z)){
 			GameState.instance.entities.forEach(entity->entity.dispose());
 			GameState.instance.entities.clear();
@@ -276,6 +261,66 @@ public class GameState implements Screen{
 		gameWORLD.dispose();
 		font.dispose();
 		sb.dispose();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		
+		 Vector2 centerPosition = new Vector2((float)Gdx.graphics.getWidth() / 2, (float)Gdx.graphics.getHeight() / 2);
+		//  Vector2 centerPosition = new Vector2(getX(), getY());
+
+		    screenY = Gdx.graphics.getHeight() - screenY ; //Inverse the Y
+
+		        Vector2 mouseLoc = new Vector2(screenX, screenY);
+
+
+		        Vector2 direction = mouseLoc.sub(centerPosition);
+		        float mouseAngle  = direction.angle();/*(float)(Math. atan2(direction.y, direction.x)); */
+		        player.setRotation(mouseAngle);
+
+		        return true;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 
