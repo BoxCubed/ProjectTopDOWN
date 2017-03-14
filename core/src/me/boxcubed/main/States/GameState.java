@@ -36,7 +36,8 @@ public class GameState implements Screen{
 	public OrthographicCamera cam,textCam;
 	public Player player;
 	public static GameState instance;
-	public List<Entity> entities;
+	public List<Entity> entities; //Gay shit. We shout have multiple arraylists for each different entity.
+	//Would 10/10 make it easier
 	public SpriteBatch sb;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
@@ -86,7 +87,6 @@ public class GameState implements Screen{
 		entities.add(new Zombie(gameWORLD,playerAI));*/
 		
 		zombieSpawner=new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100,20);
-		
 		playerLight = new PlayerLight(gameWORLD,player.getBody());
 		
 		//mp=new MapCollision(tiledMap,gameWORLD);
@@ -96,7 +96,7 @@ public class GameState implements Screen{
 
 	public void update(float delta) {
 		//Removes bullets after they are not needed
-//TODO BULLET
+		//TODO BULLET
 
 		handleInput();
 		//cam.position.x=player.getPos().x;
@@ -112,17 +112,13 @@ public class GameState implements Screen{
 		}
 				
 		if(!noZombie){zombieSpawner.update(delta);}
-		List<Entity>dispose=new ArrayList<>();
+		List<Entity>dispose =new ArrayList<>();
 		player.update(delta);
 		entities.forEach(entity->{
 			if(entity.isDisposable()){
 				entity.dispose();
 				dispose.add(entity);
-				
 			}else entity.update(delta);
-			
-				
-			
 		});
 		entities.removeAll(dispose);
 		dispose.clear();
@@ -212,16 +208,13 @@ public class GameState implements Screen{
 
 		sb.begin();
 
-
-		
 		entities.forEach(entity->entity.render(sb));
-		
 
-		
 		sb.end();
 		playerLight.rayHandler.render();
 		sb.begin();
 		player.render(sb);
+		//UGLY SHIT
 		sb.setProjectionMatrix(textCam.combined);
 		font.draw(sb, "Delta: "+format.format(delta*100), -230, textCam.viewportHeight/2);
 		font.draw(sb, "Entity Number: "+entities.size(), -380, textCam.viewportHeight/2);

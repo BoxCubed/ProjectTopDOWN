@@ -1,16 +1,14 @@
 package me.boxcubed.main.Sprites;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.States.GameState;
 
 public class Bullet implements Entity{
-	Animation<TextureRegion> sexwithryansdad;
 	BodyDef playerDef;
 	PolygonShape bulletShape;
 	FixtureDef fixtureDefBullet;
@@ -18,6 +16,7 @@ public class Bullet implements Entity{
 	Fixture fixture;
 	public Boolean remove;
 	Player player;
+	GameState gameState;
 	public Bullet(World world, float x, float y){
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
@@ -37,14 +36,18 @@ public class Bullet implements Entity{
 
 		bulletBody.setTransform(x+3, y+3, 0);
 		bulletShape.dispose();
-	}
+        float mouseX = Gdx.input.getX()-300;
+        float mouseY = Gdx.graphics.getHeight()-Gdx.input.getY();
+        double velY = (Math.sqrt(Math.pow((GameState.instance.player.getBody().getPosition().x - mouseX), 2) + Math.pow((GameState.instance.player.getBody().getPosition().y - mouseY ),2)))* Math.sin(GameState.instance.player.getRotation());
+        double velX = (Math.sqrt(Math.pow((GameState.instance.player.getBody().getPosition().x - mouseX), 2) + Math.pow((GameState.instance.player.getBody().getPosition().y - mouseY ),2)))* Math.cos(GameState.instance.player.getRotation());;
+        bulletBody.setLinearVelocity(new Vector2((int)velX,(int) velY));
+    }
 	 @Override
 	    public void update(float delta) {
 	    	 /*System.out.println(playerDirection);*/
 		 if(isDisposable())return;
-	        int velX = 0, velY = 0;
-	        remove = true;
-	        switch ((int) GameState.instance.player.getRotation()){
+          remove = true;
+	       /* switch ((int) GameState.instance.player.getRotation()){
 	            case 0:  //RIGHT
 	                velX = 200;
 	            case -180: //LEFT
@@ -56,8 +59,8 @@ public class Bullet implements Entity{
 	            default:
 	            	velX = 0;
 	            	velY = 0;
-	        }
-	        getBody().setLinearVelocity(new Vector2(velX, velY));
+	        }*/
+
 	        /*System.out.println(velX + " " + velY);
 	        //This method is not needed yet
 	        System.out.println(bulletBody.getPosition().x + "" + bulletBody.getPosition().y);*/
