@@ -95,9 +95,6 @@ public class GameState implements Screen, InputProcessor {
 		entities = new ArrayList<Entity>();
 		dispose =new ArrayList<Entity>();
 
-		// Initialize Map
-		initMap();
-
 		// Adding player
 		player = new Player(gameWORLD);
 
@@ -189,7 +186,6 @@ public class GameState implements Screen, InputProcessor {
 				player = new Player(gameWORLD);
 		}
 		if (input.isKeyJustPressed(Keys.SPACE)) {
-			// Creates new bullet
 			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
 		}
 
@@ -210,21 +206,37 @@ public class GameState implements Screen, InputProcessor {
 		b2dr.render(gameWORLD, cam.combined);
 		playerLight.rayHandler.setCombinedMatrix(cam);
 
-		sb.begin();
-
-		entities.forEach(entity -> entity.render(sb));
-
-		sb.end();
+		sb.begin();                                                   //-------------------------------------\\
+                                                                      //       SEE THIS RENDER METHOD?       \\
+		entities.forEach(entity -> entity.render(sb));                //    SEE HOW IT'S CLEAN, AND NOT      \\
+                                                                      //   AUSTIC, I'D LIKE TO KEEP IT THAT  \\
+		sb.end();                                                     //                 WAY                 \\
+		                                                              //-------------------------------------\\                                            
 		playerLight.rayHandler.render();
 		sb.begin();
 		player.render(sb);
-		// UGLY SHIT
 		sb.setProjectionMatrix(hud.textCam.combined);
 		
 		hud.render(sb, delta);
 		
 		sb.end();
 
+	}
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+
+		Vector2 centerPosition = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
+
+		screenY = Gdx.graphics.getHeight() - screenY;
+
+		Vector2 mouseLoc = new Vector2(screenX, screenY);
+
+		Vector2 direction = mouseLoc.sub(centerPosition);
+		float mouseAngle = direction
+				.angle();
+		player.setRotation(mouseAngle);
+
+		return true;
 	}
 
 	public World getWorld() {
@@ -235,13 +247,19 @@ public class GameState implements Screen, InputProcessor {
 		return cam.combined;
 	}
 
-	float rotation = 0;
-
-	private void initMap() {
-
-		// MapCollision map = new MapCollision(tm,gameWORLD);
+	@Override
+	public void dispose() {
+		entities.forEach(entity -> entity.dispose());
+		playerLight.dispose();
+		player = null;
+		entities.clear();
+		entities = null;
+		tiledMap.dispose();
+		playerLight.dispose();
+		gameWORLD.dispose();
+		font.dispose();
+		sb.dispose();
 	}
-
 	@Override
 	public void resize(int width, int height) {
 	}
@@ -259,20 +277,6 @@ public class GameState implements Screen, InputProcessor {
 	@Override
 	public void hide() {
 		// dispose();
-	}
-
-	@Override
-	public void dispose() {
-		entities.forEach(entity -> entity.dispose());
-		playerLight.dispose();
-		player = null;
-		entities.clear();
-		entities = null;
-		tiledMap.dispose();
-		playerLight.dispose();
-		gameWORLD.dispose();
-		font.dispose();
-		sb.dispose();
 	}
 
 	@Override
@@ -309,24 +313,6 @@ public class GameState implements Screen, InputProcessor {
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-
-		Vector2 centerPosition = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
-		// Vector2 centerPosition = new Vector2(getX(), getY());
-
-		screenY = Gdx.graphics.getHeight() - screenY; // Inverse the Y
-
-		Vector2 mouseLoc = new Vector2(screenX, screenY);
-
-		Vector2 direction = mouseLoc.sub(centerPosition);
-		float mouseAngle = direction
-				.angle();/* (float)(Math. atan2(direction.y, direction.x)); */
-		player.setRotation(mouseAngle);
-
-		return true;
 	}
 
 	@Override

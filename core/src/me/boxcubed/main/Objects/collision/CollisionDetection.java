@@ -1,7 +1,9 @@
 package me.boxcubed.main.Objects.collision;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.States.GameState;
@@ -25,7 +27,6 @@ public CollisionDetection(){
 				entity.setDisposable(true);
 			if(entity.getFixture().getUserData().equals("BULLET"))
 				entity.setDisposable(true);
-			Gdx.app.log("[TopDown]", "Bullet HIT!");
 			continue;
 			
 		}

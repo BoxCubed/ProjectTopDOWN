@@ -33,7 +33,7 @@ public class Hud {
 		for (; i < 100; i++)
 			health += "-";
 		
-		font.draw(sb, "Delta: " + format.format(delta * 100), -230, textCam.viewportHeight / 2);
+		font.draw(sb, "FPS: " + Gdx.graphics.getFramesPerSecond(), -250, textCam.viewportHeight / 2);
 		font.draw(sb, "Entity Number: " + GameState.instance.entities.size(), -380, textCam.viewportHeight / 2);
 		font.draw(sb,
 				"Time: " + /* format.format((PlayerLight.amlight*100)/8) */PlayerLight.amToTime(), -120,
