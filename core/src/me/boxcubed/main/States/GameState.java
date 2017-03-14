@@ -156,7 +156,7 @@ public class GameState implements Screen{
 			GameState.instance.entities.clear();
 			noZombie=!noZombie;
 		}
-		if(input.isKeyJustPressed(Input.Keys.T)){
+		if(input.isKeyJustPressed(Input.Keys.X)){
 			noTime=!noTime;
 			if(noTime){
 				PlayerLight.amlight=13;
@@ -166,12 +166,12 @@ public class GameState implements Screen{
 		if(input.isKeyPressed(Input.Keys.ESCAPE)){
 			Gdx.app.exit();
 		}
-		if(input.isKeyJustPressed(Keys.H)){
+		if(input.isKeyJustPressed(Keys.C)){
 			if(player.isAlive())
 				player.setHealth(player.getMaxHealth());
 			else player=new Player(gameWORLD);
 		}
-		if (input.isKeyJustPressed(Keys.S)) {
+		if (input.isButtonPressed(Input.Buttons.LEFT)) {
 		    //Creates new bullet
 			//bullets.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
 			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
