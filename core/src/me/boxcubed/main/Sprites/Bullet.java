@@ -1,10 +1,11 @@
 package me.boxcubed.main.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -44,33 +45,25 @@ public class Bullet implements Entity{
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
 		
-        if(GameState.instance.player.getRotation() < 90 && GameState.instance.player.getRotation() >0 || GameState.instance.player.getRotation() > 275){
-            bulletBody.setTransform(x + 10, y , GameState.instance.player.getRotation());
-        }else{
-            bulletBody.setTransform(x - 10, y , GameState.instance.player.getRotation());
-        }
+        bulletBody.setTransform(x + 20, y , GameState.instance.player.getRotation());
+       
         
 		bulletShape.dispose();
 		rotation=GameState.instance.player.getRotation();
 		  float mouseX = GameState.instance.getMouseCords().x;
 	      float mouseY = GameState.instance.getMouseCords().y;
+	      System.out.println(bulletBody.getLinearVelocity());
         vX = (mouseX - GameState.instance.player.getBody().getPosition().x)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().x) * (mouseX - GameState.instance.player.getBody().getPosition().x)) + ((mouseY - GameState.instance.player.getBody().getPosition().y) *(mouseY - GameState.instance.player.getBody().getPosition().y)));
         vY = (mouseY - GameState.instance.player.getBody().getPosition().y)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().y) * (mouseX - GameState.instance.player.getBody().getPosition().y)) + ((mouseY - GameState.instance.player.getBody().getPosition().x) *(mouseY - GameState.instance.player.getBody().getPosition().x)));
-        bulletBody.setLinearVelocity((float) vX *200, (float) vY *200);
-
-
+       // bulletBody.applyLinearImpulse(new Vector2(0, 0), bulletBody.getWorldCenter(), true);
+        bulletBody.applyForceToCenter(10000000000.0f, 10000000000.0f, true);
     }
 	 @Override
 	    public void update(float delta) {
 	    	 /*System.out.println(playerDirection);*/
 		 if(isDisposable())return;
-          bulletBody.setLinearVelocity((float) vX *200, (float) vY *200);
 	    }
-	 @Override
-	 public void renderShapes(ShapeRenderer renderer) {
-		 renderer.set(ShapeType.Filled);
-		 renderer.setColor(Color.YELLOW);
-		 renderer.rect(getPos().x-2, getPos().y-4, 1, 5, 2, 10, 1, 1, rotation+90);
+	 public void renderShapes(SpriteBatch sb) {
 
 	 }
 	 @Override

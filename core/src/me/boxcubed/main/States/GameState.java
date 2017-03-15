@@ -61,6 +61,7 @@ public class GameState implements Screen, InputProcessor {
 	
 	Hud hud;
 
+	Vector2 mouseLoc;
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
 
@@ -81,6 +82,7 @@ public class GameState implements Screen, InputProcessor {
 		// World Init
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
+		World.setVelocityThreshold(1000000.0f);
 		
 		// HUD initializing
 		hud = new Hud();
@@ -227,7 +229,7 @@ public class GameState implements Screen, InputProcessor {
 		sr.setProjectionMatrix(camCombined());
 		sr.setAutoShapeType(true);
 		sr.begin();
-		entities.forEach(entity->entity.renderShapes(sr));
+		entities.forEach(entity->entity.renderShapes(sb));
 		sr.end();
 		
 		//rendering of hud and player
@@ -247,7 +249,7 @@ public class GameState implements Screen, InputProcessor {
 
 		screenY = Gdx.graphics.getHeight() - screenY;
 
-		Vector2 mouseLoc = new Vector2(screenX, screenY);
+		mouseLoc = new Vector2(screenX, screenY);
 
 		mouseX = mouseLoc.x;
 		mouseY = mouseLoc.y;
