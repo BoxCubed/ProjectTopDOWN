@@ -1,8 +1,10 @@
 package me.boxcubed.main.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -15,30 +17,29 @@ import com.badlogic.gdx.physics.box2d.World;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.States.GameState;
 
-public class Bullet implements Entity{
+public class Bullet extends Sprite implements Entity{
 	
 	BodyDef bulletDef;
 	PolygonShape bulletShape;
 	FixtureDef fixtureDefBullet;
 	Body bulletBody;
 	Fixture fixture;
-	
+	float rotation;
 	public int SPEED = 8;
-	private Texture texture;
 	
 	float x,y;
 	
-	public Bullet(World world, float x, float y){
+	public Bullet(World world, float x, float y,float rotation){
+		super(new Texture(Gdx.files.internal("assets/img/bullet.png")));
 		this.x=x;
 		this.y=y;
+		this.rotation=rotation;
 				
 		bulletDef = new BodyDef();
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
 		bulletShape = new PolygonShape();
-		bulletShape.setAsBox(1, 3);
-
-		texture = new Texture("assets/img/bullet.png");
+		bulletShape.setAsBox(1, 2);
 		
 		// Fixture def
 		fixtureDefBullet = new FixtureDef();
@@ -49,14 +50,33 @@ public class Bullet implements Entity{
 		bulletBody = world.createBody(bulletDef);
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
+		System.out.println(rotation);
 		
-		bulletBody.setTransform(new Vector2(x+10,y+10),0);
+		bulletBody.setTransform(new Vector2(x+10,y+10),rotation);
     }
 	 @Override
 	    public void update(float delta) {
 		 if(!isDisposable()){
-			 y+=SPEED*delta;
-			 bulletBody.setTransform(new Vector2(x,y),0);
+		    if(rotation<35||rotation>340){
+		    	System.out.println("fire right");
+				 x+=SPEED*delta;
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
+			}
+		    if(rotation<339&&rotation>297){
+				 x+=SPEED*delta;
+				 y-=SPEED*delta;
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
+			}
+		    if(rotation<296&&rotation>243){
+				 y-=SPEED*delta;
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
+			}
+		    if(rotation<242&&rotation>204){
+				 y-=SPEED*delta;
+				 x-=SPEED*delta;
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
+			}
+		    
 		 }else{return;}
 	 }
 	 public void renderShapes(ShapeRenderer sr) {
@@ -64,9 +84,8 @@ public class Bullet implements Entity{
 	 }
 	 @Override
 		public void render(SpriteBatch sb) {
-		 if(!isDisposable())
-		 sb.draw(texture, x-7, y-7, 15, 10);
-		 else texture.dispose();
+		 if(!isDisposable()){
+		 sb.draw(this, x-7, y-7, (float)5, (float)5,(float)13,(float)7,(float)1,(float)1,GameState.instance.player.getRotation(),true);}
 	 }
 
 	

@@ -86,7 +86,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	@Override
 	public void render(SpriteBatch sb) {
 		if(!attack)
-		sb.draw(this, Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, GameState.instance.player.getWidth(), GameState.instance.player.getHeight(), 
+		sb.draw(this, Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, 18, 18, 
 				1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		else {
 			sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, 27, 27, 

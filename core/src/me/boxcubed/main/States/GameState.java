@@ -192,7 +192,8 @@ public class GameState implements Screen, InputProcessor {
 				player = new Player(gameWORLD);
 		}
 		if (input.isKeyJustPressed(Keys.SPACE)) {
-			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
+			float rot = player.getRotation();
+			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y, rot));
 		}
 		if (input.isKeyJustPressed(Keys.M)) {
 			TopDown.instance.setScreen(new MenuState());
