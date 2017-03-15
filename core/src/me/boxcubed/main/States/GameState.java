@@ -245,7 +245,6 @@ public class GameState implements Screen, CleanInputProcessor{
 		sb.end();
 
 	}
-	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		
 		Vector2 centerPosition = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
