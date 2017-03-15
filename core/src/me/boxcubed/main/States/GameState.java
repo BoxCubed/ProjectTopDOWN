@@ -55,6 +55,7 @@ public class GameState implements Screen, InputProcessor {
 	public float mouseX, mouseY;
 	public SteeringAI playerAI;
 
+	
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
@@ -229,7 +230,7 @@ public class GameState implements Screen, InputProcessor {
 		sr.setProjectionMatrix(camCombined());
 		sr.setAutoShapeType(true);
 		sr.begin();
-		entities.forEach(entity->entity.renderShapes(sb));
+		entities.forEach(entity->entity.renderShapes(sr));
 		sr.end();
 		
 		//rendering of hud and player

@@ -2,6 +2,7 @@ package me.boxcubed.main.Objects.interfaces;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -21,6 +22,6 @@ public interface Entity {
         public Fixture getFixture();
         public boolean isDisposable();
         public void setDisposable(boolean disposable);
-        public default void renderShapes(SpriteBatch sb){};
+        public void renderShapes(ShapeRenderer sr);
         }
   

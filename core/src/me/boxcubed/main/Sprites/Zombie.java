@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -161,6 +162,12 @@ public class Zombie extends Sprite implements LivingEntity {
 	public String getID() {
 		// TODO Auto-generated method stub
 		return "Zombie";
+	}
+
+	@Override
+	public void renderShapes(ShapeRenderer sr) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,11 +1,9 @@
 package me.boxcubed.main.Sprites;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -24,17 +22,24 @@ public class Bullet implements Entity{
 	FixtureDef fixtureDefBullet;
 	Body bulletBody;
 	Fixture fixture;
-	private double vX,vY;
-	private float rotation;
 	
+	public int SPEED = 8;
+	private Texture texture;
+	
+	float x,y;
 	
 	public Bullet(World world, float x, float y){
+		this.x=x;
+		this.y=y;
+				
 		bulletDef = new BodyDef();
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
 		bulletShape = new PolygonShape();
-		bulletShape.setAsBox(1, 1);
+		bulletShape.setAsBox(1, 3);
 
+		texture = new Texture("assets/img/bullet.png");
+		
 		// Fixture def
 		fixtureDefBullet = new FixtureDef();
 		fixtureDefBullet.shape = bulletShape;
@@ -45,31 +50,20 @@ public class Bullet implements Entity{
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
 		
-        bulletBody.setTransform(x + 20, y , GameState.instance.player.getRotation());
-       
-        
-		bulletShape.dispose();
-		rotation=GameState.instance.player.getRotation();
-		  float mouseX = GameState.instance.getMouseCords().x;
-	      float mouseY = GameState.instance.getMouseCords().y;
-	      System.out.println(bulletBody.getLinearVelocity());
-        vX = (mouseX - GameState.instance.player.getBody().getPosition().x)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().x) * (mouseX - GameState.instance.player.getBody().getPosition().x)) + ((mouseY - GameState.instance.player.getBody().getPosition().y) *(mouseY - GameState.instance.player.getBody().getPosition().y)));
-        vY = (mouseY - GameState.instance.player.getBody().getPosition().y)/Math.sqrt(((mouseX - GameState.instance.player.getBody().getPosition().y) * (mouseX - GameState.instance.player.getBody().getPosition().y)) + ((mouseY - GameState.instance.player.getBody().getPosition().x) *(mouseY - GameState.instance.player.getBody().getPosition().x)));
-       // bulletBody.applyLinearImpulse(new Vector2(0, 0), bulletBody.getWorldCenter(), true);
-        bulletBody.applyForceToCenter(10000000000.0f, 10000000000.0f, true);
+		bulletBody.setTransform(new Vector2(x+10,y+10),0);
     }
 	 @Override
 	    public void update(float delta) {
-	    	 /*System.out.println(playerDirection);*/
+		 y+=SPEED*delta;
+		 bulletBody.setTransform(new Vector2(x,y),0);
 		 if(isDisposable())return;
 	    }
-	 public void renderShapes(SpriteBatch sb) {
-
+	 public void renderShapes(ShapeRenderer sr) {
+	
 	 }
 	 @Override
 		public void render(SpriteBatch sb) {
-			// TODO Auto-generated method stub
-			
+		 sb.draw(texture, x-7, y-7, 15, 10);
 		}
 
 	

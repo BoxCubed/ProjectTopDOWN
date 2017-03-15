@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
@@ -117,9 +118,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	//finished bullets		
 	}
 	public void handleInput() {
-		//Reflection is a gay piece of shit.
-		//At least meake it in the gamestate class
-		// Walk controls
 		Input input = Gdx.input;
 		// and tej was that autistic kid
 		
@@ -280,6 +278,11 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	@Override
 	public String getID() {
 		return "Player";
+	}
+	@Override
+	public void renderShapes(ShapeRenderer sr) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
