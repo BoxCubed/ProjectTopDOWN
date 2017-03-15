@@ -233,6 +233,7 @@ public class GameState implements Screen, CleanInputProcessor{
 		sr.setAutoShapeType(true);
 		sr.begin();
 		entities.forEach(entity->entity.renderShapes(sr));
+		player.renderShapes(sr);
 		sr.end();
 		
 		//rendering of hud and player

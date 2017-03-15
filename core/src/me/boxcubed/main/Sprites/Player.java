@@ -27,6 +27,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	PlayerLight playerLight;
 	Body body;
 	ParticleEffect effect;
+	Crosshair crossH;
 	double health=getMaxHealth();
 	private Animation<TextureRegion> animation,animationLeg;
 	private TextureAtlas atlas,atlas2;
@@ -65,6 +66,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
         effect=new ParticleEffect();
 		effect.load(Gdx.files.internal("assets/maps/effects/flame.p"),Gdx.files.internal( "assets/maps/effects/"));
 		effect.start();
+		crossH=new Crosshair(30, this);
         
 		legOffY=10;
 		legOffX=10;
@@ -90,6 +92,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			effect.update(delta/100);
 			
 			elapsedTime+=delta;
+			crossH.update(delta);
 		
 		
 		}
@@ -113,10 +116,12 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		sb.draw(animation.getKeyFrame(elapsedTime, true), 
 				playerBody.getPosition().x-getWidth()/2-5,playerBody.getPosition().y-getHeight()/2
 				,15,15,30,30,1,1,getRotation());
+		
 		}
 		}else if(!isDisposed){dispose();isDisposed=true;}
 	//finished bullets		
 	}
+	
 	public void handleInput() {
 		Input input = Gdx.input;
 		// and tej was that autistic kid
@@ -281,8 +286,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	}
 	@Override
 	public void renderShapes(ShapeRenderer sr) {
-		// TODO Auto-generated method stub
-		
+		crossH.render(sr);
 	}
 
 }
