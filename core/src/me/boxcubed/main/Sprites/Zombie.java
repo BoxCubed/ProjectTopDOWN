@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
+import me.boxcubed.main.Objects.FileAtlas;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.States.GameState;
@@ -32,11 +33,10 @@ public class Zombie extends Sprite implements LivingEntity {
 	SteeringAI ai;
 	boolean attack;
 	float attackTime;
-	private TextureAtlas zombieAtlas;
 	private Animation<TextureRegion> zombieAnim;
 	
 	public Zombie(World world,SteeringAI playerAI) {
-		super( new Texture(Gdx.files.internal("assets/img/skeleton-idle_0.png")));
+		super( FileAtlas.<Texture>getFile("zombieTex"));
 		setSize(50, 50);
 		health=100;
 		ai=new SteeringAI(this, 50);
@@ -60,8 +60,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		fixture.setUserData("ZOMBIE");
 		Body.setTransform(400, 100, 0);
 		Shape.dispose();
-		zombieAtlas = new TextureAtlas(Gdx.files.internal("assets/spritesheets/zombieanim.atlas"));
-		zombieAnim = new Animation<TextureRegion>(1f/30f*150f,zombieAtlas.getRegions());
+		zombieAnim = FileAtlas.<Animation<TextureRegion>>getFile("zombieAnim");
 		
 	}
 
