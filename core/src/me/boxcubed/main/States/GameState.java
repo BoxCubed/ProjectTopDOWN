@@ -7,8 +7,8 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,9 +24,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.Hud;
-import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
 
 import me.boxcubed.main.TopDown;
+import me.boxcubed.main.Objects.FileAtlas;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
@@ -75,11 +75,11 @@ public class GameState implements Screen, CleanInputProcessor{
 	public void show() {
 		// Instance of the game, for ease of access
 		instance = this;
-
+		
 		// Camera and Map
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
-		tiledMap = new TmxMapLoader().load("assets/maps/map.tmx");
+		tiledMap = FileAtlas.<TiledMap>getFile("map");
 
 		// World Init
 		gameWORLD = new World(new Vector2(0, 0), true);
