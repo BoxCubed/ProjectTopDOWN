@@ -83,7 +83,6 @@ public class GameState implements Screen, InputProcessor {
 		// World Init
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
-		World.setVelocityThreshold(1000000.0f);
 		
 		// HUD initializing
 		hud = new Hud();
