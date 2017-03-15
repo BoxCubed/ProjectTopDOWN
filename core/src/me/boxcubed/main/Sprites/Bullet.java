@@ -54,17 +54,20 @@ public class Bullet implements Entity{
     }
 	 @Override
 	    public void update(float delta) {
-		 y+=SPEED*delta;
-		 bulletBody.setTransform(new Vector2(x,y),0);
-		 if(isDisposable())return;
-	    }
+		 if(!isDisposable()){
+			 y+=SPEED*delta;
+			 bulletBody.setTransform(new Vector2(x,y),0);
+		 }else{return;}
+	 }
 	 public void renderShapes(ShapeRenderer sr) {
 	
 	 }
 	 @Override
 		public void render(SpriteBatch sb) {
+		 if(!isDisposable())
 		 sb.draw(texture, x-7, y-7, 15, 10);
-		}
+		 else texture.dispose();
+	 }
 
 	
 	@Override
