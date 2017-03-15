@@ -84,7 +84,6 @@ public class GameState implements Screen, CleanInputProcessor{
 		// World Init
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
-		World.setVelocityThreshold(1000000.0f);
 		
 		// HUD initializing
 		hud = new Hud();
@@ -246,7 +245,6 @@ public class GameState implements Screen, CleanInputProcessor{
 		sb.end();
 
 	}
-	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		
 		Vector2 centerPosition = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);

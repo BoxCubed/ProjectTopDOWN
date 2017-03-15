@@ -66,7 +66,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
         effect=new ParticleEffect();
 		effect.load(Gdx.files.internal("assets/maps/effects/flame.p"),Gdx.files.internal( "assets/maps/effects/"));
 		effect.start();
-		crossH=new Crosshair(30, this);
+		crossH=new Crosshair(100, this);
         
 		legOffY=10;
 		legOffX=10;
@@ -118,6 +118,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 				,15,15,30,30,1,1,getRotation());
 		
 		}
+		crossH.render(sb);
 		}else if(!isDisposed){dispose();isDisposed=true;}
 	//finished bullets		
 	}
@@ -286,7 +287,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	}
 	@Override
 	public void renderShapes(ShapeRenderer sr) {
-		crossH.render(sr);
+		
 	}
 
 }
