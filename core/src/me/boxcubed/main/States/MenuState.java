@@ -3,10 +3,10 @@ package me.boxcubed.main.States;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+
 import me.boxcubed.main.TopDown;
 
 /**
@@ -17,12 +17,10 @@ public class MenuState extends ApplicationAdapter implements State, InputProcess
 	Stage stage;
     Texture button;
     private static final int buttonXNY =200;
-    SpriteBatch batch;
     public MenuState() {
      /*this.gsm=gsm;*/
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setInputProcessor(this);
-        batch = new SpriteBatch();
         button = new Texture("assets/img/icon.png");
     }
 
@@ -38,6 +36,7 @@ public class MenuState extends ApplicationAdapter implements State, InputProcess
 
     @Override
     public void render(SpriteBatch batch) {
+    	
         batch.begin();
         batch.draw(button, Gdx.graphics.getWidth()/2 -buttonXNY/2, Gdx.graphics.getHeight()/2 - buttonXNY/2, buttonXNY, buttonXNY);
         batch.end();
@@ -48,14 +47,7 @@ public class MenuState extends ApplicationAdapter implements State, InputProcess
 
     }
 
-    @Override
-    public void render(float delta) {
-        //THIS IS THE RENDER LOOP THAT WORKS
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //Stipid piece of shit
-        render(batch);
-
-    }
+    
 
     @Override
     public void resize(int width, int height) {
