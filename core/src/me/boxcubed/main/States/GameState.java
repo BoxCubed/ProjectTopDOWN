@@ -188,7 +188,7 @@ public class GameState implements State, CleanInputProcessor{
 		}
 		if (input.isKeyJustPressed(Keys.SPACE)) {
 			float rot = player.getRotation();
-			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y, rot));
+			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
 		}
 		if (input.isKeyJustPressed(Keys.M)) {
 			TopDown.instance.setScreen(new MenuState());

@@ -24,18 +24,21 @@ public class Bullet extends Sprite implements Entity{
 	Body bulletBody;
 	Fixture fixture;
 	float rotation;
-	public int SPEED = 3;
+	public float SPEED = 3;
 	
 	float x,y;
 	
-	public Bullet(World world, float x, float y,float rotation){
+	public Bullet(World world, float x, float y){
 		super(new Texture(Gdx.files.internal("assets/img/bullet.png")));
 		this.x=x;
 		this.y=y;
-		this.rotation=rotation;
-				
+
+		rotation = GameState.instance.player.getRotation();
 		bulletDef = new BodyDef();
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
+		
+		System.out.println(rotation);
+		
 		// Shape
 		bulletShape = new PolygonShape();
 		bulletShape.setAsBox(2, 2);
@@ -50,46 +53,46 @@ public class Bullet extends Sprite implements Entity{
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
 		
-		bulletBody.setTransform(new Vector2(x+15,y+10),0);
+		bulletBody.setTransform(new Vector2(x+15,y+10),rotation);
     }
 	 @Override
 	    public void update(float delta) {
 		 if(!isDisposable()){
 		    if(rotation<35||rotation>340){
 				 x+=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),0);
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
 			}
 		    if(rotation<339&&rotation>297){
 				 x+=SPEED*delta;
 				 y-=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),0);
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
 			}
 		    if(rotation<296&&rotation>243){
 				 y-=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),0);
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
 			}
 		    if(rotation<242&&rotation>205){
 				 y-=SPEED*delta;
 				 x-=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),0);
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
 			}
 		    if(rotation<204&&rotation>166){
 				 x-=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),0);
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
 			}
 		    if(rotation<165&&rotation>128){
 				 x-=SPEED*delta;
 				 y+=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),0);
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
 			}
 		    if(rotation<127&&rotation>75){
 				 y+=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),0);
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
 			}
 		    if(rotation<74&&rotation>36){
 				 x+=SPEED*delta;
 				 y+=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),0);
+				 bulletBody.setTransform(new Vector2(x,y),rotation);
 			}
 		    
 		 }else{return;}
@@ -100,7 +103,10 @@ public class Bullet extends Sprite implements Entity{
 	 @Override
 		public void render(SpriteBatch sb) {
 		 if(!isDisposable()){
-		 sb.draw(this, x-8, y-4, (float)13, 7);}
+		 sb.draw(this, x, y, 5, 5, 13, 7, 1, 1, rotation,true);
+		 }else{
+			 this.dispose();
+		 }
 	 }
 
 	
