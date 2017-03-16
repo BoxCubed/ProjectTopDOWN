@@ -1,9 +1,5 @@
 package me.boxcubed.main.States;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -22,8 +18,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.Hud;
-
-import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.FileAtlas;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
@@ -32,8 +26,14 @@ import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Bullet;
+import me.boxcubed.main.Sprites.Crosshair;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
+import me.boxcubed.main.TopDown;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameState implements State, CleanInputProcessor{
 	public World gameWORLD;
@@ -57,7 +57,8 @@ public class GameState implements State, CleanInputProcessor{
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
-	
+
+	Crosshair crosshair;
 	Hud hud;
 
 	Vector2 mouseLoc;
@@ -72,7 +73,7 @@ public class GameState implements State, CleanInputProcessor{
 	public void show() {
 		// Instance of the game, for ease of access
 		instance = this;
-		
+		crosshair = new Crosshair(10, player);
 		// Camera and Map
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
@@ -193,7 +194,6 @@ public class GameState implements State, CleanInputProcessor{
 		if (input.isKeyJustPressed(Keys.M)) {
 			TopDown.instance.setScreen(new MenuState());
 		}
-
 	}
 
 	DecimalFormat format = new DecimalFormat("#.##");
@@ -235,7 +235,7 @@ public class GameState implements State, CleanInputProcessor{
 		sb.setProjectionMatrix(hud.textCam.combined);
 		
 		hud.render(sb);
-		
+
 		sb.end();
 
 	}
@@ -282,6 +282,8 @@ public class GameState implements State, CleanInputProcessor{
 		gameWORLD.dispose();
 		font.dispose();
 		batch.dispose();
+		//GameState.instance.dispose();
+		//GameState.instance.dispose();
 	}
 	@Override
 	public void resize(int width, int height) {

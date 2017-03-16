@@ -18,7 +18,7 @@ public class Crosshair extends Sprite{
 	float dist=5;
 	Vector2 pos;
 	Entity player;
-	
+
 	public Crosshair(float dist,Entity player) {
 		super( new Texture(Gdx.files.internal("assets/img/crosshair.png")));
 		this.dist=dist;
@@ -29,7 +29,7 @@ public class Crosshair extends Sprite{
 		float angle=player.getSprite().getRotation();
 		pos.x=(float) (player.getBody().getPosition().x+Math.cos(Math.toRadians(angle))*dist);
 		pos.y=(float) (player.getBody().getPosition().y+Math.sin(Math.toRadians(angle))*dist);
-		
+
 		
 		Gdx.input.setCursorCatched(true);
 		

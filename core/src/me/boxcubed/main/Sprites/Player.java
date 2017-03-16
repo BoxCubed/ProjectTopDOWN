@@ -33,7 +33,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	private TextureAtlas atlas,atlas2;
 	public float legOffX=15,legOffY=15;
 	boolean shooting=false;
-	
+	GameState gameState;
 	float mouseX, mouseY;
 	
 	public Player(World world) {
@@ -92,10 +92,11 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			effect.update(delta/100);
 			
 			elapsedTime+=delta;
-			crossH.update(delta);
-		
-		
-		}
+
+            crossH.update(delta);
+
+
+        }
 		else{
 			getBody().setAngularVelocity(0);
 			getBody().setLinearVelocity(0, 0);
@@ -118,15 +119,14 @@ public class Player extends Sprite implements LivingEntity,Movable {
 				,15,15,30,30,1,1,getRotation());
 		
 		}
-		crossH.render(sb);
+            crossH.render(sb);
 		}else if(!isDisposed){dispose();isDisposed=true;}
 	//finished bullets		
 	}
 	
 	public void handleInput() {
 		Input input = Gdx.input;
-		// and tej was that autistic kid
-		
+
 		boolean keyPressed=false;
 		
 		if (input.isKeyPressed(Keys.W)){
