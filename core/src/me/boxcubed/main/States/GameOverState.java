@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by Tej Sidhu on 23/02/2017.
  */
 public class GameOverState implements State {
-	GameStateManager gsm;
-    protected GameOverState(GameStateManager gsm) {
-        this.gsm=gsm;
+    protected GameOverState() {
     }//Hello
 
     @Override

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import me.boxcubed.main.Objects.interfaces.Entity;
-import me.boxcubed.main.States.GameState;
 /**
  * Uses unit circle(kinda) to place a crosshair in front of the player<br>
  * See? Math class is useful

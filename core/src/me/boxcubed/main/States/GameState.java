@@ -7,7 +7,6 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
@@ -37,7 +35,7 @@ import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 
-public class GameState implements Screen, CleanInputProcessor{
+public class GameState implements State, CleanInputProcessor{
 	public World gameWORLD;
 
 	public OrthographicCamera cam, textCam;
@@ -48,7 +46,6 @@ public class GameState implements Screen, CleanInputProcessor{
 
 	public static GameState instance;
 
-	public SpriteBatch sb;
 	private ShapeRenderer sr;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
@@ -94,7 +91,6 @@ public class GameState implements Screen, CleanInputProcessor{
 		b2dr = new Box2DDebugRenderer();
 
 		// Rendering
-		sb = new SpriteBatch();
 		sr=new ShapeRenderer();
 		
 		// Lists
@@ -124,7 +120,6 @@ public class GameState implements Screen, CleanInputProcessor{
 	}
 
 	public void update(float delta) {
-		handleInput();
 
 		//Updating HUD
 		hud.update();
@@ -163,8 +158,8 @@ public class GameState implements Screen, CleanInputProcessor{
 		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2);
 		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2);
 	}
-
-	private void handleInput() {
+	@Override
+	public void handleInput() {
 
 		Input input = Gdx.input;
 
@@ -204,8 +199,7 @@ public class GameState implements Screen, CleanInputProcessor{
 	DecimalFormat format = new DecimalFormat("#.##");
 
 	@Override
-	public void render(float delta) {
-		update(delta * 100);
+	public void render(SpriteBatch sb) {
 
 		sb.setProjectionMatrix(cam.combined);
 
@@ -287,7 +281,7 @@ public class GameState implements Screen, CleanInputProcessor{
 		playerLight.dispose();
 		gameWORLD.dispose();
 		font.dispose();
-		sb.dispose();
+		batch.dispose();
 	}
 	@Override
 	public void resize(int width, int height) {
@@ -308,6 +302,9 @@ public class GameState implements Screen, CleanInputProcessor{
 		// dispose();
 	}
 
+	
+
+	
 	
 
 	

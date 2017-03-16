@@ -11,7 +11,7 @@ public interface State  extends Screen {
     //protected Vector3 mouse;    //Mouse xy
 
     
-
+	SpriteBatch batch=new SpriteBatch();
 
 
     
@@ -21,6 +21,13 @@ public interface State  extends Screen {
      void handleInput();
 
     public void update(float delta);
+    @Override
+    default void render(float delta) {
+    	handleInput();
+    	update(delta*100);
+    	render(batch);
+    	
+    }
 
     public void render(SpriteBatch batch);
 
