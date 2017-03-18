@@ -2,9 +2,9 @@ package me.boxcubed.main.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.MenuButton;
@@ -22,14 +22,18 @@ public class MenuState implements State, CleanInputProcessor {
     MenuButton clickButton;
     private static final int buttonXNY =200;
     TextureAtlas start=new TextureAtlas("assets/button/start.atlas");
+    Sprite hover,click,normal;
    
     public MenuState() {
      /*this.gsm=gsm;*/
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setInputProcessor(this);
+        hover=start.createSprite("hover");
+        click=start.createSprite("click");
+        normal=start.createSprite("normal");
         
         button = new Texture("assets/img/icon.png");
-        clickButton=new MenuButton(start.createSprite("normal"), Gdx.graphics.getWidth()/2-start.createSprite("normal").getWidth()/2, Gdx.graphics.getHeight()/2, new MenuListener() {
+        clickButton=new MenuButton(normal, Gdx.graphics.getWidth()/2-start.createSprite("normal").getWidth()/2, Gdx.graphics.getHeight()/2, new MenuListener() {
 			
 			@Override
 			public void rightclicked(MenuButton m) {
@@ -41,7 +45,7 @@ public class MenuState implements State, CleanInputProcessor {
 			@Override
 			public void notChosen(MenuButton m) {
 				// TODO Auto-generated method stub
-				m.setImage(start.createSprite("normal"));
+				m.setImage(normal);
 				
 				
 			}
@@ -49,7 +53,7 @@ public class MenuState implements State, CleanInputProcessor {
 			@Override
 			public void clicked(MenuButton m) {
 				// TODO Auto-generated method stub
-				m.setImage(start.createSprite("click"));
+				m.setImage(click);
 				
 				TopDown.instance.setScreen(new GameState());
 				
@@ -58,7 +62,7 @@ public class MenuState implements State, CleanInputProcessor {
 			@Override
 			public void chosen(MenuButton m) {
 				// TODO Auto-generated method stub
-				m.setImage(start.createSprite("hover"));
+				m.setImage(hover);
 				
 			}
 		});
