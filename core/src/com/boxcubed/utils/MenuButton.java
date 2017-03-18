@@ -4,11 +4,9 @@ package com.boxcubed.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -23,7 +21,7 @@ public class MenuButton{
 	float x,y;
 	boolean chosen,lock=false;
 	private int mx,my;//mouse x and y
-	Sprite i,ci;
+	Texture i,ci;
 	Rectangle r;
 	BitmapFont f,cf;
 	Color col,ccol;
@@ -31,9 +29,9 @@ public class MenuButton{
 		if(i==null)return false;
 				return true;
 	}
-	String s=null,cs=null;
+	String s=null;
 	MenuListener l=null;
-	public MenuButton(Sprite i,float x,float y,MenuListener l){
+	public MenuButton(Texture i,float x,float y,MenuListener l){
 		this.i=i;
 		this.l=l;
 		this.x=x;
@@ -43,7 +41,7 @@ public class MenuButton{
 		
 		
 	}
-	public MenuButton(Sprite i,Sprite ci,float x,float y,MenuListener l){
+	public MenuButton(Texture i,Texture ci,float x,float y,MenuListener l){
 		this.i=i;
 		this.l=l;
 		this.x=x;
@@ -71,24 +69,14 @@ public 	MenuButton(String i,BitmapFont f,float x,float y,MenuListener l){
 	/**
 	 * Call when updating
 	 * @param gc
-	 * provide delta
+	 * provide Slick GameContainer
 	 */
-	boolean debug=true;
-	ShapeRenderer sr=new ShapeRenderer();
 	public void update(float delta){
 		if(!isLocked())
 		setCollisionBounds();
 		Input in=Gdx.input;
 		mx=in.getX();
-		my=in.getY()*-1+Gdx.graphics.getHeight();
-		sr.begin(ShapeType.Line);
-		sr.setColor(Color.GREEN);
-		sr.rect(x, y, r.getWidth(), r.getHeight());
-		sr.rect(mx-5, my-5, 10, 10);
-		sr.end();
-		
-		//System.out.println(mx+","+my);
-		
+		my=in.getY();
 		if((mx>x && mx<x+r.getWidth()) && (my>y && my<y+r.getHeight())){
 			chosen=true;
 		l.chosen(this);}
@@ -152,12 +140,11 @@ public 	MenuButton(String i,BitmapFont f,float x,float y,MenuListener l){
 	 * 
 	 * 
 	 */
-	public void setImage(Sprite i){this.i=i;}
-	public void setChosenImage(Sprite i){ci=i;}
+	public void setImage(Texture i){this.i=i;}
+	public void setChosenImage(Texture i){ci=i;}
 	public void setChosen(boolean c){chosen=c;}
 	public float getY(){return y;}
 	public float getX(){return x;}
-	public void ssetChosenString(String s){cs=s;}
 	/**
 	 * Allows to lock the collision box so it is not moved with the image/text
 	 * Should be used if a custom one is to be made with {@code getRect()}
@@ -179,7 +166,7 @@ public 	MenuButton(String i,BitmapFont f,float x,float y,MenuListener l){
 	}
 	private void setCollisionBounds(){
 		if(useImage())
-		r.set(x, y, i.getWidth(), i.getHeight());
+		r.set(x, y, x+i.getWidth(), y+i.getHeight());
 		else if(!isChosen()) ;
 		else r.set(x, y, 5,10);
 		}
