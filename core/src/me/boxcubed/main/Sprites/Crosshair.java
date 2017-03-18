@@ -16,6 +16,7 @@ import me.boxcubed.main.Objects.interfaces.Entity;
 public class Crosshair extends Sprite{
 	//REMEMBER USE COS
 	float dist=5;
+	public float offX,offY;
 	Vector2 pos;
 	Entity player;
 
@@ -24,12 +25,14 @@ public class Crosshair extends Sprite{
 		this.dist=dist;
 		this.player=player;
 		pos=new Vector2();
-		Gdx.input.setCursorCatched(true);
+		//Gdx.input.setCursorCatched(true);
 	}
 	public void update(float delta){
 		float angle=player.getSprite().getRotation();
-		pos.x=(float) (player.getBody().getPosition().x+Math.cos(Math.toRadians(angle))*dist);
-		pos.y=(float) (player.getBody().getPosition().y+Math.sin(Math.toRadians(angle))*dist);
+		offX=(float) (Math.cos(Math.toRadians(angle)));
+		offY=(float) (Math.sin(Math.toRadians(angle)));
+		pos.x=(float) (player.getBody().getPosition().x+offX*dist);
+		pos.y=(float) (player.getBody().getPosition().y+offY*dist);
 
 		
 		

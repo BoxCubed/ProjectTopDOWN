@@ -1,5 +1,9 @@
 package me.boxcubed.main.States;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -18,6 +22,8 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.Hud;
+
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.FileAtlas;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
@@ -25,15 +31,9 @@ import me.boxcubed.main.Objects.collision.CollisionDetection;
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
-import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Crosshair;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
-import me.boxcubed.main.TopDown;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameState implements State, CleanInputProcessor{
 	public World gameWORLD;
@@ -187,9 +187,7 @@ public class GameState implements State, CleanInputProcessor{
 			else
 				player = new Player(gameWORLD);
 		}
-		if (input.isKeyJustPressed(Keys.SPACE)) {
-			entities.add(new Bullet(gameWORLD, player.getPos().x, player.getPos().y));
-		}
+		
 		if (input.isKeyJustPressed(Keys.M)) {
 			TopDown.instance.setScreen(new MenuState());
 		}

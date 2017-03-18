@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.States.GameState;
@@ -21,7 +22,7 @@ public class Hud {
 	public void update(){
 		textCam.update();
 		
-		format = new DecimalFormat("#.##");
+		format = new DecimalFormat("#.#");
 	}
 	public void render(SpriteBatch sb){
 		String health = "";
@@ -48,6 +49,8 @@ public class Hud {
 		
 		font.draw(sb, "Player Position: " + format.format(GameState.instance.player.getBody().getPosition().x) + ","
 				+ format.format(GameState.instance.player.getBody().getPosition().y), -600, textCam.viewportHeight / 2);
+		Vector3 mousePos=GameState.instance.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+		font.draw(sb, "Mouse Position: "+format.format(mousePos.x)+","+format.format(mousePos.y), -600, textCam.viewportHeight/2-20);
 		
 		font.draw(sb, health, -200, textCam.viewportHeight / 2 - 50);
 	}

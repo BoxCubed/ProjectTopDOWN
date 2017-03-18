@@ -26,13 +26,14 @@ public class Bullet extends Sprite implements Entity{
 	float rotation;
 	public float SPEED = 3;
 	
-	float x,y;
+	float x,y,offX,offY;
 	
-	public Bullet(World world, float x, float y){
+	public Bullet(World world, float x, float y,float offX,float offY){
 		super(new Texture(Gdx.files.internal("assets/img/bullet.png")));
 		this.x=x;
 		this.y=y;
-
+		this.offX=offX;
+		this.offY=offY;
 		rotation = GameState.instance.player.getRotation();
 		bulletDef = new BodyDef();
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
@@ -58,7 +59,18 @@ public class Bullet extends Sprite implements Entity{
 	 @Override
 	    public void update(float delta) {
 		 if(!isDisposable()){
-		    if(rotation<35||rotation>340){
+			 
+			 x+=offX*delta*SPEED;
+			 y+=offY*delta*SPEED;
+			 getBody().setTransform(x, y, rotation);
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+		/*    if(rotation<35||rotation>340){
 				 x+=SPEED*delta;
 				 bulletBody.setTransform(new Vector2(x,y),rotation);
 			}
@@ -93,7 +105,7 @@ public class Bullet extends Sprite implements Entity{
 				 x+=SPEED*delta;
 				 y+=SPEED*delta;
 				 bulletBody.setTransform(new Vector2(x,y),rotation);
-			}
+			}*/
 		    
 		 }else{return;}
 	 }

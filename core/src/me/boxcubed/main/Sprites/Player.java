@@ -128,7 +128,9 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		Input input = Gdx.input;
 
 		boolean keyPressed=false;
-		
+		if (input.isKeyJustPressed(Keys.SPACE)) {
+			GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
+		}
 		if (input.isKeyPressed(Keys.W)){
 			keyPressed=true;
 			processMovment("UP");
