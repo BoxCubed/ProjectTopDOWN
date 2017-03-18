@@ -179,6 +179,5 @@ public class Bullet extends Sprite implements Entity{
 	public void setDisposable(boolean disposable) {
 		this.disposable=disposable;
 	}
-	
 
 }
