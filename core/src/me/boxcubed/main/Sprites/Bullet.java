@@ -38,8 +38,6 @@ public class Bullet extends Sprite implements Entity{
 		bulletDef = new BodyDef();
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
 		
-		System.out.println(rotation);
-		
 		// Shape
 		bulletShape = new PolygonShape();
 		bulletShape.setAsBox(2, 2);
@@ -54,7 +52,6 @@ public class Bullet extends Sprite implements Entity{
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
 		
-		bulletBody.setTransform(new Vector2(x+15,y+10),rotation);
     }
 	 @Override
 	    public void update(float delta) {
@@ -62,51 +59,8 @@ public class Bullet extends Sprite implements Entity{
 			 
 			 x+=offX*delta*SPEED;
 			 y+=offY*delta*SPEED;
-			 getBody().setTransform(x, y, rotation);
+			 getBody().setTransform(x+10, y-5, rotation);
 			 
-			 
-			 
-			 
-			 
-			 
-			 
-		/*    if(rotation<35||rotation>340){
-				 x+=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),rotation);
-			}
-		    if(rotation<339&&rotation>297){
-				 x+=SPEED*delta;
-				 y-=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),rotation);
-			}
-		    if(rotation<296&&rotation>243){
-				 y-=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),rotation);
-			}
-		    if(rotation<242&&rotation>205){
-				 y-=SPEED*delta;
-				 x-=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),rotation);
-			}
-		    if(rotation<204&&rotation>166){
-				 x-=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),rotation);
-			}
-		    if(rotation<165&&rotation>128){
-				 x-=SPEED*delta;
-				 y+=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),rotation);
-			}
-		    if(rotation<127&&rotation>75){
-				 y+=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),rotation);
-			}
-		    if(rotation<74&&rotation>36){
-				 x+=SPEED*delta;
-				 y+=SPEED*delta;
-				 bulletBody.setTransform(new Vector2(x,y),rotation);
-			}*/
-		    
 		 }else{return;}
 	 }
 	 public void renderShapes(ShapeRenderer sr) {
@@ -115,7 +69,7 @@ public class Bullet extends Sprite implements Entity{
 	 @Override
 		public void render(SpriteBatch sb) {
 		 if(!isDisposable()){
-		 sb.draw(this, x, y, 5, 5, 13, 7, 1, 1, rotation,true);
+		 sb.draw(this, x+5, y-8, 5, 5, 7, 7, 1, 1, rotation,true);
 		 }else{
 			 this.dispose();
 		 }
