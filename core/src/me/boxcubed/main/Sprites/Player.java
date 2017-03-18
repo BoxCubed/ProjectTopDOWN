@@ -3,6 +3,7 @@ package me.boxcubed.main.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -36,6 +37,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	GameState gameState;
 	float mouseX, mouseY;
 	
+	int counter=0;
+	
 	public Player(World world) {
 		super(tex);
 		atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
@@ -67,7 +70,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		effect.load(Gdx.files.internal("assets/maps/effects/flame.p"),Gdx.files.internal( "assets/maps/effects/"));
 		effect.start();
 		crossH=new Crosshair(100, this);
-        
+		
 		legOffY=10;
 		legOffX=10;
 	}
@@ -128,9 +131,17 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		Input input = Gdx.input;
 
 		boolean keyPressed=false;
-		if (input.isKeyJustPressed(Keys.SPACE)) {
+	/*	if (input.isKeyJustPressed(Keys.SPACE)) {
 			GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
+		}*/
+		boolean pressed = input.isButtonPressed(Buttons.LEFT);
+		if (pressed) {
+			if(counter<1){GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
+		   pressed=false;}
+		   counter++;
 		}
+		else{counter=0;}
+		
 		if (input.isKeyPressed(Keys.W)){
 			keyPressed=true;
 			processMovment("UP");

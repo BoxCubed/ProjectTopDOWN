@@ -1,10 +1,12 @@
 package me.boxcubed.main.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.behaviors.Seek;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -31,7 +33,10 @@ public class Zombie extends Sprite implements LivingEntity {
 	SteeringAI ai;
 	boolean attack;
 	float attackTime;
-	private Animation<TextureRegion> zombieAnim;
+	
+	private TextureAtlas zombieWalkAtlas;
+	private Animation<TextureRegion> zombieAnim,zombieWalk;
+	private float walkTime=0;
 	
 	public Zombie(World world,SteeringAI playerAI) {
 		super( FileAtlas.<Texture>getFile("zombieTex"));
@@ -59,7 +64,11 @@ public class Zombie extends Sprite implements LivingEntity {
 		Body.setTransform(400, 100, 0);
 		Shape.dispose();
 		zombieAnim = FileAtlas.<Animation<TextureRegion>>getFile("zombieAnim");
-		
+
+		 zombieWalkAtlas = new TextureAtlas(Gdx.files.internal("assets/spritesheets/zombie_walk.atlas"));
+	        zombieWalk = new Animation<TextureRegion>(1/30f, zombieWalkAtlas.getRegions());
+	        
+	        //put this in your file atlas cos i sure as hell cbs.
 	}
 
 	@Override
@@ -67,7 +76,6 @@ public class Zombie extends Sprite implements LivingEntity {
 		if(GameState.instance.player.isAlive()&&isAlive()){
 		ai.update(delta);
 		if(attack)attackTime+=delta;
-		
 		
 		}
 		else{
@@ -82,11 +90,12 @@ public class Zombie extends Sprite implements LivingEntity {
 	}
 	@Override
 	public void render(SpriteBatch sb) {
-		if(!attack)
-		sb.draw(this, Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, 18, 18, 
-				1, 1, (float)Math.toDegrees(Body.getAngle())+90);
+		 walkTime += Gdx.graphics.getDeltaTime();
+		if(!attack){
+			sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
+					1, 1, (float)Math.toDegrees(Body.getAngle())+90);}
 		else {
-			sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-5, Body.getPosition().y-5, 10, 10, 27, 27, 
+			sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
 					1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 			
 			if(zombieAnim.isAnimationFinished(attackTime))
