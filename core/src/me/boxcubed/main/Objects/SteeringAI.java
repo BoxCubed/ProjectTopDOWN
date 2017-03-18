@@ -23,10 +23,10 @@ public class SteeringAI implements Steerable<Vector2> {
 	public SteeringAI(LivingEntity entity,float boundingRadius){
 		this.entity=entity;
 		this.boundingRadius=boundingRadius;
-		speedMax=50;
-		speedMaxAcc=5000;
+		speedMax=80f;
+		speedMaxAcc=80f;
 		speedMaxAng=30;
-		speedMaxAngAcc=5;
+		speedMaxAngAcc=30;
 		tagged=false;
 		steeringOutput=new SteeringAcceleration<Vector2>(new Vector2());
 	}	
@@ -54,7 +54,7 @@ public class SteeringAI implements Steerable<Vector2> {
 		}else if(!getLinearVelocity().isZero()){
 			float newOr=vectorToAngle(getLinearVelocity());
 			//getBody().setAngularVelocity((newOr-getAngularVelocity())*delta);
-			getBody().setTransform(getBody().getPosition(), newOr);
+			setOrientation(newOr);
 		}
 		if(anyAcc){
 			Vector2 vel=getBody().getLinearVelocity();
@@ -89,8 +89,10 @@ public class SteeringAI implements Steerable<Vector2> {
 	}
 
 	@Override
-	public void setOrientation(float orientation) {
-		entity.getBody().setTransform(entity.getPos(), orientation);
+	public void setOrientation(float newOr) {
+		getBody().setTransform(getBody().getPosition(), newOr);
+		if(entity.getFixture().getUserData().equals("PLAYER"))
+			System.out.println("Player POS CHANGE");
 	}
 
 	@Override

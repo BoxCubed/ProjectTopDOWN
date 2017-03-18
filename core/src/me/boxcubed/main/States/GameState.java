@@ -7,7 +7,8 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.ai.steer.behaviors.LookWhereYouAreGoing;
+import com.badlogic.gdx.ai.steer.behaviors.Face;
+import com.badlogic.gdx.ai.steer.behaviors.ReachOrientation;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.Hud;
+import com.boxcubed.utils.MouseLocaion;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.FileAtlas;
@@ -106,7 +108,7 @@ public class GameState implements State, CleanInputProcessor{
 
 		//Ryan better rename this to Zombie AI
 	    playerAI=new SteeringAI(player, player.getWidth());
-		playerAI.setBehavior(new LookWhereYouAreGoing<Vector2>(playerAI));
+		playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
 		
 		// Apparently the lighting to the whole map, not sure why its player
 		// light
@@ -130,8 +132,10 @@ public class GameState implements State, CleanInputProcessor{
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 
 		//Updating player
+		
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		player.update(delta);
+		playerAI.update(delta);
 
 		//Updating Light
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,
@@ -260,8 +264,8 @@ public class GameState implements State, CleanInputProcessor{
 		return true;
 	}
 	
-	public Vector2 getMouseCords(){
-		return new Vector2(mouseX, mouseY);
+	public Vector3 getMouseCords(){
+		return cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 	}
 
 	public World getWorld() {

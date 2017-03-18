@@ -1,6 +1,6 @@
 package me.boxcubed.main.Sprites;
 
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.ai.steer.behaviors.Seek;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -38,7 +38,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		setSize(50, 50);
 		health=100;
 		ai=new SteeringAI(this, 50);
-		ai.setBehavior(new Arrive<>(ai, playerAI).setArrivalTolerance(2f).setDecelerationRadius(10));
+		ai.setBehavior(new Seek<>(ai, playerAI));
 		Def = new BodyDef();
 		Def.type = BodyDef.BodyType.DynamicBody;
 		Def.position.set(300 / GameState.PPM, 400 / GameState.PPM);
