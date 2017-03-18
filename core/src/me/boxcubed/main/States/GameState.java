@@ -7,7 +7,6 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.ai.steer.behaviors.Face;
 import com.badlogic.gdx.ai.steer.behaviors.ReachOrientation;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -53,7 +52,7 @@ public class GameState implements State, CleanInputProcessor{
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
 
-	public float mouseX, mouseY;
+	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
 
 	
@@ -191,8 +190,11 @@ public class GameState implements State, CleanInputProcessor{
 		if (input.isKeyJustPressed(Keys.H)) {
 			if (player.isAlive())
 				player.setHealth(player.getMaxHealth());
-			else
+			else{
 				player = new Player(gameWORLD);
+				playerAI=new SteeringAI(player, player.getWidth());
+				playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
+			}
 		}
 		
 		if (input.isKeyJustPressed(Keys.M)) {
@@ -247,16 +249,13 @@ public class GameState implements State, CleanInputProcessor{
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		
-		Vector2 centerPosition = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
 
 		screenY = Gdx.graphics.getHeight() - screenY;
 
-		mouseLoc = new Vector2(screenX, screenY);
+		mouseLoc = new Vector2(getMouseCords().x, getMouseCords().y);
 
-		mouseX = mouseLoc.x;
-		mouseY = mouseLoc.y;
 		
-		Vector2 direction = mouseLoc.sub(centerPosition);
+		Vector2 direction = mouseLoc.sub(player.getPos());
 		float mouseAngle = direction
 				.angle();
 		player.setRotation(mouseAngle);
@@ -264,7 +263,10 @@ public class GameState implements State, CleanInputProcessor{
 		return true;
 	}
 	
+	
 	public Vector3 getMouseCords(){
+		Gdx.input.setCursorPosition((int)MathUtils.clamp(Gdx.input.getX(),0,Gdx.graphics.getWidth()),
+				(int)MathUtils.clamp(Gdx.input.getY(), 0, Gdx.graphics.getHeight()));
 		return cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 	}
 

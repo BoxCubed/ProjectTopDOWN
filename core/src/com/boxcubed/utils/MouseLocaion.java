@@ -2,26 +2,24 @@ package com.boxcubed.utils;
 
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import me.boxcubed.main.States.GameState;
 
 public class MouseLocaion implements Location<Vector2> {
-	
+	float rot=0;
 	@Override
 	public Vector2 getPosition() {
-		Vector3 loc=GameState.instance.cam.unproject(new Vector3(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y,0));
-		return new Vector2(loc.x,loc.y);
+		return new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y);
 	}
 
 	@Override
 	public float getOrientation() {
-		return 0;
+		return rot;
 	}
 
 	@Override
 	public void setOrientation(float orientation) {
-		
+		rot=orientation;
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public class MouseLocaion implements Location<Vector2> {
 
 	@Override
 	public Location<Vector2> newLocation() {
-		return null;
+		return this;
 	}
 
 	

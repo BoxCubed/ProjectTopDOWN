@@ -25,7 +25,7 @@ public class Crosshair extends Sprite{
 		this.dist=dist;
 		this.player=player;
 		pos=new Vector2();
-		//Gdx.input.setCursorCatched(true);
+		Gdx.input.setCursorCatched(true);
 	}
 	public void update(float delta){
 		float angle=player.getSprite().getRotation();

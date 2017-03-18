@@ -91,8 +91,7 @@ public class SteeringAI implements Steerable<Vector2> {
 	@Override
 	public void setOrientation(float newOr) {
 		getBody().setTransform(getBody().getPosition(), newOr);
-		if(entity.getFixture().getUserData().equals("PLAYER"))
-			System.out.println("Player POS CHANGE");
+		
 	}
 
 	@Override
