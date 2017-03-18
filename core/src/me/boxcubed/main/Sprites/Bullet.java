@@ -24,9 +24,11 @@ public class Bullet extends Sprite implements Entity{
 	Body bulletBody;
 	Fixture fixture;
 	float rotation;
-	public float SPEED = 3;
+	public float SPEED = 4;
 	
 	float x,y,offX,offY;
+	
+	boolean lookRight, lookLeft;
 	
 	public Bullet(World world, float x, float y,float offX,float offY){
 		super(new Texture(Gdx.files.internal("assets/img/bullet.png")));
@@ -52,14 +54,21 @@ public class Bullet extends Sprite implements Entity{
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
 		
+		System.out.println(rotation);
+		
     }
 	 @Override
 	    public void update(float delta) {
+		 if(rotation<90||rotation>270){lookRight=true;}
+		 if(rotation<=270&&rotation>=90){lookLeft=true;}
+		 
 		 if(!isDisposable()){
 			 
 			 x+=offX*delta*SPEED;
 			 y+=offY*delta*SPEED;
-			 getBody().setTransform(x+10, y-5, rotation);
+			 
+			 if(lookRight){getBody().setTransform(x+10, y-5, rotation);}
+			 else {getBody().setTransform(x-10, y-5, rotation);}
 			 
 		 }else{return;}
 	 }
@@ -69,7 +78,8 @@ public class Bullet extends Sprite implements Entity{
 	 @Override
 		public void render(SpriteBatch sb) {
 		 if(!isDisposable()){
-		 sb.draw(this, x+5, y-8, 5, 5, 7, 7, 1, 1, rotation,true);
+		 if(lookRight)sb.draw(this, x+5, y-8, 5, 5, 7, 7, 1, 1, rotation,true);
+		 if(lookLeft)sb.draw(this, x-17, y-11, 5, 5, 7, 7, 1, 1, rotation,true);
 		 }else{
 			 this.dispose();
 		 }
