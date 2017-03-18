@@ -158,10 +158,7 @@ public class GameState implements State, CleanInputProcessor{
 		//List updating
 		entities.removeAll(dispose);
 		dispose.clear();
-
-		// Keeping camera on player and within range
-		/*cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2);
-		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2);*/
+		
 		lerpToPos(MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
 				 MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2));
 	}
