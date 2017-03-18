@@ -18,6 +18,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.CleanInputProcessor;
@@ -156,8 +157,10 @@ public class GameState implements State, CleanInputProcessor{
 		dispose.clear();
 
 		// Keeping camera on player and within range
-		cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2);
-		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2);
+		/*cam.position.x = MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2);
+		cam.position.y = MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2);*/
+		lerpToPos(MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
+				 MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2));
 	}
 	@Override
 	public void handleInput() {
@@ -236,6 +239,8 @@ public class GameState implements State, CleanInputProcessor{
 		sb.end();
 
 	}
+	
+	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		
 		Vector2 centerPosition = new Vector2((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
@@ -301,7 +306,19 @@ public class GameState implements State, CleanInputProcessor{
 		// dispose();
 	}
 
-	
+	private void lerpToPos(float x,float y){
+		final float speed=0.1f,ispeed=1.0f-speed;
+		Vector3 target = new Vector3(
+				(float)x, 
+				(float)y, 
+				0);
+		Vector3 cameraPosition = cam.position;
+		cameraPosition.scl(ispeed);
+		target.scl(speed);
+		cameraPosition.add(target);
+
+		cam.position.set(cameraPosition);
+	}
 
 	
 	
