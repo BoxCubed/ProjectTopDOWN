@@ -3,8 +3,12 @@ package me.boxcubed.main.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.boxcubed.utils.CleanInputProcessor;
+import com.boxcubed.utils.MenuButton;
+import com.boxcubed.utils.MenuListener;
 
 import me.boxcubed.main.TopDown;
 
@@ -15,12 +19,49 @@ public class MenuState implements State, CleanInputProcessor {
  //LOL//
 	Stage stage;
     Texture button;
+    MenuButton clickButton;
     private static final int buttonXNY =200;
+    TextureAtlas start=new TextureAtlas("assets/button/start.atlas");
+   
     public MenuState() {
      /*this.gsm=gsm;*/
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setInputProcessor(this);
+        
         button = new Texture("assets/img/icon.png");
+        clickButton=new MenuButton(start.createSprite("normal"), Gdx.graphics.getWidth()/2-start.createSprite("normal").getWidth()/2, Gdx.graphics.getHeight()/2, new MenuListener() {
+			
+			@Override
+			public void rightclicked(MenuButton m) {
+				// TODO Auto-generated method stub
+				System.out.println("RClicked!");
+				
+			}
+			
+			@Override
+			public void notChosen(MenuButton m) {
+				// TODO Auto-generated method stub
+				m.setImage(start.createSprite("normal"));
+				
+				
+			}
+			
+			@Override
+			public void clicked(MenuButton m) {
+				// TODO Auto-generated method stub
+				m.setImage(start.createSprite("click"));
+				
+				TopDown.instance.setScreen(new GameState());
+				
+			}
+			
+			@Override
+			public void chosen(MenuButton m) {
+				// TODO Auto-generated method stub
+				m.setImage(start.createSprite("hover"));
+				
+			}
+		});
     }
 
     @Override
@@ -30,6 +71,7 @@ public class MenuState implements State, CleanInputProcessor {
 
     @Override
     public void update(float delta) {
+    	clickButton.update(delta);
 
     }
 
@@ -37,7 +79,8 @@ public class MenuState implements State, CleanInputProcessor {
     public void render(SpriteBatch batch) {
     	
         batch.begin();
-        batch.draw(button, Gdx.graphics.getWidth()/2 -buttonXNY/2, Gdx.graphics.getHeight()/2 - buttonXNY/2, buttonXNY, buttonXNY);
+        //batch.draw(button, Gdx.graphics.getWidth()/2 -buttonXNY/2, Gdx.graphics.getHeight()/2 - buttonXNY/2, buttonXNY, buttonXNY);
+        clickButton.render(batch);
         batch.end();
     }
 
@@ -73,11 +116,6 @@ public class MenuState implements State, CleanInputProcessor {
         this.dispose();
     }
   
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        TopDown.instance.setScreen(new GameState());
-        return true;
-    }
-
+  
    
 }
