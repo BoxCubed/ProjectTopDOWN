@@ -37,6 +37,8 @@ public class Zombie extends Sprite implements LivingEntity {
 	private Animation<TextureRegion> zombieAnim,zombieWalk;
 	private float walkTime=0;
 	
+	boolean idle;
+	
 	Vector2 p1,p2,collision,normal;
 	
 	RayCastCallback callback;
@@ -75,8 +77,17 @@ public class Zombie extends Sprite implements LivingEntity {
 
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-				System.out.println(fixture.getShape());
-				return 0;
+				if(fixture.getUserData().equals("ZOMBIE")||fixture.getUserData().equals("PLAYER")){
+					
+				}else{
+						getBody().setLinearVelocity(getBody().getLinearVelocity().x-=Gdx.graphics.getDeltaTime(),getBody().getLinearVelocity().y-=Gdx.graphics.getDeltaTime());
+						getBody().setAngularVelocity(0);
+					
+				
+				idle=true;
+				}
+				
+				return 1;
 			}
 			
 		};
@@ -85,15 +96,19 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public void update(float delta) {
+		idle=false;
+		
 		p1 = new Vector2(Body.getPosition().x,Body.getPosition().y);
 		p2=new Vector2(GameState.instance.player.getX(),GameState.instance.player.getY());
 		
 		GameState.instance.gameWORLD.rayCast(callback, p1, p2);
 		
+		
 		if(GameState.instance.player.isAlive()&&isAlive()){
+			if(!idle){
 		ai.update(delta);
 		if(attack)attackTime+=delta;
-		
+			}
 		}
 		else{
 			if(isAlive()){
@@ -107,17 +122,24 @@ public class Zombie extends Sprite implements LivingEntity {
 	@Override
 	public void render(SpriteBatch sb) {
 		 walkTime += Gdx.graphics.getDeltaTime();
-		if(!attack){
-			sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
-					1, 1, (float)Math.toDegrees(Body.getAngle())+90);}
-		else {
-			sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
-					1, 1, (float)Math.toDegrees(Body.getAngle())+90);
-			
-			if(zombieAnim.isAnimationFinished(attackTime))
-			attack=false;	
-		
-		}
+
+		 if(!idle){
+				if(!attack){
+					sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
+							1, 1, (float)Math.toDegrees(Body.getAngle())+90);}
+				else {
+					sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
+							1, 1, (float)Math.toDegrees(Body.getAngle())+90);
+					
+					if(zombieAnim.isAnimationFinished(attackTime))
+					attack=false;	
+				
+				}
+		 }else{
+			 sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
+						1, 1, (float)Math.toDegrees(Body.getAngle())+90);
+		 }
+	
 	}
 	
 	@Override
