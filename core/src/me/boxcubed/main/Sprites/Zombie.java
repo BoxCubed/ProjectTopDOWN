@@ -57,7 +57,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		
 		// Shape
 		Shape = new CircleShape();
-		Shape.setRadius(5);
+		Shape.setRadius(10);
 		
 		// Fixture def
 		fixtureDef = new FixtureDef();
@@ -127,10 +127,10 @@ public class Zombie extends Sprite implements LivingEntity {
 
 		 if(!idle){
 				if(!attack){
-					sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
+					sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-getWidth()/2, Body.getPosition().y-getHeight()/2, 0, 0 , 40, 40, 
 							1, 1, (float)Math.toDegrees(Body.getAngle())+90);}
 				else {
-					sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
+					sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x, Body.getPosition().y, 25, 20, 40, 40, 
 							1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 					
 					if(zombieAnim.isAnimationFinished(attackTime))
@@ -138,7 +138,7 @@ public class Zombie extends Sprite implements LivingEntity {
 				
 				}
 		 }else{
-			 sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-10, Body.getPosition().y-5, 10, 10, 27, 27, 
+			 sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-10, Body.getPosition().y-10, 25, 20, 40, 40, 
 						1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		 }
 	
