@@ -40,7 +40,7 @@ public class Crosshair extends Sprite{
 	}
 	public void render(SpriteBatch sb){
 		//sr.rect(pos.x, pos.y, 5, 5);
-		//sb.draw(this, pos.x, pos.y,20,20);
+		sb.draw(this, pos.x, pos.y,20,20);
 	}
 
 }
