@@ -3,6 +3,7 @@ package me.boxcubed.main.Sprites;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ai.steer.behaviors.Seek;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -150,8 +151,10 @@ public class Zombie extends Sprite implements LivingEntity {
 		if(Gdx.input.isKeyJustPressed(Keys.P)){
 			rayEnabled=!rayEnabled;
 		}
-		if(rayEnabled)sr.line(p1, p2);
-		
+		if(rayEnabled){
+			sr.setColor(Color.RED);
+			sr.line(p1, p2);
+		}
 	}
 	
 	@Override
