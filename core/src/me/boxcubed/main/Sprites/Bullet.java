@@ -68,7 +68,7 @@ public class Bullet extends Sprite implements Entity{
 			 y+=offY*delta*SPEED;
 			 
 			 if(lookRight){getBody().setTransform(x+10, y-5, rotation);}
-			 else {getBody().setTransform(x-10, y-5, rotation);}
+			 else {getBody().setTransform(x-10, y+12, rotation);}
 			 
 		 }else{return;}
 	 }
@@ -79,7 +79,7 @@ public class Bullet extends Sprite implements Entity{
 		public void render(SpriteBatch sb) {
 		 if(!isDisposable()){
 		 if(lookRight)sb.draw(this, x+5, y-8, 5, 5, 7, 7, 1, 1, rotation,true);
-		 if(lookLeft)sb.draw(this, x-17, y-11, 5, 5, 7, 7, 1, 1, rotation,true);
+		 if(lookLeft)sb.draw(this, x-17, y+5, 5, 5, 7, 7, 1, 1, rotation,true);
 		 }else{
 			 this.dispose();
 		 }
