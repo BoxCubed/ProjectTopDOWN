@@ -38,6 +38,8 @@ public class Zombie extends Sprite implements LivingEntity {
 	private Animation<TextureRegion> zombieAnim,zombieWalk;
 	private float walkTime=0;
 	
+	//should call this class the lag monster
+	
 	public Zombie(World world,SteeringAI playerAI) {
 		super( FileAtlas.<Texture>getFile("zombieTex"));
 		setSize(50, 50);
@@ -69,6 +71,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	        zombieWalk = new Animation<TextureRegion>(1/30f, zombieWalkAtlas.getRegions());
 	        
 	        //put this in your file atlas cos i sure as hell cbs.
+	        
 	}
 
 	@Override
