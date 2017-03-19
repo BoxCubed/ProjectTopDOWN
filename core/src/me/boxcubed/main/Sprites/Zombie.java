@@ -75,20 +75,20 @@ public class Zombie extends Sprite implements LivingEntity {
 
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-				collision.set(point);
-				Zombie.this.normal.set(normal).add(point);
+				System.out.println(fixture.getShape());
 				return 0;
 			}
 			
 		};
-		p1 = new Vector2(Body.getPosition().x,Body.getPosition().y);
-		p2=new Vector2(GameState.instance.player.getX(),GameState.instance.player.getY());
-		
-		GameState.instance.gameWORLD.rayCast(callback, p1, p2);
+	
 	}
 
 	@Override
 	public void update(float delta) {
+		p1 = new Vector2(Body.getPosition().x,Body.getPosition().y);
+		p2=new Vector2(GameState.instance.player.getX(),GameState.instance.player.getY());
+		
+		GameState.instance.gameWORLD.rayCast(callback, p1, p2);
 		
 		if(GameState.instance.player.isAlive()&&isAlive()){
 		ai.update(delta);
@@ -123,7 +123,6 @@ public class Zombie extends Sprite implements LivingEntity {
 	@Override
 	public void renderShapes(ShapeRenderer sr) {
 		sr.line(p1, p2);
-		sr.line(collision, normal);
 	}
 	
 	@Override
