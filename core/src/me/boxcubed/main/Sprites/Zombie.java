@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.Objects.FileAtlas;
@@ -39,6 +39,8 @@ public class Zombie extends Sprite implements LivingEntity {
 	
 	Vector2 p1,p2,collision,normal;
 	
+	RayCastCallback callback;
+	
 	public Zombie(World world,SteeringAI playerAI) {
 		super( FileAtlas.<Texture>getFile("zombieTex"));
 		setSize(50, 50);
@@ -48,7 +50,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		Def = new BodyDef();
 		Def.type = BodyDef.BodyType.DynamicBody;
 		Def.position.set(300 / GameState.PPM, 400 / GameState.PPM);
-
+		
 		// Shape
 		Shape = new CircleShape();
 		Shape.setRadius(5);
@@ -69,12 +71,25 @@ public class Zombie extends Sprite implements LivingEntity {
 	        
 	        //put this in your file atlas cos i sure as hell cbs.
 	        
+		callback = new RayCastCallback(){
+
+			@Override
+			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+				collision.set(point);
+				Zombie.this.normal.set(normal).add(point);
+				return 0;
+			}
+			
+		};
+		p1 = new Vector2(Body.getPosition().x,Body.getPosition().y);
+		p2=new Vector2(GameState.instance.player.getX(),GameState.instance.player.getY());
+		
+		GameState.instance.gameWORLD.rayCast(callback, p1, p2);
 	}
 
 	@Override
 	public void update(float delta) {
-		p1 = new Vector2(Body.getPosition().x,Body.getPosition().y);
-		p2=new Vector2(GameState.instance.player.getX(),GameState.instance.player.getY());
+		
 		if(GameState.instance.player.isAlive()&&isAlive()){
 		ai.update(delta);
 		if(attack)attackTime+=delta;
@@ -86,8 +101,7 @@ public class Zombie extends Sprite implements LivingEntity {
 			getBody().setAngularVelocity(0);
 			}
 		}
-		
-		
+
 				
 	}
 	@Override
@@ -109,6 +123,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	@Override
 	public void renderShapes(ShapeRenderer sr) {
 		sr.line(p1, p2);
+		sr.line(collision, normal);
 	}
 	
 	@Override
