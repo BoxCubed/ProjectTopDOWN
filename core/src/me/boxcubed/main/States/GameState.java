@@ -262,8 +262,8 @@ public class GameState implements State, CleanInputProcessor{
 	
 	
 	public Vector3 getMouseCords(){
-		Gdx.input.setCursorPosition((int)MathUtils.clamp(Gdx.input.getX(),0,Gdx.graphics.getWidth()),
-				(int)MathUtils.clamp(Gdx.input.getY(), 0, Gdx.graphics.getHeight()));
+		/*Gdx.input.setCursorPosition((int)MathUtils.clamp(Gdx.input.getX(),0,Gdx.graphics.getWidth()),
+				(int)MathUtils.clamp(Gdx.input.getY(), 0, Gdx.graphics.getHeight()));      this isn't necessary just makes the mouse glitch out*/ 
 		return cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 	}
 

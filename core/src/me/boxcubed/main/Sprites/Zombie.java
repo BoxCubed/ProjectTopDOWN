@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -34,11 +34,10 @@ public class Zombie extends Sprite implements LivingEntity {
 	boolean attack;
 	float attackTime;
 	
-	private TextureAtlas zombieWalkAtlas;
 	private Animation<TextureRegion> zombieAnim,zombieWalk;
 	private float walkTime=0;
 	
-	//should call this class the lag monster
+	Vector2 p1,p2,collision,normal;
 	
 	public Zombie(World world,SteeringAI playerAI) {
 		super( FileAtlas.<Texture>getFile("zombieTex"));
@@ -74,6 +73,8 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public void update(float delta) {
+		p1 = new Vector2(Body.getPosition().x,Body.getPosition().y);
+		p2=new Vector2(GameState.instance.player.getX(),GameState.instance.player.getY());
 		if(GameState.instance.player.isAlive()&&isAlive()){
 		ai.update(delta);
 		if(attack)attackTime+=delta;
@@ -103,8 +104,13 @@ public class Zombie extends Sprite implements LivingEntity {
 			attack=false;	
 		
 		}
-		
 	}
+	
+	@Override
+	public void renderShapes(ShapeRenderer sr) {
+		sr.line(p1, p2);
+	}
+	
 	@Override
 	public Vector2 getPos() {
 		return null;
@@ -120,12 +126,6 @@ public class Zombie extends Sprite implements LivingEntity {
 	public Sprite getSprite() {
 		return this;
 	}
-
-	
-	
-
-	
-	
 
 	@Override
 	public Body getBody() {
@@ -169,12 +169,6 @@ public class Zombie extends Sprite implements LivingEntity {
 	public String getID() {
 		// TODO Auto-generated method stub
 		return "Zombie";
-	}
-
-	@Override
-	public void renderShapes(ShapeRenderer sr) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
