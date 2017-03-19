@@ -134,7 +134,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	/*	if (input.isKeyJustPressed(Keys.SPACE)) {
 			GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
 		}*/
-		boolean pressed = input.isButtonPressed(Buttons.LEFT);
+		boolean pressed = input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE);
 		if (pressed) {
 			if(counter<1){GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
 		   pressed=false;}
@@ -142,19 +142,19 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		}
 		else{counter=0;}
 		
-		if (input.isKeyPressed(Keys.W)){
+		if (input.isKeyPressed(Keys.W) || input.isKeyPressed(Keys.UP)){
 			keyPressed=true;
 			processMovment("UP");
 			}
-		if (input.isKeyPressed(Input.Keys.S)){
+		if (input.isKeyPressed(Input.Keys.S) || input.isKeyPressed(Keys.DOWN)){
 			keyPressed=true;
 			processMovment("DOWN");
 			}
-		if (input.isKeyPressed(Input.Keys.A)){
+		if (input.isKeyPressed(Input.Keys.A) || input.isKeyPressed(Keys.LEFT)){
 			keyPressed=true;
 			processMovment("LEFT");
 			}
-		if (input.isKeyPressed(Input.Keys.D)){
+		if (input.isKeyPressed(Input.Keys.D) || input.isKeyPressed(Keys.RIGHT)){
 			keyPressed=true;
 			processMovment("RIGHT");
 		}
