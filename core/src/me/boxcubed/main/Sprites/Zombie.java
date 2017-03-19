@@ -66,9 +66,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		Body.setTransform(400, 100, 0);
 		Shape.dispose();
 		zombieAnim = FileAtlas.<Animation<TextureRegion>>getFile("zombieAnim");
-
-		 zombieWalkAtlas = new TextureAtlas(Gdx.files.internal("assets/spritesheets/zombie_walk.atlas"));
-	        zombieWalk = new Animation<TextureRegion>(1/30f, zombieWalkAtlas.getRegions());
+	    zombieWalk = FileAtlas.<Animation<TextureRegion>>getFile("zombieWalkAnim");
 	        
 	        //put this in your file atlas cos i sure as hell cbs.
 	        
