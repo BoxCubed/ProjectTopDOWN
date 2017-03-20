@@ -57,8 +57,6 @@ public class PlayerLight{
         
         rayHandler.setAmbientLight(amlight);
         rayHandler.update();
-        //System.out.println(amlight);
-        //Stop printing out the fucking light levels fucks sake. DOnt give a fuck if it day/night
     }
     public void renderLIGHT(){
         rayHandler.render();

@@ -10,7 +10,7 @@ public class StopWatch {
 	public void start() {
 		if(counter<=0){
 			running = true;
-			System.out.println("Timer Started");
+			//System.out.println("Timer Started");
 			this.startTime = System.currentTimeMillis();
 			this.running = true;
 			counter++;

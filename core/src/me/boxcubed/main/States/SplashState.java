@@ -65,7 +65,6 @@ private SpriteBatch batch=new SpriteBatch();
 
 		
 		batch.end();
-		//System.out.println(Gdx.graphics.getWidth()+","+Gdx.graphics.getHeight());
 	}
 
 

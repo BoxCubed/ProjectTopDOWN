@@ -81,16 +81,16 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		legOffX=10;
 		
 		callback = new RayCastCallback(){
-
+			//TODO Replace collision of Bullet to ray cast since collision detection is unrealiable with transformation
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 			if(fixture.getUserData()=="WALL"){
-				System.out.println("hit wall");
+				//System.out.println("hit wall");
 				return 0;
 			}
 			
 			if(fixture.getUserData()!="WALL"){
-				System.out.println("hit zombie");
+				//System.out.println("hit zombie");
 				return 0;
 			}
 				return 0;
