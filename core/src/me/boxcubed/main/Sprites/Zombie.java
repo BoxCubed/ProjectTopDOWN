@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.Objects.FileAtlas;
 import me.boxcubed.main.Objects.SteeringAI;
+import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.States.GameState;
 
@@ -212,9 +213,9 @@ public class Zombie extends Sprite implements LivingEntity {
 	}
 
 	@Override
-	public String getID() {
+	public EntityType getID() {
 		// TODO Auto-generated method stub
-		return "Zombie";
+		return EntityType.ZOMBIE;
 	}
 
 }

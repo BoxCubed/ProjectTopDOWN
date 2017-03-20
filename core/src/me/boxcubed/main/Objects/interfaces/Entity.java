@@ -11,7 +11,7 @@ public interface Entity {
 	  public Vector2 getPos();
 	  public Body getBody();
 
-	  public String getID();
+	  public EntityType getID();
 	    public void setPos(Vector2 pos);
 		public Sprite getSprite();
         public void playAnimation(String key);
