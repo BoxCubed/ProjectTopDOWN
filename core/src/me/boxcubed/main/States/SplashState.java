@@ -34,19 +34,23 @@ private SpriteBatch batch=new SpriteBatch();
 		logoSprite=new Sprite(logo);
 
 	}
-
-
+	boolean loaded=false;
+	private GameState loadingInstance;
 	@Override
 	public void update(float delta) {
 		elapsedTime+=delta;
 		rotation-=360f/TIME*delta;
 		lerpToPos(0, 0);
 		camera.update();
+		if(elapsedTime>TIME/2&&!loaded){
+			loaded=true;
+			loadingInstance=new GameState();
+			}
 		if(elapsedTime>TIME){
 			Gdx.graphics.setUndecorated(false);
 			Gdx.graphics.setResizable(true);
 			Gdx.graphics.setWindowedMode(1280, 900);
-			TopDown.instance.setScreen(new MenuState());
+			TopDown.instance.setScreen(new MenuState(loadingInstance));
 		}
 
 	}

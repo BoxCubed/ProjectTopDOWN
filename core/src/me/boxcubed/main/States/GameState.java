@@ -76,63 +76,61 @@ public class GameState implements State, CleanInputProcessor{
 
 	public boolean noTime = false;
 
-	@Override
-	public void show() {
+	public GameState() {
 		// Instance of the game, for ease of access
-		instance = this;
-		crosshair = new Crosshair(10, player);
-		// Camera and Map
-		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		cam.update();
-		tiledMap = FileAtlas.<TiledMap>getFile("map");
+				instance = this;
+				crosshair = new Crosshair(10, player);
+				// Camera and Map
+				
+				tiledMap = FileAtlas.<TiledMap>getFile("map");
 
-		// World Init
-		gameWORLD = new World(new Vector2(0, 0), true);
-		gameWORLD.setContactListener(new CollisionDetection());
-		
-		// HUD initializing
-		hud = new Hud();
-		hud.update();
+				// World Init
+				gameWORLD = new World(new Vector2(0, 0), true);
+				gameWORLD.setContactListener(new CollisionDetection());
+				
+				// HUD initializing
+				hud = new Hud();
+				hud.update();
 
-		// Box2D Stuff
-		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-		b2dr = new Box2DDebugRenderer();
+				// Box2D Stuff
+				tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+				b2dr = new Box2DDebugRenderer();
 
-		// Rendering
-		sr=new ShapeRenderer();
-		
-		// Lists
-		entities = new ArrayList<Entity>();
-		dispose =new ArrayList<Entity>();
+				// Rendering
+				sr=new ShapeRenderer();
+				
+				// Lists
+				entities = new ArrayList<Entity>();
+				dispose =new ArrayList<Entity>();
 
-		ambientMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/ambient_music.mp3"));
-		ambientMusic.setLooping(true);
-		ambientMusic.setVolume(0.05f);
-		ambientMusic.play();
-		
-		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
-		
-		// Adding player
-		player = new Player(gameWORLD);
+				ambientMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/ambient_music.mp3"));
+				ambientMusic.setLooping(true);
+				ambientMusic.setVolume(0.05f);
+				ambientMusic.play();
+				
+				zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
+				
+				// Adding player
+				player = new Player(gameWORLD);
 
-		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
+				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 
-		//Ryan better rename this to Zombie AI
-	    playerAI=new SteeringAI(player, player.getWidth());
-	//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
-		
-		// Apparently the lighting to the whole map, not sure why its player
-		// light
-		
-		playerLight = new PlayerLight(gameWORLD, player.getBody());
+				//Ryan better rename this to Zombie AI
+			    playerAI=new SteeringAI(player, player.getWidth());
+			//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
+				
+				// Apparently the lighting to the whole map, not sure why its player
+				// light
+				
+				playerLight = new PlayerLight(gameWORLD, player.getBody());
 
-		// Making all the collision shapes
-		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
+				// Making all the collision shapes
+				MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
 
-		// This is a cancer we need
-		Gdx.input.setInputProcessor(this);
-
+				// This is a cancer we need
+			
 	}
+	
 
 	public void update(float delta) {
 
@@ -217,7 +215,7 @@ public class GameState implements State, CleanInputProcessor{
 		}
 		
 		if (input.isKeyJustPressed(Keys.M)) {
-			TopDown.instance.setScreen(new MenuState());
+			TopDown.instance.setScreen(new MenuState(this));
 		}
 	}
 
@@ -347,7 +345,13 @@ public class GameState implements State, CleanInputProcessor{
 		cam.position.set(cameraPosition);
 	}
 
-	
+    @Override
+	public void show() {
+    	cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		cam.update();
+		Gdx.input.setInputProcessor(this);
+
+	}
 	
 
 	

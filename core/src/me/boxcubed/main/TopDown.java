@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
+import me.boxcubed.main.States.GameState;
 import me.boxcubed.main.States.SplashState;
 
 public class TopDown extends Game {

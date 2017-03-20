@@ -15,7 +15,7 @@ import me.boxcubed.main.TopDown;
 /**
  * @author BoxCubed
  */
-public class MenuState implements State, CleanInputProcessor {
+public class MenuState implements State {
 	Stage stage;
     Texture button;
     MenuButton clickButton;
@@ -24,11 +24,10 @@ public class MenuState implements State, CleanInputProcessor {
     Sprite hover=start.createSprite("hover"),click=start.createSprite("click"),normal=start.createSprite("normal");
     SpriteBatch batch=new SpriteBatch();
     
-    public MenuState() {
+    public MenuState(GameState loadedInstance) {
     	
      /*this.gsm=gsm;*/
         Gdx.input.setInputProcessor(stage);
-        Gdx.input.setInputProcessor(this);
         
         button = new Texture("assets/img/icon.png");
         clickButton=new MenuButton(start.createSprite("normal"), Gdx.graphics.getWidth()/2-start.createSprite("normal").getWidth()/2, Gdx.graphics.getHeight()/2, 
@@ -54,7 +53,7 @@ public class MenuState implements State, CleanInputProcessor {
 				// TODO Auto-generated method stub
 				m.setImage(click);
 				
-				TopDown.instance.setScreen(new GameState());
+				TopDown.instance.setScreen(loadedInstance);
 				
 			}
 			

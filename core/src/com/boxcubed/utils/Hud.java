@@ -19,7 +19,7 @@ public class Hud {
 	DecimalFormat format;
 	BitmapFont font = new BitmapFont();
 	public Hud(){
-		textCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		textCam = new OrthographicCamera(1280, 900);
 		textCam.update();
 		
 		healthTex = FileAtlas.<Texture>getFile("healthTexture");
