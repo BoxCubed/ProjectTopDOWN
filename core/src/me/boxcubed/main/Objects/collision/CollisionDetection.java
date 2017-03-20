@@ -22,14 +22,14 @@ public CollisionDetection(){
 						GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);
 						continue;
 					
-		}else if(isOneOf("BULLET", contact)){
+		}/*else if(isOneOf("BULLET", contact)){
 			if(isOneOf("ZOMBIE", contact))
 				entity.setDisposable(true);
 			if(entity.getFixture().getUserData().equals("BULLET"))
 				entity.setDisposable(true);
 			continue;
 			
-		}
+		}*/
 			
 			
 			

@@ -100,6 +100,8 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public void update(float delta) {
+		
+		
 		idle=false;
 		
 		p1 = new Vector2(Body.getPosition().x,Body.getPosition().y);
