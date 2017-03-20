@@ -23,10 +23,10 @@ public class SteeringAI implements Steerable<Vector2> {
 	public SteeringAI(LivingEntity entity,float boundingRadius){
 		this.entity=entity;
 		this.boundingRadius=boundingRadius;
-		speedMax=80f;
-		speedMaxAcc=80f;
-		speedMaxAng=30;
-		speedMaxAngAcc=30;
+		speedMax=100f;
+		speedMaxAcc=100f;
+		speedMaxAng=100;
+		speedMaxAngAcc=100;
 		tagged=false;
 		steeringOutput=new SteeringAcceleration<Vector2>(new Vector2());
 	}	
