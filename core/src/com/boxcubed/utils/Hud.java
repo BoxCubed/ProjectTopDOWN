@@ -37,7 +37,6 @@ public class Hud {
 			sb.draw(healthTex,i,textCam.viewportHeight/2-50,30,30);
 		}
 		for (; i < 100; i++)
-			Gdx.gl.glClear();
 								//TODO fix alignment
 		font.draw(sb, "FPS/Delta: " + Gdx.graphics.getFramesPerSecond()+"/"+
 				  format.format(Gdx.graphics.getRawDeltaTime()*100), -250, textCam.viewportHeight / 2);

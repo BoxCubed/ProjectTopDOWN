@@ -25,7 +25,7 @@ public class Bullet extends Sprite implements Entity{
 	Body bulletBody;
 	Fixture fixture;
 	float rotation;
-	public float SPEED = 4;
+	public float SPEED = 5;
 	
 	float x,y,offX,offY;
 	

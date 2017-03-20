@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -41,6 +42,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	
 	int counter=0;
 	
+	Sound gunshotSound;
+	
 	public Player(World world) {
 		super(tex);
 		atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
@@ -75,6 +78,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		
 		legOffY=10;
 		legOffX=10;
+		
+		gunshotSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/gunshot.mp3"));
 	}
 	float elapsedTime=0;
 	@Override
@@ -131,14 +136,16 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	
 	public void handleInput() {
 		Input input = Gdx.input;
-
+		
 		boolean keyPressed=false;
-	/*	if (input.isKeyJustPressed(Keys.SPACE)) {
-			GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
-		}*/
+		
 		boolean pressed = input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE);
 		if (pressed) {
-			if(counter<1){GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
+			
+			
+			
+			if(counter<1){gunshotSound.play(0.05f);
+				GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
 		   pressed=false;}
 		   counter++;
 		}

@@ -3,6 +3,7 @@ package me.boxcubed.main.Sprites;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ai.steer.behaviors.Seek;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -37,11 +38,13 @@ public class Zombie extends Sprite implements LivingEntity {
 	boolean attack;
 	float attackTime;
 	
+	Sound zombieGroan;
+	
 	private Animation<TextureRegion> zombieAnim,zombieWalk;
 	private float walkTime=0;
 	
 	boolean idle;
-	
+		
 	Vector2 p1,p2,collision,normal;
 	
 	RayCastCallback callback;
@@ -59,6 +62,8 @@ public class Zombie extends Sprite implements LivingEntity {
 		// Shape
 		Shape = new CircleShape();
 		Shape.setRadius(10);
+		
+		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_groan.wav"));
 		
 		// Fixture def
 		fixtureDef = new FixtureDef();
@@ -94,6 +99,7 @@ public class Zombie extends Sprite implements LivingEntity {
 			}
 			
 		};
+		/*zombieGroan.play(0.05f,1,0);*/
 	
 	}
 
@@ -120,8 +126,9 @@ public class Zombie extends Sprite implements LivingEntity {
 			}
 		}
 
-				
+	
 	}
+	
 	@Override
 	public void render(SpriteBatch sb) {
 		 walkTime += Gdx.graphics.getDeltaTime();
