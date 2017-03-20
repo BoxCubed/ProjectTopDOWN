@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,12 +25,17 @@ public class Bullet extends Sprite implements Entity{
 	FixtureDef fixtureDefBullet;
 	Body bulletBody;
 	Fixture fixture;
+	
+	TextureRegion muzzleFlash;
+	
 	float rotation;
-	public float SPEED = 5;
+	public float SPEED = 12;
 	
 	float x,y,offX,offY;
 	
 	boolean lookRight, lookLeft;
+	
+	float elapsedTime=0;
 	
 	public Bullet(World world, float x, float y,float offX,float offY){
 		super(new Texture(Gdx.files.internal("assets/img/bullet.png")));
@@ -55,8 +61,8 @@ public class Bullet extends Sprite implements Entity{
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
 		
-		System.out.println(rotation);
-		
+		muzzleFlash = new TextureRegion();
+		muzzleFlash.setRegion(new Texture("assets/img/muzzle_flash.png"));
     }
 	 @Override
 	    public void update(float delta) {
@@ -79,8 +85,13 @@ public class Bullet extends Sprite implements Entity{
 	 @Override
 		public void render(SpriteBatch sb) {
 		 if(!isDisposable()){
-		 if(lookRight)sb.draw(this, x+5, y-8, 5, 5, 7, 7, 1, 1, rotation,true);
-		 if(lookLeft)sb.draw(this, x-17, y+5, 5, 5, 7, 7, 1, 1, rotation,true);
+			 elapsedTime+=Gdx.graphics.getDeltaTime();
+			 if(elapsedTime<0.1)sb.draw(muzzleFlash,GameState.instance.player.getPos().x, 
+					 GameState.instance.player.getPos().y,offX,offY,40,20,1,1,rotation);
+			
+			 
+		 if(lookRight)sb.draw(this, x+5, y-8, 5, 5, 20, 15, 1, 1, rotation,true);
+		 if(lookLeft)sb.draw(this, x-17, y+5, 5, 5, 20, 15, 1, 1, rotation,true);
 		 }else{
 			 this.dispose();
 		 }

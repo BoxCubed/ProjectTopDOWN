@@ -31,14 +31,15 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	PlayerLight playerLight;
 	Body body;
 	ParticleEffect effect;
-	Crosshair crossH;
+	public Crosshair crossH;
 	double health=getMaxHealth();
 	private Animation<TextureRegion> animation,animationLeg;
 	private TextureAtlas atlas,atlas2;
 	public float legOffX=15,legOffY=15;
 	boolean shooting=false;
 	GameState gameState;
-	float mouseX, mouseY;
+	
+	RayCastCallback callback;
 	
 	int counter=0;
 	
@@ -78,6 +79,24 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		
 		legOffY=10;
 		legOffX=10;
+		
+		callback = new RayCastCallback(){
+
+			@Override
+			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+			if(fixture.getUserData()=="WALL"){
+				System.out.println("hit wall");
+				return 0;
+			}
+			
+			if(fixture.getUserData()!="WALL"){
+				System.out.println("hit zombie");
+				return 0;
+			}
+				return 0;
+			}
+			
+		};
 		
 		gunshotSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/gunshot.mp3"));
 	}
@@ -142,9 +161,9 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		boolean pressed = input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE);
 		if (pressed) {
 			
-			
-			
-			if(counter<1){gunshotSound.play(0.05f);
+			if(counter<1){
+				GameState.instance.gameWORLD.rayCast(callback, playerBody.getPosition(), new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y));
+				gunshotSound.play(0.05f);
 				GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
 		   pressed=false;}
 		   counter++;
