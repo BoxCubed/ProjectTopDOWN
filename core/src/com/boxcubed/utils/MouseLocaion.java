@@ -4,7 +4,10 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 
 import me.boxcubed.main.States.GameState;
-
+/**
+ * @deprecated Using Crosshair math instead
+ * 
+ */
 public class MouseLocaion implements Location<Vector2> {
 	float rot=0;
 	@Override

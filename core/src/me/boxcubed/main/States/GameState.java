@@ -7,7 +7,6 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.ai.steer.behaviors.ReachOrientation;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,7 +24,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.Hud;
-import com.boxcubed.utils.MouseLocaion;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.FileAtlas;
@@ -121,7 +119,7 @@ public class GameState implements State, CleanInputProcessor{
 
 		//Ryan better rename this to Zombie AI
 	    playerAI=new SteeringAI(player, player.getWidth());
-		playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
+	//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
 		
 		// Apparently the lighting to the whole map, not sure why its player
 		// light
@@ -213,7 +211,7 @@ public class GameState implements State, CleanInputProcessor{
 			else{
 				player = new Player(gameWORLD);
 				playerAI=new SteeringAI(player, player.getWidth());
-				playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
+			//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
 			}
 		}
 		
@@ -331,7 +329,7 @@ public class GameState implements State, CleanInputProcessor{
 		// dispose();
 	}
 
-	private void lerpToPos(float x,float y){
+    private void lerpToPos(float x,float y){
 		final float speed=0.1f,ispeed=1.0f-speed;
 		Vector3 target = new Vector3(
 				(float)x, 
