@@ -16,9 +16,13 @@ public class FileAtlas {
 	
 	public static Class<? extends FileAtlas> fileAt;
 	public static TiledMap map=new TmxMapLoader().load("assets/maps/map2.tmx");
+	
 	public static Texture zombieTex=new Texture(Gdx.files.internal("assets/img/skeleton-idle_0.png"));
+	public static Texture healthTexture = new Texture(Gdx.files.internal("assets/img/health.png"));
+	
 	private static TextureAtlas zombieAtlas= new TextureAtlas(Gdx.files.internal("assets/spritesheets/zombieanim.atlas"));
 	private static TextureAtlas zombieWalkAtlas= new TextureAtlas(Gdx.files.internal("assets/spritesheets/zombie_walk.atlas"));
+	
 	public static Animation<TextureRegion> zombieAnim=new Animation<TextureRegion>(1f/30f*150f,zombieAtlas.getRegions());
 	public static Animation<TextureRegion> zombieWalkAnim=new Animation<TextureRegion>(1/30f,zombieWalkAtlas.getRegions());
 

@@ -4,20 +4,25 @@ import java.text.DecimalFormat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
+import me.boxcubed.main.Objects.FileAtlas;
 import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.States.GameState;
 
 public class Hud {
 	public OrthographicCamera textCam;
+	Texture healthTex;
 	DecimalFormat format;
 	BitmapFont font = new BitmapFont();
 	public Hud(){
 		textCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		textCam.update();
+		
+		healthTex = FileAtlas.<Texture>getFile("healthTexture");
 	}
 	public void update(){
 		textCam.update();
@@ -28,11 +33,11 @@ public class Hud {
 		String health = "";
 		int i;
 
-		for (i = 0; i < GameState.instance.player.getHealth() / GameState.instance.player.getMaxHealth() * 100f; i++) {
-			health += "|";
+		for (i = 0; i < GameState.instance.player.getHealth() / GameState.instance.player.getMaxHealth() * 100f; i+=20) {
+			sb.draw(healthTex,i,textCam.viewportHeight/2-50,30,30);
 		}
 		for (; i < 100; i++)
-			health += "-";
+			Gdx.gl.glClear();
 								//TODO fix alignment
 		font.draw(sb, "FPS/Delta: " + Gdx.graphics.getFramesPerSecond()+"/"+
 				  format.format(Gdx.graphics.getRawDeltaTime()*100), -250, textCam.viewportHeight / 2);
@@ -53,6 +58,7 @@ public class Hud {
 		font.draw(sb, "Mouse Position: "+format.format(mousePos.x)+","+format.format(mousePos.y), -600, textCam.viewportHeight/2-20);
 		
 		font.draw(sb, health, -200, textCam.viewportHeight / 2 - 50);
+		
 	}
 	
 	public void dispose(){
