@@ -107,7 +107,7 @@ public class GameState implements State, CleanInputProcessor{
 
 		ambientMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/ambient_music.mp3"));
 		ambientMusic.setLooping(true);
-		ambientMusic.setVolume(0.05f);
+		ambientMusic.setVolume(0.6f);
 		ambientMusic.play();
 		
 		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
@@ -171,7 +171,7 @@ public class GameState implements State, CleanInputProcessor{
 				
 		groanTimer+=delta;
 		if(groanTimer>2000){
-			zombieGroan.play(0.05f);
+			zombieGroan.play(0.6f);
 			groanTimer=0;
 		}
 		if(groanTimer>800){

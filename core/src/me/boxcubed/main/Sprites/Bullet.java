@@ -29,7 +29,7 @@ public class Bullet extends Sprite implements Entity{
 	TextureRegion muzzleFlash;
 	
 	float rotation;
-	public final float SPEED = 12;
+	public float SPEED = 15;
 	
 	float x,y,offX,offY;
 	
@@ -88,9 +88,9 @@ public class Bullet extends Sprite implements Entity{
 		public void render(SpriteBatch sb) {
 		 if(!isDisposable()){
 			 elapsedTime+=Gdx.graphics.getDeltaTime();
-			 if(elapsedTime<0.1)sb.draw(muzzleFlash,GameState.instance.player.getPos().x, 
+			/* if(elapsedTime<0.1)sb.draw(muzzleFlash,GameState.instance.player.getPos().x, 
 					 GameState.instance.player.getPos().y,offX,offY,40,20,1,1,rotation);
-			
+			*/
 			 
 		 if(lookRight)sb.draw(this, x+5, y-8, 5, 5, 20, 15, 1, 1, rotation,true);
 		 if(lookLeft)sb.draw(this, x-17, y+5, 5, 5, 20, 15, 1, 1, rotation,true);

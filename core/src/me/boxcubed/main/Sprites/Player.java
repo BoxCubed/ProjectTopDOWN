@@ -90,7 +90,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			}
 			
 			if(fixture.getUserData()!="WALL"){
-				//System.out.println("hit zombie");
+				System.out.println("hit zombie");
+				fixture.getBody().setTransform(new Vector2(-100,-100), 0);
 				return 0;
 			}
 				return 0;
