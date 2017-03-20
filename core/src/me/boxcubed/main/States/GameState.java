@@ -8,6 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ai.steer.behaviors.ReachOrientation;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -60,6 +62,9 @@ public class GameState implements State, CleanInputProcessor{
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
 
+	Music ambientMusic;
+	Sound zombieGroan;
+	
 	Crosshair crosshair;
 	Hud hud;
 
@@ -67,6 +72,8 @@ public class GameState implements State, CleanInputProcessor{
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
 
+	float groanTimer=0;
+	
 	public boolean noZombie = false;
 
 	public boolean noTime = false;
@@ -100,6 +107,13 @@ public class GameState implements State, CleanInputProcessor{
 		entities = new ArrayList<Entity>();
 		dispose =new ArrayList<Entity>();
 
+		ambientMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/ambient_music.mp3"));
+		ambientMusic.setLooping(true);
+		ambientMusic.setVolume(0.05f);
+		ambientMusic.play();
+		
+		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
+		
 		// Adding player
 		player = new Player(gameWORLD);
 
@@ -154,6 +168,17 @@ public class GameState implements State, CleanInputProcessor{
 			} else
 				entity.update(delta);
 		});
+		
+		System.out.println(groanTimer);
+		
+		groanTimer+=delta;
+		if(groanTimer>2000){
+			zombieGroan.play(0.05f);
+			groanTimer=0;
+		}
+		if(groanTimer>800){
+			zombieGroan.stop();
+		}
 
 		//List updating
 		entities.removeAll(dispose);
