@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
 import me.boxcubed.main.Objects.interfaces.Entity;
+import me.boxcubed.main.Objects.interfaces.EntityType;
 
 /**
  * Created by Tej Sidhu on 27/02/2017.
@@ -72,7 +73,7 @@ public class Enemy implements Entity {
 	}
 
 	@Override
-	public String getID() {
+	public EntityType getID() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+
+import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
 import me.boxcubed.main.States.GameState;
@@ -295,8 +297,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
 	}
 	@Override
-	public String getID() {
-		return "Player";
+	public EntityType getID() {
+		return EntityType.PLAYER;
 	}
 	@Override
 	public void renderShapes(ShapeRenderer sr) {

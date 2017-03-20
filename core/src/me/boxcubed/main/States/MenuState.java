@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.MenuButton;
@@ -13,14 +12,13 @@ import com.boxcubed.utils.MenuListener;
 import me.boxcubed.main.TopDown;
 
 /**
- * Created by Tej Sidhu on 23/02/2017.
+ * @author BoxCubed
  */
 public class MenuState implements State, CleanInputProcessor {
- //LOL//
 	Stage stage;
     Texture button;
     MenuButton clickButton;
-    private static final int buttonXNY =200;
+//    private static final int buttonXNY =200;
     TextureAtlas start=new TextureAtlas("assets/button/start.atlas");
    
     public MenuState() {

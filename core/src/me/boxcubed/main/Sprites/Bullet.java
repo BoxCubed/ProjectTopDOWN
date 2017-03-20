@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.Objects.interfaces.Entity;
+import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.States.GameState;
 
 public class Bullet extends Sprite implements Entity{
@@ -131,8 +132,8 @@ public class Bullet extends Sprite implements Entity{
    
 
     @Override
-	public String getID() {
-		return "Bullet";
+	public EntityType getID() {
+		return EntityType.BULLET;
 	}
     boolean disposable=false;
 	@Override
