@@ -29,7 +29,7 @@ public class Bullet extends Sprite implements Entity{
 	TextureRegion muzzleFlash;
 	
 	float rotation;
-	public float SPEED = 12;
+	public final float SPEED = 12;
 	
 	float x,y,offX,offY;
 	
@@ -68,7 +68,7 @@ public class Bullet extends Sprite implements Entity{
 	    public void update(float delta) {
 		 if(rotation<90||rotation>270){lookRight=true;}
 		 if(rotation<=270&&rotation>=90){lookLeft=true;}
-		 
+		
 		 if(!isDisposable()){
 			 
 			 x+=offX*delta*SPEED;
@@ -78,6 +78,8 @@ public class Bullet extends Sprite implements Entity{
 			 else {getBody().setTransform(x-10, y+12, rotation);}
 			 
 		 }else{return;}
+		 if(getBody().getPosition().x<0||getBody().getPosition().y<0||getBody().getPosition().x>1576||getBody().getPosition().y>1576)
+			 setDisposable(true);
 	 }
 	 public void renderShapes(ShapeRenderer sr) {
 	

@@ -166,6 +166,8 @@ public class GameState implements State, CleanInputProcessor{
 			} else
 				entity.update(delta);
 		});
+		entities.removeAll(dispose);
+		dispose.clear();
 				
 		groanTimer+=delta;
 		if(groanTimer>2000){
@@ -177,8 +179,7 @@ public class GameState implements State, CleanInputProcessor{
 		}
 
 		//List updating
-		entities.removeAll(dispose);
-		dispose.clear();
+		
 		
 		lerpToPos(MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
 				 MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2));
@@ -236,7 +237,10 @@ public class GameState implements State, CleanInputProcessor{
 		//Entity render
 		batch.begin();                                                   //-------------------------------------\\
                                                                       //       SEE THIS RENDER METHOD?       \\
-		entities.forEach(entity -> entity.render(batch));                //    SEE HOW IT'S CLEAN, AND NOT      \\
+		entities.forEach(entity -> {
+			if(!entity.isDisposable())
+				entity.render(batch);
+		});                                                           //    SEE HOW IT'S CLEAN, AND NOT      \\
                                                                       //   AUSTIC, I'D LIKE TO KEEP IT THAT  \\
 		batch.end();                                                     //                 WAY                 \\
 		//Light render                                                //-------------------------------------\\     
