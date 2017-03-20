@@ -17,8 +17,6 @@ public interface State  extends Screen {
     //protected Vector3 mouse;    //Mouse xy
 
     
-	SpriteBatch batch=new SpriteBatch();
-
 
     
 
@@ -31,11 +29,15 @@ public interface State  extends Screen {
     default void render(float delta) {
     	handleInput();
     	update(delta*100);
-    	render(batch);
+    	render();
     	
     }
 
-    public void render(SpriteBatch batch);
-
+    public void render();
+    /*
+     * (non-Javadoc)
+     * Remember to dispose batch with <code>batch.dispose()</code>
+     * @see com.badlogic.gdx.Screen#dispose()
+     */
     public void dispose();
 }

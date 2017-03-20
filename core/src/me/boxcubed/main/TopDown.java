@@ -3,7 +3,8 @@ package me.boxcubed.main;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import me.boxcubed.main.States.MenuState;
+
+import me.boxcubed.main.States.SplashState;
 
 public class TopDown extends Game {
 	public static TopDown instance;
@@ -11,7 +12,9 @@ public class TopDown extends Game {
 	@Override
 	public void create () {
 		instance=this;
-		setScreen(new MenuState());
+		
+		
+		setScreen(new SplashState());
 	}
 
 	@Override

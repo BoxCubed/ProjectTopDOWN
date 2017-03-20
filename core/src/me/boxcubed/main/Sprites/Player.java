@@ -182,13 +182,12 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		method += key;
 		Method m;
 		try {
-			// this, my friends, is reflection. Learn it. Its no good.
+			// this, my friends, is reflection. Learn it. Its good.
 			m = getClass().getMethod(method, (Class<?>[])null);
 			m.invoke( this,  (Object[])null);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			//PUssie. Scared about errors are we?
 		}
 		return false;
 

@@ -42,8 +42,8 @@ import me.boxcubed.main.Sprites.PlayerLight;
 public class GameState implements State, CleanInputProcessor{
 	public World gameWORLD;
 
-	public OrthographicCamera cam, textCam;
-
+	public OrthographicCamera cam;
+	private SpriteBatch batch=new SpriteBatch();
 	public List<Entity> entities;
 	public List<Entity>dispose;
 	public Player player;
@@ -227,9 +227,9 @@ public class GameState implements State, CleanInputProcessor{
 	DecimalFormat format = new DecimalFormat("#.##");
 
 	@Override
-	public void render(SpriteBatch sb) {
+	public void render() {
 
-		sb.setProjectionMatrix(cam.combined);
+		batch.setProjectionMatrix(cam.combined);
 
 		cam.update();
 		tiledMapRenderer.setView(cam);
@@ -238,11 +238,11 @@ public class GameState implements State, CleanInputProcessor{
 		b2dr.render(gameWORLD, cam.combined);
 		playerLight.rayHandler.setCombinedMatrix(cam);
 		//Entity render
-		sb.begin();                                                   //-------------------------------------\\
+		batch.begin();                                                   //-------------------------------------\\
                                                                       //       SEE THIS RENDER METHOD?       \\
-		entities.forEach(entity -> entity.render(sb));                //    SEE HOW IT'S CLEAN, AND NOT      \\
+		entities.forEach(entity -> entity.render(batch));                //    SEE HOW IT'S CLEAN, AND NOT      \\
                                                                       //   AUSTIC, I'D LIKE TO KEEP IT THAT  \\
-		sb.end();                                                     //                 WAY                 \\
+		batch.end();                                                     //                 WAY                 \\
 		//Light render                                                //-------------------------------------\\     
 		playerLight.rayHandler.render();
 		
@@ -258,13 +258,13 @@ public class GameState implements State, CleanInputProcessor{
 		sr.end();
 		
 		//rendering of hud and player
-		sb.begin();
-		player.render(sb);
-		sb.setProjectionMatrix(hud.textCam.combined);
+		batch.begin();
+		player.render(batch);
+		batch.setProjectionMatrix(hud.textCam.combined);
 		
-		hud.render(sb);
+		hud.render(batch);
 
-		sb.end();
+		batch.end();
 
 	}
 	
@@ -312,6 +312,7 @@ public class GameState implements State, CleanInputProcessor{
 		gameWORLD.dispose();
 		font.dispose();
 		batch.dispose();
+		
 		//GameState.instance.dispose();
 		//GameState.instance.dispose();
 	}

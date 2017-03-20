@@ -49,7 +49,7 @@ public class GameStateManager {
 
     public void render(SpriteBatch batch){
 
-        states.peek().render(batch);
+        states.peek().render();
 
     }//Renders all the states
 }

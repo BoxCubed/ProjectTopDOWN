@@ -1,7 +1,5 @@
 package me.boxcubed.main.States;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 /**
  * Created by Tej Sidhu on 23/02/2017.
  */
@@ -20,7 +18,7 @@ public class GameOverState implements State {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render() {
 
     }
 

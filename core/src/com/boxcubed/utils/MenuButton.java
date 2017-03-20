@@ -108,7 +108,7 @@ public 	MenuButton(String i,BitmapFont f,float x,float y,MenuListener l){
 	/**
 	 * Call when rendering
 	 * @param g
-	 * provide Slick Graphics 
+	 * provide  Sprite Batch
 	 */
 	public void render(SpriteBatch batch){
 		if(useImage()){
