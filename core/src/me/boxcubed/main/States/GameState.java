@@ -103,15 +103,15 @@ public class GameState implements State, CleanInputProcessor{
 				entities = new ArrayList<Entity>();
 				dispose =new ArrayList<Entity>();
 
-				ambientMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/ambient_music.mp3"));
-				ambientMusic.setLooping(true);
-				ambientMusic.setVolume(0.05f);
-				ambientMusic.play();
-				
-				zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
-				
-				// Adding player
-				player = new Player(gameWORLD);
+		ambientMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/ambient_music.mp3"));
+		ambientMusic.setLooping(true);
+		ambientMusic.setVolume(0.6f);
+		ambientMusic.play();
+		
+		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
+		
+		// Adding player
+		player = new Player(gameWORLD);
 
 				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 
@@ -169,7 +169,7 @@ public class GameState implements State, CleanInputProcessor{
 				
 		groanTimer+=delta;
 		if(groanTimer>2000){
-			zombieGroan.play(0.05f);
+			zombieGroan.play(0.6f);
 			groanTimer=0;
 		}
 		if(groanTimer>800){
