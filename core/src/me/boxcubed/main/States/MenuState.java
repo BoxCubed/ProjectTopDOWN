@@ -9,6 +9,8 @@ import com.boxcubed.utils.MenuButton;
 import com.boxcubed.utils.MenuListener;
 import me.boxcubed.main.TopDown;
 
+import java.awt.*;
+
 /**
  * @author BoxCubed
  */
@@ -24,6 +26,7 @@ public class MenuState implements State {
     FreeTypeFontGenerator generator;
     FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     GlyphLayout StartButton;
+    Rectangle startButt;
     public MenuState(GameState loadedInstance) {
         generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/font.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -31,6 +34,8 @@ public class MenuState implements State {
         font = generator.generateFont(parameter);
         StartButton = new GlyphLayout();
         StartButton.setText(font, "Start BITCH");
+        startButt = new Rectangle();
+        startButt.setRect(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, StartButton.width, StartButton.height);
      /*this.gsm=gsm;*/
         Gdx.input.setInputProcessor(stage);
         
@@ -40,14 +45,12 @@ public class MenuState implements State {
 			
 			@Override
 			public void rightclicked(MenuButton m) {
-				// TODO Auto-generated method stub
 				System.out.println("RClicked!");
 				
 			}
 			
 			@Override
 			public void notChosen(MenuButton m) {
-				// TODO Auto-generated method stub
 				m.setImage(normal);
 				
 				
@@ -77,7 +80,9 @@ public class MenuState implements State {
     @Override
     public void update(float delta) {
     	//clickButton.update(delta);
-    	
+    	if(startButt.contains(Gdx.input.getX(), Gdx.input.getY())){
+            TopDown.instance.setScreen(new GameState());
+        }
 
     }
 
