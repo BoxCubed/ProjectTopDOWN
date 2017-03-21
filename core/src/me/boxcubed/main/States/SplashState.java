@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Vector3;
 import me.boxcubed.main.TopDown;
 
 public class SplashState implements State {
-
 private float elapsedTime,rotation=0;
 private Texture logo;
 private Sprite logoSprite;
@@ -19,33 +18,34 @@ private final int LOGO_WIDTH=300,LOGO_HEIGHT=300,TIME=300;
 private OrthographicCamera camera;
 private BitmapFont font;
 private SpriteBatch batch=new SpriteBatch();
-    private GameState loadingInstance;
 
-    @Override
+
+	@Override
 	public void show() {
-
 		Gdx.graphics.setResizable(false);
 		Gdx.graphics.setUndecorated(true);
 		Gdx.graphics.setWindowedMode(500, 700);
-        loadingInstance=new GameState();
 		camera=new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		camera.position.y=camera.viewportHeight*2;
 		camera.update();
-
+		
 		font =new BitmapFont();
 		logo=new Texture("assets/img/logo.png");
 		logoSprite=new Sprite(logo);
 
-
 	}
 	boolean loaded=false;
-
+	private GameState loadingInstance;
 	@Override
 	public void update(float delta) {
 		elapsedTime+=delta;
 		rotation-=360f/TIME*delta;
 		lerpToPos(0, 0);
 		camera.update();
+		if(elapsedTime>TIME/2&&!loaded){
+			loaded=true;
+			loadingInstance=new GameState();
+			}
 		if(elapsedTime>TIME){
 			Gdx.graphics.setUndecorated(false);
 			Gdx.graphics.setResizable(true);
@@ -90,15 +90,18 @@ private SpriteBatch batch=new SpriteBatch();
 
 	@Override
 	public void resume() {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void hide() {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void handleInput() {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -106,8 +109,9 @@ private SpriteBatch batch=new SpriteBatch();
 
 	@Override
 	public void dispose() {
+		// TODO Auto-generated method stub
 		batch.dispose();
-		this.dispose();
+
 	}
 	private void lerpToPos(float x,float y){
 		final float speed=0.1f,ispeed=1.0f-speed;
