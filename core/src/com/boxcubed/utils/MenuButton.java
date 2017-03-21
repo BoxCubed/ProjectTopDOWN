@@ -28,7 +28,7 @@ public class MenuButton{
 	Rectangle r;
 	public GlyphLayout f,cf;
 	public BitmapFont font,chosenFont;
-	Color col,ccol;
+	Color col=Color.WHITE,ccol=Color.WHITE;
 	boolean useImage(){
 		if(i==null)return false;
 				return true;
@@ -123,8 +123,14 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 			else throw new NullPointerException("Could not draw Button Image");
 			
 		}else{
-			if(chosen)font.draw(batch, cf, x, y);
-			else font.draw(batch, f, x, y);
+			if(chosen){
+				chosenFont.setColor(ccol);
+				chosenFont.draw(batch, cf, x, y+cf.height);	
+			
+			}
+			else {
+				font.setColor(col);
+				font.draw(batch, f, x, y+f.height);}
 			
 			
 		}
@@ -136,15 +142,15 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 	}
 	public void setX(float x){this.x=x;}
 	public void setY(float y){this.y=y;}
-	public void setGlyphChosen(GlyphLayout s){this.f=s;}
-	public void setGlyphNotChosen(GlyphLayout s){this.cf=s;}
+	public void setGlyphChosen(GlyphLayout s){this.cf=s;}
+	public void setGlyphNotChosen(GlyphLayout s){this.f=s;}
 	/**
 	 * Should be used to detect collisions without the use of the mouse
 	 * @return
 	 * the rectangle the menu button is enclosed in
 	 */
 	public Rectangle getRect(){return r;}
-	public void setColor(Color c){this.col=c;}
+	public void setColor(Color c){this.col=c; }
 	public void setChosenColor(Color c){this.ccol=c;}
 	public boolean isChosen(){return chosen;}
 	public void addListener(MenuListener l){this.l=l;}

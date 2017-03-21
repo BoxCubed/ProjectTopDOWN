@@ -1,6 +1,7 @@
 package me.boxcubed.main.States;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -14,8 +15,6 @@ import com.boxcubed.utils.MenuButton;
 import com.boxcubed.utils.MenuListener;
 
 import me.boxcubed.main.TopDown;
-
-import java.awt.*;
 
 /**
  * @author BoxCubed
@@ -37,8 +36,9 @@ public class MenuState implements State {
         parameter = new FreeTypeFontParameter();
         parameter.size = 48;
         font = generator.generateFont(parameter);
+        font.setColor(Color.GREEN);
         startGlyph = new GlyphLayout();
-        startGlyph.setText(font, "Start BITCH");
+        startGlyph.setText(font, "Start");
      /*this.gsm=gsm;*/
         Gdx.input.setInputProcessor(stage);
         
@@ -70,6 +70,13 @@ public class MenuState implements State {
 				
 			}
 		});
+        ///clickButton.setColor(Color.GREEN);
+        //clickButton.setChosenColor(Color.BLUE);
+        font.setColor(Color.BLUE);
+        clickButton.setGlyphNotChosen(new GlyphLayout(font, "DONT TOUCH ME"));
+        clickButton.setCollisionLock(true);
+        clickButton.getRect().width=clickButton.f.width;
+        clickButton.getRect().height=clickButton.f.height;
     }
 
     @Override
