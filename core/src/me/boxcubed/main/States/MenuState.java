@@ -54,14 +54,12 @@ public class MenuState implements State {
 			
 			@Override
 			public void notChosen(MenuButton m) {
-				m.setImage(normal);
 				
 				
 			}
 			
 			@Override
 			public void clicked(MenuButton m) {
-				m.setImage(click);
 				
 				TopDown.instance.setScreen(loadedInstance);
 				
@@ -69,7 +67,6 @@ public class MenuState implements State {
 			
 			@Override
 			public void chosen(MenuButton m) {
-				m.setImage(hover);
 				
 			}
 		});

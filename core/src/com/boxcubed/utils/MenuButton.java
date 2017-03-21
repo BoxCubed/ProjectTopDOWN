@@ -61,6 +61,8 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 	}
 	public MenuButton(GlyphLayout f,GlyphLayout cf,BitmapFont c,BitmapFont cc,float x,float y,MenuListener l){
 		this.f=f;
+		font=c;
+		chosenFont=cc;
 		this.x=x;
 		this.y=y;
 		this.cf=cf;
