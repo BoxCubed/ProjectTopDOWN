@@ -80,7 +80,8 @@ public class MenuState implements State {
     @Override
     public void update(float delta) {
     	//clickButton.update(delta);
-    	if(startButt.contains(Gdx.input.getX(), Gdx.input.getY())){
+    	if(startButt.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.isTouched()){
+    	    StartButton.width = StartButton.width*2;
             TopDown.instance.setScreen(new GameState());
         }
 
