@@ -63,7 +63,7 @@ private SpriteBatch batch=new SpriteBatch();
 				LOGO_WIDTH/2, LOGO_HEIGHT/2, LOGO_WIDTH, LOGO_HEIGHT, 1, 1, rotation);
 		font.getData().setScale(1f);
 		font.draw(batch, "Project Top Down", -60, camera.viewportHeight/2);
-		font.draw(batch, "Brought to you by Box Cubed", -100, camera.viewportHeight/2-50);
+		font.draw(batch, "Brought to you by Box Cubed BITCH", -100, camera.viewportHeight/2-50);
 		font.getData().setScale(2f);
 		font.draw(batch, "Loading...", -50, -camera.viewportHeight/2+100);
 
