@@ -2,11 +2,17 @@ package me.boxcubed.main.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.boxcubed.utils.MenuButton;
 import com.boxcubed.utils.MenuListener;
+
 import me.boxcubed.main.TopDown;
 
 import java.awt.*;
@@ -24,23 +30,20 @@ public class MenuState implements State {
     //OLD  STUFF ^
     BitmapFont font;
     FreeTypeFontGenerator generator;
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    GlyphLayout StartButton;
-    Rectangle startButt;
+    FreeTypeFontParameter parameter;
+    GlyphLayout startGlyph;
     public MenuState(GameState loadedInstance) {
         generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/font.ttf"));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter = new FreeTypeFontParameter();
         parameter.size = 48;
         font = generator.generateFont(parameter);
-        StartButton = new GlyphLayout();
-        StartButton.setText(font, "Start BITCH");
-        startButt = new Rectangle();
-        startButt.setRect(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, StartButton.width, StartButton.height);
+        startGlyph = new GlyphLayout();
+        startGlyph.setText(font, "Start BITCH");
      /*this.gsm=gsm;*/
         Gdx.input.setInputProcessor(stage);
         
         button = new Texture("assets/img/icon.png");
-        clickButton=new MenuButton(start.createSprite("normal"), Gdx.graphics.getWidth()/2-start.createSprite("normal").getWidth()/2, Gdx.graphics.getHeight()/2, 
+        clickButton=new MenuButton(startGlyph,font,  Gdx.graphics.getWidth()/2 - startGlyph.width/2,  Gdx.graphics.getHeight()/2 - startGlyph.height/2, 
         		new MenuListener() {
 			
 			@Override
@@ -79,11 +82,8 @@ public class MenuState implements State {
 
     @Override
     public void update(float delta) {
-    	//clickButton.update(delta);
-    	if(startButt.contains(Gdx.input.getX(), Gdx.input.getY()) && Gdx.input.isTouched()){
-    	    StartButton.width = StartButton.width*2;
-            TopDown.instance.setScreen(new GameState());
-        }
+    	clickButton.update(delta);
+    	
 
     }
 
@@ -91,8 +91,8 @@ public class MenuState implements State {
     public void render() {
     	
         batch.begin();
-        //clickButton.render(batch);
-        font.draw(batch, StartButton, Gdx.graphics.getWidth()/2 - StartButton.width/2, Gdx.graphics.getHeight()/2 - StartButton.height/2);
+        clickButton.render(batch);
+        //font.draw(batch, startGlyph, Gdx.graphics.getWidth()/2 - startGlyph.width/2, Gdx.graphics.getHeight()/2 - startGlyph.height/2);
         batch.end();
     }
 

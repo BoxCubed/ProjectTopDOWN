@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -25,13 +26,13 @@ public class MenuButton{
 	private int mx,my;//mouse x and y
 	Sprite i,ci;
 	Rectangle r;
-	BitmapFont f,cf;
+	public GlyphLayout f,cf;
+	public BitmapFont font,chosenFont;
 	Color col,ccol;
 	boolean useImage(){
 		if(i==null)return false;
 				return true;
 	}
-	String s=null,cs=null;
 	MenuListener l=null;
 	public MenuButton(Sprite i,float x,float y,MenuListener l){
 		this.i=i;
@@ -53,13 +54,12 @@ public class MenuButton{
 		
 		
 	}
-public 	MenuButton(String i,BitmapFont f,float x,float y,MenuListener l){
-		this(i,f,f,x,y,l);
+public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
+		this(i,i,f,f,x,y,l);
 		
 		
 	}
-	public MenuButton(String i,BitmapFont f,BitmapFont cf,float x,float y,MenuListener l){
-		s=i;
+	public MenuButton(GlyphLayout f,GlyphLayout cf,BitmapFont c,BitmapFont cc,float x,float y,MenuListener l){
 		this.f=f;
 		this.x=x;
 		this.y=y;
@@ -121,7 +121,8 @@ public 	MenuButton(String i,BitmapFont f,float x,float y,MenuListener l){
 			else throw new NullPointerException("Could not draw Button Image");
 			
 		}else{
-			if(chosen)f.draw(batch, s, x, y);else cf.draw(batch, s, x, y);
+			if(chosen)font.draw(batch, cf, x, y);
+			else font.draw(batch, f, x, y);
 			
 			
 		}
@@ -133,7 +134,8 @@ public 	MenuButton(String i,BitmapFont f,float x,float y,MenuListener l){
 	}
 	public void setX(float x){this.x=x;}
 	public void setY(float y){this.y=y;}
-	public void setMessage(String s){this.s=s;}
+	public void setGlyphChosen(GlyphLayout s){this.f=s;}
+	public void setGlyphNotChosen(GlyphLayout s){this.cf=s;}
 	/**
 	 * Should be used to detect collisions without the use of the mouse
 	 * @return
@@ -157,7 +159,6 @@ public 	MenuButton(String i,BitmapFont f,float x,float y,MenuListener l){
 	public void setChosen(boolean c){chosen=c;}
 	public float getY(){return y;}
 	public float getX(){return x;}
-	public void ssetChosenString(String s){cs=s;}
 	/**
 	 * Allows to lock the collision box so it is not moved with the image/text
 	 * Should be used if a custom one is to be made with {@code getRect()}
@@ -180,8 +181,8 @@ public 	MenuButton(String i,BitmapFont f,float x,float y,MenuListener l){
 	private void setCollisionBounds(){
 		if(useImage())
 		r.set(x, y, i.getWidth(), i.getHeight());
-		else if(!isChosen()) ;
-		else r.set(x, y, 5,10);
+		else if(!isChosen()) r.set(x, y, f.width, f.height);
+		else r.set(x, y, cf.width,cf.height);
 		}
 
 
