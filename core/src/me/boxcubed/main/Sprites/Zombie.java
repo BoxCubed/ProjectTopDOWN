@@ -1,8 +1,11 @@
 package me.boxcubed.main.Sprites;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ai.steer.behaviors.Seek;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -36,7 +39,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	SteeringAI ai;
 	boolean attack;
 	float attackTime;
-	
+	Sound attackSound;
 	private Animation<TextureRegion> zombieAnim,zombieWalk;
 	private float walkTime=0;
 	
@@ -48,6 +51,9 @@ public class Zombie extends Sprite implements LivingEntity {
 	
 	public Zombie(World world,SteeringAI playerAI) {
 		super( FileAtlas.<Texture>getFile("zombieTex"));
+		attackSound =Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_attack.mp3"));
+		
+		
 		setSize(50, 50);
 		health=100;
 		ai=new SteeringAI(this, 50);
@@ -209,10 +215,15 @@ public class Zombie extends Sprite implements LivingEntity {
 	public double getMaxHealth() {
 		return 100;
 	}
-
+	Random rand=new Random();
 	@Override
 	public void playAnimation(String key) {
-		if(key.toUpperCase().equals("ATTACK")){attack=true;attackTime=0;}
+		if(key.toUpperCase().equals("ATTACK")){
+			
+			attack=true;attackTime=0;
+			if(rand.nextFloat()<0.5f)
+			attackSound.play();
+		}
 		
 	}
 

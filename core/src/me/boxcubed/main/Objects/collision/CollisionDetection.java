@@ -38,7 +38,7 @@ public CollisionDetection(){
 		     if(p.getHealth()>=p.getMaxHealth()) continue;
 		     entity.setDisposable(true);
 		     
-		     p.setHealth(p.getHealth()+p.getMaxHealth()/10);
+		     p.setHealth(p.getHealth()+p.getMaxHealth()/4);
 		}
 			
 			
