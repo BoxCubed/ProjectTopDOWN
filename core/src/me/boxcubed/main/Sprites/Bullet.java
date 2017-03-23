@@ -29,7 +29,7 @@ public class Bullet extends Sprite implements Entity{
 	TextureRegion muzzleFlash;
 	
 	float rotation;
-	public float SPEED = 15;
+	public float SPEED = 20;
 	
 	float x,y,offX,offY;
 	
@@ -92,8 +92,8 @@ public class Bullet extends Sprite implements Entity{
 					 GameState.instance.player.getPos().y,offX,offY,40,20,1,1,rotation);
 			*/
 			 
-		 if(lookRight)sb.draw(this, x+5, y-8, 5, 5, 20, 15, 1, 1, rotation,true);
-		 if(lookLeft)sb.draw(this, x-17, y+5, 5, 5, 20, 15, 1, 1, rotation,true);
+		 if(lookRight)sb.draw(this, x+5, y-8, 5, 5, 30, 20, 1, 1, rotation,true);
+		 if(lookLeft)sb.draw(this, x-17, y+5, 5, 5, 30, 20, 1, 1, rotation,true);
 		 }else{
 			 this.dispose();
 		 }
