@@ -164,7 +164,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			
 			if(counter<1){
 				GameState.instance.gameWORLD.rayCast(callback, playerBody.getPosition(), new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y));
-				gunshotSound.play(0.05f);
+				gunshotSound.play(1.0f);
 				GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
 		   pressed=false;}
 		   counter++;
