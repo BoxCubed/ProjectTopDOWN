@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Sprites.Pack.PackType;
+import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
 
 public class CollisionDetection implements ContactListener{
@@ -33,6 +34,9 @@ public CollisionDetection(){
 		}			
 		if(isOneInstanceOf(PackType.class, contact)&&isOneOf("PLAYER", contact)){
 		     System.out.println("Touch Pack!");
+		     entity.setDisposable(true);
+		     Player p=GameState.instance.player;
+		     p.setHealth(p.getHealth()+p.getMaxHealth()/10);
 		}
 			
 			

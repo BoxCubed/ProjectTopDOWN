@@ -1,9 +1,10 @@
 package me.boxcubed.main.Sprites;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.boxcubed.utils.GIFDecoder;
 
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
@@ -24,9 +25,12 @@ public class Pack extends Sprite implements Entity {
 	FixtureDef fixtureDef;
 	Body body;
 	PolygonShape shape;
-	
+	Animation<TextureRegion> anim;
+	float x,y;
 	
 	public Pack(PackType type, float x, float y,World world){
+		this.x=x;
+		this.y=y;
 		def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 		// Shape
@@ -48,7 +52,7 @@ public class Pack extends Sprite implements Entity {
         shape.dispose();
         setSize(20, 20);
      
-		
+		anim=GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("assets/img/health.gif").read());
 		
 		
 	}
@@ -65,13 +69,13 @@ public class Pack extends Sprite implements Entity {
 	
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
+		body.setTransform(x,y,0);
 		
 	}
 
 	@Override
 	public void render(SpriteBatch sb) {
-		// TODO Auto-generated method stub
+		sb.draw(anim.getKeyFrame(Gdx.graphics.getDeltaTime()*10), x-10f, y-10f,0, 0, 20, 20, 1, 1, 0);
 		
 	}
 	
@@ -112,7 +116,6 @@ public class Pack extends Sprite implements Entity {
 	@Override
 	public void dispose() {
 		GameState.instance.getWorld().destroyBody(getBody());
-		
 	}
 
 	@Override

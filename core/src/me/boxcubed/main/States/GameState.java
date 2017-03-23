@@ -131,7 +131,7 @@ public class GameState implements State, CleanInputProcessor{
 
 				// This is a cancer we need
 				
-				entities.add(new Pack(PackType.HEALTH, player.getPos().x, player.getPos().y, gameWORLD));
+				entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
 			
 	}
 	
