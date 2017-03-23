@@ -1,6 +1,5 @@
 package com.boxcubed.utils;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -17,7 +16,7 @@ import com.badlogic.gdx.math.Rectangle;
  * Works with LibGDX and requires update and render methods to be called
  * every loop
  * @author ryan9
- * 
+ *	@deprecated
  *
  */
 public class MenuButton{
