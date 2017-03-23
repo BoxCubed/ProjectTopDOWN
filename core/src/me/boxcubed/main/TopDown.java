@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
-import me.boxcubed.main.States.SplashState;
+import me.boxcubed.main.States.GameState;
 
 public class TopDown extends Game {
 	public static TopDown instance;
@@ -14,7 +14,7 @@ public class TopDown extends Game {
 		instance=this;
 		
 		
-		setScreen(new SplashState());
+		setScreen(new GameState());
 	}
 
 	@Override
