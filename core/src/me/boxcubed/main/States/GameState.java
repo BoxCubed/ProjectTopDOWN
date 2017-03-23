@@ -34,6 +34,8 @@ import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Crosshair;
+import me.boxcubed.main.Sprites.Pack;
+import me.boxcubed.main.Sprites.Pack.PackType;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 
@@ -128,6 +130,8 @@ public class GameState implements State, CleanInputProcessor{
 				MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
 
 				// This is a cancer we need
+				
+				entities.add(new Pack(PackType.HEALTH, player.getPos().x, player.getPos().y, gameWORLD));
 			
 	}
 	
@@ -217,6 +221,7 @@ public class GameState implements State, CleanInputProcessor{
 		if (input.isKeyJustPressed(Keys.M)) {
 			TopDown.instance.setScreen(new MenuState(this));
 		}
+		mouseMoved(Gdx.input.getX(), Gdx.input.getY()); 
 	}
 
 	DecimalFormat format = new DecimalFormat("#.##");
@@ -314,6 +319,8 @@ public class GameState implements State, CleanInputProcessor{
 	}
 	@Override
 	public void resize(int width, int height) {
+		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		cam.update();
 	}
 
 	@Override
