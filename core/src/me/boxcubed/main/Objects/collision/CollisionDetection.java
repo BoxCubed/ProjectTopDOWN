@@ -34,8 +34,10 @@ public CollisionDetection(){
 		}			
 		if(isOneInstanceOf(PackType.class, contact)&&isOneOf("PLAYER", contact)){
 		     System.out.println("Touch Pack!");
-		     entity.setDisposable(true);
 		     Player p=GameState.instance.player;
+		     if(p.getHealth()>=p.getMaxHealth()) continue;
+		     entity.setDisposable(true);
+		     
 		     p.setHealth(p.getHealth()+p.getMaxHealth()/10);
 		}
 			
