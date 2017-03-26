@@ -14,7 +14,7 @@ public class SplashState implements State {
 private float elapsedTime,rotation=0;
 private Texture logo;
 private Sprite logoSprite;
-private final int LOGO_WIDTH=300,LOGO_HEIGHT=300,TIME=300;
+private final int LOGO_WIDTH=300,LOGO_HEIGHT=300,TIME=3;
 private OrthographicCamera camera;
 private BitmapFont font;
 private SpriteBatch batch=new SpriteBatch();

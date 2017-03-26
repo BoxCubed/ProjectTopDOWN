@@ -47,6 +47,7 @@ public class GameState implements State, CleanInputProcessor{
 	public List<Entity> entities;
 	public List<Entity>dispose;
 	public Player player;
+	public boolean debug=true;
 
 	public static GameState instance;
 
@@ -96,6 +97,7 @@ public class GameState implements State, CleanInputProcessor{
 
 				// Box2D Stuff
 				tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+				if(TopDown.debug)
 				b2dr = new Box2DDebugRenderer();
 
 				// Rendering
@@ -142,7 +144,7 @@ public class GameState implements State, CleanInputProcessor{
 		hud.update();
 		
 		//Updating World
-		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
+		gameWORLD.step(delta/100, 8, 2);
 
 		//Updating player
 		
@@ -234,12 +236,11 @@ public class GameState implements State, CleanInputProcessor{
 		cam.update();
 		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();
-
+		if(b2dr!=null)
 		b2dr.render(gameWORLD, cam.combined);
 		playerLight.rayHandler.setCombinedMatrix(cam);
 		//Entity render
-		batch.begin();                                                   //-------------------------------------\\
-                                                                      //       SEE THIS RENDER METHOD?       \\
+		batch.begin();                                                   //-------------------------------------\\                                               //       SEE THIS RENDER METHOD?       \\
 		entities.forEach(entity -> {
 			if(!entity.isDisposable())
 				entity.render(batch);

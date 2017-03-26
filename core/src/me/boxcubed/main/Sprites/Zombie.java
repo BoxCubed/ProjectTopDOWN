@@ -191,6 +191,7 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public void dispose() {
+		attackSound.dispose();
 		GameState.instance.getWorld().destroyBody(Body);
 		
 		
@@ -221,7 +222,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		if(key.toUpperCase().equals("ATTACK")){
 			
 			attack=true;attackTime=0;
-			if(rand.nextFloat()<0.5f)
+			if(rand.nextFloat()<0.25f)
 			attackSound.play();
 		}
 		
