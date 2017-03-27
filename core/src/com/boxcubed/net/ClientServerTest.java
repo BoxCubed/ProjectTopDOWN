@@ -1,5 +1,10 @@
 package com.boxcubed.net;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
 import com.badlogic.gdx.net.Socket;
@@ -7,6 +12,7 @@ import com.badlogic.gdx.net.Socket;
 public class ClientServerTest extends Thread{
 	Socket connection;
 	public boolean stop=false;
+	int count;
 	public ClientServerTest(){
 		connection=Gdx.net.newClientSocket(Protocol.TCP, "localhost", 200, null);
 		start();
@@ -14,31 +20,51 @@ public class ClientServerTest extends Thread{
 	}
 	@Override
 	public void run() {
-		Gdx.app.log("[client]", "Cleint Thread started");
-		
+		Gdx.app.log("[Client]", "Client Thread started");
+		PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(connection.getInputStream()));;
 		while(!stop){
-			Gdx.app.log("[client]", "tick");
+			
+			//Gdx.app.log("[client]", "tick");
+			if(!connection.isConnected()){System.out.println("[Client] No connection");continue;}
+			
 			try{
-				connection.getOutputStream().write(70);
-				connection.getOutputStream().flush();
-			//if(!connection.isConnected())System.out.println("[client] No connection : "+connection.getRemoteAddress());
-			int mess;
-			do{
-				mess=connection.getInputStream().read();
-			System.out.println("[client] : "+mess);
-			
-			}while(mess!=-1);
-			//System.out.println("[client] : "+connection.getInputStream().read());
-			
-			//Thread.sleep(100);
-			
-			Gdx.app.log("[client]", "attempting connection");
+				Thread.sleep(1000);
+				count++;
+			    
+				
+			    
+			String mess=null;
+			while(in.ready()){	
+				mess=in.readLine();
+				
+				System.out.println("[Client] : "+mess);
 			
 			
+			}
+			out.println("Greetings from client for the "+count+" time");
+			out.flush();
 			
-			}catch(Exception e){System.out.println("Error occured on Client");}
+			
+			
+			//Gdx.app.log("[client]", "attempting connection");
+			
+			
+			
+			}catch(Exception e){System.out.println("Error occured on Client : "+e.getMessage());}
 			
 		}
+		
+		Gdx.app.log("[Client]", "Shutting Down...");
+		try {
+			in.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.close();
+		connection.dispose();
 	
 	}
 
