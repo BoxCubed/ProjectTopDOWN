@@ -34,7 +34,7 @@ public class MultiplayerServer extends Thread{
 		
 		
 		//TODO make collision class for multiplayer
-		world.setContactListener(new CollisionDetection());
+		//world.setContactListener(new CollisionDetection());
 		
 		start();
 		
@@ -44,7 +44,7 @@ public class MultiplayerServer extends Thread{
 	public void run() {
 		SocketHints hints=new SocketHints();
 		//The time between the last request they sent to server
-		float p1Delta=0,p2Delta=0,p1Delay,p2Delay,lastRun=System.currentTimeMillis(),delta;
+		long p1Delta=0,p2Delta=0,p1Delay,p2Delay,lastRun=System.currentTimeMillis(),delta;
 		//hints.connectTimeout=1000;
 		hints.socketTimeout=100;
 		
@@ -107,6 +107,7 @@ public class MultiplayerServer extends Thread{
 				if(p1in.ready()){
 					p1Delta=System.currentTimeMillis()-p1Delay;
 					String mess=p1in.readLine();
+					//System.out.println(mess+delta);
 					if(mess.startsWith("mov"))
 						p1Char.processCommand(mess.split(":")[1]);
 					else if(mess.startsWith("disconnect")){
@@ -114,17 +115,7 @@ public class MultiplayerServer extends Thread{
 						continue;
 					}
 						
-						
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					p1Delay=System.currentTimeMillis();
+					 p1Delay=System.currentTimeMillis();
 				}
 				
 				
@@ -156,7 +147,7 @@ public class MultiplayerServer extends Thread{
 				
 				
 			
-			}catch (Exception e){logError("Error occured: "+e.getMessage());}
+			}catch (Exception e){logError("Error occured: "+e.getMessage()); e.printStackTrace();}
 			
 	}
 		Gdx.app.log("[Server]", "Server Shutting Down...");

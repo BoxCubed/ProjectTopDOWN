@@ -50,11 +50,11 @@ public class ClientServerTest extends Thread{
 			
 			}
 			
-			/*while(inCon.ready()){
+			while(inCon.ready()){
 				String messCon=inCon.readLine();
-				if(messCon.startsWith("@p"+player)){
+				
 					System.out.println("[Client] Sending command as p"+player+":"+messCon.replaceAll("@p"+player, ""));
-				out.println(messCon.replaceAll("@p"+player, ""));}}*/
+				out.print(messCon.replaceAll("@p"+player, ""));}
 				out.println("update");
 			
 			
