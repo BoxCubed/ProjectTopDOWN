@@ -51,7 +51,7 @@ public class ServerLauncher extends Thread{
 				System.out.println("[Server] : "+mess);
 				}
 				
-			    out.println("Greetings from server!");;
+			   // out.println("Greetings from server!");;
 				if(mess.equals("stop"))
 					accept.dispose();
 			

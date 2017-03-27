@@ -20,7 +20,7 @@ import me.boxcubed.main.States.GameState;
 import java.lang.reflect.Method;
 
 public class Player extends Sprite implements LivingEntity,Movable {
-	private float delta;
+	public float delta;
 	private static Texture tex = new Texture(Gdx.files.internal("assets/img/player.png"));
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;

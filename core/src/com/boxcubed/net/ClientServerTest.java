@@ -13,29 +13,32 @@ import com.badlogic.gdx.net.SocketHints;
 public class ClientServerTest extends Thread{
 	Socket connection;
 	public boolean stop=false;
-	int count;
-	public ClientServerTest(){
+	int player;
+	
+	public ClientServerTest(int player){
+		this.player=player;
 		SocketHints hints=new SocketHints();
 		//hints.connectTimeout=1000;
 		hints.socketTimeout=1000;
-		connection=Gdx.net.newClientSocket(Protocol.TCP, "localhost", 200, hints);
+		connection=Gdx.net.newClientSocket(Protocol.TCP, "localhost", 22222, hints);
 		start();
 		
 	}
 	@Override
 	public void run() {
-		Gdx.app.log("[Client]", "Client Thread started");
+		Gdx.app.log("[Client]", "Client Thread started. To send a command do @p"+player+" (command)");
 		PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(connection.getInputStream()));;
+		BufferedReader inCon=new BufferedReader(new InputStreamReader(System.in));
 		while(!stop){
 			
 			//Gdx.app.log("[client]", "tick");
 			if(!connection.isConnected()){System.out.println("[Client] No connection");continue;}
 			
 			try{
-				Thread.sleep(1000);
-				count++;
+				//Thread.sleep(1000);
+				
 			    
 			    
 			String mess=null;
@@ -46,11 +49,14 @@ public class ClientServerTest extends Thread{
 			
 			
 			}
-			out.println("Greetings from client for the "+count+" time");
-			if(count==3){
-				out.println("stop");
-				stop=true;
-				}
+			
+			/*while(inCon.ready()){
+				String messCon=inCon.readLine();
+				if(messCon.startsWith("@p"+player)){
+					System.out.println("[Client] Sending command as p"+player+":"+messCon.replaceAll("@p"+player, ""));
+				out.println(messCon.replaceAll("@p"+player, ""));}}*/
+				out.println("update");
+			
 			
 			
 			

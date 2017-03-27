@@ -223,7 +223,7 @@ public class GameState implements State, CleanInputProcessor{
 		if (input.isKeyJustPressed(Keys.M)) {
 			TopDown.instance.setScreen(new MenuState(this));
 		}
-		mouseMoved(Gdx.input.getX(), Gdx.input.getY()); 
+		//mouseMoved(Gdx.input.getX(), Gdx.input.getY()); 
 	}
 
 	DecimalFormat format = new DecimalFormat("#.##");

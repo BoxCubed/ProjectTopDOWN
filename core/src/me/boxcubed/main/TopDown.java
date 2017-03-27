@@ -5,8 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.boxcubed.net.ClientServerTest;
-import com.boxcubed.net.ServerLauncher;
-
+import com.boxcubed.net.MultiplayerServer;
 import me.boxcubed.main.States.GameState;
 import me.boxcubed.main.States.SplashState;
 
@@ -30,8 +29,9 @@ public class TopDown extends Game {
 		setScreen(new GameState());
 		else 
 			setScreen(new SplashState());
-		new ServerLauncher();
-		new ClientServerTest();
+		new MultiplayerServer();
+		new ClientServerTest(1);
+		//new ClientServerTest(2);
 	}
 
 	@Override
