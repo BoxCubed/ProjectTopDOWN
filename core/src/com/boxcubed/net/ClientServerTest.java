@@ -8,13 +8,17 @@ import java.io.PrintWriter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
 import com.badlogic.gdx.net.Socket;
+import com.badlogic.gdx.net.SocketHints;
 
 public class ClientServerTest extends Thread{
 	Socket connection;
 	public boolean stop=false;
 	int count;
 	public ClientServerTest(){
-		connection=Gdx.net.newClientSocket(Protocol.TCP, "localhost", 200, null);
+		SocketHints hints=new SocketHints();
+		//hints.connectTimeout=1000;
+		hints.socketTimeout=1000;
+		connection=Gdx.net.newClientSocket(Protocol.TCP, "localhost", 200, hints);
 		start();
 		
 	}
@@ -33,7 +37,6 @@ public class ClientServerTest extends Thread{
 				Thread.sleep(1000);
 				count++;
 			    
-				
 			    
 			String mess=null;
 			while(in.ready()){	
@@ -44,7 +47,10 @@ public class ClientServerTest extends Thread{
 			
 			}
 			out.println("Greetings from client for the "+count+" time");
-			out.flush();
+			if(count==3){
+				out.println("stop");
+				stop=true;
+				}
 			
 			
 			
