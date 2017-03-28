@@ -8,16 +8,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.net.ServerSocketHints;
-import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.Multiplayer_Player;
 
-public class MultiplayerServer extends Thread implements ApplicationListener{
+public class MultiplayerServer extends Thread {
 	ServerSocket server;
 	Socket player1,player2;
 	public World world=new World(new Vector2(0, 0), true);
@@ -33,9 +29,8 @@ public class MultiplayerServer extends Thread implements ApplicationListener{
 		try {
 			server=new ServerSocket(22222, 2);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			logError("Failed to create server!:"+e.getMessage());
-			System.exit(0);
+			return;
 		}
 		
 		
@@ -126,12 +121,14 @@ public class MultiplayerServer extends Thread implements ApplicationListener{
 					String mess="";
 					p1Delta=System.currentTimeMillis()-p1Delay;
 					try{
+						
 					mess=p1in.readLine();
-					}catch(SocketException e){player1.close();continue;}
-					//System.out.println(mess);
+					
+					}catch(Exception e){player1.close();continue;}
+					System.out.println(mess);
 					
 					if(mess.startsWith("mov"))
-						p1Char.processCommand(mess.split(":")[1]);
+						p1Char.processCommand(mess.replaceFirst("mov:", ""));
 					else if(mess.startsWith("disconnect")){
 						player1.close();
 						continue;
@@ -199,32 +196,7 @@ private void logError(String s){
 	
 	
 }
-//These just in case I decide to make this run in LibGdx
-@Override
-public void create() {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void resize(int width, int height) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void render() {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void pause() {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void dispose() {
-	// TODO Auto-generated method stub
-	
-}
+
 class ConsoleThread extends Thread{
 	BufferedReader in;
 	public String lastOutput="";

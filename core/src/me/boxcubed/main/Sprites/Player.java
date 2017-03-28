@@ -187,7 +187,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		
 		boolean pressed = input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE);
 		if (pressed) {
-			
+			processMovment("SPACE");
 			if(counter<1){
 				GameState.instance.gameWORLD.rayCast(callback, playerBody.getPosition(), new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y));
 				gunshotSound.play(1.0f);
@@ -234,7 +234,16 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
 		method += key;
 		if(state==1){
-			connection.commandBuffer="mov:"+method;
+			/*connection.commandBuffer="mov:"+(byte)(Gdx.input.isKeyPressed(Keys.W)?1:0)+":"
+					+(byte)(Gdx.input.isKeyPressed(Keys.A)?1:0)+":"+(byte)(Gdx.input.isKeyPressed(Keys.S)?1:0)+":"
+							+(byte)(Gdx.input.isKeyPressed(Keys.D)?1:0)+":"+(byte)(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)?1:0)+":"+(byte)(Gdx.input.isKeyPressed(Keys.SPACE)?1:0)+":";*/
+			connection.w=(byte)(Gdx.input.isKeyPressed(Keys.W)?1:0);
+			connection.a=(byte)(Gdx.input.isKeyPressed(Keys.A)?1:0);
+			connection.s=(byte)(Gdx.input.isKeyPressed(Keys.S)?1:0);
+			connection.d=(byte)(Gdx.input.isKeyPressed(Keys.D)?1:0);
+			connection.shift=(byte)(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)?1:0);
+			connection.space=(byte)(Gdx.input.isKeyPressed(Keys.SPACE)?1:0);
+			connection.rotation=getRotation();
 			return true;
 		}
 		Method m;

@@ -133,10 +133,11 @@ public void render(SpriteBatch sb) {
 		
 		if(!keyPressed)stop();
 	}
+	public float rotation=0;
 	public boolean processCommand(String key) {
 		//TODO add shooting toggle
 		
-		Method m;
+		/*Method m;
 		try {
 			// this, my friends, is reflection. Learn it. Its good.
 			m = getClass().getMethod(key, (Class<?>[])null);
@@ -145,7 +146,37 @@ public void render(SpriteBatch sb) {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return false;*/
+		byte[] pressed=new byte[6];
+		String[] pressedS=key.split(":");
+		for(int i=0;i<5;i++)
+			pressed[i]=Byte.parseByte(pressedS[i]);
+		if(pressed[0]!=0)
+			if(pressed[4]!=0)runUP();
+			goUP();
+		if(pressed[1]!=0)
+			if(pressed[4]!=0)runLEFT();
+			goLEFT();
+		if(pressed[2]!=0)
+			if(pressed[4]!=0)runDOWN();
+			goDOWN();
+		if(pressed[3]!=0)
+			if(pressed[4]!=0)runRIGHT();
+			goRIGHT();
+			
+		if(pressed[5]!=0)shooting=true;
+		else shooting=false;
+		
+		rotation=Float.parseFloat(pressedS[6]);
+		
+		
+		
+		
+		
+		
+		
+		
+		return true;
 
 	}
 	

@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
@@ -13,11 +11,12 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 
 import me.boxcubed.main.Sprites.Player;
-import me.boxcubed.main.States.GameState;
 
 public class ClientConnection extends Thread{
 	Socket connection;
 	public boolean stop=false;
+	public byte w=0,s=0,a=0,d=0,shift=0,space=0;
+	public float rotation=0;
 	Player player;
 	public String commandBuffer="update";
 	public ClientConnection(Player player){
@@ -46,20 +45,21 @@ public class ClientConnection extends Thread{
 			    
 			    
 			float[] mess=new float[4];
-			while(in.ready()){	
+			
+				
 				String sMess=in.readLine();
 				for(int i=0;i<3;i++)
 				mess[i]=Float.parseFloat(sMess.split(":")[i]);
 				
 				player.multiPos.x=mess[0];
 				player.multiPos.y=mess[1];
-				//System.out.println("[Client] : "+mess);
+				//awdsaSystem.out.println("[Client] : "+sMess);
 			
 			
-			}
 			
-			out.println(commandBuffer);
-				commandBuffer="update";
+			
+			out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
+				//commandBuffer="update";
 			
 			
 			
