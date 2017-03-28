@@ -1,23 +1,36 @@
 
 package me.boxcubed.main.Sprites;
 
+import java.lang.reflect.Method;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.physics.box2d.World;
+import com.boxcubed.net.ClientConnection;
 
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
 import me.boxcubed.main.States.GameState;
-
-import java.lang.reflect.Method;
 
 public class Player extends Sprite implements LivingEntity,Movable {
 	public float delta;
@@ -38,15 +51,27 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public float legOffX=15,legOffY=15;
 	boolean shooting=false;
 	GameState gameState;
-	
+	ClientConnection connection;
+	//This vector is used for multiplayer positioning so location can be added when world isn't stepping
+	public Vector2 multiPos=new Vector2(100,100);
 	RayCastCallback callback;
 	
 	int counter=0;
-	
+	int state;
 	Sound gunshotSound;
-	
-	public Player(World world) {
+	/**
+	 * Create a new Player
+	 * @param world the world the player should be in
+	 * @param state The state the player should be in <br>
+	 * 0 is local, 1 is player client, 2 is player server
+	 */
+	public Player(World world,int state) {
 		super(tex);
+		this.state=state;
+		if(state==1)
+			connection =new ClientConnection(this);
+			
+		
 		atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
 		atlas2=new TextureAtlas(Gdx.files.internal("assets/spritesheets/leganim.atlas"));
 		animation = new Animation<TextureRegion>(1f/30f*100,atlas.getRegions());
@@ -137,7 +162,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	boolean isDisposed= false;
 	public void render(SpriteBatch sb) {
 		if(isAlive()){
-			
+			if(state==2||state==1)playerBody.setTransform(multiPos, 0);
 			effect.draw(sb);
 		if(playerBody.getLinearVelocity().isZero())
 		sb.draw(this, playerBody.getPosition().x-15,playerBody.getPosition().y-15,15,15,40,40,1,1,getRotation());
@@ -155,6 +180,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	}
 	
 	public void handleInput() {
+		
 		Input input = Gdx.input;
 		
 		boolean keyPressed=false;
@@ -170,6 +196,12 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		   counter++;
 		}
 		else{counter=0;}
+        if(state==2)
+        	return;
+        	
+        
+        
+		
 		
 		if (input.isKeyPressed(Keys.W) || input.isKeyPressed(Keys.UP)){
 			keyPressed=true;
@@ -186,13 +218,14 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		if (input.isKeyPressed(Input.Keys.D) || input.isKeyPressed(Keys.RIGHT)){
 			keyPressed=true;
 			processMovment("RIGHT");
-		}
+		}if(!keyPressed)stop();
 		if(input.isKeyPressed(Keys.NUM_0))
 			shooting=true;
 		else shooting=false;
-		if(!keyPressed)stop();
+		
 	}
 	private boolean processMovment(String key) {
+		
 		String method;
 		if (Gdx.input.isKeyJustPressed(Keys.SHIFT_LEFT))
 			method = "run";
@@ -200,6 +233,10 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			method = "go";
 
 		method += key;
+		if(state==1){
+			connection.commandBuffer="mov:"+method;
+			return true;
+		}
 		Method m;
 		try {
 			// this, my friends, is reflection. Learn it. Its good.

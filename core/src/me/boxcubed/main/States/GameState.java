@@ -115,7 +115,7 @@ public class GameState implements State, CleanInputProcessor{
 		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
 		
 		// Adding player
-		player = new Player(gameWORLD);
+		player = new Player(gameWORLD,1);
 
 				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 
@@ -214,7 +214,7 @@ public class GameState implements State, CleanInputProcessor{
 			if (player.isAlive())
 				player.setHealth(player.getMaxHealth());
 			else{
-				player = new Player(gameWORLD);
+				player = new Player(gameWORLD,0);
 				playerAI=new SteeringAI(player, player.getWidth());
 			//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
 			}

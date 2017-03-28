@@ -54,7 +54,7 @@ public class Spawner {
 					
 				
 				if(entity.equals(EntityType.PLAYER))
-					spawnEntity=new Player(GameState.instance.getWorld());
+					spawnEntity=new Player(GameState.instance.getWorld(),0);
 				
 				if(spawnEntity!=null){
 				spawnEntity.getBody().setTransform(pos, spawnEntity.getBody().getAngle());
