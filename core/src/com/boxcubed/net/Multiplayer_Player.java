@@ -168,7 +168,9 @@ public void render(SpriteBatch sb) {
 		else shooting=false;
 		
 		rotation=Float.parseFloat(pressedS[6]);
-		
+		/*for(String b:pressedS)
+			System.out.print(b);*/
+		System.out.println(getPos());
 		
 		
 		
@@ -229,22 +231,22 @@ public void render(SpriteBatch sb) {
 
 	@Override
 	public void runUP() {
-
+		goUP();
 	}
 
 	@Override
 	public void runDOWN() {
-
+		goDOWN();
 	}
 
 	@Override
 	public void runLEFT() {
-
+		goLEFT();
 	}
 
 	@Override
 	public void runRIGHT() {
-
+		goRIGHT();
 	}
 
 	public void stop() {

@@ -198,7 +198,10 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		else{counter=0;}
         if(state==2)
         	return;
-        	
+        	if(state==1){
+        		processMovment("UNKNOWN");
+        		return;
+        	}
         
         
 		

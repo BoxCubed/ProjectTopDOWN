@@ -125,7 +125,7 @@ public class MultiplayerServer extends Thread {
 					mess=p1in.readLine();
 					
 					}catch(Exception e){player1.close();continue;}
-					System.out.println(mess);
+					//System.out.println(mess);
 					
 					if(mess.startsWith("mov"))
 						p1Char.processCommand(mess.replaceFirst("mov:", ""));
