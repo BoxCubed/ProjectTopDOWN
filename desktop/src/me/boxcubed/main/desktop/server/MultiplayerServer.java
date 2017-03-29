@@ -137,13 +137,28 @@ public class MultiplayerServer extends Thread {
 					 p1Delay=System.currentTimeMillis();
 				
 				String con=inCon.lastOutput;
-				if(con.startsWith("teleport")){
-					p1Char.getBody().setTransform(new Vector2(Float.parseFloat(con.split(":")[1]), Float.parseFloat(con.split(":")[2])), 0);
-					log("Teleported player 1 to given cords");
-					inCon.lastOutput="";
-				
+				switch(con){
+				case "teleport":
+					try{
+					if(con.split(" ")[3].equals("1")){
+						p1Char.getBody().setTransform(new Vector2(Float.parseFloat(con.split(" ")[1]), Float.parseFloat(con.split(" ")[2])), p2Char.rotation);
+						log("Teleported player 1 to given cords");}
+						else{
+							p2Char.getBody().setTransform(new Vector2(Float.parseFloat(con.split(" ")[1]), Float.parseFloat(con.split(" ")[2])), p2Char.rotation);
+							log("Teleported player 2 to given cords");
+						}
+					}catch(Exception e){log("Incorrect usage! 'teleport x y player'");}
+					break;
+				case "stop":
+					stop=true;
+					break;
+				case "":break;
+				default:
+					log("That isn't an option");
 				}
-				world.step(delta, 10, 5);
+				inCon.lastOutput="";
+				Thread.sleep(10);
+				world.step(0.1f, 10, 5);
 				
 				
 				
@@ -167,11 +182,15 @@ public class MultiplayerServer extends Thread {
 				
 				
 			
-			}catch (Exception e){logError("Error occured: "+e.getMessage()); e.printStackTrace();}
+			}catch (InterruptedException | IOException e){logError("Error occured: "+e.getMessage()); e.printStackTrace();}
 			
 	}
 		log("Server Shutting Down...");
 		try{
+			inCon.stop=true;
+			inCon.join();
+			p1out.println("disconnect:Server was shut down");
+			//p2out.println("disconnect:Server was shut down");
 		player1.close();
 		player2.close();;
 		p1Char.dispose();

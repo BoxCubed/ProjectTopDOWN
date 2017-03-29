@@ -131,8 +131,7 @@ public class GameState implements State, CleanInputProcessor{
 				// Making all the collision shapes
 				MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
 
-				// This is a cancer we need
-				
+				//packs
 				entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
 			
 	}
@@ -352,7 +351,7 @@ public class GameState implements State, CleanInputProcessor{
 
 		cam.position.set(cameraPosition);
 	}
-
+   
     @Override
 	public void show() {
     	cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
