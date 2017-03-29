@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
@@ -52,19 +54,22 @@ public class ClientConnection extends Thread{
 				
 			    
 			    
-			float[] mess=new float[5];
+			
 			
 				
-				String sMess=in.readLine();
+				
 				try{
-				for(int i=0;i<5;i++)
+					String sMess=in.readLine();
+					float[] mess=new float[sMess.split(":").length];
+					if(sMess.contains("P"))continue;
+				for(int i=0;i<mess.length;i++)
 				mess[i]=Float.parseFloat(sMess.split(":")[i]);
 				
 				
 				player.multiPos=universalLerpToPos(player.getPos(), new Vector2(mess[0], mess[1]));
 				player2.multiPos=universalLerpToPos(player2.getPos(), new Vector2(mess[2], mess[3]));
 				
-				player2.setRotation(mess[4]);}catch(NullPointerException e){}
+				player2.setRotation(mess[4]);}catch(NullPointerException|SocketTimeoutException|SocketException e){}
 				//System.out.println(Float.parseFloat(sMess.split(":")[4]));
 				
 				
