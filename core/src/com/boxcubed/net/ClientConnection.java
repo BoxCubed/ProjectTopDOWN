@@ -44,13 +44,12 @@ public class ClientConnection extends Thread{
 		PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(connection.getInputStream()));;
+		
 		while(!stop){
 			
-			//Gdx.app.log("[client]", "tick");
 			if(!connection.isConnected()){System.out.println("[Client] No connection");continue;}
 			
 			try{
-				//Thread.sleep(1000);
 				
 			    
 			    
@@ -70,21 +69,20 @@ public class ClientConnection extends Thread{
 				player2.multiPos=universalLerpToPos(player2.getPos(), new Vector2(mess[2], mess[3]));
 				
 				player2.setRotation(mess[4]);}catch(NullPointerException|SocketTimeoutException|SocketException e){}
-				//System.out.println(Float.parseFloat(sMess.split(":")[4]));
+					
+					
 				
 				
-				//awdsaSystem.out.println("[Client] : "+sMess);
+				
 			
 			
 			
 			
 			out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
-				//commandBuffer="update";
 			
 			
 			
 			
-			//Gdx.app.log("[client]", "attempting connection");
 			
 			
 			

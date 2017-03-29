@@ -66,8 +66,6 @@ public class MultiplayerServer extends Thread {
 		//hints.connectTimeout=1000;
 		PrintWriter p1out=null;
 		PrintWriter p2out=null;
-		ObjectOutputStream p2outob=null;
-		ObjectOutputStream p1outob=null;
 		BufferedReader p1in=null;
 		BufferedReader p2in=null;
 		ConsoleThread inCon=new ConsoleThread();
@@ -88,8 +86,7 @@ public class MultiplayerServer extends Thread {
 		p1out = new PrintWriter(player1.getOutputStream(), true);
 	    p1in = new BufferedReader(
 	        new InputStreamReader(player1.getInputStream()));
-	    p1outob=new ObjectOutputStream(player1.getOutputStream());
-	    p2outob=new ObjectOutputStream(player2.getOutputStream());
+	    
 	    p2out = new PrintWriter(player2.getOutputStream(), true);
 	    p2in = new BufferedReader(
 	        new InputStreamReader(player2.getInputStream()));
@@ -97,7 +94,7 @@ public class MultiplayerServer extends Thread {
 			+ "\n Project Top Down Multiplayer Experience "
 			+ "\n Brought to you by Box Cubed "
 		  + "\n---------------------------------------------");
-		}catch(IOException e){logError("Failed in creating server!:"+e.getMessage());stop=true;}
+		}catch(IOException e){logError("Failed in creating server!:"+e.getMessage());e.printStackTrace();System.exit(0);}
 			
 		
 		while(!stop){
@@ -115,7 +112,6 @@ public class MultiplayerServer extends Thread {
 					p1out = new PrintWriter(player1.getOutputStream(), true);
 				    p1in = new BufferedReader(
 				        new InputStreamReader(player1.getInputStream()));
-				    p1outob=new ObjectOutputStream(player1.getOutputStream());
 				}
 				if(player2==null||player2.isClosed()){
 					log("Player two lost connection! Halting until new player joins...");
@@ -127,13 +123,12 @@ public class MultiplayerServer extends Thread {
 					  p2out = new PrintWriter(player2.getOutputStream(), true);
 					    p2in = new BufferedReader(
 					        new InputStreamReader(player2.getInputStream()));
-					    p2outob=new ObjectOutputStream(player2.getOutputStream());
 					
 				}
 				//sending info to player
-				
 				p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y+":"+p2Char.rotation);
-				//p1outob.writeObject(new DataPacket(p1Char.getPos(), p2Char.getPos(), rotation));
+				
+
 				p2out.println(p2Char.getPos().x+":"+p2Char.getPos().y+":"+p1Char.getPos().x+":"+p1Char.getPos().y+":"+p1Char.rotation);
 				
 				//Processing Movement 
@@ -213,11 +208,12 @@ public class MultiplayerServer extends Thread {
 				
 				
 				
-				
-				
-			Thread.sleep(sleep);
-			endLoop=System.currentTimeMillis();	
-			delta=endLoop-startLoop-sleep;
+				endLoop=System.currentTimeMillis();	
+				delta=endLoop-startLoop;
+			if(delta<10)	
+			Thread.sleep(sleep-delta);
+			
+			
 			
 		
 			
@@ -228,8 +224,10 @@ public class MultiplayerServer extends Thread {
 		try{
 			inCon.stop=true;
 			inCon.join();
+			if(!player1.isClosed())
 			p1out.println("disconnect:Server was shut down");
-			//p2out.println("disconnect:Server was shut down");
+			if(!player2.isClosed())
+			p2out.println("disconnect:Server was shut down");
 		player1.close();
 		player2.close();;
 		p1Char.dispose();
