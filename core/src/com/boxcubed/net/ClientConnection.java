@@ -56,6 +56,7 @@ public class ClientConnection extends Thread{
 			
 				
 				String sMess=in.readLine();
+				try{
 				for(int i=0;i<5;i++)
 				mess[i]=Float.parseFloat(sMess.split(":")[i]);
 				
@@ -63,7 +64,7 @@ public class ClientConnection extends Thread{
 				player.multiPos=universalLerpToPos(player.getPos(), new Vector2(mess[0], mess[1]));
 				player2.multiPos=universalLerpToPos(player2.getPos(), new Vector2(mess[2], mess[3]));
 				
-				player2.setRotation(mess[4]);
+				player2.setRotation(mess[4]);}catch(NullPointerException e){}
 				//System.out.println(Float.parseFloat(sMess.split(":")[4]));
 				
 				

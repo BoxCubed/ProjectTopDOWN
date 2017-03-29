@@ -55,7 +55,7 @@ public class MultiplayerServer extends Thread {
 	@Override
 	public void run() {
 		//The time between the last request they sent to server
-		long p1Delta=0,p2Delta=0,p1Delay=0,p2Delay=0,lastRun=System.currentTimeMillis(),delta;
+		long startLoop=0,endLoop=0,p1Delta=0,p2Delta=0,p1Delay=0,p2Delay=0,delta=0,sleep=10;
 		//hints.connectTimeout=1000;
 		PrintWriter p1out=null;
 		PrintWriter p2out=null;
@@ -90,7 +90,9 @@ public class MultiplayerServer extends Thread {
 			
 		
 		while(!stop){
+			
 			try{
+				startLoop=System.currentTimeMillis();
 				//Checking connections for both Players
 				if(player1==null||player1.isClosed()){
 					log("Player one lost connection! Halting until new player joins...");
@@ -116,7 +118,6 @@ public class MultiplayerServer extends Thread {
 					
 				}
 				//sending info to player
-				delta=System.currentTimeMillis()-lastRun;
 				
 				p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y+":"+p2Char.rotation);
 				p2out.println(p2Char.getPos().x+":"+p2Char.getPos().y+":"+p1Char.getPos().x+":"+p1Char.getPos().y+":"+p1Char.rotation);
@@ -168,12 +169,16 @@ public class MultiplayerServer extends Thread {
 					stop=true;
 					break;
 				case "":break;
+				case "tps":
+					log("delta: "+delta+" sleep: "+sleep);
+					break;
 				default:
 					log("That isn't an option");
 				}
 				inCon.lastOutput="";
-				Thread.sleep(10);
+				
 				world.step(0.1f, 10, 5);
+				//log(Long.toString(delta));
 				
 				
 				
@@ -193,9 +198,11 @@ public class MultiplayerServer extends Thread {
 				
 				
 				
-				
-				
-				
+			Thread.sleep(sleep);
+			endLoop=System.currentTimeMillis();	
+			delta=endLoop-startLoop-sleep;
+			if(delta>3)sleep--;
+			else if (delta<=0&&sleep<=10)sleep++;
 			
 			}catch (InterruptedException | IOException e){logError("Error occured: "+e.getMessage()); e.printStackTrace();}
 			
