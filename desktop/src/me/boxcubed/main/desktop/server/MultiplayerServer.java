@@ -143,7 +143,8 @@ public class MultiplayerServer extends Thread {
 					inCon.lastOutput="";
 				
 				}
-				world.step(delta, 10, 5);
+				Thread.sleep(10);
+				world.step(0.1f, 10, 5);
 				
 				
 				

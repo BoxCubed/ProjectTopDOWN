@@ -147,30 +147,38 @@ public void render(SpriteBatch sb) {
 			e.printStackTrace();
 		}
 		return false;*/
+		int notPressed=0;
 		byte[] pressed=new byte[6];
 		String[] pressedS=key.split(":");
 		for(int i=0;i<5;i++)
 			pressed[i]=Byte.parseByte(pressedS[i]);
-		if(pressed[0]!=0)
+		if(pressed[0]!=0){
+			notPressed++;
 			if(pressed[4]!=0)runUP();
-			goUP();
-		if(pressed[1]!=0)
+			else
+			goUP();}
+		if(pressed[1]!=0){
+			notPressed++;
 			if(pressed[4]!=0)runLEFT();
-			goLEFT();
-		if(pressed[2]!=0)
+			else
+			goLEFT();}
+		if(pressed[2]!=0){
+			notPressed++;
 			if(pressed[4]!=0)runDOWN();
-			goDOWN();
-		if(pressed[3]!=0)
+			else
+			goDOWN();}
+		if(pressed[3]!=0){
+			notPressed++;
 			if(pressed[4]!=0)runRIGHT();
-			goRIGHT();
+			else
+			goRIGHT();}
 			
 		if(pressed[5]!=0)shooting=true;
 		else shooting=false;
-		
+		if(notPressed==0)stop();
 		rotation=Float.parseFloat(pressedS[6]);
 		/*for(String b:pressedS)
 			System.out.print(b);*/
-		System.out.println(getPos());
 		
 		
 		
@@ -206,7 +214,7 @@ public void render(SpriteBatch sb) {
 	// Walking
 	@Override
 	public void goUP() {
-		playerBody.applyLinearImpulse(new Vector2(0, 80), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0, 80f), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(5f);
     }
 
