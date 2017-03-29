@@ -6,12 +6,15 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl.LwjglFiles;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.net.ServerSocketHints;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.Multiplayer_Player;
+
+import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 
 public class MultiplayerServer extends Thread {
 	ServerSocket server;
@@ -20,11 +23,15 @@ public class MultiplayerServer extends Thread {
 	public static MultiplayerServer instance;
 	public Multiplayer_Player p1Char=new Multiplayer_Player(world),p2Char=new Multiplayer_Player(world);
 	public boolean stop=false;
+	TiledMap map;
 
 	public MultiplayerServer() {
 		instance=this;
-		ServerSocketHints hints=new ServerSocketHints();
-		hints.acceptTimeout=0;
+		Gdx.files=new LwjglFiles();
+		/*ServerSocketHints hints=new ServerSocketHints();
+		hints.acceptTimeout=0;*/
+		map=new ServerTiledMapLoader().load("assets/maps/map2.tmx");
+		MapBodyBuilder.buildShapes(map, 1, world);
 	
 		try {
 			server=new ServerSocket(22222, 2);
@@ -111,7 +118,7 @@ public class MultiplayerServer extends Thread {
 				//sending info to player
 				delta=System.currentTimeMillis()-lastRun;
 				
-				p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y);
+				p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y+":"+p2Char.rotation);
 				/*p2out.print("trans:"+p2Char.getPos().x+":"+p2Char.getPos().y);
 				p2out.print("trans2:"+p1Char.getPos().x+":"+p1Char.getPos().y);
 				p2out.println();*/
@@ -125,7 +132,7 @@ public class MultiplayerServer extends Thread {
 					mess=p1in.readLine();
 					
 					}catch(Exception e){player1.close();continue;}
-					System.out.println(mess);
+					//System.out.println(mess);
 					
 					if(mess.startsWith("mov"))
 						p1Char.processCommand(mess.replaceFirst("mov:", ""));
@@ -196,7 +203,7 @@ public class MultiplayerServer extends Thread {
 		p1Char.dispose();
 		p2Char.dispose();
 		server.close();
-		}catch(IOException e){logError("Failed in shutting down!:"+e.getMessage());}
+		}catch(IOException|InterruptedException e){logError("Failed in shutting down!:"+e.getMessage());}
 		
 	}
 

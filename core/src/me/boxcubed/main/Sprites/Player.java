@@ -64,13 +64,17 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	 * Create a new Player
 	 * @param world the world the player should be in
 	 * @param state The state the player should be in <br>
-	 * 0 is local, 1 is player client, 2 is player server
+	 * 0 is local, 1 is player client, 2 is player server<br>
+	 * <br>
+	 * Make sure to supply a connection with {@link Player#setConnection(ClientConnection)} 
+	 * if the state isn't 0. Do this before calling update.
+	 * 
 	 */
 	public Player(World world,int state) {
 		super(tex);
 		this.state=state;
-		if(state==1)
-			connection =new ClientConnection(this);
+		//if(state==1)
+			
 			
 		
 		atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
@@ -128,6 +132,9 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		gunshotSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/gunshot.mp3"));
 	}
 	float elapsedTime=0;
+	public void setConnection(ClientConnection connection){
+		this.connection=connection;
+	}
 	@Override
 	public void update(float delta) {
 		if(isAlive()){
@@ -199,7 +206,10 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		else{counter=0;}
         if(state==2)
         	return;
-        	
+        	if(state==1){
+        		processMovment("UNKNOWN");
+        		return;
+        	}
         
         
 		
@@ -246,7 +256,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			connection.space=(byte)(Gdx.input.isKeyPressed(Keys.SPACE)?1:0);
 			connection.rotation=getRotation();
 			return true;
-		}
+		}if(state==2)return true;
 		Method m;
 		try {
 			// this, my friends, is reflection. Learn it. Its good.
