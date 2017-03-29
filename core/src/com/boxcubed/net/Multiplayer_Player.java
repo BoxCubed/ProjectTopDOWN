@@ -147,35 +147,35 @@ public void render(SpriteBatch sb) {
 			e.printStackTrace();
 		}
 		return false;*/
-		int notPressed=0;
+		boolean keyPressed=false;
 		byte[] pressed=new byte[6];
 		String[] pressedS=key.split(":");
 		for(int i=0;i<5;i++)
 			pressed[i]=Byte.parseByte(pressedS[i]);
 		if(pressed[0]!=0){
-			notPressed++;
+			keyPressed=true;
 			if(pressed[4]!=0)runUP();
 			else
 			goUP();}
 		if(pressed[1]!=0){
-			notPressed++;
+			keyPressed=true;
 			if(pressed[4]!=0)runLEFT();
 			else
 			goLEFT();}
 		if(pressed[2]!=0){
-			notPressed++;
+			keyPressed=true;
 			if(pressed[4]!=0)runDOWN();
 			else
 			goDOWN();}
 		if(pressed[3]!=0){
-			notPressed++;
+			keyPressed=true;
 			if(pressed[4]!=0)runRIGHT();
 			else
 			goRIGHT();}
 			
 		if(pressed[5]!=0)shooting=true;
 		else shooting=false;
-		if(notPressed==0)stop();
+		if(!keyPressed)stop();
 		rotation=Float.parseFloat(pressedS[6]);
 		/*for(String b:pressedS)
 			System.out.print(b);*/
