@@ -22,6 +22,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.boxcubed.net.ClientConnection;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.Hud;
 
@@ -57,8 +58,8 @@ public class GameState implements State, CleanInputProcessor{
 
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
-
-	
+	//TODO support multiple players
+	public Player multiplayerPlayers;
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
@@ -68,7 +69,7 @@ public class GameState implements State, CleanInputProcessor{
 	
 	Crosshair crosshair;
 	Hud hud;
-
+	ClientConnection connection;
 	Vector2 mouseLoc;
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
@@ -116,6 +117,8 @@ public class GameState implements State, CleanInputProcessor{
 		
 		// Adding player
 		player = new Player(gameWORLD,1);
+		connection=new ClientConnection(player);
+		
 
 				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 
@@ -151,12 +154,14 @@ public class GameState implements State, CleanInputProcessor{
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		player.update(delta);
 		playerAI.update(delta);
+		if(multiplayerPlayers!=null)
+			multiplayerPlayers.update(delta);
 
 		//Updating Light
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,
 		player.getRotation(), delta);
 		playerLight.rayHandler.update();
-
+		
 		//Update Zombie Spawns
 		if (!noZombie) {
 			zombieSpawner.update(delta);
@@ -264,6 +269,8 @@ public class GameState implements State, CleanInputProcessor{
 		//rendering of hud and player
 		batch.begin();
 		player.render(batch);
+		if(multiplayerPlayers!=null)
+			multiplayerPlayers.render(batch);
 		batch.setProjectionMatrix(hud.textCam.combined);
 		
 		hud.render(batch);

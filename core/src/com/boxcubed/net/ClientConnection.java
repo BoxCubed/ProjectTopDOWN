@@ -11,16 +11,22 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 
 import me.boxcubed.main.Sprites.Player;
+import me.boxcubed.main.States.GameState;
 
 public class ClientConnection extends Thread{
 	Socket connection;
 	public boolean stop=false;
 	public byte w=0,s=0,a=0,d=0,shift=0,space=0;
 	public float rotation=0;
-	Player player;
+	Player player,player2;
 	public String commandBuffer="update";
 	public ClientConnection(Player player){
 		this.player=player;
+		player.setConnection(this);
+		//TODO VERY Temporary 
+		GameState.instance.multiplayerPlayers=(new Player(player.getBody().getWorld(), 2));
+		player2=GameState.instance.multiplayerPlayers;
+		
 		SocketHints hints=new SocketHints();
 		//hints.connectTimeout=1000;
 		hints.socketTimeout=1000;
@@ -44,15 +50,20 @@ public class ClientConnection extends Thread{
 				
 			    
 			    
-			float[] mess=new float[4];
+			float[] mess=new float[5];
 			
 				
 				String sMess=in.readLine();
-				for(int i=0;i<3;i++)
+				for(int i=0;i<4;i++)
 				mess[i]=Float.parseFloat(sMess.split(":")[i]);
 				
 				player.multiPos.x=mess[0];
 				player.multiPos.y=mess[1];
+				player2.multiPos.x=mess[2];
+				player2.multiPos.y=mess[3];
+				player2.setRotation(mess[4]);
+				
+				
 				//awdsaSystem.out.println("[Client] : "+sMess);
 			
 			

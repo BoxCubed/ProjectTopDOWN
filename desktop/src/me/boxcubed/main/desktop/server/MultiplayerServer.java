@@ -118,7 +118,7 @@ public class MultiplayerServer extends Thread {
 				//sending info to player
 				delta=System.currentTimeMillis()-lastRun;
 				
-				p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y);
+				p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y+":"+p2Char.rotation);
 				/*p2out.print("trans:"+p2Char.getPos().x+":"+p2Char.getPos().y);
 				p2out.print("trans2:"+p1Char.getPos().x+":"+p1Char.getPos().y);
 				p2out.println();*/
@@ -145,8 +145,13 @@ public class MultiplayerServer extends Thread {
 				
 				String con=inCon.lastOutput;
 				if(con.startsWith("teleport")){
-					p1Char.getBody().setTransform(new Vector2(Float.parseFloat(con.split(":")[1]), Float.parseFloat(con.split(":")[2])), 0);
-					log("Teleported player 1 to given cords");
+					if(con.split(":")[3].equals("1")){
+					p1Char.getBody().setTransform(new Vector2(Float.parseFloat(con.split(":")[1]), Float.parseFloat(con.split(":")[2])), p2Char.rotation);
+					log("Teleported player 1 to given cords");}
+					else{
+						p2Char.getBody().setTransform(new Vector2(Float.parseFloat(con.split(":")[1]), Float.parseFloat(con.split(":")[2])), p2Char.rotation);
+						log("Teleported player 2 to given cords");
+					}
 					inCon.lastOutput="";
 				
 				}
@@ -180,12 +185,14 @@ public class MultiplayerServer extends Thread {
 	}
 		log("Server Shutting Down...");
 		try{
+			inCon.stop=true;
+			inCon.join();
 		player1.close();
 		player2.close();;
 		p1Char.dispose();
 		p2Char.dispose();
 		server.close();
-		}catch(IOException e){logError("Failed in shutting down!:"+e.getMessage());}
+		}catch(IOException|InterruptedException e){logError("Failed in shutting down!:"+e.getMessage());}
 		
 	}
 
