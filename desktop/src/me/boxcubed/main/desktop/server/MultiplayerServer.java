@@ -70,7 +70,7 @@ public class MultiplayerServer extends Thread {
 		player1=server.accept();
 		p1Delay=System.currentTimeMillis();
 		log("Player one successfully connected!\nWaiting for Player 2...");
-		//player2=server.accept();
+		player2=server.accept();
 		p2Delay=System.currentTimeMillis();
 		log("Player 2 successfully connected!");
 		
@@ -79,9 +79,9 @@ public class MultiplayerServer extends Thread {
 		p1out = new PrintWriter(player1.getOutputStream(), true);
 	    p1in = new BufferedReader(
 	        new InputStreamReader(player1.getInputStream()));
-	    /*p2out = new PrintWriter(player2.getOutputStream(), true);
+	    p2out = new PrintWriter(player2.getOutputStream(), true);
 	    p2in = new BufferedReader(
-	        new InputStreamReader(player2.getInputStream()));*/
+	        new InputStreamReader(player2.getInputStream()));
 		log("\n---------------------------------------------"
 			+ "\n Project Top Down Multiplayer Experience "
 			+ "\n Brought to you by Box Cubed "
@@ -94,19 +94,19 @@ public class MultiplayerServer extends Thread {
 				//Checking connections for both Players
 				if(player1==null||player1.isClosed()){
 					log("Player one lost connection! Halting until new player joins...");
-					//p2out.println("missP");
+					p2out.println("missP");
 					player1=server.accept();
 					log("Found new Player");
 					p1Delay=System.currentTimeMillis();
-					//p2out.println("foundP");
+					p2out.println("foundP");
 					p1out = new PrintWriter(player1.getOutputStream(), true);
 				    p1in = new BufferedReader(
 				        new InputStreamReader(player1.getInputStream()));
 				}
-				/*if(player2==null||player2.isInputShutdown()){
+				if(player2==null||player2.isClosed()){
 					log("Player two lost connection! Halting until new player joins...");
 					p1out.println("missP");
-					player1=server.accept();
+					player2=server.accept();
 					log("Found new Player");
 					p2Delay=System.currentTimeMillis();
 					p1out.println("foundP");
@@ -114,41 +114,49 @@ public class MultiplayerServer extends Thread {
 					    p2in = new BufferedReader(
 					        new InputStreamReader(player2.getInputStream()));
 					
-				}*/
+				}
 				//sending info to player
 				delta=System.currentTimeMillis()-lastRun;
 				
 				p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y+":"+p2Char.rotation);
-				/*p2out.print("trans:"+p2Char.getPos().x+":"+p2Char.getPos().y);
-				p2out.print("trans2:"+p1Char.getPos().x+":"+p1Char.getPos().y);
-				p2out.println();*/
+				p2out.println(p2Char.getPos().x+":"+p2Char.getPos().y+":"+p1Char.getPos().x+":"+p1Char.getPos().y+":"+p1Char.rotation);
+				
 				//Processing Movement 
 				p1Char.update(p1Delta);
+				p2Char.update(p2Delta);
 				p2Delta=System.currentTimeMillis()-p2Delay;
-					String mess="";
+					String mess="",mess2="";
 					p1Delta=System.currentTimeMillis()-p1Delay;
 					try{
 						
 					mess=p1in.readLine();
+					mess2=p2in.readLine();
 					
 					}catch(Exception e){player1.close();continue;}
 					//System.out.println(mess);
 					
-					if(mess.startsWith("mov"))
-						p1Char.processCommand(mess.replaceFirst("mov:", ""));
+					if(mess.startsWith("mov")){
+						p1Char.processCommand(mess.replaceFirst("mov:", ""));p1Delay=System.currentTimeMillis();}
 					else if(mess.startsWith("disconnect")){
 						player1.close();
 						continue;
 					}
+					if(mess2.startsWith("mov")){
+						p2Char.processCommand(mess2.replaceFirst("mov:", ""));p2Delay=System.currentTimeMillis();}
+					else if(mess2.startsWith("disconnect")){
+						player2.close();
+						continue;
+					}
 						
-					 p1Delay=System.currentTimeMillis();
+					 
+					 
 				
 				String con=inCon.lastOutput;
-				switch(con){
+				switch(con.split(" ")[0]){
 				case "teleport":
 					try{
 					if(con.split(" ")[3].equals("1")){
-						p1Char.getBody().setTransform(new Vector2(Float.parseFloat(con.split(" ")[1]), Float.parseFloat(con.split(" ")[2])), p2Char.rotation);
+						p1Char.getBody().setTransform(new Vector2(Float.parseFloat(con.split(" ")[1]), Float.parseFloat(con.split(" ")[2])), p1Char.rotation);
 						log("Teleported player 1 to given cords");}
 						else{
 							p2Char.getBody().setTransform(new Vector2(Float.parseFloat(con.split(" ")[1]), Float.parseFloat(con.split(" ")[2])), p2Char.rotation);
@@ -183,7 +191,7 @@ public class MultiplayerServer extends Thread {
 				
 				
 				
-				p2Delay=System.currentTimeMillis();
+				
 				
 				
 				

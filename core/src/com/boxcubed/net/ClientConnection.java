@@ -56,14 +56,15 @@ public class ClientConnection extends Thread{
 			
 				
 				String sMess=in.readLine();
-				for(int i=0;i<4;i++)
+				for(int i=0;i<5;i++)
 				mess[i]=Float.parseFloat(sMess.split(":")[i]);
 				
 				
 				player.multiPos=universalLerpToPos(player.getPos(), new Vector2(mess[0], mess[1]));
-				player2.multiPos.x=mess[2];
-				player2.multiPos.y=mess[3];
+				player2.multiPos=universalLerpToPos(player2.getPos(), new Vector2(mess[2], mess[3]));
+				
 				player2.setRotation(mess[4]);
+				//System.out.println(Float.parseFloat(sMess.split(":")[4]));
 				
 				
 				//awdsaSystem.out.println("[Client] : "+sMess);

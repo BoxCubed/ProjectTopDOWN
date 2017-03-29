@@ -1,7 +1,5 @@
 package com.boxcubed.net;
 
-import java.lang.reflect.Method;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -177,6 +175,7 @@ public void render(SpriteBatch sb) {
 		else shooting=false;
 		if(!keyPressed)stop();
 		rotation=Float.parseFloat(pressedS[6]);
+		//System.out.println(rotation);
 		/*for(String b:pressedS)
 			System.out.print(b);*/
 		
