@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.DataPacket;
 import com.boxcubed.net.InputPacket;
 import com.boxcubed.net.Multiplayer_Player;
+import com.boxcubed.net.SocketPlayer;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 
@@ -72,6 +74,7 @@ public class MultiplayerServer extends Thread {
 		BufferedReader p1in=null;
 		BufferedReader p2in=null;
 		ConsoleThread inCon=new ConsoleThread();
+		JoinThread joinThread=new JoinThread(world);
 		 ObjectOutputStream p1outob=null;
 		ObjectOutputStream p2outob=null;
 		ObjectInputStream p2inob=null;
@@ -80,7 +83,7 @@ public class MultiplayerServer extends Thread {
 		try{
 		//Connection of players
 		log("Starting Project Top Down Multiplayer Server...");
-		log("Waiting for Player 1...");
+		/*log("Waiting for Player 1...");
 		player1=server.accept();
 		
 		p1outob=new ObjectOutputStream(player1.getOutputStream());
@@ -93,7 +96,7 @@ public class MultiplayerServer extends Thread {
 		p2outob=new ObjectOutputStream(player2.getOutputStream());
 		p2inob=new ObjectInputStream(player2.getInputStream());
 		p2Delay=System.currentTimeMillis();
-		log("Player 2 successfully connected!");
+		log("Player 2 successfully connected!");*/
 		
 		
 		//assigning i/o
@@ -111,7 +114,7 @@ public class MultiplayerServer extends Thread {
 			+ "\n Project Top Down Multiplayer Experience "
 			+ "\n Brought to you by Box Cubed "
 		  + "\n---------------------------------------------");
-		}catch(IOException e){logError("Failed in creating server!:"+e.getMessage());e.printStackTrace();System.exit(0);}
+		}catch(Exception e){logError("Failed in creating server!:"+e.getMessage());e.printStackTrace();System.exit(0);}
 			
 		
 		while(!stop){
@@ -119,7 +122,7 @@ public class MultiplayerServer extends Thread {
 			try{
 				startLoop=System.currentTimeMillis();
 				//Checking connections for both Players
-				if(player1==null||player1.isClosed()){
+				/*if(player1==null||player1.isClosed()){
 					log("Player one lost connection! Halting until new player joins...");
 					p2out.println("missP");
 					player1=server.accept();
@@ -141,14 +144,14 @@ public class MultiplayerServer extends Thread {
 					    p2in = new BufferedReader(
 					        new InputStreamReader(player2.getInputStream()));
 					
-				}
+				}*/
 				//sending info to player
 				//p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y+":"+p2Char.rotation);
-				try{
+				/*try{
 				p1outob.writeObject(new DataPacket(p1Char.getPos(), p2Char.getPos(), p2Char.rotation));
 				p2outob.writeObject(new DataPacket(p2Char.getPos(), p1Char.getPos(), p1Char.rotation));
 				p1outob.flush();
-				p2outob.flush();}catch(SocketException e){Gdx.app.exit();}
+				p2outob.flush();}catch(SocketException e){Gdx.app.exit();}*/
 
 				//p2out.println(p2Char.getPos().x+":"+p2Char.getPos().y+":"+p1Char.getPos().x+":"+p1Char.getPos().y+":"+p1Char.rotation);
 				
@@ -179,13 +182,30 @@ public class MultiplayerServer extends Thread {
 						continue;
 					}*/
 						
-					 try{
+				for(int i=0;i<players.size();i++){
+					try{
+					SocketPlayer player=players.get(i);
+					player.loc=player.player.getPos().cpy();
+					player.rotation=player.player.rotation;
+					player.out.writeObject(new DataPacket(player.player.getPos(), players));
+					InputPacket in=(InputPacket)player.in.readObject();
+					player.player.processCommand(in);
+					player.player.update(delta);
+					
+					
+					
+					i++;
+					}catch(ClassNotFoundException e){
+						logError("FATAL ERROR: Missing Files: "+e.getMessage());Gdx.app.exit();}
+					catch(SocketException |SocketTimeoutException e){logError("Player Timed out");players.remove(i);}
+				}
+					 /*try{
 						 
 						 InputPacket in1=(InputPacket)p1inob.readObject(),in2=(InputPacket)p2inob.readObject();
 						 p1Char.processCommand(in1);
 						 p2Char.processCommand(in2);
 					 }catch(Exception e){e.printStackTrace();}
-					 
+					 */
 				
 				String con=inCon.lastOutput;
 				String[] conSplit=con.split(" ");
@@ -301,29 +321,39 @@ class ConsoleThread extends Thread{
 }
 class JoinThread extends Thread{
 	boolean stop=false;
-	public JoinThread(){
+	World wworld;
+	public JoinThread(World world){
+		this.wworld=world;
 		start();
 	}
 	@Override
 	public void run() {
 		while(!stop){
+			Socket socket=null;
+			try {
+				socket=server.accept();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				continue;
+			}
+			
+			
+				try {
+					players.add(new SocketPlayer(socket,Double.toString(Math.random()), new ObjectOutputStream(socket.getOutputStream()), 
+							new ObjectInputStream(socket.getInputStream()), new Multiplayer_Player(wworld)));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					logError("Player Failed to join: "+e.getMessage());
+				}
+			
+				// TODO Auto-generated catch block
+			
 			
 		}
 		
 	}
 }
-class SocketPlayer {
-	public Socket socket;
-	public String name;
-	public BufferedReader in;
-	public PrintWriter out;
-	public SocketPlayer(Socket socket, String name, BufferedReader in, PrintWriter out) {
-		this.socket = socket;
-		this.name = name;
-		this.in = in;
-		this.out = out;
-	}
-	
-	
-}
+
+
 }

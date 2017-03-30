@@ -78,9 +78,9 @@ public class ClientConnection extends Thread{
 				
 				try{
 					DataPacket packet=(DataPacket)inob.readObject();
-					player.multiPos=universalLerpToPos(player.getPos(), packet.loc);
-					player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
-					player2.setRotation(packet.rotation);
+					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
+					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
+					player2.setRotation(packet.rotation);*/
 					//System.out.println(packet);
 				}catch(NullPointerException e){e.printStackTrace();}
 					
