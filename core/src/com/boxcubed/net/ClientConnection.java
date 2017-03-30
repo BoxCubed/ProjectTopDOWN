@@ -1,11 +1,7 @@
 package com.boxcubed.net;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
@@ -41,9 +37,18 @@ public class ClientConnection extends Thread{
 	@Override
 	public void run() {
 		Gdx.app.log("[Client]", "Client Thread started.");
-		PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(connection.getInputStream()));;
+		ObjectInputStream inob=null;
+		ObjectOutputStream outob=null;
+		try{
+			
+			
+		outob=new ObjectOutputStream(connection.getOutputStream());
+		inob=new ObjectInputStream(connection.getInputStream());
+		}catch(Exception e){e.printStackTrace();Gdx.app.exit();}
+		
+		//PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
+		/*BufferedReader in = new BufferedReader(
+		        new InputStreamReader(connection.getInputStream()));;*/
 		
 		while(!stop){
 			
@@ -57,7 +62,7 @@ public class ClientConnection extends Thread{
 			
 				
 				
-				try{
+				/*try{
 					String sMess=in.readLine();
 					float[] mess=new float[sMess.split(":").length];
 					if(sMess.contains("P"))continue;
@@ -69,16 +74,24 @@ public class ClientConnection extends Thread{
 				player2.multiPos=universalLerpToPos(player2.getPos(), new Vector2(mess[2], mess[3]));
 				
 				player2.setRotation(mess[4]);}catch(NullPointerException|SocketTimeoutException|SocketException e){}
+					*/
+				
+				try{
+					DataPacket packet=(DataPacket)inob.readObject();
+					player.multiPos=universalLerpToPos(player.getPos(), packet.loc);
+					player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
+					player2.setRotation(packet.rotation);
+					//System.out.println(packet);
+				}catch(NullPointerException e){e.printStackTrace();}
 					
-					
 				
 				
 				
 			
 			
+			outob.writeObject(new InputPacket(w, a, s, d, space, shift, rotation));
 			
-			
-			out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
+			//out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
 			
 			
 			
@@ -91,12 +104,12 @@ public class ClientConnection extends Thread{
 		}
 		
 		Gdx.app.log("[Client]", "Shutting Down...");
-		try {
-			in.close();
+		/*try {
+			i.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		out.close();
+		out.close();*/
 		connection.dispose();
 	
 	}

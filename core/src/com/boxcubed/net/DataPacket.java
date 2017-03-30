@@ -2,17 +2,23 @@ package com.boxcubed.net;
 
 import java.io.Serializable;
 
+import com.badlogic.gdx.math.Vector2;
+
 public class DataPacket implements Serializable{
 	/**
 	 * 
 	 */
 	private static transient final long serialVersionUID = 6069159412880186977L;
-	public float loc,loc2;
+	public Vector2 loc,loc2;
 	public float rotation;
-	public DataPacket(float loc, float loc2, float rotation) {
+	public DataPacket(Vector2 loc, Vector2 loc2, float rotation) {
 		this.loc = loc;
 		this.loc2 = loc2;
 		this.rotation = rotation;
+	}
+	@Override
+	public String toString() {
+		return loc.toString()+" "+loc2.toString()+" "+rotation;
 	}
 	
 }

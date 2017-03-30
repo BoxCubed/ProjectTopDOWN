@@ -3,10 +3,12 @@ package me.boxcubed.main.desktop.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +17,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglFiles;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.boxcubed.net.DataPacket;
+import com.boxcubed.net.InputPacket;
 import com.boxcubed.net.Multiplayer_Player;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
@@ -30,6 +32,7 @@ public class MultiplayerServer extends Thread {
 	public Multiplayer_Player p1Char=new Multiplayer_Player(world),p2Char=new Multiplayer_Player(world);
 	public boolean stop=false;
 	TiledMap map;
+	
 
 	public MultiplayerServer() {
 		instance=this;
@@ -69,27 +72,41 @@ public class MultiplayerServer extends Thread {
 		BufferedReader p1in=null;
 		BufferedReader p2in=null;
 		ConsoleThread inCon=new ConsoleThread();
+		 ObjectOutputStream p1outob=null;
+		ObjectOutputStream p2outob=null;
+		ObjectInputStream p2inob=null;
+		ObjectInputStream p1inob=null;
 
 		try{
 		//Connection of players
 		log("Starting Project Top Down Multiplayer Server...");
 		log("Waiting for Player 1...");
 		player1=server.accept();
+		
+		p1outob=new ObjectOutputStream(player1.getOutputStream());
+		p1inob=new ObjectInputStream(player1.getInputStream());
 		p1Delay=System.currentTimeMillis();
 		log("Player one successfully connected!\nWaiting for Player 2...");
 		player2=server.accept();
+
+		
+		p2outob=new ObjectOutputStream(player2.getOutputStream());
+		p2inob=new ObjectInputStream(player2.getInputStream());
 		p2Delay=System.currentTimeMillis();
 		log("Player 2 successfully connected!");
 		
 		
 		//assigning i/o
-		p1out = new PrintWriter(player1.getOutputStream(), true);
-	    p1in = new BufferedReader(
+		
+		
+		
+		//p1out = new PrintWriter(player1.getOutputStream(), true);
+	    /*p1in = new BufferedReader(
 	        new InputStreamReader(player1.getInputStream()));
 	    
-	    p2out = new PrintWriter(player2.getOutputStream(), true);
+	    //p2out = new PrintWriter(player2.getOutputStream(), true);
 	    p2in = new BufferedReader(
-	        new InputStreamReader(player2.getInputStream()));
+	        new InputStreamReader(player2.getInputStream()));*/
 		log("\n---------------------------------------------"
 			+ "\n Project Top Down Multiplayer Experience "
 			+ "\n Brought to you by Box Cubed "
@@ -126,16 +143,20 @@ public class MultiplayerServer extends Thread {
 					
 				}
 				//sending info to player
-				p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y+":"+p2Char.rotation);
-				
+				//p1out.println(p1Char.getPos().x+":"+p1Char.getPos().y+":"+p2Char.getPos().x+":"+p2Char.getPos().y+":"+p2Char.rotation);
+				try{
+				p1outob.writeObject(new DataPacket(p1Char.getPos(), p2Char.getPos(), p2Char.rotation));
+				p2outob.writeObject(new DataPacket(p2Char.getPos(), p1Char.getPos(), p1Char.rotation));
+				p1outob.flush();
+				p2outob.flush();}catch(SocketException e){Gdx.app.exit();}
 
-				p2out.println(p2Char.getPos().x+":"+p2Char.getPos().y+":"+p1Char.getPos().x+":"+p1Char.getPos().y+":"+p1Char.rotation);
+				//p2out.println(p2Char.getPos().x+":"+p2Char.getPos().y+":"+p1Char.getPos().x+":"+p1Char.getPos().y+":"+p1Char.rotation);
 				
 				//Processing Movement 
 				p1Char.update(p1Delta);
 				p2Char.update(p2Delta);
 				p2Delta=System.currentTimeMillis()-p2Delay;
-					String mess="",mess2="";
+					/*String mess="",mess2="";
 					p1Delta=System.currentTimeMillis()-p1Delay;
 					try{
 						
@@ -156,9 +177,14 @@ public class MultiplayerServer extends Thread {
 					else if(mess2.startsWith("disconnect")){
 						player2.close();
 						continue;
-					}
+					}*/
 						
-					 
+					 try{
+						 
+						 InputPacket in1=(InputPacket)p1inob.readObject(),in2=(InputPacket)p2inob.readObject();
+						 p1Char.processCommand(in1);
+						 p2Char.processCommand(in2);
+					 }catch(Exception e){e.printStackTrace();}
 					 
 				
 				String con=inCon.lastOutput;
@@ -189,7 +215,7 @@ public class MultiplayerServer extends Thread {
 				}
 				inCon.lastOutput="";
 				
-				world.step(0.1f, 10, 5);
+				world.step(1f, 10, 5);
 				//log(Long.toString(delta));
 				
 				
