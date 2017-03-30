@@ -1,0 +1,23 @@
+{
+  "name": "projecttopdown",
+  "version": "1.0.0",
+  "description": "ProjectTopDown",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BoxCubed/ProjectTopDOWN.git"
+  },
+  "author": "BoxC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BoxCubed/ProjectTopDOWN/issues"
+  },
+  "homepage": "https://github.com/BoxCubed/ProjectTopDOWN#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^1.7.3"
+  }
+}
