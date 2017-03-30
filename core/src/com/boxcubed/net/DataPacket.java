@@ -12,8 +12,8 @@ public class DataPacket implements Serializable{
 	public Vector2 loc,loc2;
 	public float rotation;
 	public DataPacket(Vector2 loc, Vector2 loc2, float rotation) {
-		this.loc = loc;
-		this.loc2 = loc2;
+		this.loc = loc.cpy();
+		this.loc2 = loc2.cpy();
 		this.rotation = rotation;
 	}
 	@Override

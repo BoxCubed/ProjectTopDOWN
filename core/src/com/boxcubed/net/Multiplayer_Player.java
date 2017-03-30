@@ -166,9 +166,7 @@ public void render(SpriteBatch sb) {
 			System.out.print(b);*/
 		boolean pressed=false;
 		boolean shift=key.shift!=0;
-		System.out.println(key);
 		if(key.w!=0){
-			System.out.println("keyup");
 			pressed=true;
 			if(shift)
 				runUP();
@@ -231,7 +229,6 @@ public void render(SpriteBatch sb) {
 	// Walking
 	@Override
 	public void goUP() {
-		System.out.println("up");
 		playerBody.applyLinearImpulse(new Vector2(0, 80f), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(5f);
     }
