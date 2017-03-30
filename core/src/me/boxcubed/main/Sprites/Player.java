@@ -188,7 +188,14 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	}
 	
 	public void handleInput() {
-		
+		if(state==2){
+        	getBody().setTransform(multiPos, 0);
+        	setRotation(rotation);
+        	return;}
+        	if(state==1){
+        		processMovment("UNKNOWN");
+        		return;
+        	}
 		Input input = Gdx.input;
 		
 		boolean keyPressed=false;
@@ -204,13 +211,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		   counter++;
 		}
 		else{counter=0;}
-        if(state==2){
-        	setRotation(rotation);
-        	return;}
-        	if(state==1){
-        		processMovment("UNKNOWN");
-        		return;
-        	}
+        
         
         
 		

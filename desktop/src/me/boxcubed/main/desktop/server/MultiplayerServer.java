@@ -173,19 +173,19 @@ public class MultiplayerServer extends Thread {
 				for(int i=0;i<players.size();i++){
 					try{
 					SocketPlayer player=players.get(i);
-					List<SocketPlayer> send;
-					send=new ArrayList<>();
-					players.iterator().forEachRemaining(subplayer->{if(!subplayer.equals(player))send.add(subplayer);});
-					player.loc=player.player.getPos().cpy();
-					player.rotation=player.player.rotation;
-					player.out.writeObject(new DataPacket(player.player.getPos(), send));
+					players.get(i).x=player.player.getPos().x;
+					players.get(i).y=player.player.getPos().y;
+					players.get(i).rotation=player.player.rotation;
+					players.remove(i);
+					players.add(player);
+					player.out.writeObject(new DataPacket(player.player.getPos(), players));
 					InputPacket in=(InputPacket)player.in.readObject();
 					player.player.processCommand(in);
 					player.player.update(delta);
 					
 					
 					
-					i++;
+					
 					}catch(ClassNotFoundException e){
 						logError("FATAL ERROR: Missing Files: "+e.getMessage());Gdx.app.exit();}
 					catch(SocketException |SocketTimeoutException e){log("Player Disconnected: "+e.getMessage());players.remove(i);}
@@ -203,13 +203,13 @@ public class MultiplayerServer extends Thread {
 				switch(conSplit[0]){
 				case "teleport":
 					try{
-						players.iterator().forEachRemaining(player->{
-							if(player.name.equals(conSplit[1])){
-								player.player.getBody().setTransform(new Vector2(Float.parseFloat(conSplit[2]), Float.parseFloat(conSplit[3])), player.player.getBody().getTransform().getRotation());
+						
+								players.get(Integer.parseInt(conSplit[1])-1)
+								.player.getBody().setTransform(new Vector2(Float.parseFloat(conSplit[2]), Float.parseFloat(conSplit[3])),
+										players.get(Integer.parseInt(conSplit[1])-1).player.getBody().getTransform().getRotation());
 								log("Teleported Player to given coords"); 
 								
-							}
-						});
+							
 						
 					}catch(Exception e){log("Incorrect usage! 'teleport x y player'");}
 					break;
@@ -340,7 +340,7 @@ class JoinThread extends Thread{
 			
 				try {
 					players.add(new SocketPlayer(socket,Double.toString(Math.random()), new ObjectOutputStream(socket.getOutputStream()), 
-							new ObjectInputStream(socket.getInputStream()), new Multiplayer_Player(wworld)));
+							new ObjectInputStream(socket.getInputStream()), new Multiplayer_Player(wworld),new Vector2()));
 					log("Player has joined");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

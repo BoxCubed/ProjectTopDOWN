@@ -80,9 +80,11 @@ public class ClientConnection extends Thread{
 					DataPacket packet=(DataPacket)inob.readObject();
 					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
 					
-					for(int i=0;i<packet.players.size();i++){
+					for(int i=0;i<packet.players.size()-1;i++){
 						Player p=GameState.instance.multiplayerPlayers.get(i);
-						p.multiPos=packet.players.get(i).loc;
+						System.out.println(packet.players.get(i).x);
+						p.multiPos.x=packet.players.get(i).x;
+						p.multiPos.y=packet.players.get(i).y;
 						p.rotation=(packet.players.get(i).rotation);
 					}
 					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);

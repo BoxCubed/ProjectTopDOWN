@@ -119,6 +119,16 @@ public class GameState implements State, CleanInputProcessor{
 		multiplayerPlayers=new ArrayList<>();
 		multiplayerPlayers.add(new Player(gameWORLD, 2));
 		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
 		player = new Player(gameWORLD,1);
 		connection=new ClientConnection(player);
 		
