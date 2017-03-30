@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import net.dermetfan.gdx.maps.tiled.TmxMapWriter;
-
 public class FileAtlas {
 	
 	

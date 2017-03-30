@@ -58,6 +58,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	
 	int counter=0;
 	int state;
+	public float rotation=0;
 	Sound gunshotSound;
 	/**
 	 * Create a new Player
@@ -203,8 +204,9 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		   counter++;
 		}
 		else{counter=0;}
-        if(state==2)
-        	return;
+        if(state==2){
+        	setRotation(rotation);
+        	return;}
         	if(state==1){
         		processMovment("UNKNOWN");
         		return;

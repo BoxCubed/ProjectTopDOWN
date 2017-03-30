@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -27,11 +26,9 @@ import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 
 public class MultiplayerServer extends Thread {
 	ServerSocket server;
-	Socket player1,player2;
 	List<SocketPlayer> players;
 	public World world=new World(new Vector2(0, 0), true);
 	public static MultiplayerServer instance;
-	public Multiplayer_Player p1Char=new Multiplayer_Player(world),p2Char=new Multiplayer_Player(world);
 	public boolean stop=false;
 	TiledMap map;
 	
@@ -67,18 +64,12 @@ public class MultiplayerServer extends Thread {
 	@Override
 	public void run() {
 		//The time between the last request they sent to server
-		long startLoop=0,endLoop=0,p1Delta=0,p2Delta=0,p1Delay=0,p2Delay=0,delta=1,sleep=10;
+		long startLoop=0,endLoop=0,delta=1,sleep=10;
 		//hints.connectTimeout=1000;
-		PrintWriter p1out=null;
-		PrintWriter p2out=null;
-		BufferedReader p1in=null;
-		BufferedReader p2in=null;
+		
 		ConsoleThread inCon=new ConsoleThread();
 		JoinThread joinThread=new JoinThread(world);
-		 ObjectOutputStream p1outob=null;
-		ObjectOutputStream p2outob=null;
-		ObjectInputStream p2inob=null;
-		ObjectInputStream p1inob=null;
+		 
 
 		try{
 		//Connection of players
@@ -156,9 +147,6 @@ public class MultiplayerServer extends Thread {
 				//p2out.println(p2Char.getPos().x+":"+p2Char.getPos().y+":"+p1Char.getPos().x+":"+p1Char.getPos().y+":"+p1Char.rotation);
 				
 				//Processing Movement 
-				p1Char.update(p1Delta);
-				p2Char.update(p2Delta);
-				p2Delta=System.currentTimeMillis()-p2Delay;
 					/*String mess="",mess2="";
 					p1Delta=System.currentTimeMillis()-p1Delay;
 					try{
@@ -185,9 +173,12 @@ public class MultiplayerServer extends Thread {
 				for(int i=0;i<players.size();i++){
 					try{
 					SocketPlayer player=players.get(i);
+					List<SocketPlayer> send;
+					send=new ArrayList<>();
+					players.iterator().forEachRemaining(subplayer->{if(!subplayer.equals(player))send.add(subplayer);});
 					player.loc=player.player.getPos().cpy();
 					player.rotation=player.player.rotation;
-					player.out.writeObject(new DataPacket(player.player.getPos(), players));
+					player.out.writeObject(new DataPacket(player.player.getPos(), send));
 					InputPacket in=(InputPacket)player.in.readObject();
 					player.player.processCommand(in);
 					player.player.update(delta);
@@ -197,7 +188,7 @@ public class MultiplayerServer extends Thread {
 					i++;
 					}catch(ClassNotFoundException e){
 						logError("FATAL ERROR: Missing Files: "+e.getMessage());Gdx.app.exit();}
-					catch(SocketException |SocketTimeoutException e){logError("Player Timed out");players.remove(i);}
+					catch(SocketException |SocketTimeoutException e){log("Player Disconnected: "+e.getMessage());players.remove(i);}
 				}
 					 /*try{
 						 
@@ -212,13 +203,14 @@ public class MultiplayerServer extends Thread {
 				switch(conSplit[0]){
 				case "teleport":
 					try{
-					if(conSplit[3].equals("1")){
-						p1Char.getBody().setTransform(new Vector2(Float.parseFloat(conSplit[1]), Float.parseFloat(conSplit[2])), p1Char.rotation);
-						log("Teleported player 1 to given cords");}
-						else{
-							p2Char.getBody().setTransform(new Vector2(Float.parseFloat(conSplit[1]), Float.parseFloat(conSplit[2])), p2Char.rotation);
-							log("Teleported player 2 to given cords");
-						}
+						players.iterator().forEachRemaining(player->{
+							if(player.name.equals(conSplit[1])){
+								player.player.getBody().setTransform(new Vector2(Float.parseFloat(conSplit[2]), Float.parseFloat(conSplit[3])), player.player.getBody().getTransform().getRotation());
+								log("Teleported Player to given coords"); 
+								
+							}
+						});
+						
 					}catch(Exception e){log("Incorrect usage! 'teleport x y player'");}
 					break;
 				case "stop":
@@ -229,6 +221,9 @@ public class MultiplayerServer extends Thread {
 					if(conSplit.length==1)
 					log("delta: "+delta+" sleep: "+sleep);
 					else {sleep=Long.parseLong(conSplit[1]); log("sleep time changed");}
+					break;
+				case "list":
+					log("There are "+players.size()+" players online");
 					break;
 				default:
 					log("That isn't an option");
@@ -267,19 +262,22 @@ public class MultiplayerServer extends Thread {
 			
 	}
 		log("Server Shutting Down...");
-		try{
+		try{players.forEach(player->{try {
+			player.out.writeObject("disconnect:Server has Shut Down");
+			player.out.flush();player.socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}player.player.dispose();});
+		players.clear();
+	
+
 			inCon.stop=true;
-			inCon.join();
-			if(!player1.isClosed())
-			p1out.println("disconnect:Server was shut down");
-			if(!player2.isClosed())
-			p2out.println("disconnect:Server was shut down");
-		player1.close();
-		player2.close();;
-		p1Char.dispose();
-		p2Char.dispose();
-		server.close();
-		}catch(IOException|InterruptedException e){logError("Failed in shutting down!:"+e.getMessage());}
+			server.close();
+			joinThread.stop=true;
+			System.exit(0);
+			
+		}catch(IOException e){logError("Failed in shutting down!:"+e.getMessage());}
 		
 	}
 
@@ -334,6 +332,7 @@ class JoinThread extends Thread{
 				socket=server.accept();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				if(!stop)
 				e.printStackTrace();
 				continue;
 			}
@@ -342,6 +341,7 @@ class JoinThread extends Thread{
 				try {
 					players.add(new SocketPlayer(socket,Double.toString(Math.random()), new ObjectOutputStream(socket.getOutputStream()), 
 							new ObjectInputStream(socket.getInputStream()), new Multiplayer_Player(wworld)));
+					log("Player has joined");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					logError("Player Failed to join: "+e.getMessage());

@@ -24,8 +24,8 @@ public class ClientConnection extends Thread{
 		this.player=player;
 		player.setConnection(this);
 		//TODO VERY Temporary 
-		GameState.instance.multiplayerPlayers=(new Player(player.getBody().getWorld(), 2));
-		player2=GameState.instance.multiplayerPlayers;
+		GameState.instance.multiplayerPlayers.add(new Player(player.getBody().getWorld(), 2));
+		player2=GameState.instance.multiplayerPlayers.get(0);
 		
 		SocketHints hints=new SocketHints();
 		//hints.connectTimeout=1000;
@@ -79,10 +79,16 @@ public class ClientConnection extends Thread{
 				try{
 					DataPacket packet=(DataPacket)inob.readObject();
 					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
+					
+					for(int i=0;i<packet.players.size();i++){
+						Player p=GameState.instance.multiplayerPlayers.get(i);
+						p.multiPos=packet.players.get(i).loc;
+						p.rotation=(packet.players.get(i).rotation);
+					}
 					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
 					player2.setRotation(packet.rotation);*/
 					//System.out.println(packet);
-				}catch(NullPointerException e){e.printStackTrace();}
+				}catch(ClassCastException e){String mess=(String)inob.readObject();System.out.println(mess);}catch(Exception e){e.printStackTrace();}
 					
 				
 				
