@@ -2,7 +2,8 @@ package com.boxcubed.net;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+
+import javax.xml.crypto.Data;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -14,10 +15,11 @@ public class DataPacket implements Serializable{
 	public ArrayList<SocketPlayer> players;
 	public Vector2 pos;
 	
-	public DataPacket(Vector2 pos, List<SocketPlayer> players) {
+	public DataPacket(Vector2 pos, ArrayList<SocketPlayer> players) {
 		this.pos=pos.cpy();
 		this.players=new ArrayList<>(players);
 	}
+	public DataPacket(){}
 	
 	
 }

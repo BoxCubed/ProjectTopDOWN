@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
@@ -18,6 +20,7 @@ public class ClientConnection extends Thread{
 	public byte w=0,s=0,a=0,d=0,shift=0,space=0;
 	public float rotation=0;
 	Player player,player2;
+	Json jsonReader=new Json(OutputType.minimal);
 	public ClientConnection(Player player){
 		this.player=player;
 		player.setConnection(this);
@@ -75,16 +78,14 @@ public class ClientConnection extends Thread{
 					*/
 				
 				try{
-					DataPacket packet=(DataPacket)inob.readObject();
+					String packetString=(String) inob.readObject();
+					DataPacket packet=jsonReader.fromJson(DataPacket.class, packetString);
 					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
-					
-					for(int i=0;i<packet.players.size()-1;i++){
+					for(int i=0;i<packet.players.size();i++){
 						if(i==-1)break;
-						Player p=GameState.instance.multiplayerPlayers.get(i);
-						System.out.println(packet.players.get(i).x);
-						p.multiPos.x=packet.players.get(i).x;
-						p.multiPos.y=packet.players.get(i).y;
-						p.rotation=(packet.players.get(i).rotation);
+						SocketPlayer player=packet.players.get(i-1);
+						GameState.instance.multiplayerPlayers.get(i).multiPos=player.loc;
+						GameState.instance.multiplayerPlayers.get(i).rotation=player.rotation;
 					}
 					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
 					player2.setRotation(packet.rotation);*/

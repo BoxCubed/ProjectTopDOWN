@@ -156,7 +156,7 @@ public class GameState implements State, CleanInputProcessor{
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		player.update(delta);
 		playerAI.update(delta);
-		//multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
+		multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
 
 		//Updating Light
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,
@@ -270,7 +270,7 @@ public class GameState implements State, CleanInputProcessor{
 		//rendering of hud and player
 		batch.begin();
 		player.render(batch);
-		//multiplayerPlayers.iterator().forEachRemaining(player->player.render(batch));
+		multiplayerPlayers.iterator().forEachRemaining(player->player.render(batch));
 		batch.setProjectionMatrix(hud.textCam.combined);
 		
 		hud.render(batch);

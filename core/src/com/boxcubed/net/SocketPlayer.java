@@ -13,7 +13,7 @@ public class SocketPlayer implements Serializable{
 	private static final long serialVersionUID = 927189234076433419L;
 	public transient Socket socket;
 	public String name;
-	public  float x,y;
+	public  Vector2 loc;
 	public float rotation;
 	public transient ObjectInputStream in;
 	public transient ObjectOutputStream out;
@@ -25,10 +25,10 @@ public class SocketPlayer implements Serializable{
 		this.in = in;
 		this.out = out;
 		this.player=player;
-		x=loc.x;
-		y=loc.y;
+		this.loc=loc.cpy();
 		rotation=player.rotation;
 	}
-	
+	public SocketPlayer() {
+	}
 	
 }

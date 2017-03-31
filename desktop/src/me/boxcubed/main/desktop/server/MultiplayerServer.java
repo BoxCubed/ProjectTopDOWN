@@ -16,6 +16,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglFiles;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.boxcubed.net.DataPacket;
 import com.boxcubed.net.InputPacket;
 import com.boxcubed.net.Multiplayer_Player;
@@ -68,7 +70,7 @@ public class MultiplayerServer extends Thread {
 		
 		ConsoleThread inCon=new ConsoleThread();
 		JoinThread joinThread=new JoinThread(world);
-		 
+		 Json jsonMaker=new Json(OutputType.minimal);
 
 		try{
 		//Connection of players
@@ -170,16 +172,20 @@ public class MultiplayerServer extends Thread {
 					}*/
 						
 				players.iterator().forEachRemaining(player->{
-					player.x=player.player.getPos().x;
-					player.y=player.player.getPos().y;
+					player.loc=player.player.getPos().cpy();
 					player.rotation=player.player.rotation;
 				});
 				for(int i=0;i<players.size();i++){
 					try{
+					String playerData="";
 					SocketPlayer player=players.get(i);
+					DataPacket packet;
 					players.remove(i);
 					players.add(player);
-					player.out.writeObject(new DataPacket(player.player.getPos(), players));
+					packet=new DataPacket(player.player.getPos(), players);
+					playerData=jsonMaker.toJson(packet,DataPacket.class);
+					//System.out.println(jsonMaker.prettyPrint(playerData));
+					player.out.writeObject(playerData);
 					InputPacket in=(InputPacket)player.in.readObject();
 					player.player.processCommand(in);
 					player.player.update(delta);
