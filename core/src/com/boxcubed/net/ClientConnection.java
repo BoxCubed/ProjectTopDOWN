@@ -1,31 +1,33 @@
 package com.boxcubed.net;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.SocketException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
-
 public class ClientConnection extends Thread{
 	Socket connection;
 	public boolean stop=false;
 	public byte w=0,s=0,a=0,d=0,shift=0,space=0;
 	public float rotation=0;
 	Player player,player2;
-	public String commandBuffer="update";
+	Json jsonReader=new Json(OutputType.minimal);
 	public ClientConnection(Player player){
 		this.player=player;
 		player.setConnection(this);
 		//TODO VERY Temporary 
-		GameState.instance.multiplayerPlayers=(new Player(player.getBody().getWorld(), 2));
-		player2=GameState.instance.multiplayerPlayers;
+		//GameState.instance.multiplayerPlayers.add(new Player(player.getBody().getWorld(), 2));
+		//player2=GameState.instance.multiplayerPlayers.get(0);
 		
 		SocketHints hints=new SocketHints();
 		//hints.connectTimeout=1000;
@@ -37,45 +39,74 @@ public class ClientConnection extends Thread{
 	@Override
 	public void run() {
 		Gdx.app.log("[Client]", "Client Thread started.");
-		PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(connection.getInputStream()));;
+		ObjectInputStream inob=null;
+		ObjectOutputStream outob=null;
+		try{
+			
+			
+		outob=new ObjectOutputStream(connection.getOutputStream());
+		inob=new ObjectInputStream(connection.getInputStream());
+		}catch(Exception e){e.printStackTrace();Gdx.app.exit();}
+		
+		//PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
+		/*BufferedReader in = new BufferedReader(
+		        new InputStreamReader(connection.getInputStream()));;*/
+		
 		while(!stop){
 			
-			//Gdx.app.log("[client]", "tick");
 			if(!connection.isConnected()){System.out.println("[Client] No connection");continue;}
 			
 			try{
-				//Thread.sleep(1000);
 				
 			    
 			    
-			float[] mess=new float[5];
+			
 			
 				
-				String sMess=in.readLine();
-				for(int i=0;i<4;i++)
-				mess[i]=Float.parseFloat(sMess.split(":")[i]);
-				
-				player.multiPos.x=mess[0];
-				player.multiPos.y=mess[1];
-				player2.multiPos.x=mess[2];
-				player2.multiPos.y=mess[3];
-				player2.setRotation(mess[4]);
 				
 				
-				//awdsaSystem.out.println("[Client] : "+sMess);
+				try{
+					String packetString=(String) inob.readObject();
+					DataPacket packet=jsonReader.fromJson(DataPacket.class, packetString);
+					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
+					if(GameState.instance.multiplayerPlayers.size()>packet.players.size())
+					
+						GameState.instance.playerRemQueue++;
+					else if(GameState.instance.multiplayerPlayers.size()<packet.players.size())
+						GameState.instance.playerAddQueue++;
+					
+					for(int i=0;i<packet.players.size();i++){
+						
+						if(packet.players.size()==0)break;
+						
+						
+						if(GameState.instance.multiplayerPlayers.size()!=packet.players.size())break;
+						SocketPlayer player=packet.players.get(i);
+						Player localPlayer=GameState.instance.multiplayerPlayers.get(i);
+						localPlayer.multiPos=player.loc.cpy();
+						localPlayer.rotation=player.rotation;
+						localPlayer.name=player.name;
+					}
+					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
+					player2.setRotation(packet.rotation);*/
+					//System.out.println(packet);
+				}catch(ClassCastException e){String mess=(String)inob.readObject();System.out.println(mess);}catch(SocketException e){Gdx.app.exit();}
+				
+				
+					
+				
+				
+				
+			
+			try{
+			outob.writeObject(new InputPacket(w, a, s, d, space, shift, rotation));}
+			catch(SocketException e){Gdx.app.exit();}
+			
+			//out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
 			
 			
 			
 			
-			out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
-				//commandBuffer="update";
-			
-			
-			
-			
-			//Gdx.app.log("[client]", "attempting connection");
 			
 			
 			
@@ -84,15 +115,28 @@ public class ClientConnection extends Thread{
 		}
 		
 		Gdx.app.log("[Client]", "Shutting Down...");
-		try {
-			in.close();
+		/*try {
+			i.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		out.close();
+		out.close();*/
 		connection.dispose();
 	
 	}
+	private Vector2 universalLerpToPos(Vector2 start,Vector2 finish){
+    	final float speed=0.5f,ispeed=1.0f-speed;
+		Vector3 target = new Vector3(
+				(float)finish.x, 
+				(float)finish.y, 
+				0);
+		Vector3 cameraPosition = new Vector3(start, 0);
+		cameraPosition.scl(ispeed);
+		target.scl(speed);
+		cameraPosition.add(target);
+
+		return new Vector2(cameraPosition.x, cameraPosition.y);
+    	
+    }
 
 }

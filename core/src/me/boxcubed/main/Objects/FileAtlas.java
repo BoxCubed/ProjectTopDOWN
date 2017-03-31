@@ -1,7 +1,5 @@
 package me.boxcubed.main.Objects;
 
-import java.lang.reflect.Field;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -10,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import net.dermetfan.gdx.maps.tiled.TmxMapWriter;
+import java.lang.reflect.Field;
 
 public class FileAtlas {
 	

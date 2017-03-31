@@ -14,6 +14,10 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new TopDown();
+<<<<<<< HEAD
+                return new TopDown(true);
+=======
+                return new TopDown(false);
+>>>>>>> Ballistic-ServerBranch
         }
 }

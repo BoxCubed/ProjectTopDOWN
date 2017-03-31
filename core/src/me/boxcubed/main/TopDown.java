@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.boxcubed.net.ClientConnection;
 
 import me.boxcubed.main.States.GameState;
 import me.boxcubed.main.States.SplashState;
@@ -25,8 +24,11 @@ public class TopDown extends Game {
 	public void create () {
 		instance=this;
 		
-		if(debug)
+		if(debug){
 		setScreen(new GameState());
+		GameState.instance.noTime=true;
+		GameState.instance.noZombie=true;
+		}
 		else 
 			setScreen(new SplashState());
 		//new ClientServerTest(2);

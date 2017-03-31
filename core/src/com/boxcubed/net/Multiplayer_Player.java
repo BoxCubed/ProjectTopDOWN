@@ -1,9 +1,5 @@
 package com.boxcubed.net;
 
-import java.lang.reflect.Method;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -19,8 +15,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
-import me.boxcubed.main.States.GameState;
-
 public class Multiplayer_Player implements LivingEntity,Movable{
 	public float delta;
 	public BodyDef playerDef;
@@ -30,18 +24,20 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 	Fixture fixture;
 	Vector2 position;// Player position
 	Body body;
+	public Dispose dispose;
 	World world;
 	double health=getMaxHealth();
 	public float legOffX=15,legOffY=15;
 	boolean shooting=false;
-	
+
 	RayCastCallback callback;
 	
 	int counter=0;
 	
 	
-	public Multiplayer_Player(World world) {
+	public Multiplayer_Player(World world,Dispose dispose) {
 		this.world=world;
+		this.dispose=dispose;
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
@@ -115,9 +111,7 @@ public void render(SpriteBatch sb) {
 }		
 	
 	public void handleInput() {
-		Input input = Gdx.input;
 		
-		boolean keyPressed=true;
 		
 		boolean pressed = shooting;
 		if (pressed) {
@@ -131,56 +125,43 @@ public void render(SpriteBatch sb) {
 		else{counter=0;}
 		
 		
-		if(!keyPressed)stop();
 	}
 	public float rotation=0;
-	public boolean processCommand(String key) {
+	public boolean processCommand(InputPacket key) {
 		//TODO add shooting toggle
 		
-		/*Method m;
-		try {
-			// this, my friends, is reflection. Learn it. Its good.
-			m = getClass().getMethod(key, (Class<?>[])null);
-			m.invoke( this,  (Object[])null);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;*/
-		boolean keyPressed=false;
-		byte[] pressed=new byte[6];
-		String[] pressedS=key.split(":");
-		for(int i=0;i<5;i++)
-			pressed[i]=Byte.parseByte(pressedS[i]);
-		if(pressed[0]!=0){
-			keyPressed=true;
-			if(pressed[4]!=0)runUP();
-			else
-			goUP();}
-		if(pressed[1]!=0){
-			keyPressed=true;
-			if(pressed[4]!=0)runLEFT();
-			else
-			goLEFT();}
-		if(pressed[2]!=0){
-			keyPressed=true;
-			if(pressed[4]!=0)runDOWN();
-			else
-			goDOWN();}
-		if(pressed[3]!=0){
-			keyPressed=true;
-			if(pressed[4]!=0)runRIGHT();
-			else
-			goRIGHT();}
-			
-		if(pressed[5]!=0)shooting=true;
+		boolean pressed=false;
+		boolean shift=key.shift!=0;
+		if(key.w!=0){
+			pressed=true;
+			if(shift)
+				runUP();
+			else goUP();
+				}
+		if(key.a!=0){
+			pressed=true;
+			if(shift)
+				runLEFT();
+			else goLEFT();
+				}
+		if(key.s!=0){
+			pressed=true;
+			if(shift)
+				runDOWN();
+			else goDOWN();
+				}
+		if(key.d!=0){
+			pressed=true;
+			if(shift)
+				runRIGHT();
+			else goRIGHT();
+				}
+		if(!pressed)stop();
+		
+		if(key.space!=0)
+			shooting=true;
 		else shooting=false;
-		if(!keyPressed)stop();
-		rotation=Float.parseFloat(pressedS[6]);
-		/*for(String b:pressedS)
-			System.out.print(b);*/
-		
-		
+		rotation=key.rotation;
 		
 		
 		
@@ -271,7 +252,8 @@ public void render(SpriteBatch sb) {
 
 	@Override
 	public void dispose() {
-		GameState.instance.getWorld().destroyBody(playerBody);
+		//TODO
+		dispose.dispose(this);
 		//GameState.instance.player=new Player(GameState.instance.getWorld());
 		//diePos=getBody().getPosition();
 	
@@ -308,4 +290,5 @@ public void render(SpriteBatch sb) {
 	public void renderShapes(ShapeRenderer sr) {
 		
 	}
+	public interface Dispose {void dispose(Multiplayer_Player player);}
 }
