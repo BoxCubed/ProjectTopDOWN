@@ -73,8 +73,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public Player(World world,int state) {
 		super(tex);
 		this.state=state;
-		if(state==1)
-			GameState.instance.connection=new ClientConnection(this);
+		
 			
 			
 		
@@ -131,6 +130,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		};
 		
 		gunshotSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/gunshot.mp3"));
+		if(state==1)
+			GameState.instance.connection=new ClientConnection(this);
 	}
 	float elapsedTime=0;
 	public void setConnection(ClientConnection connection){
