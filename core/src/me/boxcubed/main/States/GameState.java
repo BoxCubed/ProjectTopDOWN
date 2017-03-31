@@ -68,7 +68,7 @@ public class GameState implements State, CleanInputProcessor{
 	
 	Crosshair crosshair;
 	Hud hud;
-	ClientConnection connection;
+	public ClientConnection connection;
 	Vector2 mouseLoc;
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
@@ -119,8 +119,7 @@ public class GameState implements State, CleanInputProcessor{
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
 		//multiplayerPlayers.add(new Player(gameWORLD, 2));
-		player = new Player(gameWORLD,1);
-		connection=new ClientConnection(player);
+		
 		
 
 				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);

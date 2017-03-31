@@ -15,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
-import me.boxcubed.main.States.GameState;
 public class Multiplayer_Player implements LivingEntity,Movable{
 	public float delta;
 	public BodyDef playerDef;
@@ -25,6 +24,7 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 	Fixture fixture;
 	Vector2 position;// Player position
 	Body body;
+	public Runnable dispose;
 	World world;
 	double health=getMaxHealth();
 	public float legOffX=15,legOffY=15;
@@ -129,40 +129,6 @@ public void render(SpriteBatch sb) {
 	public boolean processCommand(InputPacket key) {
 		//TODO add shooting toggle
 		
-		/*
-		boolean keyPressed=false;
-		byte[] pressed=new byte[6];
-		String[] pressedS=key.split(":");
-		for(int i=0;i<5;i++)
-			pressed[i]=Byte.parseByte(pressedS[i]);
-		if(pressed[0]!=0){
-			keyPressed=true;
-			if(pressed[4]!=0)runUP();
-			else
-			goUP();}
-		if(pressed[1]!=0){
-			keyPressed=true;
-			if(pressed[4]!=0)runLEFT();
-			else
-			goLEFT();}
-		if(pressed[2]!=0){
-			keyPressed=true;
-			if(pressed[4]!=0)runDOWN();
-			else
-			goDOWN();}
-		if(pressed[3]!=0){
-			keyPressed=true;
-			if(pressed[4]!=0)runRIGHT();
-			else
-			goRIGHT();}
-			
-		if(pressed[5]!=0)shooting=true;
-		else shooting=false;
-		if(!keyPressed)stop();
-		rotation=Float.parseFloat(pressedS[6]);
-		//System.out.println(rotation);
-		for(String b:pressedS)
-			System.out.print(b);*/
 		boolean pressed=false;
 		boolean shift=key.shift!=0;
 		if(key.w!=0){
@@ -286,6 +252,7 @@ public void render(SpriteBatch sb) {
 	@Override
 	public void dispose() {
 		//TODO
+		dispose.run();
 		//GameState.instance.player=new Player(GameState.instance.getWorld());
 		//diePos=getBody().getPosition();
 	

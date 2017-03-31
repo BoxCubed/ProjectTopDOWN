@@ -28,8 +28,8 @@ public class ClientConnection extends Thread{
 		SocketHints hints=new SocketHints();
 		//hints.connectTimeout=1000;
 		hints.socketTimeout=1000;
-		//connection=Gdx.net.newClientSocket(Protocol.TCP, "101.182.222.109", 22222, hints);
-		//start();
+		connection=Gdx.net.newClientSocket(Protocol.TCP, "localhost", 22222, hints);
+		start();
 		
 	}
 	@Override

@@ -73,7 +73,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public Player(World world,int state) {
 		super(tex);
 		this.state=state;
-		//if(state==1)
+		if(state==1)
+			GameState.instance.connection=new ClientConnection(this);
 			
 			
 		
@@ -202,7 +203,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		
 		boolean pressed = input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE);
 		if (pressed) {
-			processMovment("SPACE");
+			//processMovment("SPACE");
 			if(counter<1){
 				GameState.instance.gameWORLD.rayCast(callback, playerBody.getPosition(), new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y));
 				gunshotSound.play(1.0f);
