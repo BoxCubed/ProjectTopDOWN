@@ -58,7 +58,9 @@ public class GameState implements State, CleanInputProcessor{
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	//TODO support multiple players
-	public Player multiplayerPlayers;
+	public List<Player> multiplayerPlayers;
+	public int playerAddQueue;
+	public int playerRemQueue;
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
@@ -68,7 +70,7 @@ public class GameState implements State, CleanInputProcessor{
 	
 	Crosshair crosshair;
 	Hud hud;
-	ClientConnection connection;
+	public ClientConnection connection;
 	Vector2 mouseLoc;
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
@@ -115,9 +117,12 @@ public class GameState implements State, CleanInputProcessor{
 		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
 		
 		// Adding player
-		player = new Player(gameWORLD,0); //1 means multiplayer
+		player = new Player(gameWORLD,1); //1 means multiplayer
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
+		multiplayerPlayers=new ArrayList<>();
+		
+		
 
 				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 
@@ -152,8 +157,16 @@ public class GameState implements State, CleanInputProcessor{
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		player.update(delta);
 		playerAI.update(delta);
-		if(multiplayerPlayers!=null)
-			multiplayerPlayers.update(delta);
+		if(playerAddQueue!=0){
+			
+				multiplayerPlayers.add(new Player(gameWORLD, 2));playerAddQueue=0;}
+			
+		if(playerRemQueue!=0){
+			multiplayerPlayers.get(0).dispose();
+			multiplayerPlayers.remove(0);
+		playerRemQueue=0;}
+		
+		multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
 
 		//Updating Light
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,
@@ -267,8 +280,7 @@ public class GameState implements State, CleanInputProcessor{
 		//rendering of hud and player
 		batch.begin();
 		player.render(batch);
-		if(multiplayerPlayers!=null)
-			multiplayerPlayers.render(batch);
+		multiplayerPlayers.iterator().forEachRemaining(player->player.render(batch));
 		batch.setProjectionMatrix(hud.textCam.combined);
 		
 		hud.render(batch);

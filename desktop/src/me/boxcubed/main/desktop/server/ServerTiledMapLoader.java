@@ -35,6 +35,7 @@ import com.badlogic.gdx.maps.tiled.BaseTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.utils.Array;
@@ -42,8 +43,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader.Element;
-
-/** @brief synchronous loader for TMX maps created with the Tiled tool */
+/** @brief synchronous loader for TMX maps created with the Tiled tool 
+ * <br> Ported from {@link TmxMapLoader} and edited to leave out texture loading since this is for the server*/
 public class ServerTiledMapLoader extends BaseTmxMapLoader<ServerTiledMapLoader.Parameters> {
 
 	public static class Parameters extends BaseTmxMapLoader.Parameters {

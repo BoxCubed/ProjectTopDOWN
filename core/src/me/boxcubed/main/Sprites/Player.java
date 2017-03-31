@@ -18,7 +18,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -53,12 +52,14 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	boolean shooting=false;
 	GameState gameState;
 	ClientConnection connection;
+	public String name=Double.toString(Math.random());
 	//This vector is used for multiplayer positioning so location can be added when world isn't stepping
 	public Vector2 multiPos=new Vector2(100,100);
 	RayCastCallback callback;
 	
 	int counter=0;
 	int state;
+	public float rotation=0;
 	Sound gunshotSound;
 	/**
 	 * Create a new Player
@@ -73,7 +74,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public Player(World world,int state) {
 		super(tex);
 		this.state=state;
-		//if(state==1)
+		
 			
 			
 		
@@ -130,6 +131,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		};
 		
 		gunshotSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/gunshot.mp3"));
+		if(state==1)
+			GameState.instance.connection=new ClientConnection(this);
 	}
 	float elapsedTime=0;
 	public void setConnection(ClientConnection connection){
@@ -188,14 +191,21 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	}
 	
 	public void handleInput() {
-		
+		if(state==2){
+        	getBody().setTransform(multiPos, 0);
+        	setRotation(rotation);
+        	return;}
+        	if(state==1){
+        		processMovment("UNKNOWN");
+        		return;
+        	}
 		Input input = Gdx.input;
 		
 		boolean keyPressed=false;
 		
 		boolean pressed = input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE);
 		if (pressed) {
-			processMovment("SPACE");
+			//processMovment("SPACE");
 			if(counter<1){
 				GameState.instance.gameWORLD.rayCast(callback, playerBody.getPosition(), new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y));
 				gunshotSound.play(1.0f);
@@ -204,12 +214,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		   counter++;
 		}
 		else{counter=0;}
-        if(state==2)
-        	return;
-        	if(state==1){
-        		processMovment("UNKNOWN");
-        		return;
-        	}
+        
         
         
 		
