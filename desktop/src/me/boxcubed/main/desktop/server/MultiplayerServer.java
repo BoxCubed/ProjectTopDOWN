@@ -118,15 +118,18 @@ public class MultiplayerServer extends Thread {
 						
 				
 				for(int i=0;i<players.size();i++){
-					SocketPlayer player=players.get(i);
+					SocketPlayer player=players.get(0);
 					try{
 					String playerData="";
 					
 					DataPacket packet;
 					player.loc=player.player.getPos().cpy();
 					player.rotation=player.player.rotation;
+					players.remove(player);
 					packet=new DataPacket(player.player.getPos(), players,i);
+					
 					playerData=jsonMaker.toJson(packet,DataPacket.class);
+					players.add(player);
 					//System.out.println(jsonMaker.prettyPrint(playerData));
 					player.out.writeObject(playerData);
 					InputPacket in=(InputPacket)player.in.readObject();
@@ -175,7 +178,7 @@ public class MultiplayerServer extends Thread {
 				}
 				inCon.lastOutput="";
 				
-				world.step(1f, 10, 5);
+				world.step(delta, 10, 5);
 				//log(Long.toString(delta));
 				
 				
@@ -198,7 +201,6 @@ public class MultiplayerServer extends Thread {
 				delta=endLoop-startLoop;
 			if(delta<10)	
 			Thread.sleep(sleep-delta);
-			else log("Wow! I can't keep up with the load/player latency! Try reducing lagg or kick some players!");
 			
 			
 			

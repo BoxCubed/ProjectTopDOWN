@@ -2,6 +2,7 @@ package com.boxcubed.net;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.SocketException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
@@ -63,42 +64,43 @@ public class ClientConnection extends Thread{
 			
 				
 				
-				/*try{
-					String sMess=in.readLine();
-					float[] mess=new float[sMess.split(":").length];
-					if(sMess.contains("P"))continue;
-				for(int i=0;i<mess.length;i++)
-				mess[i]=Float.parseFloat(sMess.split(":")[i]);
-				
-				
-				player.multiPos=universalLerpToPos(player.getPos(), new Vector2(mess[0], mess[1]));
-				player2.multiPos=universalLerpToPos(player2.getPos(), new Vector2(mess[2], mess[3]));
-				
-				player2.setRotation(mess[4]);}catch(NullPointerException|SocketTimeoutException|SocketException e){}
-					*/
 				
 				try{
 					String packetString=(String) inob.readObject();
 					DataPacket packet=jsonReader.fromJson(DataPacket.class, packetString);
 					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
+					if(GameState.instance.multiplayerPlayers.size()>packet.players.size())
+					
+						GameState.instance.playerRemQueue++;
+					else if(GameState.instance.multiplayerPlayers.size()<packet.players.size())
+						GameState.instance.playerAddQueue++;
+					
 					for(int i=0;i<packet.players.size();i++){
-						if(i==packet.position||packet.players.size()==0)continue;
+						
+						if(packet.players.size()==0)break;
+						
+						
+						if(GameState.instance.multiplayerPlayers.size()!=packet.players.size())break;
 						SocketPlayer player=packet.players.get(i);
-						if(GameState.instance.multiplayerPlayers.size()==0)continue;
-						GameState.instance.multiplayerPlayers.get(i).multiPos=player.loc.cpy();
-						GameState.instance.multiplayerPlayers.get(i).rotation=player.rotation;
+						Player localPlayer=GameState.instance.multiplayerPlayers.get(i);
+						localPlayer.multiPos=player.loc.cpy();
+						localPlayer.rotation=player.rotation;
+						localPlayer.name=player.name;
 					}
 					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
 					player2.setRotation(packet.rotation);*/
 					//System.out.println(packet);
-				}catch(ClassCastException e){String mess=(String)inob.readObject();System.out.println(mess);}catch(Exception e){e.printStackTrace();}
+				}catch(ClassCastException e){String mess=(String)inob.readObject();System.out.println(mess);}catch(SocketException e){Gdx.app.exit();}
+				
+				
 					
 				
 				
 				
 			
-			
-			outob.writeObject(new InputPacket(w, a, s, d, space, shift, rotation));
+			try{
+			outob.writeObject(new InputPacket(w, a, s, d, space, shift, rotation));}
+			catch(SocketException e){Gdx.app.exit();}
 			
 			//out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
 			

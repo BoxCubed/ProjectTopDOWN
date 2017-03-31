@@ -33,10 +33,9 @@ public class Hud {
 		String health = "";
 		int i;
 
-		for (i = 0; i < GameState.instance.player.getHealth() / GameState.instance.player.getMaxHealth() * 100f; i+=20) {
-			sb.draw(healthTex,i,textCam.viewportHeight/2-50,30,30);
+		for (i = 0; i < GameState.instance.player.getHealth() / GameState.instance.player.getMaxHealth() * 100f; i+=10) {
+			sb.draw(healthTex,i*2,textCam.viewportHeight/2-50,30,30);
 		}
-		for (; i < 100; i++)
 								//TODO fix alignment
 		font.draw(sb, "FPS/Delta: " + Gdx.graphics.getFramesPerSecond()+"/"+
 				  format.format(Gdx.graphics.getRawDeltaTime()*100), -250, textCam.viewportHeight / 2);

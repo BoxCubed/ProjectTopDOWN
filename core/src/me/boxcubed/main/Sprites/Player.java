@@ -52,6 +52,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	boolean shooting=false;
 	GameState gameState;
 	ClientConnection connection;
+	public String name=Double.toString(Math.random());
 	//This vector is used for multiplayer positioning so location can be added when world isn't stepping
 	public Vector2 multiPos=new Vector2(100,100);
 	RayCastCallback callback;

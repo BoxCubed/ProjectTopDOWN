@@ -3,8 +3,6 @@ package com.boxcubed.net;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.xml.crypto.Data;
-
 import com.badlogic.gdx.math.Vector2;
 
 public class DataPacket implements Serializable{

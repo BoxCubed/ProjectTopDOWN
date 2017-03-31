@@ -59,6 +59,8 @@ public class GameState implements State, CleanInputProcessor{
 	public SteeringAI playerAI;
 	//TODO support multiple players
 	public List<Player> multiplayerPlayers;
+	public int playerAddQueue;
+	public int playerRemQueue;
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
@@ -119,10 +121,6 @@ public class GameState implements State, CleanInputProcessor{
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
 		multiplayerPlayers=new ArrayList<>();
-		multiplayerPlayers.add(new Player(gameWORLD, 2));
-		multiplayerPlayers.add(new Player(gameWORLD, 2));
-		multiplayerPlayers.add(new Player(gameWORLD, 2));
-		multiplayerPlayers.add(new Player(gameWORLD, 2));
 		
 		
 
@@ -159,6 +157,15 @@ public class GameState implements State, CleanInputProcessor{
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		player.update(delta);
 		playerAI.update(delta);
+		if(playerAddQueue!=0){
+			
+				multiplayerPlayers.add(new Player(gameWORLD, 2));playerAddQueue=0;}
+			
+		if(playerRemQueue!=0){
+			multiplayerPlayers.get(0).dispose();
+			multiplayerPlayers.remove(0);
+		playerRemQueue=0;}
+		
 		multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
 
 		//Updating Light
