@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglFiles;
@@ -23,10 +22,10 @@ import com.boxcubed.net.Multiplayer_Player;
 import com.boxcubed.net.SocketPlayer;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
-@Deprecated
+
 public class MultiplayerServer extends Thread {
 	ServerSocket server;
-	List<SocketPlayer> players;
+	ArrayList<SocketPlayer> players;
 	public World world=new World(new Vector2(0, 0), true);
 	public static MultiplayerServer instance;
 	public boolean stop=false;

@@ -16,7 +16,6 @@ import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
 import me.boxcubed.main.States.GameState;
-@Deprecated
 public class Multiplayer_Player implements LivingEntity,Movable{
 	public float delta;
 	public BodyDef playerDef;

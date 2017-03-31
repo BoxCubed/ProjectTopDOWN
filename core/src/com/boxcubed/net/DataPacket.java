@@ -11,7 +11,7 @@ public class DataPacket implements Serializable{
 	 * 
 	 */
 	private static transient final long serialVersionUID = 6069159412880186977L;
-	public List<SocketPlayer> players;
+	public ArrayList<SocketPlayer> players;
 	public Vector2 pos;
 	
 	public DataPacket(Vector2 pos, List<SocketPlayer> players) {

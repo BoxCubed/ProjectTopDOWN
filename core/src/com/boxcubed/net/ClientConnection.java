@@ -12,14 +12,12 @@ import com.badlogic.gdx.net.SocketHints;
 
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
-@Deprecated
 public class ClientConnection extends Thread{
 	Socket connection;
 	public boolean stop=false;
 	public byte w=0,s=0,a=0,d=0,shift=0,space=0;
 	public float rotation=0;
 	Player player,player2;
-	public String commandBuffer="update";
 	public ClientConnection(Player player){
 		this.player=player;
 		player.setConnection(this);
