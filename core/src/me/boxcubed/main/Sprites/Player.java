@@ -18,7 +18,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -59,6 +58,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	
 	int counter=0;
 	int state;
+	public float rotation=0;
 	Sound gunshotSound;
 	/**
 	 * Create a new Player
@@ -188,7 +188,14 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	}
 	
 	public void handleInput() {
-		
+		if(state==2){
+        	getBody().setTransform(multiPos, 0);
+        	setRotation(rotation);
+        	return;}
+        	if(state==1){
+        		processMovment("UNKNOWN");
+        		return;
+        	}
 		Input input = Gdx.input;
 		
 		boolean keyPressed=false;
@@ -204,12 +211,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		   counter++;
 		}
 		else{counter=0;}
-        if(state==2)
-        	return;
-        	if(state==1){
-        		processMovment("UNKNOWN");
-        		return;
-        	}
+        
         
         
 		

@@ -58,7 +58,7 @@ public class GameState implements State, CleanInputProcessor{
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	//TODO support multiple players
-	public Player multiplayerPlayers;
+	public List<Player> multiplayerPlayers;
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
@@ -118,6 +118,10 @@ public class GameState implements State, CleanInputProcessor{
 		player = new Player(gameWORLD,0); //1 means multiplayer
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
+		//multiplayerPlayers.add(new Player(gameWORLD, 2));
+		player = new Player(gameWORLD,1);
+		connection=new ClientConnection(player);
+		
 
 				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 
@@ -152,8 +156,7 @@ public class GameState implements State, CleanInputProcessor{
 		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
 		player.update(delta);
 		playerAI.update(delta);
-		if(multiplayerPlayers!=null)
-			multiplayerPlayers.update(delta);
+		//multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
 
 		//Updating Light
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,
@@ -267,8 +270,7 @@ public class GameState implements State, CleanInputProcessor{
 		//rendering of hud and player
 		batch.begin();
 		player.render(batch);
-		if(multiplayerPlayers!=null)
-			multiplayerPlayers.render(batch);
+		//multiplayerPlayers.iterator().forEachRemaining(player->player.render(batch));
 		batch.setProjectionMatrix(hud.textCam.combined);
 		
 		hud.render(batch);

@@ -1,7 +1,5 @@
 package com.boxcubed.net;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -113,9 +111,7 @@ public void render(SpriteBatch sb) {
 }		
 	
 	public void handleInput() {
-		Input input = Gdx.input;
 		
-		boolean keyPressed=true;
 		
 		boolean pressed = shooting;
 		if (pressed) {
@@ -129,22 +125,12 @@ public void render(SpriteBatch sb) {
 		else{counter=0;}
 		
 		
-		if(!keyPressed)stop();
 	}
 	public float rotation=0;
-	public boolean processCommand(String key) {
+	public boolean processCommand(InputPacket key) {
 		//TODO add shooting toggle
 		
-		/*Method m;
-		try {
-			// this, my friends, is reflection. Learn it. Its good.
-			m = getClass().getMethod(key, (Class<?>[])null);
-			m.invoke( this,  (Object[])null);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;*/
+		/*
 		boolean keyPressed=false;
 		byte[] pressed=new byte[6];
 		String[] pressedS=key.split(":");
@@ -176,10 +162,40 @@ public void render(SpriteBatch sb) {
 		if(!keyPressed)stop();
 		rotation=Float.parseFloat(pressedS[6]);
 		//System.out.println(rotation);
-		/*for(String b:pressedS)
+		for(String b:pressedS)
 			System.out.print(b);*/
+		boolean pressed=false;
+		boolean shift=key.shift!=0;
+		if(key.w!=0){
+			pressed=true;
+			if(shift)
+				runUP();
+			else goUP();
+				}
+		if(key.a!=0){
+			pressed=true;
+			if(shift)
+				runLEFT();
+			else goLEFT();
+				}
+		if(key.s!=0){
+			pressed=true;
+			if(shift)
+				runDOWN();
+			else goDOWN();
+				}
+		if(key.d!=0){
+			pressed=true;
+			if(shift)
+				runRIGHT();
+			else goRIGHT();
+				}
+		if(!pressed)stop();
 		
-		
+		if(key.space!=0)
+			shooting=true;
+		else shooting=false;
+		rotation=key.rotation;
 		
 		
 		
@@ -270,7 +286,7 @@ public void render(SpriteBatch sb) {
 
 	@Override
 	public void dispose() {
-		GameState.instance.getWorld().destroyBody(playerBody);
+		//TODO
 		//GameState.instance.player=new Player(GameState.instance.getWorld());
 		//diePos=getBody().getPosition();
 	

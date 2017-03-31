@@ -1,9 +1,7 @@
 package com.boxcubed.net;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
@@ -26,59 +24,86 @@ public class ClientConnection extends Thread{
 		this.player=player;
 		player.setConnection(this);
 		//TODO VERY Temporary 
-		GameState.instance.multiplayerPlayers=(new Player(player.getBody().getWorld(), 2));
-		player2=GameState.instance.multiplayerPlayers;
+		//GameState.instance.multiplayerPlayers.add(new Player(player.getBody().getWorld(), 2));
+		//player2=GameState.instance.multiplayerPlayers.get(0);
 		
 		SocketHints hints=new SocketHints();
 		//hints.connectTimeout=1000;
 		hints.socketTimeout=1000;
-		connection=Gdx.net.newClientSocket(Protocol.TCP, "101.182.222.109", 22222, hints);
-		start();
+		//connection=Gdx.net.newClientSocket(Protocol.TCP, "101.182.222.109", 22222, hints);
+		//start();
 		
 	}
 	@Override
 	public void run() {
 		Gdx.app.log("[Client]", "Client Thread started.");
-		PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(connection.getInputStream()));;
+		ObjectInputStream inob=null;
+		ObjectOutputStream outob=null;
+		try{
+			
+			
+		outob=new ObjectOutputStream(connection.getOutputStream());
+		inob=new ObjectInputStream(connection.getInputStream());
+		}catch(Exception e){e.printStackTrace();Gdx.app.exit();}
+		
+		//PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
+		/*BufferedReader in = new BufferedReader(
+		        new InputStreamReader(connection.getInputStream()));;*/
+		
 		while(!stop){
 			
-			//Gdx.app.log("[client]", "tick");
 			if(!connection.isConnected()){System.out.println("[Client] No connection");continue;}
 			
 			try{
-				//Thread.sleep(1000);
 				
 			    
 			    
-			float[] mess=new float[5];
+			
 			
 				
-				String sMess=in.readLine();
-				for(int i=0;i<5;i++)
+				
+				/*try{
+					String sMess=in.readLine();
+					float[] mess=new float[sMess.split(":").length];
+					if(sMess.contains("P"))continue;
+				for(int i=0;i<mess.length;i++)
 				mess[i]=Float.parseFloat(sMess.split(":")[i]);
 				
 				
 				player.multiPos=universalLerpToPos(player.getPos(), new Vector2(mess[0], mess[1]));
 				player2.multiPos=universalLerpToPos(player2.getPos(), new Vector2(mess[2], mess[3]));
 				
-				player2.setRotation(mess[4]);
-				//System.out.println(Float.parseFloat(sMess.split(":")[4]));
+				player2.setRotation(mess[4]);}catch(NullPointerException|SocketTimeoutException|SocketException e){}
+					*/
+				
+				try{
+					DataPacket packet=(DataPacket)inob.readObject();
+					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
+					
+					for(int i=0;i<packet.players.size()-1;i++){
+						Player p=GameState.instance.multiplayerPlayers.get(i);
+						System.out.println(packet.players.get(i).x);
+						p.multiPos.x=packet.players.get(i).x;
+						p.multiPos.y=packet.players.get(i).y;
+						p.rotation=(packet.players.get(i).rotation);
+					}
+					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
+					player2.setRotation(packet.rotation);*/
+					//System.out.println(packet);
+				}catch(ClassCastException e){String mess=(String)inob.readObject();System.out.println(mess);}catch(Exception e){e.printStackTrace();}
+					
 				
 				
-				//awdsaSystem.out.println("[Client] : "+sMess);
+				
+			
+			
+			outob.writeObject(new InputPacket(w, a, s, d, space, shift, rotation));
+			
+			//out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
 			
 			
 			
 			
-			out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
-				//commandBuffer="update";
-			
-			
-			
-			
-			//Gdx.app.log("[client]", "attempting connection");
 			
 			
 			
@@ -87,12 +112,12 @@ public class ClientConnection extends Thread{
 		}
 		
 		Gdx.app.log("[Client]", "Shutting Down...");
-		try {
-			in.close();
+		/*try {
+			i.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		out.close();
+		out.close();*/
 		connection.dispose();
 	
 	}
