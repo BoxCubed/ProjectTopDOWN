@@ -81,9 +81,10 @@ public class ClientConnection extends Thread{
 					String packetString=(String) inob.readObject();
 					DataPacket packet=jsonReader.fromJson(DataPacket.class, packetString);
 					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
-					for(int i=0;i<packet.players.size()-1;i++){
-						if(packet.players.size()==0)break;
+					for(int i=0;i<packet.players.size();i++){
+						if(i==packet.position||packet.players.size()==0)continue;
 						SocketPlayer player=packet.players.get(i);
+						if(GameState.instance.multiplayerPlayers.size()==0)continue;
 						GameState.instance.multiplayerPlayers.get(i).multiPos=player.loc.cpy();
 						GameState.instance.multiplayerPlayers.get(i).rotation=player.rotation;
 					}
