@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 
@@ -30,7 +32,7 @@ public class ClientConnection extends Thread{
 		SocketHints hints=new SocketHints();
 		//hints.connectTimeout=1000;
 		hints.socketTimeout=1000;
-		connection=Gdx.net.newClientSocket(Protocol.TCP, "localhost", 22222, hints);
+		connection=Gdx.net.newClientSocket(Protocol.TCP, "101.182.222.109", 22222, hints);
 		start();
 		
 	}
@@ -54,14 +56,15 @@ public class ClientConnection extends Thread{
 			
 				
 				String sMess=in.readLine();
-				for(int i=0;i<4;i++)
+				for(int i=0;i<5;i++)
 				mess[i]=Float.parseFloat(sMess.split(":")[i]);
 				
-				player.multiPos.x=mess[0];
-				player.multiPos.y=mess[1];
-				player2.multiPos.x=mess[2];
-				player2.multiPos.y=mess[3];
+				
+				player.multiPos=universalLerpToPos(player.getPos(), new Vector2(mess[0], mess[1]));
+				player2.multiPos=universalLerpToPos(player2.getPos(), new Vector2(mess[2], mess[3]));
+				
 				player2.setRotation(mess[4]);
+				//System.out.println(Float.parseFloat(sMess.split(":")[4]));
 				
 				
 				//awdsaSystem.out.println("[Client] : "+sMess);
@@ -87,12 +90,25 @@ public class ClientConnection extends Thread{
 		try {
 			in.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		out.close();
 		connection.dispose();
 	
 	}
+	private Vector2 universalLerpToPos(Vector2 start,Vector2 finish){
+    	final float speed=0.5f,ispeed=1.0f-speed;
+		Vector3 target = new Vector3(
+				(float)finish.x, 
+				(float)finish.y, 
+				0);
+		Vector3 cameraPosition = new Vector3(start, 0);
+		cameraPosition.scl(ispeed);
+		target.scl(speed);
+		cameraPosition.add(target);
+
+		return new Vector2(cameraPosition.x, cameraPosition.y);
+    	
+    }
 
 }

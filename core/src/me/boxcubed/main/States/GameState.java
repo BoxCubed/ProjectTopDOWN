@@ -1,9 +1,5 @@
 package me.boxcubed.main.States;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -25,8 +21,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.ClientConnection;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.Hud;
-
-import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.FileAtlas;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
@@ -39,6 +33,11 @@ import me.boxcubed.main.Sprites.Pack;
 import me.boxcubed.main.Sprites.Pack.PackType;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
+import me.boxcubed.main.TopDown;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameState implements State, CleanInputProcessor{
 	public World gameWORLD;
@@ -116,9 +115,9 @@ public class GameState implements State, CleanInputProcessor{
 		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
 		
 		// Adding player
-		player = new Player(gameWORLD,1);
-		connection=new ClientConnection(player);
-		
+		player = new Player(gameWORLD,0); //1 means multiplayer
+		//connection=new ClientConnection(player);
+		//This is for multiplayer ^^^
 
 				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 
@@ -134,8 +133,7 @@ public class GameState implements State, CleanInputProcessor{
 				// Making all the collision shapes
 				MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
 
-				// This is a cancer we need
-				
+				//packs
 				entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
 			
 	}
@@ -359,7 +357,7 @@ public class GameState implements State, CleanInputProcessor{
 
 		cam.position.set(cameraPosition);
 	}
-
+   
     @Override
 	public void show() {
     	cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
