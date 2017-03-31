@@ -12,7 +12,7 @@ import com.badlogic.gdx.net.SocketHints;
 
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
-
+@Deprecated
 public class ClientConnection extends Thread{
 	Socket connection;
 	public boolean stop=false;

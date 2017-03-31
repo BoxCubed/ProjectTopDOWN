@@ -42,7 +42,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader.Element;
-
+@Deprecated
 /** @brief synchronous loader for TMX maps created with the Tiled tool */
 public class ServerTiledMapLoader extends BaseTmxMapLoader<ServerTiledMapLoader.Parameters> {
 

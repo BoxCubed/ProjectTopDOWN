@@ -23,7 +23,7 @@ import com.boxcubed.net.Multiplayer_Player;
 import com.boxcubed.net.SocketPlayer;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
-
+@Deprecated
 public class MultiplayerServer extends Thread {
 	ServerSocket server;
 	List<SocketPlayer> players;
