@@ -115,10 +115,11 @@ public class GameState implements State, CleanInputProcessor{
 		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
 		
 		// Adding player
-		player = new Player(gameWORLD,0); //1 means multiplayer
+		player = new Player(gameWORLD,1); //1 means multiplayer
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
-		//multiplayerPlayers.add(new Player(gameWORLD, 2));
+		multiplayerPlayers=new ArrayList<>();
+		multiplayerPlayers.add(new Player(gameWORLD, 2));
 		
 		
 

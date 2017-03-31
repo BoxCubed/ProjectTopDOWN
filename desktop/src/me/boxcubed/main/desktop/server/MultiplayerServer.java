@@ -169,12 +169,14 @@ public class MultiplayerServer extends Thread {
 						continue;
 					}*/
 						
+				players.iterator().forEachRemaining(player->{
+					player.x=player.player.getPos().x;
+					player.y=player.player.getPos().y;
+					player.rotation=player.player.rotation;
+				});
 				for(int i=0;i<players.size();i++){
 					try{
 					SocketPlayer player=players.get(i);
-					players.get(i).x=player.player.getPos().x;
-					players.get(i).y=player.player.getPos().y;
-					players.get(i).rotation=player.player.rotation;
 					players.remove(i);
 					players.add(player);
 					player.out.writeObject(new DataPacket(player.player.getPos(), players));
@@ -187,7 +189,7 @@ public class MultiplayerServer extends Thread {
 					
 					}catch(ClassNotFoundException e){
 						logError("FATAL ERROR: Missing Files: "+e.getMessage());Gdx.app.exit();}
-					catch(SocketException |SocketTimeoutException e){log("Player Disconnected: "+e.getMessage());players.remove(i);}
+					catch(SocketException |SocketTimeoutException e){log("Player Disconnected: "+e.getMessage());players.get(players.size()-1).player.dispose();players.remove(players.size()-1);}
 				}
 					 /*try{
 						 
@@ -339,7 +341,7 @@ class JoinThread extends Thread{
 			
 				try {
 					players.add(new SocketPlayer(socket,Double.toString(Math.random()), new ObjectOutputStream(socket.getOutputStream()), 
-							new ObjectInputStream(socket.getInputStream()), new Multiplayer_Player(wworld),new Vector2()));
+							new ObjectInputStream(socket.getInputStream()), new Multiplayer_Player(wworld,player->wworld.destroyBody(player.getBody())),new Vector2()));
 					log("Player has joined");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

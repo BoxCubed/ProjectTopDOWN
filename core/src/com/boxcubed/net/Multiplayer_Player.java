@@ -24,19 +24,20 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 	Fixture fixture;
 	Vector2 position;// Player position
 	Body body;
-	public Runnable dispose;
+	public Dispose dispose;
 	World world;
 	double health=getMaxHealth();
 	public float legOffX=15,legOffY=15;
 	boolean shooting=false;
-	
+
 	RayCastCallback callback;
 	
 	int counter=0;
 	
 	
-	public Multiplayer_Player(World world) {
+	public Multiplayer_Player(World world,Dispose dispose) {
 		this.world=world;
+		this.dispose=dispose;
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
@@ -252,7 +253,7 @@ public void render(SpriteBatch sb) {
 	@Override
 	public void dispose() {
 		//TODO
-		dispose.run();
+		dispose.dispose(this);
 		//GameState.instance.player=new Player(GameState.instance.getWorld());
 		//diePos=getBody().getPosition();
 	
@@ -289,4 +290,5 @@ public void render(SpriteBatch sb) {
 	public void renderShapes(ShapeRenderer sr) {
 		
 	}
+	public interface Dispose {void dispose(Multiplayer_Player player);}
 }
