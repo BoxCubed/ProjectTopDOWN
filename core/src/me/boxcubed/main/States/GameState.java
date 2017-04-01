@@ -120,7 +120,7 @@ public class GameState implements State, CleanInputProcessor{
 		player = new Player(gameWORLD,1); //1 means multiplayer
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
-		multiplayerPlayers=new ArrayList<>();
+		multiplayerPlayers=new ArrayList<Player>();
 		
 		
 
@@ -165,7 +165,7 @@ public class GameState implements State, CleanInputProcessor{
 			multiplayerPlayers.get(0).dispose();
 			multiplayerPlayers.remove(0);
 		playerRemQueue=0;}
-		
+
 		multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
 
 		//Updating Light
