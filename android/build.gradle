@@ -19,7 +19,7 @@ android {
     }
     defaultConfig {
         applicationId "me.boxcubed.main"
-        minSdkVersion 8
+        minSdkVersion 24
         targetSdkVersion 25
     }
 }

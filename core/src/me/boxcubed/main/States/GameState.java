@@ -148,7 +148,7 @@ public class GameState implements State, CleanInputProcessor{
 			multiplayerPlayers.get(0).dispose();
 			multiplayerPlayers.remove(0);
 		playerRemQueue=0;}
-		
+
 		multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
 
 		//Updating Light
