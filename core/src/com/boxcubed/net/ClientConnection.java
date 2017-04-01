@@ -1,9 +1,5 @@
 package com.boxcubed.net;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.SocketException;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.Protocol;
 import com.badlogic.gdx.math.Vector2;
@@ -12,9 +8,12 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
-
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.SocketException;
 public class ClientConnection extends Thread{
 	Socket connection;
 	public boolean stop=false;
