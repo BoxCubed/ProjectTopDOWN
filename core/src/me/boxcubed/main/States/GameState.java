@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.ClientConnection;
+import com.boxcubed.node_server.server;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.Hud;
 import me.boxcubed.main.Objects.FileAtlas;
@@ -41,20 +42,16 @@ import java.util.List;
 
 public class GameState implements State, CleanInputProcessor{
 	public World gameWORLD;
-
 	public OrthographicCamera cam;
 	private SpriteBatch batch=new SpriteBatch();
 	public List<Entity> entities;
 	public List<Entity>dispose;
 	public Player player;
 	public boolean debug=true;
-
 	public static GameState instance;
-
 	private ShapeRenderer sr;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
-
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	//TODO support multiple players
@@ -64,23 +61,18 @@ public class GameState implements State, CleanInputProcessor{
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
-
 	Music ambientMusic;
 	Sound zombieGroan;
-	
 	Crosshair crosshair;
 	Hud hud;
 	public ClientConnection connection;
 	Vector2 mouseLoc;
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
-
 	float groanTimer=0;
-	
 	public boolean noZombie = false;
-
 	public boolean noTime = false;
-
+    com.boxcubed.node_server.server server;
 	public GameState() {
 		// Instance of the game, for ease of access
 				instance = this;
@@ -113,35 +105,26 @@ public class GameState implements State, CleanInputProcessor{
 		ambientMusic.setLooping(true);
 		ambientMusic.setVolume(0.6f);
 		ambientMusic.play();
-		
 		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
-		
 		// Adding player
-		player = new Player(gameWORLD,1); //1 means multiplayer
+        player = new Player(gameWORLD,0); //1 means multiplayer
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
-		multiplayerPlayers=new ArrayList<Player>();
-		
-		
-
-				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
-
-				//Ryan better rename this to Zombie AI
-			    playerAI=new SteeringAI(player, player.getWidth());
-			//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
-				
-				// Apparently the lighting to the whole map, not sure why its player
-				// light
-				
-				playerLight = new PlayerLight(gameWORLD, player.getBody());
-
-				// Making all the collision shapes
-				MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
-
-				//packs
-				entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
-			
-	}
+		multiplayerPlayers=new ArrayList<>();
+		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
+		//Ryan better rename this to Zombie AI
+		playerAI=new SteeringAI(player, player.getWidth());
+		//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
+		// Apparently the lighting to the whole map, not sure why its player
+		// light
+		playerLight = new PlayerLight(gameWORLD, player.getBody());
+		// Making all the collision shapes
+		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
+		//packs
+		entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
+		//Server stuff
+        server = new server();
+    }
 	
 
 	public void update(float delta) {
