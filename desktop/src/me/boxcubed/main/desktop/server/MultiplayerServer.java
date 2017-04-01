@@ -23,6 +23,7 @@ import com.boxcubed.net.InputPacket;
 import com.boxcubed.net.Multiplayer_Player;
 import com.boxcubed.net.SocketPlayer;
 
+import com.google.gson.Gson;
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 
 public class MultiplayerServer extends Thread {
@@ -31,8 +32,9 @@ public class MultiplayerServer extends Thread {
 	public World world=new World(new Vector2(0, 0), true);
 	public static MultiplayerServer instance;
 	public boolean stop=false;
+	Gson gson;
 	TiledMap map;
-	
+
 
 	public MultiplayerServer() {
 		instance=this;
@@ -70,7 +72,7 @@ public class MultiplayerServer extends Thread {
 		
 		ConsoleThread inCon=new ConsoleThread();
 		JoinThread joinThread=new JoinThread(world);
-		 Json jsonMaker=new Json(OutputType.minimal);
+		 Json jsonMaker=new Json(OutputType.json);
 
 		try{
 		//Connection of players

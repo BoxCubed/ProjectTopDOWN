@@ -20,8 +20,9 @@ public class ClientConnection extends Thread{
 	public boolean stop=false;
 	public byte w=0,s=0,a=0,d=0,shift=0,space=0;
 	public float rotation=0;
-	Player player,player2;
-	Json jsonReader=new Json(OutputType.minimal);
+	Player player,player2; 
+	
+	Json jsonReader=new Json(OutputType.json);
 	public ClientConnection(Player player){
 		this.player=player;
 		player.setConnection(this);
