@@ -1,8 +1,10 @@
 package me.boxcubed.main.States;
 
-import box2dLight.ConeLight;
-import box2dLight.PointLight;
-import box2dLight.RayHandler;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -10,7 +12,12 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -23,9 +30,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.ClientConnection;
 import com.boxcubed.node_server.server;
+import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
-import com.boxcubed.utils.CleanInputProcessor;
+
+import box2dLight.ConeLight;
+import box2dLight.RayHandler;
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.FileAtlas;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
@@ -38,12 +49,6 @@ import me.boxcubed.main.Sprites.Pack;
 import me.boxcubed.main.Sprites.Pack.PackType;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
-import me.boxcubed.main.TopDown;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class GameState implements State, CleanInputProcessor{
 	public World gameWORLD;
@@ -59,7 +64,7 @@ public class GameState implements State, CleanInputProcessor{
 	private PlayerLight playerLight;
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
-	//TODO support multiple players
+	//Support multiple players: DONE!
 	public List<Player> multiplayerPlayers;
 	public int playerAddQueue;
 	public int playerRemQueue;
@@ -129,7 +134,7 @@ public class GameState implements State, CleanInputProcessor{
 		ambientMusic.play();
 		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
 		// Adding player
-        player = new Player(gameWORLD,0); //1 means multiplayer
+        player = new Player(gameWORLD,1); //1 means multiplayer
         crossH =new Crosshair(100, player);
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
@@ -148,6 +153,7 @@ public class GameState implements State, CleanInputProcessor{
 		//Server stuff
         server = new server();
         anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("assets/img/health.gif").read());
+        
 
     }
 	public void createNewPlayer(String id){//Used for the server
