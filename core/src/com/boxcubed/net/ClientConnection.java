@@ -1,3 +1,4 @@
+/*
 package com.boxcubed.net;
 
 import java.io.ObjectInputStream;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
-
+snake
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
 public class ClientConnection extends Thread{
@@ -50,8 +51,10 @@ public class ClientConnection extends Thread{
 		}catch(Exception e){e.printStackTrace();Gdx.app.exit();}
 		
 		//PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
-		/*BufferedReader in = new BufferedReader(
-		        new InputStreamReader(connection.getInputStream()));;*/
+		*/
+/*BufferedReader in = new BufferedReader(
+		        new InputStreamReader(connection.getInputStream()));;*//*
+
 		
 		while(!stop){
 			
@@ -88,8 +91,10 @@ public class ClientConnection extends Thread{
 						localPlayer.rotation=player.rotation;
 						localPlayer.name=player.name;
 					}
-					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
-					player2.setRotation(packet.rotation);*/
+					*/
+/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
+					player2.setRotation(packet.rotation);*//*
+
 					//System.out.println(packet);
 				}catch(ClassCastException e){String mess=(String)inob.readObject();System.out.println(mess);}catch(SocketException e){Gdx.app.exit();}
 				
@@ -116,12 +121,14 @@ public class ClientConnection extends Thread{
 		}
 		
 		Gdx.app.log("[Client]", "Shutting Down...");
-		/*try {
+		*/
+/*try {
 			i.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		out.close();*/
+		out.close();*//*
+
 		connection.dispose();
 	
 	}
@@ -192,8 +199,10 @@ public class ClientConnection extends Thread{
 		}catch(Exception e){e.printStackTrace();Gdx.app.exit();}
 		
 		//PrintWriter out = new PrintWriter(connection.getOutputStream(), true);;
-		/*BufferedReader in = new BufferedReader(
-		        new InputStreamReader(connection.getInputStream()));;*/
+		*/
+/*BufferedReader in = new BufferedReader(
+		        new InputStreamReader(connection.getInputStream()));;*//*
+
 		
 		while(!stop){
 			
@@ -230,8 +239,10 @@ public class ClientConnection extends Thread{
 						localPlayer.rotation=player.rotation;
 						localPlayer.name=player.name;
 					}
-					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
-					player2.setRotation(packet.rotation);*/
+					*/
+/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
+					player2.setRotation(packet.rotation);*//*
+
 					//System.out.println(packet);
 				}catch(ClassCastException e){String mess=(String)inob.readObject();System.out.println(mess);}catch(SocketException e){Gdx.app.exit();}
 				
@@ -258,12 +269,14 @@ public class ClientConnection extends Thread{
 		}
 		
 		Gdx.app.log("[Client]", "Shutting Down...");
-		/*try {
+		*/
+/*try {
 			i.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		out.close();*/
+		out.close();*//*
+
 		connection.dispose();
 	
 	}
@@ -284,6 +297,7 @@ public class ClientConnection extends Thread{
 
 }
 
+*/
 
 package com.boxcubed.net;
 
@@ -437,4 +451,4 @@ public class ClientConnection extends Thread{
     	
     }
 
-}
+}

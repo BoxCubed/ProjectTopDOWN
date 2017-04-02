@@ -3,6 +3,7 @@ package me.boxcubed.main.Sprites;
 
 import java.lang.reflect.Method;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
@@ -47,7 +48,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public Crosshair crossH;
 	double health=getMaxHealth();
 	private Animation<TextureRegion> animation,animationLeg;
-	private TextureAtlas atlas,atlas2;
+	//private TextureAtlas atlas,atlas2;
 	public float legOffX=15,legOffY=15;
 	boolean shooting=false;
 	GameState gameState;
@@ -74,14 +75,14 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public Player(World world,int state) {
 		super(tex);
 		this.state=state;
-		
-			
-			
-		
-		atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
-		atlas2=new TextureAtlas(Gdx.files.internal("assets/spritesheets/leganim.atlas"));
-		animation = new Animation<TextureRegion>(1f/30f*100,atlas.getRegions());
-		animationLeg = new Animation<TextureRegion>(1f/30f*100,atlas2.getRegions());
+
+
+
+
+		/*atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
+		atlas2=new TextureAtlas(Gdx.files.internal("assets/spritesheets/leganim.atlas"));*/
+		animation = new Animation<TextureRegion>(1f/30f*100,GameState.instance.atlas.getRegions());
+		animationLeg = new Animation<TextureRegion>(1f/30f*100,GameState.instance.atlas2.getRegions());
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
@@ -103,10 +104,10 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
         playerShape.dispose();
         setSize(20, 20);
-        effect=new ParticleEffect();
-		effect.load(Gdx.files.internal("assets/maps/effects/flame.p"),Gdx.files.internal( "assets/maps/effects/"));
-		effect.start();
-		crossH=new Crosshair(100, this);
+        /*effect=new ParticleEffect();*/
+		/*GameState.instance.effect.load(Gdx.files.internal("assets/maps/effects/flame.p"),Gdx.files.internal( "assets/maps/effects/"));*/
+		GameState.instance.effect.start();
+		/*crossH =new Crosshair(100, this);*/
 		
 		legOffY=10;
 		legOffX=10;
@@ -145,21 +146,21 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			handleInput(); 
 			
 			if(shooting){
-			effect.setPosition(getX(), getY());
-			for(ParticleEmitter emit:effect.getEmitters()){
+				GameState.instance.effect.setPosition(getX(), getY());
+			for(ParticleEmitter emit:GameState.instance.effect.getEmitters()){
 				emit.getAngle().setHigh(getRotation()+20);
 				emit.getAngle().setLow(getRotation()-20);
 			}
-			effect.setDuration(100);
+				GameState.instance.effect.setDuration(100);
 			
-			if(effect.isComplete()){effect.reset();effect.start();}
-			}else effect.allowCompletion();
-			
-			effect.update(delta/100);
+			if(GameState.instance.effect.isComplete()){GameState.instance.effect.reset();GameState.instance.effect.start();}
+			}else GameState.instance.effect.allowCompletion();
+
+			GameState.instance.effect.update(delta/100);
 			
 			elapsedTime+=delta;
 
-            crossH.update(delta);
+            GameState.instance.crossH.update(delta);
 
 
         }
@@ -174,7 +175,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public void render(SpriteBatch sb) {
 		if(isAlive()){
 			if(state==2||state==1)playerBody.setTransform(multiPos, 0);
-			effect.draw(sb);
+			GameState.instance.effect.draw(sb);
 		if(playerBody.getLinearVelocity().isZero())
 		sb.draw(this, playerBody.getPosition().x-15,playerBody.getPosition().y-15,15,15,40,40,1,1,getRotation());
 		else{ 
@@ -185,7 +186,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 				,15,15,40,40,1,1,getRotation());
 		
 		}
-            crossH.render(sb);
+			GameState.instance.crossH.render(sb);
 		}else if(!isDisposed){dispose();isDisposed=true;}
 	//finished bullets		
 	}
@@ -209,7 +210,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			if(counter<1){
 				GameState.instance.gameWORLD.rayCast(callback, playerBody.getPosition(), new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y));
 				gunshotSound.play(1.0f);
-				GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
+				GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,GameState.instance.crossH.offX,GameState.instance.crossH.offY));
 		   pressed=false;}
 		   counter++;
 		}

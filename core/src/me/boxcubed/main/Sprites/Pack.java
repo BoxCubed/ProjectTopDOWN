@@ -52,8 +52,10 @@ public class Pack extends Sprite implements Entity {
         shape.dispose();
         setSize(20, 20);
      
+/*
 		anim=GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("assets/img/health.gif").read());
-		
+*/
+
 		
 	}
 	
@@ -75,7 +77,7 @@ public class Pack extends Sprite implements Entity {
 
 	@Override
 	public void render(SpriteBatch sb) {
-		sb.draw(anim.getKeyFrame(Gdx.graphics.getDeltaTime()*10), x-10f, y-10f,0, 0, 20, 20, 1, 1, 0);
+		sb.draw(GameState.instance.anim.getKeyFrame(Gdx.graphics.getDeltaTime()*10), x-10f, y-10f,0, 0, 20, 20, 1, 1, 0);
 		
 	}
 	
