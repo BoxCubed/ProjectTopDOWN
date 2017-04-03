@@ -63,7 +63,9 @@ public class GameState implements State, CleanInputProcessor{
 	private PlayerLight playerLight;
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
+
 	//Support multiple players: DONE!
+
 	public List<Player> multiplayerPlayers;
 	public int playerAddQueue;
 	public int playerRemQueue;
@@ -131,6 +133,7 @@ public class GameState implements State, CleanInputProcessor{
 		ambientMusic.play();
 		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
+
         player = new Player(gameWORLD,0); //1 means multiplayer
         crossH =new Crosshair(100, player);
 		//connection=new ClientConnection(player);
@@ -158,6 +161,7 @@ public class GameState implements State, CleanInputProcessor{
         /*playerAI = new SteeringAI(clients.get(id),clients.get(id).getWidth());
         playerLight = new PlayerLight(gameWORLD, clients.get(id).getBody());
         entities.add(new Pack(PackType.HEALTH, clients.get(id).getPos().x-50, clients.get(id).getPos().y-50, gameWORLD));*/
+
 	}
 
 	public void update(float delta) {

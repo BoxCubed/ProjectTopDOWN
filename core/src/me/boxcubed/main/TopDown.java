@@ -3,7 +3,9 @@ package me.boxcubed.main;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+
 import com.boxcubed.utils.Assets;
+
 
 import me.boxcubed.main.States.GameState;
 import me.boxcubed.main.States.SplashState;

@@ -1,3 +1,4 @@
+
 package com.boxcubed.net;
 
 import com.badlogic.gdx.math.Vector2;
@@ -23,3 +24,4 @@ public class DataPacket implements Serializable{
 	
 	
 }
+

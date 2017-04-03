@@ -16,28 +16,36 @@ import com.badlogic.gdx.backends.lwjgl.LwjglFiles;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+
+
 import com.boxcubed.net.DataPacket;
 import com.boxcubed.net.InputPacket;
 import com.boxcubed.net.Multiplayer_Player;
 import com.boxcubed.net.SocketPlayer;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 
 public class MultiplayerServer extends Thread {
 	ServerSocket server;
 	ArrayList<SocketPlayer> players;
+
 	public static World world=new World(new Vector2(0, 0), true);
+
 	public static MultiplayerServer instance;
 	public boolean stop=false;
 	
 	GsonBuilder gsonBuilder;
 	TiledMap map;
+	
 
 
 	public MultiplayerServer() {
 		instance=this;
+
 		start();
 		
 		
@@ -50,14 +58,17 @@ public class MultiplayerServer extends Thread {
 		//The time between the last request they sent to server
 		long startLoop=0,endLoop=0,delta=1,sleep=10;
 		//hints.connectTimeout=1000;
+
 		ConsoleThread inCon = null;
 		JoinThread joinThread = null;
 		Gson gson = null;
 		
 		
 
+
 		try{
 		log("Starting Project Top Down Multiplayer Server...");
+
 		
 		gson= new Gson();
 		
@@ -72,11 +83,14 @@ public class MultiplayerServer extends Thread {
 		inCon=new ConsoleThread();
 		joinThread=new JoinThread(world);
 		
+
 		log("\n---------------------------------------------"
 			+ "\n Project Top Down Multiplayer Experience "
 			+ "\n Brought to you by Box Cubed "
 		  + "\n---------------------------------------------");
+
 		}catch(Exception e){logError("Failed in creating server!:"+e.getMessage());stop=true;}
+
 			
 		
 		while(!stop){
@@ -98,7 +112,9 @@ public class MultiplayerServer extends Thread {
 					players.remove(player);
 					packet=new DataPacket(player.player.getPos(), players,i);
 					
+
 					playerData=gson.toJson(packet);
+
 					players.add(player);
 					//System.out.println(jsonMaker.prettyPrint(playerData));
 					player.out.writeObject(playerData);
@@ -188,12 +204,14 @@ public class MultiplayerServer extends Thread {
 			e.printStackTrace();
 		}player.player.dispose();});
 		players.clear();
+
 		world.dispose();
 			if(inCon!=null)
 			inCon.stop=true;
 			if(server!=null)
 			server.close();
 			if(joinThread!=null)
+
 			joinThread.stop=true;
 			System.exit(0);
 			

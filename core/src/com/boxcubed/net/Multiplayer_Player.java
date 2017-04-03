@@ -1,3 +1,4 @@
+
 package com.boxcubed.net;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -292,3 +293,4 @@ public void render(SpriteBatch sb) {
 	}
 	public interface Dispose {void dispose(Multiplayer_Player player);}
 }
+

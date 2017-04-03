@@ -80,10 +80,12 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
 
 
+
 		/*atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
 		atlas2=new TextureAtlas(Gdx.files.internal("assets/spritesheets/leganim.atlas"));*/
 		animation = TopDown.assets.get(Assets.playerATLAS+":anim", Animation.class);
 		animationLeg = TopDown.assets.get(Assets.legATLAS+":anim", Animation.class);
+
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
@@ -133,7 +135,9 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			
 		};
 		
+
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
+
 		if(state==1)
 			GameState.instance.connection=new ClientConnection(this);
 	}

@@ -1,3 +1,4 @@
+
 package com.boxcubed.net;
 
 import java.io.Serializable;
@@ -26,3 +27,4 @@ public class InputPacket implements Serializable {
 	
 
 }
+
