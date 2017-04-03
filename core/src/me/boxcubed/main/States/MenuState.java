@@ -3,16 +3,21 @@ package me.boxcubed.main.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.MenuButton;
 import com.boxcubed.utils.MenuListener;
+import com.boxcubed.utils.ParallaxBackground;
+import com.boxcubed.utils.ParallaxLayer;
 
 import me.boxcubed.main.TopDown;
 
@@ -29,8 +34,7 @@ public class MenuState implements Screen {
     //OLD  STUFF ^
     BitmapFont font;
     GlyphLayout startGlyph;
-    float a = 10, b = 28, c = (8/3); //a = sigma, b = row, c = beta
-    float x = 0.01f, y = 0, z = 0;
+    ParallaxBackground bg;
     ShapeRenderer renderer;
     public MenuState(GameState loadedInstance) {
         renderer = new ShapeRenderer();
@@ -40,7 +44,10 @@ public class MenuState implements Screen {
         startGlyph.setText(font, "Start");
      /*this.gsm=gsm;*/
         Gdx.input.setInputProcessor(stage);
-        
+        TextureRegion bgRegion=new TextureRegion(TopDown.assets.get(Assets.scrollMenuIMAGE, Texture.class));
+        bg=new ParallaxBackground(new ParallaxLayer[]{
+        		new ParallaxLayer(bgRegion, new Vector2(100,100),new Vector2(), new Vector2())
+        }, (float)Gdx.graphics.getWidth(), (float)Gdx.graphics.getHeight(), new Vector2(0, 1));
         clickButton=new MenuButton(startGlyph,font,  Gdx.graphics.getWidth()/2 - startGlyph.width/2,  Gdx.graphics.getHeight()/2 - startGlyph.height/2, 
         		new MenuListener() {
 			@Override
@@ -64,16 +71,11 @@ public class MenuState implements Screen {
 		});
 
         font.setColor(Color.BLUE);
-        clickButton.setGlyphNotChosen(new GlyphLayout(font, "DONT TOUCH ME"));
+        clickButton.setGlyphNotChosen(new GlyphLayout(font, "start"));
         clickButton.setCollisionLock(true);
         clickButton.getRect().width=clickButton.f.width;
         clickButton.getRect().height=clickButton.f.height;
-        //Forgive me for this code duplication
-        //I did not want to do it but i couldn't be bothered making a fucking button
-        clickButton1.setGlyphNotChosen(new GlyphLayout(font, "DONT TOUCH ME"));
-        clickButton1.setCollisionLock(true);
-        clickButton1.getRect().width=clickButton.f.width;
-        clickButton1.getRect().height=clickButton.f.height;
+       
     }
 
 	public void handleInput() {
@@ -99,8 +101,9 @@ public class MenuState implements Screen {
         clickButton.update(delta);
 
 
-       
+        bg.render(delta);
         batch.begin();
+        
         //renderer.translate(20, 12, 2);
         clickButton.render(batch);
 
