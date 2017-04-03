@@ -7,8 +7,8 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.boxcubed.utils.AnimationLoader.AnimationPrefs;
 /**
@@ -18,6 +18,7 @@ import com.boxcubed.utils.AnimationLoader.AnimationPrefs;
  *
  * @param <T> The type of animation to return
  */
+@SuppressWarnings("rawtypes")
 public class AnimationLoader extends SynchronousAssetLoader<Animation, AnimationPrefs>{
 	
 	
@@ -54,16 +55,17 @@ public class AnimationLoader extends SynchronousAssetLoader<Animation, Animation
 
 	@Override
 	public Animation load(AssetManager manager, String fileName, FileHandle file, AnimationPrefs parameter) {
-		
+		fileName=fileName.replaceAll(":anim", "");
 			if(parameter!=null)
-		return new Animation<>(parameter.duration, manager.get(parameter.frames, TextureAtlas.class).getRegions(), parameter.mode);
+		return new Animation<>(parameter.duration, manager.get(fileName, TextureAtlas.class).getRegions(), parameter.mode);
 			else{
-				fileName=fileName.replaceAll(":anim", "");
+				
 				return new Animation<>(1f/30f*100, manager.get(fileName, TextureAtlas.class).getRegions());}
 		
 		
 	}
 
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public Array<AssetDescriptor> getDependencies(String fileName, FileHandle file, AnimationPrefs param) {
 		Array<AssetDescriptor> deps = null;

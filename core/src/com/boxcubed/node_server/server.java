@@ -29,7 +29,7 @@ public class server {
         }
     }
     public void configureSocketEvents(){
-        clientSocket.on(clientSocket.EVENT_CONNECT, new Emitter.Listener() {
+        clientSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("[SocketIO]", "Connection success");

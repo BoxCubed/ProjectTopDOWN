@@ -4,7 +4,6 @@ package me.boxcubed.main.States;
 
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * The state interface<br>
  * Only Override the <code>render(float delta)</code> method if you wish to change how this method runs handleInput and update.<br>

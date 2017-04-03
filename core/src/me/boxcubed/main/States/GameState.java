@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -38,7 +37,6 @@ import com.boxcubed.utils.Hud;
 import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import me.boxcubed.main.TopDown;
-import me.boxcubed.main.Objects.FileAtlas;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
@@ -91,6 +89,7 @@ public class GameState implements State, CleanInputProcessor{
     public Crosshair crossH;
     private Assets assets=TopDown.assets;
     public Animation<TextureRegion> anim;
+	@SuppressWarnings("unchecked")
 	public GameState() {
 
         // Instance of the game, for ease of access
@@ -124,16 +123,15 @@ public class GameState implements State, CleanInputProcessor{
         //Sorry if anything is fucked up
         rayHandler = new RayHandler(gameWORLD);
         pointLight = new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45);
-        effect=new ParticleEffect();
-        effect.load(Gdx.files.internal("assets/maps/effects/flame.p"),Gdx.files.internal( "assets/maps/effects/"));
+        effect=assets.get(Assets.flameEFFECT, ParticleEffect.class);
 
         ambientMusic =assets.get(Assets.ambientMUSIC, Music.class);
 		ambientMusic.setLooping(true);
 		ambientMusic.setVolume(0.6f);
 		ambientMusic.play();
-		zombieGroan = assets.get(Assets.ZGroanSOUND, Sound.class);
+		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
-        player = new Player(gameWORLD,1); //1 means multiplayer
+        player = new Player(gameWORLD,0); //1 means multiplayer
         crossH =new Crosshair(100, player);
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^

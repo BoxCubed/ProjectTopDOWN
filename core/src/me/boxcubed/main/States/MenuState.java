@@ -3,16 +3,14 @@ package me.boxcubed.main.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.MenuButton;
 import com.boxcubed.utils.MenuListener;
 
@@ -23,33 +21,26 @@ import me.boxcubed.main.TopDown;
  */
 public class MenuState implements Screen {
 	Stage stage;
-    Texture button;
     MenuButton clickButton;
     MenuButton clickButton1;
-    TextureAtlas start=new TextureAtlas("assets/button/start.atlas");
+    TextureAtlas start=TopDown.assets.get(Assets.startATLAS, TextureAtlas.class);;
     Sprite hover=start.createSprite("hover"),click=start.createSprite("click"),normal=start.createSprite("normal");
     SpriteBatch batch=new SpriteBatch();
     //OLD  STUFF ^
     BitmapFont font;
-    FreeTypeFontGenerator generator;
-    FreeTypeFontParameter parameter;
     GlyphLayout startGlyph;
     float a = 10, b = 28, c = (8/3); //a = sigma, b = row, c = beta
     float x = 0.01f, y = 0, z = 0;
     ShapeRenderer renderer;
     public MenuState(GameState loadedInstance) {
         renderer = new ShapeRenderer();
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/font.ttf"));
-        parameter = new FreeTypeFontParameter();
-        parameter.size = 48;
-        font = generator.generateFont(parameter);
+        font = TopDown.assets.get(Assets.menuFONT, BitmapFont.class);
         font.setColor(Color.GREEN);
         startGlyph = new GlyphLayout();
         startGlyph.setText(font, "Start");
      /*this.gsm=gsm;*/
         Gdx.input.setInputProcessor(stage);
         
-        button = new Texture("assets/img/icon.png");
         clickButton=new MenuButton(startGlyph,font,  Gdx.graphics.getWidth()/2 - startGlyph.width/2,  Gdx.graphics.getHeight()/2 - startGlyph.height/2, 
         		new MenuListener() {
 			@Override
@@ -172,7 +163,6 @@ public class MenuState implements Screen {
     public void dispose() {
         this.dispose();
         batch.dispose();
-        generator.dispose();
     }
   
   

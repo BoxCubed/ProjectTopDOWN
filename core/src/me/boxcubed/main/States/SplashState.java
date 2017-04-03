@@ -12,7 +12,7 @@ import com.boxcubed.utils.Assets;
 import me.boxcubed.main.TopDown;
 
 public class SplashState implements State {
-private float elapsedTime,rotation=0;
+private float rotation=0;
 private Texture logo;
 private Sprite logoSprite;
 private final int LOGO_WIDTH=300,LOGO_HEIGHT=300;
@@ -41,12 +41,11 @@ private Assets assets;
 	private GameState loadingInstance;
 	@Override
 	public void update(float delta) {
-		elapsedTime+=delta;
 		
 		rotation=-assets.getProgress()*360f+360;
 		lerpToPos(0, 0);
 		camera.update();
-		System.out.println(assets.getProgress());
+		//System.out.println(assets.getProgress());
 		assets.update();
 		if(assets.getProgress()>=1f&&!loaded){
 			loaded=true;

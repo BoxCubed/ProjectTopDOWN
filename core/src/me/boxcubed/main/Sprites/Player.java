@@ -72,6 +72,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	 * if the state isn't 0. Do this before calling update.
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public Player(World world,int state) {
 		super(tex);
 		this.state=state;

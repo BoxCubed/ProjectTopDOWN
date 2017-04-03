@@ -1,6 +1,5 @@
 package com.boxcubed.utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader.ParticleEffectParameter;
 import com.badlogic.gdx.audio.Music;
@@ -16,10 +15,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.boxcubed.utils.AnimationLoader.AnimationPrefs;
 
 public class Assets extends com.badlogic.gdx.assets.AssetManager{
 	public static String nineMMGunSOUND="sounds/9_mm_gunshot.mp3",gunSOUND="sounds/gunshot.mp3",ZAttackSOUND="sounds/zombie_attack.mp3",
-			ZGroanSOUND="sounds/zombie_groan.wav", ambientMUSIC="sounds/ambient_music.mp3",ZScreamsMUSIC="sounds/zombie_screams.mp3",
+			ZGroanSOUND="sounds/zombie_groan.wav", ambientMUSIC="sounds/ambient_music.mp3",ZScreamsSOUND="sounds/zombie_screams.mp3",
 			
 			MainMAP="maps/map2.tmx",
 			
@@ -28,7 +28,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 			particleIMAGE="img/particle.png",playerIMAGE="img/player.png",zombieIMAGE="img/skeleton-idle_0.png",
 			
 			playerATLAS="spritesheets/playersheet.atlas",legATLAS="spritesheets/leganim.atlas",zombieAttackATLAS="spritesheets/zombieanim.atlas",
-			zombieWalkATLAS="spritesheets/zombie_walk.atlas",
+			zombieWalkATLAS="spritesheets/zombie_walk.atlas",startATLAS="button/start.atlas",
 			
 			menuFONT="fonts/menuFont.ttf",
 			
@@ -83,7 +83,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		load(ZAttackSOUND,Sound.class);
 		load(ZGroanSOUND,Sound.class);
 		load(ambientMUSIC,Music.class);
-		load(ZScreamsMUSIC,Music.class);
+		load(ZScreamsSOUND,Sound.class);
 		
 		
 	}
@@ -103,6 +103,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		load(zombieAttackATLAS, TextureAtlas.class);
 		load(legATLAS, TextureAtlas.class);
 		load(zombieWalkATLAS, TextureAtlas.class);
+		load(startATLAS, TextureAtlas.class);
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -112,8 +113,9 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		load(new AssetDescriptor<Animation>(legATLAS+":anim", Animation.class));
 		
 		load(new AssetDescriptor<Animation>(zombieAttackATLAS+":anim", Animation.class));
-		
-		load(new AssetDescriptor<Animation>(zombieWalkATLAS+":anim", Animation.class));
+		AnimationPrefs prefs=new AnimationPrefs();
+		prefs.duration=1/30f;
+		load(new AssetDescriptor<Animation>(zombieWalkATLAS+":anim", Animation.class,prefs));
 		
 		
 
