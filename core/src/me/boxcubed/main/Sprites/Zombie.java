@@ -21,8 +21,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.boxcubed.utils.Assets;
 
-import me.boxcubed.main.Objects.FileAtlas;
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
@@ -49,9 +50,10 @@ public class Zombie extends Sprite implements LivingEntity {
 	
 	RayCastCallback callback;
 	
+	@SuppressWarnings("unchecked")
 	public Zombie(World world,SteeringAI playerAI) {
-		super( FileAtlas.<Texture>getFile("zombieTex"));
-		attackSound =Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_attack.mp3"));
+		super( TopDown.assets.get(Assets.zombieIMAGE, Texture.class));
+		attackSound =TopDown.assets.get(Assets.ZAttackSOUND, Sound.class);
 		
 		
 		setSize(50, 50);
@@ -77,8 +79,8 @@ public class Zombie extends Sprite implements LivingEntity {
 		fixture.setUserData("ZOMBIE");
 		Body.setTransform(400, 100, 0);
 		Shape.dispose();
-		zombieAnim = FileAtlas.<Animation<TextureRegion>>getFile("zombieAnim");
-	    zombieWalk = FileAtlas.<Animation<TextureRegion>>getFile("zombieWalkAnim");
+		zombieAnim = TopDown.assets.get(Assets.zombieAttackATLAS+":anim", Animation.class);
+	    zombieWalk = TopDown.assets.get(Assets.zombieWalkATLAS+":anim", Animation.class);
 	        
 	        //put this in your file atlas cos i sure as hell cbs.
 	        

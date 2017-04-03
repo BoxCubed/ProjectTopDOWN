@@ -13,7 +13,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.boxcubed.utils.Assets;
 
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.States.GameState;
@@ -38,7 +40,7 @@ public class Bullet extends Sprite implements Entity{
 	float elapsedTime=0;
 	
 	public Bullet(World world, float x, float y,float offX,float offY){
-		super(new Texture(Gdx.files.internal("assets/img/bullet.png")));
+		super(TopDown.assets.get(Assets.bulletIMAGE, Texture.class));
 		this.x=x;
 		this.y=y;
 		this.offX=offX;
@@ -62,7 +64,7 @@ public class Bullet extends Sprite implements Entity{
 		fixture.setUserData("BULLET");
 		
 		muzzleFlash = new TextureRegion();
-		muzzleFlash.setRegion(new Texture("assets/img/muzzle_flash.png"));
+		muzzleFlash.setRegion(TopDown.assets.get(Assets.mflashIMAGE, Texture.class));
     }
 	 @Override
 	    public void update(float delta) {

@@ -1,13 +1,22 @@
 package me.boxcubed.main.States;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -19,9 +28,15 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.ClientConnection;
+import com.boxcubed.node_server.server;
+import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.CleanInputProcessor;
+import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
-import me.boxcubed.main.Objects.FileAtlas;
+
+import box2dLight.ConeLight;
+import box2dLight.RayHandler;
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
@@ -33,61 +48,58 @@ import me.boxcubed.main.Sprites.Pack;
 import me.boxcubed.main.Sprites.Pack.PackType;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
-import me.boxcubed.main.TopDown;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameState implements State, CleanInputProcessor{
 	public World gameWORLD;
-
 	public OrthographicCamera cam;
 	private SpriteBatch batch=new SpriteBatch();
 	public List<Entity> entities;
 	public List<Entity>dispose;
 	public Player player;
 	public boolean debug=true;
-
 	public static GameState instance;
-
 	private ShapeRenderer sr;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
-
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
-	//TODO support multiple players
+
+	//Support multiple players: DONE!
+
 	public List<Player> multiplayerPlayers;
 	public int playerAddQueue;
 	public int playerRemQueue;
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
-
 	Music ambientMusic;
 	Sound zombieGroan;
-	
 	Crosshair crosshair;
 	Hud hud;
 	public ClientConnection connection;
 	Vector2 mouseLoc;
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
-
 	float groanTimer=0;
-	
 	public boolean noZombie = false;
-
 	public boolean noTime = false;
-
+    com.boxcubed.node_server.server server;
+    private HashMap<String, Player> clients;
+    public RayHandler rayHandler;
+    public ConeLight pointLight;
+    public ParticleEffect effect;
+    public Crosshair crossH;
+    private Assets assets=TopDown.assets;
+    public Animation<TextureRegion> anim;
+	@SuppressWarnings("unchecked")
 	public GameState() {
-		// Instance of the game, for ease of access
+
+        // Instance of the game, for ease of access
 				instance = this;
 				crosshair = new Crosshair(10, player);
 				// Camera and Map
 				
-				tiledMap = FileAtlas.<TiledMap>getFile("map");
+				tiledMap = assets.get(Assets.MainMAP,TiledMap.class);
 
 				// World Init
 				gameWORLD = new World(new Vector2(0, 0), true);
@@ -109,40 +121,48 @@ public class GameState implements State, CleanInputProcessor{
 				entities = new ArrayList<Entity>();
 				dispose =new ArrayList<Entity>();
 
-		ambientMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/ambient_music.mp3"));
+        clients = new HashMap<String, Player>();
+        //Sorry if anything is fucked up
+        rayHandler = new RayHandler(gameWORLD);
+        pointLight = new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45);
+        effect=assets.get(Assets.flameEFFECT, ParticleEffect.class);
+
+        ambientMusic =assets.get(Assets.ambientMUSIC, Music.class);
 		ambientMusic.setLooping(true);
 		ambientMusic.setVolume(0.6f);
 		ambientMusic.play();
-		
-		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
-		
+		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
-		player = new Player(gameWORLD,1); //1 means multiplayer
+
+        player = new Player(gameWORLD,0); //1 means multiplayer
+        crossH =new Crosshair(100, player);
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
 		multiplayerPlayers=new ArrayList<>();
-		
-		
+		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
+		//Ryan better rename this to Zombie AI
+		playerAI=new SteeringAI(player, player.getWidth());
+		//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
+		// Apparently the lighting to the whole map, not sure why its player
+		// light
+		playerLight = new PlayerLight(gameWORLD, player.getBody());
+		// Making all the collision shapes
+		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
+		//packs
+		entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
+		//Server stuff
+        server = new server();
+        anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("img/health.gif").read());
+        
 
-				zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
+    }
+	public void createNewPlayer(String id){//Used for the server
+        clients.put(id, new Player(gameWORLD, 0));
+        /*playerAI = new SteeringAI(clients.get(id),clients.get(id).getWidth());
+        playerLight = new PlayerLight(gameWORLD, clients.get(id).getBody());
+        entities.add(new Pack(PackType.HEALTH, clients.get(id).getPos().x-50, clients.get(id).getPos().y-50, gameWORLD));*/
 
-				//Ryan better rename this to Zombie AI
-			    playerAI=new SteeringAI(player, player.getWidth());
-			//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
-				
-				// Apparently the lighting to the whole map, not sure why its player
-				// light
-				
-				playerLight = new PlayerLight(gameWORLD, player.getBody());
-
-				// Making all the collision shapes
-				MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
-
-				//packs
-				entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
-			
 	}
-	
 
 	public void update(float delta) {
 
@@ -165,13 +185,13 @@ public class GameState implements State, CleanInputProcessor{
 			multiplayerPlayers.get(0).dispose();
 			multiplayerPlayers.remove(0);
 		playerRemQueue=0;}
-		
+
 		multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
 
 		//Updating Light
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,
 		player.getRotation(), delta);
-		playerLight.rayHandler.update();
+		rayHandler.update();
 		
 		//Update Zombie Spawns
 		if (!noZombie) {
@@ -248,13 +268,12 @@ public class GameState implements State, CleanInputProcessor{
 	public void render() {
 
 		batch.setProjectionMatrix(cam.combined);
-
 		cam.update();
 		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();
 		if(b2dr!=null)
 		b2dr.render(gameWORLD, cam.combined);
-		playerLight.rayHandler.setCombinedMatrix(cam);
+		rayHandler.setCombinedMatrix(cam);
 		//Entity render
 		batch.begin();                                                   //-------------------------------------\\                                               //       SEE THIS RENDER METHOD?       \\
 		entities.forEach(entity -> {
@@ -264,10 +283,10 @@ public class GameState implements State, CleanInputProcessor{
                                                                       //   AUSTIC, I'D LIKE TO KEEP IT THAT  \\
 		batch.end();                                                     //                 WAY                 \\
 		//Light render                                                //-------------------------------------\\     
-		playerLight.rayHandler.render();
+		rayHandler.render();
 		
 		//rendering not affected by light
-		
+
 		//Shape rendering
 		//TODO get a texture for all shapes
 		sr.setProjectionMatrix(camCombined());
@@ -279,6 +298,11 @@ public class GameState implements State, CleanInputProcessor{
 		
 		//rendering of hud and player
 		batch.begin();
+        for(HashMap.Entry<String, Player> entry: clients.entrySet()){
+            entry.getValue().render(batch);
+            entry.getValue().renderShapes(sr);
+            entry.getValue().update(Gdx.graphics.getDeltaTime());
+        }
 		player.render(batch);
 		multiplayerPlayers.iterator().forEachRemaining(player->player.render(batch));
 		batch.setProjectionMatrix(hud.textCam.combined);

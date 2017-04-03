@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.boxcubed.utils.GIFDecoder;
 
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
@@ -52,8 +51,10 @@ public class Pack extends Sprite implements Entity {
         shape.dispose();
         setSize(20, 20);
      
+/*
 		anim=GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("assets/img/health.gif").read());
-		
+*/
+
 		
 	}
 	
@@ -75,7 +76,7 @@ public class Pack extends Sprite implements Entity {
 
 	@Override
 	public void render(SpriteBatch sb) {
-		sb.draw(anim.getKeyFrame(Gdx.graphics.getDeltaTime()*10), x-10f, y-10f,0, 0, 20, 20, 1, 1, 0);
+		sb.draw(GameState.instance.anim.getKeyFrame(Gdx.graphics.getDeltaTime()*10), x-10f, y-10f,0, 0, 20, 20, 1, 1, 0);
 		
 	}
 	
