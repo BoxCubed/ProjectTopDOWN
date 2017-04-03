@@ -40,9 +40,9 @@ public class server {
                 JSONObject data = (JSONObject) args [0];
                 try{
                     clientID = data.getString("id");
-                    Gdx.app.log("SocketIO", "Client Id: " + clientID);
+                    Gdx.app.log("[SocketIO]", "Client Id: " + clientID);
                 }catch (JSONException e){
-                    Gdx.app.log("SocketIO", "Error getting client ID " + e );
+                    Gdx.app.log("[SocketIO]", "Error getting client ID " + e );
                 }
             }
         }).on("newPlayer", new Emitter.Listener() {
@@ -52,9 +52,9 @@ public class server {
                 try{
                     String clientID = data.getString("id");
                     GameState.instance.createNewPlayer(clientID);
-                    Gdx.app.log("SocketIO", "New Player connected");
+                    Gdx.app.log("[SocketIO]", "New Player connected");
                 }catch (JSONException e){
-                    Gdx.app.log("SocketIO", "Error connecting new player: " + e);
+                    Gdx.app.log("[SocketIO]", "Error connecting new player: " + e);
                 }
             }
         });

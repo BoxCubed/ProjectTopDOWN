@@ -158,9 +158,9 @@ public class GameState implements State, CleanInputProcessor{
     }
 	public void createNewPlayer(String id){//Used for the server
         clients.put(id, new Player(gameWORLD, 0));
-        playerAI = new SteeringAI(clients.get(id),clients.get(id).getWidth());
+        /*playerAI = new SteeringAI(clients.get(id),clients.get(id).getWidth());
         playerLight = new PlayerLight(gameWORLD, clients.get(id).getBody());
-        entities.add(new Pack(PackType.HEALTH, clients.get(id).getPos().x-50, clients.get(id).getPos().y-50, gameWORLD));
+        entities.add(new Pack(PackType.HEALTH, clients.get(id).getPos().x-50, clients.get(id).getPos().y-50, gameWORLD));*/
 	}
 
 	public void update(float delta) {
@@ -267,7 +267,6 @@ public class GameState implements State, CleanInputProcessor{
 	public void render() {
 
 		batch.setProjectionMatrix(cam.combined);
-
 		cam.update();
 		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();
@@ -301,6 +300,7 @@ public class GameState implements State, CleanInputProcessor{
         for(HashMap.Entry<String, Player> entry: clients.entrySet()){
             entry.getValue().render(batch);
             entry.getValue().renderShapes(sr);
+            entry.getValue().update(Gdx.graphics.getDeltaTime());
         }
 		player.render(batch);
 		multiplayerPlayers.iterator().forEachRemaining(player->player.render(batch));
