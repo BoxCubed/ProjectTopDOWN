@@ -70,8 +70,7 @@ public class MenuState implements State {
 				
 			}
 		});
-        ///clickButton.setColor(Color.GREEN);
-        //clickButton.setChosenColor(Color.BLUE);
+        
         font.setColor(Color.BLUE);
         clickButton.setGlyphNotChosen(new GlyphLayout(font, "DONT TOUCH ME"));
         clickButton.setCollisionLock(true);
@@ -94,9 +93,26 @@ public class MenuState implements State {
     @Override
     public void render() {
     	
+    }
+
+    @Override
+    public void render(float delta) {
+        //Dont ask me why. It looked cool
+        //Lorenz attractor
+        clickButton.update(delta);
+
+
+        float dt = 0.01f; //time basically.
+        float dx = (a *(y-x))*dt;
+        float dy = (x *(b-z) - y)*dt;
+        float dz = (x*y - c*z)*dt;
+        x = x + dx;
+        y = y + dy;
+        z = z + dz;
         batch.begin();
+        //renderer.translate(20, 12, 2);
         clickButton.render(batch);
-        //font.draw(batch, startGlyph, Gdx.graphics.getWidth()/2 - startGlyph.width/2, Gdx.graphics.getHeight()/2 - startGlyph.height/2);
+
         batch.end();
     }
 
