@@ -30,6 +30,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.ClientConnection;
 import com.boxcubed.node_server.server;
+import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
@@ -84,11 +85,11 @@ public class GameState implements State, CleanInputProcessor{
 	public boolean noTime = false;
     com.boxcubed.node_server.server server;
     private HashMap<String, Player> clients;
-    public TextureAtlas atlas,atlas2;
     public RayHandler rayHandler;
     public ConeLight pointLight;
     public ParticleEffect effect;
     public Crosshair crossH;
+    private Assets assets=TopDown.assets;
     public Animation<TextureRegion> anim;
 	public GameState() {
 
@@ -97,7 +98,7 @@ public class GameState implements State, CleanInputProcessor{
 				crosshair = new Crosshair(10, player);
 				// Camera and Map
 				
-				tiledMap = FileAtlas.<TiledMap>getFile("map");
+				tiledMap = assets.get(Assets.MainMAP,TiledMap.class);
 
 				// World Init
 				gameWORLD = new World(new Vector2(0, 0), true);
@@ -121,18 +122,16 @@ public class GameState implements State, CleanInputProcessor{
 
         clients = new HashMap<String, Player>();
         //Sorry if anything is fucked up
-        atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
-        atlas2=new TextureAtlas(Gdx.files.internal("assets/spritesheets/leganim.atlas"));
         rayHandler = new RayHandler(gameWORLD);
         pointLight = new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45);
         effect=new ParticleEffect();
         effect.load(Gdx.files.internal("assets/maps/effects/flame.p"),Gdx.files.internal( "assets/maps/effects/"));
 
-        ambientMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/ambient_music.mp3"));
+        ambientMusic =assets.get(Assets.ambientMUSIC, Music.class);
 		ambientMusic.setLooping(true);
 		ambientMusic.setVolume(0.6f);
 		ambientMusic.play();
-		zombieGroan = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/zombie_screams.mp3"));
+		zombieGroan = assets.get(Assets.ZGroanSOUND, Sound.class);
 		// Adding player
         player = new Player(gameWORLD,1); //1 means multiplayer
         crossH =new Crosshair(100, player);
@@ -152,7 +151,7 @@ public class GameState implements State, CleanInputProcessor{
 		entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
 		//Server stuff
         server = new server();
-        anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("assets/img/health.gif").read());
+        anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("img/health.gif").read());
         
 
     }

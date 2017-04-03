@@ -1,11 +1,12 @@
 package me.boxcubed.main.Sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.boxcubed.utils.Assets;
 
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.Entity;
 /**
  * Uses unit circle(kinda) to place a crosshair in front of the player<br>
@@ -21,7 +22,7 @@ public class Crosshair extends Sprite{
 	Entity player;
 
 	public Crosshair(float dist,Entity player) {
-		super( new Texture(Gdx.files.internal("assets/img/crosshair.png")));
+		super( TopDown.assets.get(Assets.crossHairIMAGE, Texture.class));
 		this.dist=dist;
 		this.player=player;
 		pos=new Vector2();

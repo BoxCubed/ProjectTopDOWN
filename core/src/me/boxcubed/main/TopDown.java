@@ -2,8 +2,8 @@ package me.boxcubed.main;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.boxcubed.utils.Assets;
 
 import me.boxcubed.main.States.GameState;
 import me.boxcubed.main.States.SplashState;
@@ -11,11 +11,12 @@ import me.boxcubed.main.States.SplashState;
 public class TopDown extends Game {
 	public static TopDown instance;
 	public static boolean debug;
-	public static AssetManager assets;
+	public static Assets assets;
 	public TopDown(boolean debug) {
 		TopDown.debug=debug;
 		//TODO Move every single asset into this
-		assets=new AssetManager();
+		assets=new Assets();
+		
 		
 		
 	}

@@ -3,7 +3,6 @@ package me.boxcubed.main.Sprites;
 
 import java.lang.reflect.Method;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -27,7 +25,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.ClientConnection;
+import com.boxcubed.utils.Assets;
 
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
@@ -35,7 +35,7 @@ import me.boxcubed.main.States.GameState;
 
 public class Player extends Sprite implements LivingEntity,Movable {
 	public float delta;
-	private static Texture tex = new Texture(Gdx.files.internal("assets/img/player.png"));
+	private static Texture tex = TopDown.assets.get(Assets.playerIMAGE, Texture.class);
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;
 	PolygonShape playerShape;
@@ -81,8 +81,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
 		/*atlas=new TextureAtlas(Gdx.files.internal("assets/spritesheets/playersheet.atlas"));
 		atlas2=new TextureAtlas(Gdx.files.internal("assets/spritesheets/leganim.atlas"));*/
-		animation = new Animation<TextureRegion>(1f/30f*100,GameState.instance.atlas.getRegions());
-		animationLeg = new Animation<TextureRegion>(1f/30f*100,GameState.instance.atlas2.getRegions());
+		animation = TopDown.assets.get(Assets.playerATLAS+":anim", Animation.class);
+		animationLeg = TopDown.assets.get(Assets.legATLAS+":anim", Animation.class);
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
@@ -123,6 +123,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			
 			if(fixture.getUserData()!="WALL"){
 				System.out.println("hit zombie");
+				//TODO better disposal...who did this?!
 				fixture.getBody().setTransform(new Vector2(-100,-100), 0);
 				return 0;
 			}
@@ -131,7 +132,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			
 		};
 		
-		gunshotSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/gunshot.mp3"));
+		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 		if(state==1)
 			GameState.instance.connection=new ClientConnection(this);
 	}
