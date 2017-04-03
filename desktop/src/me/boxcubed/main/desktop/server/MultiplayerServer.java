@@ -16,45 +16,28 @@ import com.badlogic.gdx.backends.lwjgl.LwjglFiles;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.boxcubed.net.DataPacket;
 import com.boxcubed.net.InputPacket;
 import com.boxcubed.net.Multiplayer_Player;
 import com.boxcubed.net.SocketPlayer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 
 public class MultiplayerServer extends Thread {
 	ServerSocket server;
 	ArrayList<SocketPlayer> players;
-	public World world=new World(new Vector2(0, 0), true);
+	public static World world=new World(new Vector2(0, 0), true);
 	public static MultiplayerServer instance;
 	public boolean stop=false;
-	TiledMap map;
 	
+	GsonBuilder gsonBuilder;
+	TiledMap map;
+
 
 	public MultiplayerServer() {
 		instance=this;
-		Gdx.files=new LwjglFiles();
-		players=new ArrayList<>();
-		/*ServerSocketHints hints=new ServerSocketHints();
-		hints.acceptTimeout=0;*/
-		map=new ServerTiledMapLoader().load("assets/maps/map2.tmx");
-		MapBodyBuilder.buildShapes(map, 1, world);
-	
-		try {
-			server=new ServerSocket(22222, 2);
-		} catch (IOException e) {
-			logError("Failed to create server!:"+e.getMessage());
-			return;
-		}
-		
-		
-		
-		//TODO make collision class for multiplayer
-		//world.setContactListener(new CollisionDetection());
-		
 		start();
 		
 		
@@ -67,46 +50,33 @@ public class MultiplayerServer extends Thread {
 		//The time between the last request they sent to server
 		long startLoop=0,endLoop=0,delta=1,sleep=10;
 		//hints.connectTimeout=1000;
+		ConsoleThread inCon = null;
+		JoinThread joinThread = null;
+		Gson gson = null;
 		
-		ConsoleThread inCon=new ConsoleThread();
-		JoinThread joinThread=new JoinThread(world);
-		 Json jsonMaker=new Json(OutputType.minimal);
+		
 
 		try{
-		//Connection of players
 		log("Starting Project Top Down Multiplayer Server...");
-		/*log("Waiting for Player 1...");
-		player1=server.accept();
 		
-		p1outob=new ObjectOutputStream(player1.getOutputStream());
-		p1inob=new ObjectInputStream(player1.getInputStream());
-		p1Delay=System.currentTimeMillis();
-		log("Player one successfully connected!\nWaiting for Player 2...");
-		player2=server.accept();
-
+		gson= new Gson();
 		
-		p2outob=new ObjectOutputStream(player2.getOutputStream());
-		p2inob=new ObjectInputStream(player2.getInputStream());
-		p2Delay=System.currentTimeMillis();
-		log("Player 2 successfully connected!");*/
+		Gdx.files=new LwjglFiles();
+		players=new ArrayList<>();
+		map=new ServerTiledMapLoader().load("assets/maps/map2.tmx");
+		MapBodyBuilder.buildShapes(map, 1, world);
+		//TODO make collision class for multiplayer
+				//world.setContactListener(new CollisionDetection());
+				
+		server=new ServerSocket(22222, 2);
+		inCon=new ConsoleThread();
+		joinThread=new JoinThread(world);
 		
-		
-		//assigning i/o
-		
-		
-		
-		//p1out = new PrintWriter(player1.getOutputStream(), true);
-	    /*p1in = new BufferedReader(
-	        new InputStreamReader(player1.getInputStream()));
-	    
-	    //p2out = new PrintWriter(player2.getOutputStream(), true);
-	    p2in = new BufferedReader(
-	        new InputStreamReader(player2.getInputStream()));*/
 		log("\n---------------------------------------------"
 			+ "\n Project Top Down Multiplayer Experience "
 			+ "\n Brought to you by Box Cubed "
 		  + "\n---------------------------------------------");
-		}catch(Exception e){logError("Failed in creating server!:"+e.getMessage());e.printStackTrace();System.exit(0);}
+		}catch(Exception e){logError("Failed in creating server!:"+e.getMessage());stop=true;}
 			
 		
 		while(!stop){
@@ -128,7 +98,7 @@ public class MultiplayerServer extends Thread {
 					players.remove(player);
 					packet=new DataPacket(player.player.getPos(), players,i);
 					
-					playerData=jsonMaker.toJson(packet,DataPacket.class);
+					playerData=gson.toJson(packet);
 					players.add(player);
 					//System.out.println(jsonMaker.prettyPrint(playerData));
 					player.out.writeObject(playerData);
@@ -206,7 +176,7 @@ public class MultiplayerServer extends Thread {
 			
 		
 			
-			}catch (InterruptedException | IOException e){logError("Error occured: "+e.getMessage()); e.printStackTrace();}
+			}catch (Exception e){logError("Error occured: "+e.getMessage()); e.printStackTrace();}
 			
 	}
 		log("Server Shutting Down...");
@@ -218,10 +188,12 @@ public class MultiplayerServer extends Thread {
 			e.printStackTrace();
 		}player.player.dispose();});
 		players.clear();
-	
-
+		world.dispose();
+			if(inCon!=null)
 			inCon.stop=true;
+			if(server!=null)
 			server.close();
+			if(joinThread!=null)
 			joinThread.stop=true;
 			System.exit(0);
 			

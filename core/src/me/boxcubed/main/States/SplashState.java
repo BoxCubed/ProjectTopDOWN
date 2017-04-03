@@ -7,18 +7,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.boxcubed.utils.Assets;
 
 import me.boxcubed.main.TopDown;
 
 public class SplashState implements State {
-private float elapsedTime,rotation=0;
+private float rotation=0;
 private Texture logo;
 private Sprite logoSprite;
-private final int LOGO_WIDTH=300,LOGO_HEIGHT=300,TIME=3;
+private final int LOGO_WIDTH=300,LOGO_HEIGHT=300;
 private OrthographicCamera camera;
 private BitmapFont font;
 private SpriteBatch batch=new SpriteBatch();
-
+private Assets assets;
 
 	@Override
 	public void show() {
@@ -28,25 +29,29 @@ private SpriteBatch batch=new SpriteBatch();
 		camera=new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		camera.position.y=camera.viewportHeight*2;
 		camera.update();
-		
-		font =new BitmapFont();
-		logo=new Texture("assets/img/logo.png");
+		assets=TopDown.assets;
+		font=new BitmapFont();
+		assets.finishLoadingAsset(Assets.logoIMAGE);
+		logo=assets.get(Assets.logoIMAGE, Texture.class);
 		logoSprite=new Sprite(logo);
+		
 
 	}
 	boolean loaded=false;
 	private GameState loadingInstance;
 	@Override
 	public void update(float delta) {
-		elapsedTime+=delta;
-		rotation-=360f/TIME*delta;
+		
+		rotation=-assets.getProgress()*360f+360;
 		lerpToPos(0, 0);
 		camera.update();
-		if(elapsedTime>TIME/2&&!loaded){
+		//System.out.println(assets.getProgress());
+		assets.update();
+		if(assets.getProgress()>=1f&&!loaded){
 			loaded=true;
 			loadingInstance=new GameState();
 			}
-		if(elapsedTime>TIME){
+		if(assets.getProgress()>=1f){
 			Gdx.graphics.setUndecorated(false);
 			Gdx.graphics.setResizable(true);
 			Gdx.graphics.setWindowedMode(1280, 900);

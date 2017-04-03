@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
-import me.boxcubed.main.Objects.FileAtlas;
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.States.GameState;
 
@@ -22,7 +22,7 @@ public class Hud {
 		textCam = new OrthographicCamera(1280, 900);
 		textCam.update();
 		
-		healthTex = FileAtlas.<Texture>getFile("healthTexture");
+		healthTex = TopDown.assets.get(Assets.healthIMAGE, Texture.class);
 	}
 	public void update(){
 		textCam.update();

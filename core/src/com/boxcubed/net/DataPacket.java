@@ -1,9 +1,9 @@
 package com.boxcubed.net;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import com.badlogic.gdx.math.Vector2;
 
 public class DataPacket implements Serializable{
 	/**

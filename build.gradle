@@ -7,6 +7,9 @@ buildscript {
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+       
+        
+        
     }
 }
 
@@ -45,6 +48,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        compile 'com.google.code.gson:gson:2.8.0'
     }
 }
 
@@ -79,8 +83,9 @@ project(":core") {
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
-        compile"io.socket:socket.io-client:0.6.1"
-        compile"io.socket:engine.io-client:0.6.1"
+        compile "io.socket:socket.io-client:0.6.1"
+        compile "io.socket:engine.io-client:0.6.1"
+        compile 'com.google.code.gson:gson:2.8.0'
     }
 }
 

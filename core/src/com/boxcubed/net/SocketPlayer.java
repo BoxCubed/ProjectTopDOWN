@@ -1,10 +1,10 @@
 package com.boxcubed.net;
+import com.badlogic.gdx.math.Vector2;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-
-import com.badlogic.gdx.math.Vector2;
 
 public class SocketPlayer implements Serializable{
 	/**

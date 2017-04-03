@@ -687,7 +687,8 @@ public class GIFDecoder {
         } while ((blockSize > 0) && !err());
     }
 
-    public Animation getAnimation(PlayMode playMode) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public Animation getAnimation(PlayMode playMode) {
         int nrFrames = getFrameCount();
         Pixmap frame = getFrame(0);
         int width = frame.getWidth();
@@ -730,7 +731,8 @@ public class GIFDecoder {
         return result;
     }
 
-    public static Animation loadGIFAnimation(PlayMode playType, InputStream is) {
+    @SuppressWarnings("rawtypes")
+	public static Animation loadGIFAnimation(PlayMode playType, InputStream is) {
         GIFDecoder gdec = new GIFDecoder();
         gdec.read(is);
         return gdec.getAnimation(playType);

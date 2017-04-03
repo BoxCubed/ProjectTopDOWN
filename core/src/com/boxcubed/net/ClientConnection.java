@@ -1,5 +1,7 @@
 package com.boxcubed.net;
 
+import java.io.EOFException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.SocketException;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+import com.google.gson.Gson;
 
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
@@ -20,8 +23,9 @@ public class ClientConnection extends Thread{
 	public boolean stop=false;
 	public byte w=0,s=0,a=0,d=0,shift=0,space=0;
 	public float rotation=0;
-	Player player,player2;
-	Json jsonReader=new Json(OutputType.minimal);
+	Player player,player2; 
+	
+	Json jsonReader=new Json(OutputType.json);
 	public ClientConnection(Player player){
 		this.player=player;
 		player.setConnection(this);
@@ -41,6 +45,8 @@ public class ClientConnection extends Thread{
 		Gdx.app.log("[Client]", "Client Thread started.");
 		ObjectInputStream inob=null;
 		ObjectOutputStream outob=null;
+		Gson gson;
+		gson=new Gson();
 		try{
 			
 			
@@ -64,10 +70,14 @@ public class ClientConnection extends Thread{
 			
 				
 				
-				
 				try{
 					String packetString=(String) inob.readObject();
-					DataPacket packet=jsonReader.fromJson(DataPacket.class, packetString);
+					if(packetString.startsWith("disconnect:")){
+						System.out.println(packetString); 
+						//TODO Handle server stopping
+						//TopDown.instance.setScreen(new MenuState(GameState.instance));
+						break;}
+					DataPacket packet=gson.fromJson(packetString, DataPacket.class);
 					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
 					if(GameState.instance.multiplayerPlayers.size()>packet.players.size())
 					
@@ -90,7 +100,9 @@ public class ClientConnection extends Thread{
 					/*player2.multiPos=universalLerpToPos(player2.getPos(),packet.loc2);
 					player2.setRotation(packet.rotation);*/
 					//System.out.println(packet);
-				}catch(ClassCastException e){String mess=(String)inob.readObject();System.out.println(mess);}catch(SocketException e){Gdx.app.exit();}
+				}catch(ClassCastException e){String mess=(String)inob.readObject();System.out.println(mess);}catch(SocketException|EOFException e){
+					//TODO handle sudden server stop
+				}
 				
 				
 					
@@ -100,7 +112,7 @@ public class ClientConnection extends Thread{
 			
 			try{
 			outob.writeObject(new InputPacket(w, a, s, d, space, shift, rotation));}
-			catch(SocketException e){Gdx.app.exit();}
+			catch(SocketException e){}
 			
 			//out.println("mov:"+w+":"+a+":"+s+":"+d+":"+shift+":"+space+":"+rotation);
 			
@@ -115,12 +127,14 @@ public class ClientConnection extends Thread{
 		}
 		
 		Gdx.app.log("[Client]", "Shutting Down...");
-		/*try {
-			i.close();
+		try {
+			inob.close();
+			outob.close();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		out.close();*/
+		
 		connection.dispose();
 	
 	}
