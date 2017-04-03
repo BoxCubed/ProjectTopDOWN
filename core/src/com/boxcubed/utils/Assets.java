@@ -2,6 +2,9 @@ package com.boxcubed.utils;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader.ParticleEffectParameter;
+
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -45,7 +48,9 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		setLoader(Animation.class, new AnimationLoader(getFileHandleResolver()));
 		setLoader(TiledMap.class, new TmxMapLoader());
 		setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(getFileHandleResolver()));
-		setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(getFileHandleResolver()));
+
+		setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(new InternalFileHandleResolver()));
+
 		
 		loadImages();
 		loadFonts();
@@ -69,7 +74,9 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 	private void loadFonts() {
 		FreeTypeFontLoaderParameter menuFont = new FreeTypeFontLoaderParameter();
 		menuFont.fontFileName = menuFONT;
-		menuFont.fontParameters.size = 10;
+
+		menuFont.fontParameters.size = 50;
+
 		load(menuFONT, BitmapFont.class, menuFont);
 		
 	}

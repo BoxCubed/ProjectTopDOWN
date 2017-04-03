@@ -62,27 +62,6 @@ public class MenuState implements Screen {
 				
 			}
 		});
-        clickButton1=new MenuButton(startGlyph,font,  Gdx.graphics.getWidth()/4 - startGlyph.width/2,  Gdx.graphics.getHeight()/2 - startGlyph.height/2,
-                new MenuListener() {
-                    @Override
-                    public void rightclicked(MenuButton m) {
-                        System.out.println("RClicked!");
-
-                    }
-                    @Override
-                    public void notChosen(MenuButton m) {
-
-
-                    }
-                    @Override
-                    public void clicked(MenuButton m) {
-                        TopDown.instance.setScreen(loadedInstance);
-                    }
-                    @Override
-                    public void chosen(MenuButton m) {
-
-                    }
-                });
 
         font.setColor(Color.BLUE);
         clickButton.setGlyphNotChosen(new GlyphLayout(font, "DONT TOUCH ME"));
@@ -110,6 +89,7 @@ public class MenuState implements Screen {
     @Override
     public void show() {
     	
+
     }
 
     @Override
@@ -117,26 +97,18 @@ public class MenuState implements Screen {
         //Dont ask me why. It looked cool
         //Lorenz attractor
         clickButton.update(delta);
-        clickButton1.update(delta);
 
-        float dt = 0.01f; //time basically.
-        float dx = (a *(y-x))*dt;
-        float dy = (x *(b-z) - y)*dt;
-        float dz = (x*y - c*z)*dt;
-        x = x + dx;
-        y = y + dy;
-        z = z + dz;
+
+       
         batch.begin();
-        renderer.begin(ShapeRenderer.ShapeType.Line);
         //renderer.translate(20, 12, 2);
-        renderer.circle(x*2 +400, y*2 +400, z);
-        renderer.setColor(Color.RED);
-        renderer.end();
         clickButton.render(batch);
-        clickButton1.render(batch);
-        font.draw(batch, startGlyph, Gdx.graphics.getWidth()/2 - startGlyph.width/2, Gdx.graphics.getHeight()/2 - startGlyph.height/2);
+
         batch.end();
+
     }
+
+    
 
 
     @Override

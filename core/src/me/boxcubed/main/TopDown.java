@@ -26,6 +26,7 @@ public class TopDown extends Game {
 		instance=this;
 		
 		if(debug){
+			assets.finishLoading();
 		setScreen(new GameState());
 		GameState.instance.noTime=true;
 		GameState.instance.noZombie=true;
