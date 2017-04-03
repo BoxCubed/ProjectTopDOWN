@@ -102,13 +102,7 @@ public class MenuState implements State {
         clickButton.update(delta);
 
 
-        float dt = 0.01f; //time basically.
-        float dx = (a *(y-x))*dt;
-        float dy = (x *(b-z) - y)*dt;
-        float dz = (x*y - c*z)*dt;
-        x = x + dx;
-        y = y + dy;
-        z = z + dz;
+       
         batch.begin();
         //renderer.translate(20, 12, 2);
         clickButton.render(batch);
