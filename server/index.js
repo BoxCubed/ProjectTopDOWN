@@ -14,7 +14,7 @@ io.on('connection', function(socket){
     socket.on('disconnect', function(){
         console.log('player disconnected');
         for(var i = 0; i < players.length; i++){
-            if(players[i].id = socket.id){
+            if(players[i].id = socket.id){//
                 console.log('Player removed from array');
                 players.splice(i, 1);
                 socket.broadcast.emit('playerDisconnected', {id: socket.id});
