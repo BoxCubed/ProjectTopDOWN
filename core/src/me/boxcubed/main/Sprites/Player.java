@@ -52,14 +52,14 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public float legOffX=15,legOffY=15;
 	boolean shooting=false;
 	GameState gameState;
-	ClientConnection connection;
+	public ClientConnection connection;
 	public String name=Double.toString(Math.random());
 	//This vector is used for multiplayer positioning so location can be added when world isn't stepping
 	public Vector2 multiPos=new Vector2(100,100);
 	RayCastCallback callback;
 	
 	int counter=0;
-	int state;
+	public int state;
 	public float rotation=0;
 	Sound gunshotSound;
 	/**
@@ -138,8 +138,9 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			GameState.instance.connection=new ClientConnection(this);
 	}
 	float elapsedTime=0;
-	public void setConnection(ClientConnection connection){
+	public void setConnection(ClientConnection connection,int state){
 		this.connection=connection;
+		this.state=state;
 	}
 	@Override
 	public void update(float delta) {
