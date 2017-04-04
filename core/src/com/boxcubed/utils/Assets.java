@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.boxcubed.utils.AnimationLoader.AnimationPrefs;
 
 public class Assets extends com.badlogic.gdx.assets.AssetManager{
@@ -33,6 +34,8 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 			
 			menuFONT="fonts/menuFont.ttf",
 			
+			menuSKIN="button/skins/visUI/uiskin.json",
+			
 			flameEFFECT="maps/effects/flame.p"
 			
 			
@@ -48,7 +51,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(getFileHandleResolver()));
 
 		setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(new InternalFileHandleResolver()));
-
+		
 		
 		loadImages();
 		loadFonts();
@@ -56,11 +59,16 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		loadAtlases();
 		loadAnimations();
 		loadEffects();
+		loadSkins();
 		loadSounds();
 		
 		
 		
 		
+		
+	}
+	private void loadSkins() {
+		load(menuSKIN, Skin.class);
 		
 	}
 	private void loadEffects() {

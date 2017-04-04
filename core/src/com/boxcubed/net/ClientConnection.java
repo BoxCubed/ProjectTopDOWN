@@ -24,25 +24,42 @@ public class ClientConnection extends Thread{
 	public byte w=0,s=0,a=0,d=0,shift=0,space=0;
 	public float rotation=0;
 	Player player,player2; 
-	
+	String ip;
+	public ConnectionState state;
 	Json jsonReader=new Json(OutputType.json);
 	public ClientConnection(Player player){
+		this(player, "localhost:22222");
+		
+		
+	}
+	public ClientConnection(Player player, String ip){
 		this.player=player;
-		player.setConnection(this);
+		state=ConnectionState.CONNECTING;
+		this.ip=ip;
+		
 		//TODO VERY Temporary 
 		//GameState.instance.multiplayerPlayers.add(new Player(player.getBody().getWorld(), 2));
 		//player2=GameState.instance.multiplayerPlayers.get(0);
 		
-		SocketHints hints=new SocketHints();
-		//hints.connectTimeout=1000;
-		hints.socketTimeout=1000;
-		connection=Gdx.net.newClientSocket(Protocol.TCP, "localhost", 22222, hints);
+		
 		start();
+		
 		
 	}
 	@Override
 	public void run() {
+		
 		Gdx.app.log("[Client]", "Client Thread started.");
+		SocketHints hints=new SocketHints();
+		//hints.connectTimeout=1000;
+		hints.socketTimeout=1000;
+		try{
+		connection=Gdx.net.newClientSocket(Protocol.TCP, ip.split(":")[0], Integer.parseInt(ip.split(":")[1]), hints);
+		
+		}catch(Exception e){System.out.println("Failed connecting to server: "+e.getMessage());state=ConnectionState.INVALIDIP; return;}
+		state=ConnectionState.CONNECTED;
+		
+		player.setConnection(this,1);
 		ObjectInputStream inob=null;
 		ObjectOutputStream outob=null;
 		Gson gson;
@@ -152,5 +169,6 @@ public class ClientConnection extends Thread{
 		return new Vector2(cameraPosition.x, cameraPosition.y);
     	
     }
+	public enum ConnectionState{CONNECTED,INVALIDIP,DISCONNECTED,CONNECTING}
 
 }
