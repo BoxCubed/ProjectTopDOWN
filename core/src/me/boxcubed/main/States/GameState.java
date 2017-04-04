@@ -33,7 +33,6 @@ import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
-
 import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import me.boxcubed.main.TopDown;

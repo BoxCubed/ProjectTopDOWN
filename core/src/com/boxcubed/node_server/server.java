@@ -2,10 +2,12 @@ package com.boxcubed.node_server;
 
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.math.Vector2;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import me.boxcubed.main.States.GameState;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,12 +51,26 @@ public class server {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args [0];
+
                 try{
                     String clientID = data.getString("id");
                     GameState.instance.createNewPlayer(clientID);
                     Gdx.app.log("[SocketIO]", "New Player connected");
                 }catch (JSONException e){
                     Gdx.app.log("[SocketIO]", "Error connecting new player: " + e);
+                }
+            }
+        }).on("getPlayers", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONArray objects = (JSONArray) args[0];
+                try {
+                    for (int i = 0; i < objects.length(); i++){
+                        GameState.instance.createNewPlayer(objects.getJSONObject(i).getString("id"));
+                        Gdx.app.log("SocketIO", "Players connected");
+                    }
+                }catch (JSONException e){
+
                 }
             }
         });

@@ -8,6 +8,7 @@ server.listen(8080, function(){
 io.on('connection', function(socket){
     console.log('player connected');
     socket.emit('socketID', {id :socket.id});
+    socket.emit('getPlayers', players);
     socket.broadcast.emit('newPlayer', {id : socket.id});
     //Disconnection event
     socket.on('disconnect', function(){
@@ -20,7 +21,7 @@ io.on('connection', function(socket){
             }
         }
     });
-    players.push(new player(socket.id, 0, 0))
+    players.push(new player(socket.id, 0, 0));
 });
 function player(id, x, y){
     this.id = id;

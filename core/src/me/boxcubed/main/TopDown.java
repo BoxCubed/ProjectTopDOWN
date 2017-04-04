@@ -24,7 +24,7 @@ public class TopDown extends Game {
 	@Override
 	public void create () {
 		instance=this;
-		
+
 		if(debug){
 			assets.finishLoading();
 		setScreen(new GameState());

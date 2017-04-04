@@ -70,10 +70,10 @@ public class MenuState implements Screen {
         clickButton.getRect().height=clickButton.f.height;
         //Forgive me for this code duplication
         //I did not want to do it but i couldn't be bothered making a fucking button
-        clickButton1.setGlyphNotChosen(new GlyphLayout(font, "DONT TOUCH ME"));
+        /*clickButton1.setGlyphNotChosen(new GlyphLayout(font, "DONT TOUCH ME"));
         clickButton1.setCollisionLock(true);
         clickButton1.getRect().width=clickButton.f.width;
-        clickButton1.getRect().height=clickButton.f.height;
+        clickButton1.getRect().height=clickButton.f.height;*/
     }
 
 	public void handleInput() {
