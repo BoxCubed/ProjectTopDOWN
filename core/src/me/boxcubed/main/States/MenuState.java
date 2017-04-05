@@ -124,7 +124,6 @@ public class MenuState implements Screen {
 			}
 			@Override
 			public void clicked(MenuButton m) {
-				loadedInstance.player.state=0;
 				if(loadedInstance.player.connection!=null){
 					loadedInstance.player.connection.stop=true;
 					try {

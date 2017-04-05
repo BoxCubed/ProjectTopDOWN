@@ -28,6 +28,7 @@ import com.boxcubed.net.ClientConnection;
 import com.boxcubed.utils.Assets;
 
 import me.boxcubed.main.TopDown;
+import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
@@ -118,18 +119,19 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			//TODO Replace collision of Bullet to ray cast since collision detection is unrealiable with transformation
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-			if(fixture.getUserData()=="WALL"){
-				//System.out.println("hit wall");
+			if(fixture.getUserData()!="ZOMBIE"){
+				
 				return 0;
 			}
 			
-			if(fixture.getUserData()!="WALL"){
-				System.out.println("hit zombie");
-				//TODO better disposal...who did this?!
-				fixture.getBody().setTransform(new Vector2(-100,-100), 0);
+			else{
+				//better disposal...DONE!
+				GameState.instance.entities.forEach(entity->{
+					if(entity.getFixture().equals(fixture)){
+						entity.setDisposable(true);}
+				});
 				return 0;
 			}
-				return 0;
 			}
 			
 		};
@@ -137,6 +139,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 		if(state==1)
 			GameState.instance.connection=new ClientConnection(this);
+		if(state==0)
+			GameState.instance.playerAI=new SteeringAI(this, getWidth());
 	}
 	float elapsedTime=0;
 	public void setConnection(ClientConnection connection,int state){
