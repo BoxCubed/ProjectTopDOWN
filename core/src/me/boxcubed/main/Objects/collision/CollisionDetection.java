@@ -22,6 +22,7 @@ public CollisionDetection(){
 					if(isOneOf("PLAYER", contact)&&isOneOf("ZOMBIE", contact)){
 					  entity.playAnimation("attack");
 						GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);
+						GameState.instance.player.playAnimation("attacked");
 						continue;
 					
 		}else if(isOneOf("BULLET", contact)){

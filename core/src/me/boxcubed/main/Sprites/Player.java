@@ -55,6 +55,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	GameState gameState;
 	public ClientConnection connection;
 	public String name=Double.toString(Math.random());
+	ParticleEffect bloodEffect=TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class);
 	//This vector is used for multiplayer positioning so location can be added when world isn't stepping
 	public Vector2 multiPos=new Vector2(100,100);
 	RayCastCallback callback;
@@ -77,7 +78,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public Player(World world,int state) {
 		super(tex);
 		this.state=state;
-
 
 
 
@@ -162,7 +162,12 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			
 			if(GameState.instance.effect.isComplete()){GameState.instance.effect.reset();GameState.instance.effect.start();}
 			}else GameState.instance.effect.allowCompletion();
-
+			bloodEffect.update(delta/100);
+			if(hurt){
+				bloodEffect.setPosition(getPos().x, getPos().y);
+				
+				if(bloodEffect.isComplete())hurt=false;
+			}
 			GameState.instance.effect.update(delta/100);
 			
 			elapsedTime+=delta;
@@ -183,6 +188,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		if(isAlive()){
 			if(state==2||state==1)playerBody.setTransform(multiPos, 0);
 			GameState.instance.effect.draw(sb);
+			bloodEffect.draw(sb);
 		if(playerBody.getLinearVelocity().isZero())
 		sb.draw(this, playerBody.getPosition().x-15,playerBody.getPosition().y-15,15,15,40,40,1,1,getRotation());
 		else{ 
@@ -193,6 +199,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 				,15,15,40,40,1,1,getRotation());
 		}
 			crossH.render(sb);
+			
+			
 		}else if(!isDisposed){dispose();isDisposed=true;}
 	//finished bullets		
 	}
@@ -387,9 +395,15 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public double getMaxHealth() {
 		return 50;
 	}
+	boolean hurt=false;
 	@Override
 	public void playAnimation(String key) {
-
+		if(key.equals("attacked")){
+			
+			hurt=true;
+			bloodEffect.reset();
+			bloodEffect.start();
+		}
 	}
 	@Override
 	public EntityType getID() {

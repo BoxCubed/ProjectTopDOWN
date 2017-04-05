@@ -36,7 +36,8 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 			
 			menuSKIN="button/skins/visUI/uiskin.json",
 			
-			flameEFFECT="maps/effects/flame.p"
+			flameEFFECT="maps/effects/flame.p",
+			bloodEFFECT="maps/effects/blood.p"
 			
 			
 			
@@ -75,6 +76,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		ParticleEffectParameter param=new ParticleEffectParameter();
 		//param.imagesDir=Gdx.files.internal("maps/effects");
 		load(flameEFFECT, ParticleEffect.class, param);
+		load(bloodEFFECT,ParticleEffect.class,param);
 		
 	}
 	private void loadFonts() {
