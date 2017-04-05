@@ -9,6 +9,8 @@ import me.boxcubed.main.TopDown;
 public class DesktopLauncher {
 	static boolean debug=false;
 	public static void main (String[] arg) {
+		//Dafuq is dis sheet?
+
 		/*Console console = System.console();
         if(console == null && !GraphicsEnvironment.isHeadless()){
             String filename = DesktopLauncher.class.getProtectionDomain().getCodeSource().getLocation().toString().substring(6);

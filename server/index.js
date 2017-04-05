@@ -6,16 +6,16 @@ server.listen(8080, function(){
     console.log('server started');
 });
 io.on('connection', function(socket){
-    console.log('player connected');
+    console.log('[SocketIO]: Player connected');
     socket.emit('socketID', {id :socket.id});
     socket.emit('getPlayers', players);
     socket.broadcast.emit('newPlayer', {id : socket.id});
     //Disconnection event
     socket.on('disconnect', function(){
-        console.log('player disconnected');
+        console.log('[SocketIO]: Player disconnected');
         for(var i = 0; i < players.length; i++){
             if(players[i].id = socket.id){
-                console.log('Player removed from array');
+                console.log('[SocketIO]: Player removed ----' + socket.id);
                 players.splice(i, 1);
                 socket.broadcast.emit('playerDisconnected', {id: socket.id});
             }

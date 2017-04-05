@@ -70,8 +70,16 @@ public class server {
                         Gdx.app.log("SocketIO", "Players connected");
                     }
                 }catch (JSONException e){
-
+                        Gdx.app.log("[SocketIO]", "Error getting players");
                 }
+            }
+        }).on("playerDisconnected", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                String player_to_remove = data.toString();
+                GameState.instance.removePlayer(player_to_remove);
+
             }
         });
         //TODO "playerDisconnected" event
