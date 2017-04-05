@@ -58,10 +58,10 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		loadFonts();
 		loadMaps();
 		loadAtlases();
-		loadAnimations();
 		loadEffects();
 		loadSkins();
 		loadSounds();
+		loadAnimations();
 		
 		
 		

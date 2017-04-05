@@ -70,7 +70,7 @@ scaling0: 1.0
 scaling1: 0.0
 timelineCount: 2
 timeline0: 0.0
-timeline1: 0.23972602
+timeline1: 0.24657534
 - Velocity - 
 active: true
 lowMin: 0.0
@@ -87,7 +87,7 @@ active: true
 lowMin: 0.0
 lowMax: 0.0
 highMin: -360.0
-highMax: -180.0
+highMax: 360.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -98,20 +98,7 @@ active: false
 - Wind - 
 active: false
 - Gravity - 
-active: true
-lowMin: 0.0
-lowMax: 0.0
-highMin: -2000.0
-highMax: -2000.0
-relative: false
-scalingCount: 3
-scaling0: 0.0
-scaling1: 0.0
-scaling2: 0.8039216
-timelineCount: 3
-timeline0: 0.0
-timeline1: 0.061643835
-timeline2: 0.51369864
+active: false
 - Tint - 
 colorsCount: 3
 colors0: 1.0
