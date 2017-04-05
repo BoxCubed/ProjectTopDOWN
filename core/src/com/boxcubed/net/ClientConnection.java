@@ -24,7 +24,7 @@ public class ClientConnection extends Thread{
 	public byte w=0,s=0,a=0,d=0,shift=0,space=0;
 	public float rotation=0;
 	Player player,player2; 
-	String ip;
+	public String ip;
 	public ConnectionState state;
 	Json jsonReader=new Json(OutputType.json);
 	public ClientConnection(Player player){
@@ -151,6 +151,7 @@ public class ClientConnection extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		connection.dispose();
 	

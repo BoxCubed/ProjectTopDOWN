@@ -24,6 +24,7 @@ import com.boxcubed.utils.ParallaxBackground;
 import com.boxcubed.utils.ParallaxLayer;
 
 import me.boxcubed.main.TopDown;
+import me.boxcubed.main.Sprites.Player;
 
 /**
  * @author BoxCubed
@@ -135,6 +136,7 @@ public class MenuState implements Screen {
 					loadedInstance.player.connection=null;
 					
 					}
+				loadedInstance.player=new Player(loadedInstance.getWorld(), 0);
 				
                 TopDown.instance.setScreen(loadedInstance);
 			}
@@ -177,11 +179,11 @@ public class MenuState implements Screen {
 					@Override
 					public void clicked(MenuButton m) {
 						clicked=true;
-						if(loadedInstance.player.connection!=null&&loadedInstance.player.connection.state.equals(ConnectionState.CONNECTED)){
-							loadedInstance.player.setConnection(connection, 1);
+						/*if(loadedInstance.player.connection!=null&&loadedInstance.player.connection.state.equals(ConnectionState.CONNECTED)&&
+								loadedInst){
 							TopDown.instance.setScreen(loadedInstance);
 							return;
-						}
+						}*/
 						
 						if(connection==null){
 							connection=new ClientConnection(loadedInstance.player,ipField.getText());

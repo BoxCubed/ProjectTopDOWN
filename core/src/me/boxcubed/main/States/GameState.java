@@ -43,7 +43,6 @@ import me.boxcubed.main.Objects.collision.CollisionDetection;
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
-import me.boxcubed.main.Sprites.Crosshair;
 import me.boxcubed.main.Sprites.Pack;
 import me.boxcubed.main.Sprites.Pack.PackType;
 import me.boxcubed.main.Sprites.Player;
@@ -72,7 +71,6 @@ public class GameState implements State, CleanInputProcessor{
 	Box2DDebugRenderer b2dr;
 	Music ambientMusic;
 	Sound zombieGroan;
-	Crosshair crosshair;
 	Hud hud;
 	public ClientConnection connection;
 	Vector2 mouseLoc;
@@ -86,7 +84,6 @@ public class GameState implements State, CleanInputProcessor{
     public RayHandler rayHandler;
     public ConeLight pointLight;
     public ParticleEffect effect;
-    public Crosshair crossH;
     private Assets assets=TopDown.assets;
     public Animation<TextureRegion> anim;
 	@SuppressWarnings("unchecked")
@@ -94,7 +91,6 @@ public class GameState implements State, CleanInputProcessor{
 
         // Instance of the game, for ease of access
 				instance = this;
-				crosshair = new Crosshair(10, player);
 				// Camera and Map
 				
 				tiledMap = assets.get(Assets.MainMAP,TiledMap.class);
@@ -132,7 +128,6 @@ public class GameState implements State, CleanInputProcessor{
 		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
         player = new Player(gameWORLD,0); //1 means multiplayer
-        crossH =new Crosshair(100, player);
 		//connection=new ClientConnection(player);
 		//This is for multiplayer ^^^
 		multiplayerPlayers=new ArrayList<>();
@@ -253,6 +248,15 @@ public class GameState implements State, CleanInputProcessor{
 		}
 		
 		if (input.isKeyJustPressed(Keys.M)) {
+			if(player.connection!=null){
+			player.connection.stop=true;
+			try {
+				player.connection.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+			player.connection=null;
 			TopDown.instance.setScreen(new MenuState(this));
 		}
 		//mouseMoved(Gdx.input.getX(), Gdx.input.getY()); 
