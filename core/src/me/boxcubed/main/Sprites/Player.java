@@ -28,6 +28,7 @@ import com.boxcubed.net.ClientConnection;
 import com.boxcubed.utils.Assets;
 
 import me.boxcubed.main.TopDown;
+import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
@@ -54,6 +55,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	GameState gameState;
 	public ClientConnection connection;
 	public String name=Double.toString(Math.random());
+	ParticleEffect bloodEffect=TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class);
 	//This vector is used for multiplayer positioning so location can be added when world isn't stepping
 	public Vector2 multiPos=new Vector2(100,100);
 	RayCastCallback callback;
@@ -76,7 +78,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public Player(World world,int state) {
 		super(tex);
 		this.state=state;
-
 
 
 
@@ -105,6 +106,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 
         playerShape.dispose();
         setSize(20, 20);
+        crossH=new Crosshair(100, this);
         /*effect=new ParticleEffect();*/
 		/*GameState.instance.effect.load(Gdx.files.internal("assets/maps/effects/flame.p"),Gdx.files.internal( "assets/maps/effects/"));*/
 		GameState.instance.effect.start();
@@ -117,18 +119,19 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			//TODO Replace collision of Bullet to ray cast since collision detection is unrealiable with transformation
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-			if(fixture.getUserData()=="WALL"){
-				//System.out.println("hit wall");
+			if(fixture.getUserData()!="ZOMBIE"){
+				
 				return 0;
 			}
 			
-			if(fixture.getUserData()!="WALL"){
-				System.out.println("hit zombie");
-				//TODO better disposal...who did this?!
-				fixture.getBody().setTransform(new Vector2(-100,-100), 0);
+			else{
+				//better disposal...DONE!
+				GameState.instance.entities.forEach(entity->{
+					if(entity.getFixture().equals(fixture)){
+						entity.setDisposable(true);}
+				});
 				return 0;
 			}
-				return 0;
 			}
 			
 		};
@@ -136,6 +139,8 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 		if(state==1)
 			GameState.instance.connection=new ClientConnection(this);
+		if(state==0)
+			GameState.instance.playerAI=new SteeringAI(this, getWidth());
 	}
 	float elapsedTime=0;
 	public void setConnection(ClientConnection connection,int state){
@@ -147,7 +152,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		if(isAlive()){
 			if(delta<1f)this.delta=1f; else this.delta=delta; 
 			handleInput(); 
-			
 			if(shooting){
 				GameState.instance.effect.setPosition(getX(), getY());
 			for(ParticleEmitter emit:GameState.instance.effect.getEmitters()){
@@ -158,12 +162,17 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			
 			if(GameState.instance.effect.isComplete()){GameState.instance.effect.reset();GameState.instance.effect.start();}
 			}else GameState.instance.effect.allowCompletion();
-
+			bloodEffect.update(delta/100);
+			if(hurt){
+				bloodEffect.setPosition(getPos().x, getPos().y);
+				
+				if(bloodEffect.isComplete())hurt=false;
+			}
 			GameState.instance.effect.update(delta/100);
 			
 			elapsedTime+=delta;
 
-            GameState.instance.crossH.update(delta);
+            crossH.update(delta);
 
 
         }
@@ -179,6 +188,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		if(isAlive()){
 			if(state==2||state==1)playerBody.setTransform(multiPos, 0);
 			GameState.instance.effect.draw(sb);
+			bloodEffect.draw(sb);
 		if(playerBody.getLinearVelocity().isZero())
 		sb.draw(this, playerBody.getPosition().x-15,playerBody.getPosition().y-15,15,15,40,40,1,1,getRotation());
 		else{ 
@@ -187,9 +197,10 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		sb.draw(animation.getKeyFrame(elapsedTime, true), 
 				playerBody.getPosition().x-15,playerBody.getPosition().y-20
 				,15,15,40,40,1,1,getRotation());
-		
 		}
-			GameState.instance.crossH.render(sb);
+			crossH.render(sb);
+			
+			
 		}else if(!isDisposed){dispose();isDisposed=true;}
 	//finished bullets		
 	}
@@ -199,7 +210,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
         	getBody().setTransform(multiPos, 0);
         	setRotation(rotation);
         	return;}
-        	if(state==1){
+        	if(state==1&&connection!=null){
         		processMovment("UNKNOWN");
         		return;
         	}
@@ -213,7 +224,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			if(counter<1){
 				GameState.instance.gameWORLD.rayCast(callback, playerBody.getPosition(), new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y));
 				gunshotSound.play(1.0f);
-				GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,GameState.instance.crossH.offX,GameState.instance.crossH.offY));
+				GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
 		   pressed=false;}
 		   counter++;
 		}
@@ -253,7 +264,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 			method = "go";
 
 		method += key;
-		if(state==1){
+		if(state==1&&connection!=null){
 			/*connection.commandBuffer="mov:"+(byte)(Gdx.input.isKeyPressed(Keys.W)?1:0)+":"
 					+(byte)(Gdx.input.isKeyPressed(Keys.A)?1:0)+":"+(byte)(Gdx.input.isKeyPressed(Keys.S)?1:0)+":"
 							+(byte)(Gdx.input.isKeyPressed(Keys.D)?1:0)+":"+(byte)(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)?1:0)+":"+(byte)(Gdx.input.isKeyPressed(Keys.SPACE)?1:0)+":";*/
@@ -384,9 +395,15 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public double getMaxHealth() {
 		return 50;
 	}
+	boolean hurt=false;
 	@Override
 	public void playAnimation(String key) {
-
+		if(key.equals("attacked")){
+			
+			hurt=true;
+			bloodEffect.reset();
+			bloodEffect.start();
+		}
 	}
 	@Override
 	public EntityType getID() {

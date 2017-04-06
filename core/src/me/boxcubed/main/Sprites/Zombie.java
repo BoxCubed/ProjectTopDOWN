@@ -82,7 +82,6 @@ public class Zombie extends Sprite implements LivingEntity {
 		zombieAnim = TopDown.assets.get(Assets.zombieAttackATLAS+":anim", Animation.class);
 	    zombieWalk = TopDown.assets.get(Assets.zombieWalkATLAS+":anim", Animation.class);
 	        
-	        //put this in your file atlas cos i sure as hell cbs.
 	        
 		callback = new RayCastCallback(){
 
@@ -112,10 +111,10 @@ public class Zombie extends Sprite implements LivingEntity {
 		
 		idle=false;
 		
-		p1 = new Vector2(Body.getPosition().x,Body.getPosition().y);
-		p2=new Vector2(GameState.instance.player.getX(),GameState.instance.player.getY());
+		p1 = getPos();
+		p2=GameState.instance.player.getPos();
 		
-		GameState.instance.gameWORLD.rayCast(callback, p1, p2);
+		GameState.instance.gameWORLD.rayCast(callback, p1,p2);
 		
 		
 		if(GameState.instance.player.isAlive()&&isAlive()){
@@ -172,7 +171,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	
 	@Override
 	public Vector2 getPos() {
-		return null;
+		return Body.getPosition();
 	}
 
 	@Override
