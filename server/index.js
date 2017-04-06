@@ -8,11 +8,13 @@ server.listen(8080, function(){
 io.on('connection', function(socket){
     console.log('player connected');
     socket.emit('socketID', {id :socket.id});
+    socket.emit('getPlayers', players);
     socket.broadcast.emit('newPlayer', {id : socket.id});
     socket.on('playerMoved', function(data){
-        console.log('broooooooooooo');
         data.id = socket.id;
-        socket.emit('playerMoved', data);
+        //console.log(data.id);
+        //socket.emit('playerMoved', data);
+        socket.broadcast.emit('playerMoved', data);
         for(var i = 0; i < players.length; i++){
             if(players[i].id == data.id){
                players[i].x = data.x;

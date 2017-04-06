@@ -80,7 +80,7 @@ public class GameState implements State, CleanInputProcessor{
 	public boolean noZombie = false;
 	public boolean noTime = false;
     com.boxcubed.node_server.server server;
-    private HashMap<String, Player> clients;
+    private HashMap<String, Player> clients  = new HashMap<String, Player>();;
     public RayHandler rayHandler;
     public ConeLight pointLight;
     public ParticleEffect effect;
@@ -115,7 +115,6 @@ public class GameState implements State, CleanInputProcessor{
 				entities = new ArrayList<Entity>();
 				dispose =new ArrayList<Entity>();
 
-        clients = new HashMap<String, Player>();
         //Sorry if anything is fucked up
         rayHandler = new RayHandler(gameWORLD);
         pointLight = new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45);
@@ -149,13 +148,18 @@ public class GameState implements State, CleanInputProcessor{
 
     }
 	public void createNewPlayer(String id){//Used for the server
-        clients.put(id, new Player(gameWORLD, 0));
+        Player player1 = new Player(gameWORLD, 0);
+        clients.put(id, player1);
+        //or it can be clients.put(id, new Player(gameWORLD, 0));
+        //both dont work for some reason
     }
 	public void moveClients(String id, double x, double y){
-        System.out.println(id);
-
+        System.out.println();
+        //This null pointer happens below
         if(clients.get(id) != null){
-            clients.get(id).playerBody.setTransform(new Vector2((float) x, (float) y),clients.get(id).playerBody.getAngle());
+            //clients.get(id).playerBody.setTransform(new Vector2((float) x, (float) y),clients.get(id).playerBody.getAngle());
+            clients.get(id).setPosition((float) x, (float) y );
+            //System.out.println("that totally didnt work");
         }else {
             System.out.println("null. Worst fucking error. Don't even know why");
         }
@@ -309,6 +313,7 @@ public class GameState implements State, CleanInputProcessor{
             entry.getValue().render(batch);
             entry.getValue().renderShapes(sr);
             entry.getValue().update(Gdx.graphics.getDeltaTime());
+            //System.out.println("Entry keyzzzz "+entry.getKey());
         }
 		player.render(batch);
 		multiplayerPlayers.iterator().forEachRemaining(player->player.render(batch));

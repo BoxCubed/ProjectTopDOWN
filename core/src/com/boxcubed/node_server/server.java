@@ -73,7 +73,7 @@ public class server {
                         Gdx.app.log("SocketIO", "Players connected");
                     }
                 }catch (JSONException e){
-                    System.out.println(e);
+                    Gdx.app.log("[SocketIO]", "Error getting players");
                 }
             }
         }).on("playerMoved", new Emitter.Listener() {
