@@ -9,6 +9,17 @@ io.on('connection', function(socket){
     console.log('player connected');
     socket.emit('socketID', {id :socket.id});
     socket.broadcast.emit('newPlayer', {id : socket.id});
+    socket.on('playerMoved', function(data){
+        console.log('broooooooooooo');
+        data.id = socket.id;
+        socket.emit('playerMoved', data);
+        for(var i = 0; i < players.length; i++){
+            if(players[i].id == data.id){
+               players[i].x = data.x;
+               players[i].y = data.y;
+            }
+        }
+    });
     //Disconnection event
     socket.on('disconnect', function(){
         console.log('player disconnected');

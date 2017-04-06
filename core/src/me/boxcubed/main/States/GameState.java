@@ -155,9 +155,15 @@ public class GameState implements State, CleanInputProcessor{
     }
 	public void createNewPlayer(String id){//Used for the server
         clients.put(id, new Player(gameWORLD, 0));
-        /*playerAI = new SteeringAI(clients.get(id),clients.get(id).getWidth());
-        playerLight = new PlayerLight(gameWORLD, clients.get(id).getBody());
-        entities.add(new Pack(PackType.HEALTH, clients.get(id).getPos().x-50, clients.get(id).getPos().y-50, gameWORLD));*/
+    }
+	public void moveClients(String id, double x, double y){
+        System.out.println(id);
+
+        if(clients.get(id) != null){
+            clients.get(id).playerBody.setTransform(new Vector2((float) x, (float) y),clients.get(id).playerBody.getAngle());
+        }else {
+            System.out.println("null. Worst fucking error. Don't even know why");
+        }
 	}
 
 	public void update(float delta) {
@@ -219,6 +225,7 @@ public class GameState implements State, CleanInputProcessor{
 		
 		lerpToPos(MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
 				 MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2));
+        server.updateServer(delta);
 	}
 	@Override
 	public void handleInput() {
