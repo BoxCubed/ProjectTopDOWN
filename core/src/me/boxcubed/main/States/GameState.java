@@ -49,6 +49,12 @@ import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 
 public class GameState implements State, CleanInputProcessor{
+	//		┏━━┓╋╋╋╋╋╋╋╋╋╋╋╋╋┏┓╋╋╋╋╋╋┏┓
+	//		┃┏┓┃╋╋╋╋╋╋╋╋╋╋╋╋╋┃┃╋╋╋╋╋╋┃┃
+	//		┃┗┛┗┳━━┳┓┏┓┏━━┳┓┏┫┗━┳━━┳━┛┃
+	//		┃┏━┓┃┏┓┣╋╋┛┃┏━┫┃┃┃┏┓┃┃━┫┏┓┃
+	//		┃┗━┛┃┗┛┣╋╋┓┃┗━┫┗┛┃┗┛┃┃━┫┗┛┃
+	//		┗━━━┻━━┻┛┗┛┗━━┻━━┻━━┻━━┻━━┛
 	public World gameWORLD;
 	public OrthographicCamera cam;
 	private SpriteBatch batch=new SpriteBatch();
@@ -89,6 +95,7 @@ public class GameState implements State, CleanInputProcessor{
     private Assets assets=TopDown.assets;
     public Animation<TextureRegion> anim;
 	@SuppressWarnings("unchecked")
+
 	public GameState() {
 
         // Instance of the game, for ease of access
@@ -158,6 +165,10 @@ public class GameState implements State, CleanInputProcessor{
         playerLight = new PlayerLight(gameWORLD, clients.get(id).getBody());
         entities.add(new Pack(PackType.HEALTH, clients.get(id).getPos().x-50, clients.get(id).getPos().y-50, gameWORLD));*/
 	}
+	public void removePlayer(String id){
+		clients.remove(id);
+		Gdx.app.log("[TopDown]", "The following player has been removed: " + id);
+	}
 
 	public void update(float delta) {
 
@@ -188,7 +199,7 @@ public class GameState implements State, CleanInputProcessor{
 		player.getRotation(), delta);
 		rayHandler.update();
 		
-		//Update Zombie Spawns
+		//Update Zombie Spawnsw
 		if (!noZombie) {
 			zombieSpawner.update(delta);
 		}
@@ -270,7 +281,7 @@ public class GameState implements State, CleanInputProcessor{
 		b2dr.render(gameWORLD, cam.combined);
 		rayHandler.setCombinedMatrix(cam);
 		//Entity render
-		batch.begin();                                                   //-------------------------------------\\                                               //       SEE THIS RENDER METHOD?       \\
+		batch.begin();                                                   //       SEE THIS RENDER METHOD?       \\
 		entities.forEach(entity -> {
 			if(!entity.isDisposable())
 				entity.render(batch);
