@@ -103,6 +103,7 @@ public class server {
             try{
                 data.put("x", GameState.instance.player.getX());
                 data.put("y", GameState.instance.player.getY());
+                data.put("id", clientID);
                 clientSocket.emit("playerMoved", data);
             }catch (JSONException e){
                 Gdx.app.log("[SocketIO]", "Error sending player data");

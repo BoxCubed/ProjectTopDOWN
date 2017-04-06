@@ -157,9 +157,9 @@ public class GameState implements State, CleanInputProcessor{
         System.out.println();
         //This null pointer happens below
         if(clients.get(id) != null){
-            //clients.get(id).playerBody.setTransform(new Vector2((float) x, (float) y),clients.get(id).playerBody.getAngle());
-            clients.get(id).setPosition((float) x, (float) y );
-            //System.out.println("that totally didnt work");
+            clients.get(id).playerBody.setTransform(new Vector2((float) x, (float) y),clients.get(id).playerBody.getAngle());
+           // clients.get(id).setPosition((float) x, (float) y );
+            System.out.println("that totally didnt work");
         }else {
             System.out.println("null. Worst fucking error. Don't even know why");
         }

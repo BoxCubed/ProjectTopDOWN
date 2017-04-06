@@ -11,10 +11,10 @@ io.on('connection', function(socket){
     socket.emit('getPlayers', players);
     socket.broadcast.emit('newPlayer', {id : socket.id});
     socket.on('playerMoved', function(data){
+        socket.broadcast.emit('playerMoved', data);
         data.id = socket.id;
         //console.log(data.id);
         //socket.emit('playerMoved', data);
-        socket.broadcast.emit('playerMoved', data);
         for(var i = 0; i < players.length; i++){
             if(players[i].id == data.id){
                players[i].x = data.x;
