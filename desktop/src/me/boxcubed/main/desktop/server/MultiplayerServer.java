@@ -48,7 +48,7 @@ public class MultiplayerServer extends Thread {
 	@Override
 	public void run() {
 		//The time between the last request they sent to server
-		long startLoop=0,endLoop=0,delta=1,sleep=10;
+		long startLoop=0,endLoop=0,delta=1,sleep=10,elapsedTime=0;
 		//hints.connectTimeout=1000;
 		ConsoleThread inCon = null;
 		JoinThread joinThread = null;
@@ -148,7 +148,7 @@ public class MultiplayerServer extends Thread {
 				}
 				inCon.lastOutput="";
 				
-				world.step(delta, 10, 5);
+				
 				//log(Long.toString(delta));
 				
 				
@@ -169,8 +169,15 @@ public class MultiplayerServer extends Thread {
 				
 				endLoop=System.currentTimeMillis();	
 				delta=endLoop-startLoop;
-			if(delta<10)	
-			Thread.sleep(sleep-delta);
+				elapsedTime+=delta;
+				
+			
+			if(elapsedTime>10){
+				while(elapsedTime>10){
+				world.step(delta, 10, 5);
+				elapsedTime-=10;}
+			}
+			
 			
 			
 			
