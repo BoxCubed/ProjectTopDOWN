@@ -154,14 +154,12 @@ public class GameState implements State, CleanInputProcessor{
         //both dont work for some reason
     }
 	public void moveClients(String id, double x, double y){
-        System.out.println();
-        //This null pointer happens below
         if(clients.get(id) != null){
             clients.get(id).playerBody.setTransform(new Vector2((float) x, (float) y),clients.get(id).playerBody.getAngle());
            // clients.get(id).setPosition((float) x, (float) y );
             System.out.println("that totally didnt work");
         }else {
-            System.out.println("null. Worst fucking error. Don't even know why");
+            System.out.println("null. Worst fucking error. Don't even know why. KMS");
         }
 	}
 
@@ -248,6 +246,10 @@ public class GameState implements State, CleanInputProcessor{
 		if (input.isKeyPressed(Input.Keys.ESCAPE)) {
 			Gdx.app.exit();
 		}
+        for(HashMap.Entry<String, Player> entry: clients.entrySet()){
+            //entry.getValue().update(Gdx.graphics.getDeltaTime());
+            //System.out.println("Entry keyzzzz "+entry.getKey());
+        }
 		if (input.isKeyJustPressed(Keys.H)) {
 			if (player.isAlive())
 				player.setHealth(player.getMaxHealth());
@@ -312,8 +314,6 @@ public class GameState implements State, CleanInputProcessor{
         for(HashMap.Entry<String, Player> entry: clients.entrySet()){
             entry.getValue().render(batch);
             entry.getValue().renderShapes(sr);
-            entry.getValue().update(Gdx.graphics.getDeltaTime());
-            //System.out.println("Entry keyzzzz "+entry.getKey());
         }
 		player.render(batch);
 		multiplayerPlayers.iterator().forEachRemaining(player->player.render(batch));
@@ -367,7 +367,9 @@ public class GameState implements State, CleanInputProcessor{
 		gameWORLD.dispose();
 		font.dispose();
 		batch.dispose();
-		
+        for(HashMap.Entry<String, Player> entry: clients.entrySet()){
+            entry.getValue().dispose();
+        }
 		//GameState.instance.dispose();
 		//GameState.instance.dispose();
 	}
