@@ -24,7 +24,6 @@ public class Pack extends Sprite implements Entity {
 	FixtureDef fixtureDef;
 	Body body;
 	PolygonShape shape;
-	Animation<TextureRegion> anim;
 	float x,y;
 	
 	public Pack(PackType type, float x, float y,World world){
