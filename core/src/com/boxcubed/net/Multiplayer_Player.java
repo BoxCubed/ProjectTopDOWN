@@ -24,6 +24,7 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 	Fixture fixture;
 	Vector2 position;// Player position
 	Body body;
+	public InputPacket command;
 	public Dispose dispose;
 	World world;
 	double health=getMaxHealth();
@@ -86,6 +87,7 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 	@Override
 	public void update(float delta) {
 		if(isAlive()){
+			lastPos=playerBody.getPosition().cpy();
 			if(delta<1f)this.delta=1f; else this.delta=delta; 
 			handleInput(); 
 			
@@ -112,7 +114,7 @@ public void render(SpriteBatch sb) {
 	
 	public void handleInput() {
 		
-		
+		processCommand(command);
 		boolean pressed = shooting;
 		if (pressed) {
 			
@@ -129,7 +131,7 @@ public void render(SpriteBatch sb) {
 	public float rotation=0;
 	public boolean processCommand(InputPacket key) {
 		//TODO add shooting toggle
-		
+		if(key==null)return false;
 		boolean pressed=false;
 		boolean shift=key.shift!=0;
 		if(key.w!=0){
@@ -170,11 +172,9 @@ public void render(SpriteBatch sb) {
 		return true;
 
 	}
-	
+	Vector2 lastPos=new Vector2();
 	@Override
 	public Vector2 getPos() {
-		//This shitttt pissed me off soo many times. Whenever i wanted the player pos, this stupid shit kept
-		//On giving me the wrong values and for so long i wondered why it never worked properly
 		return playerBody.getPosition();
 	}
 

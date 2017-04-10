@@ -150,6 +150,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	@Override
 	public void update(float delta) {
 		if(isAlive()){
+			lastPos=playerBody.getPosition().cpy();
 			if(delta<1f)this.delta=1f; else this.delta=delta; 
 			handleInput(); 
 			if(shooting){
@@ -289,12 +290,17 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		return false;
 
 	}
-	
+	Vector2 lastPos=new Vector2();
 	@Override
 	public Vector2 getPos() {
 		//This shitttt pissed me off soo many times. Whenever i wanted the player pos, this stupid shit kept
 		//On giving me the wrong values and for so long i wondered why it never worked properly
-		return playerBody.getPosition();
+		
+		
+		//For thread safety
+		if(state==1||state==2)
+		return lastPos;
+		else return playerBody.getPosition();
 	}
 
 	@Override

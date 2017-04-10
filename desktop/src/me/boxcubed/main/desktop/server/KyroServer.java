@@ -3,12 +3,7 @@ package me.boxcubed.main.desktop.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
@@ -18,32 +13,37 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.DataPacket;
 import com.boxcubed.net.InputPacket;
+import com.boxcubed.net.KyroPlayer;
 import com.boxcubed.net.Multiplayer_Player;
-import com.boxcubed.net.SocketPlayer;
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 
-public class MultiplayerServer extends Thread {
-	ServerSocket server;
-	ArrayList<SocketPlayer> players;
+public class KyroServer extends Thread {
+	Server kServer;
+	ArrayList<KyroPlayer> players;
 	public static World world=new World(new Vector2(0, 0), true);
-	public static MultiplayerServer instance;
+	public static KyroServer instance;
 	public boolean stop=false;
 	
 	GsonBuilder gsonBuilder;
 	TiledMap map;
 
 
-	public MultiplayerServer() {
+	public KyroServer() {
 		instance=this;
 		start();
 		
 		
 	}
 	public static void main(String[] args){
-		new MultiplayerServer();
+		new KyroServer();
 	}
 	@Override
 	public void run() {
@@ -51,7 +51,6 @@ public class MultiplayerServer extends Thread {
 		long startLoop=0,endLoop=0,delta=1,sleep=10,elapsedTime=0;
 		//hints.connectTimeout=1000;
 		ConsoleThread inCon = null;
-		JoinThread joinThread = null;
 		Gson gson = null;
 		
 		
@@ -68,10 +67,24 @@ public class MultiplayerServer extends Thread {
 		//TODO make collision class for multiplayer
 				//world.setContactListener(new CollisionDetection());
 				
-		server=new ServerSocket(22222, 2);
+		kServer=new Server();
+		
+		kServer.start();
+		kServer.bind(22222, 22222);
+		
+		
+		Kryo kryo = kServer.getKryo();
+		Log.set(Log.LEVEL_INFO);
+	    kryo.register(InputPacket.class);
+	    kryo.register(DataPacket.class);
+	    kryo.register(KyroPlayer.class);
+	    kryo.register(ArrayList.class);
+	    kryo.register(Vector2.class);
+	    kryo.register(String.class);
+	    
+		addServerListeners();
 		
 		inCon=new ConsoleThread();
-		joinThread=new JoinThread(world);
 		
 		log("\n---------------------------------------------"
 			+ "\n Project Top Down Multiplayer Experience "
@@ -87,36 +100,37 @@ public class MultiplayerServer extends Thread {
 				//Checking connections for both Players
 		
 						
-				
+				if(!players.isEmpty())
 				for(int i=0;i<players.size();i++){
-					SocketPlayer player=players.get(0);
+					KyroPlayer player=players.get(0);
 					try{
-					String playerData="";
-					
+						String packetData="";
+						
+						if(player.player==null)
+							player.player=new Multiplayer_Player(world, p->world.destroyBody(p.getBody()));
+						if(!player.connected)
+							throw new SocketException();
 					DataPacket packet;
 					player.loc=player.player.getPos().cpy();
 					player.rotation=player.player.rotation;
 					players.remove(player);
 					packet=new DataPacket(player.player.getPos(), players,i);
-					
-					playerData=gson.toJson(packet);
+					packetData=gson.toJson(packet);
+					player.connection.sendUDP(packetData);
 					players.add(player);
+					player.player.update(10);
 					//System.out.println(jsonMaker.prettyPrint(playerData));
-					player.out.writeObject(playerData);
-					InputPacket in=(InputPacket)player.in.readObject();
+					/*InputPacket in=(InputPacket)player.in.readObject();
 					player.player.processCommand(in);
-					player.player.update(delta);
+					player.player.update(delta);*/
 					
 					
 					
 					
-					}catch(ClassNotFoundException e){
-						logError("FATAL ERROR: Missing Files: "+e.getMessage());Gdx.app.exit();}
-					catch(SocketException |SocketTimeoutException|NullPointerException e){log("Player Disconnected: "+e.getMessage());
+					}catch(SocketException e){log(player.name+" has disconnected: "+player.reason);
 					player.player.dispose();
-					players.remove(player);}
+					players.remove(player); }
 				}
-					
 				String con=inCon.lastOutput;
 				String[] conSplit=con.split(" ");
 				switch(conSplit[0]){
@@ -167,17 +181,13 @@ public class MultiplayerServer extends Thread {
 				
 				
 				
-				
 				endLoop=System.currentTimeMillis();	
 				delta=endLoop-startLoop;
 				elapsedTime+=delta;
 				
-			
-			if(elapsedTime>10){
 				while(elapsedTime>10){
-				world.step(delta, 10, 5);
-				elapsedTime-=10;}
-			}
+					world.step(delta, 10, 5);
+					elapsedTime-=10;}
 			
 			
 			
@@ -189,9 +199,9 @@ public class MultiplayerServer extends Thread {
 	}
 		log("Server Shutting Down...");
 		try{players.forEach(player->{try {
-			player.out.writeObject("disconnect:Server has Shut Down");
-			player.out.flush();player.socket.close();
-		} catch (IOException e) {
+			player.connection.sendTCP("disconnect:Server has Shut Down");
+			player.connection.close();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}player.player.dispose();});
@@ -199,17 +209,40 @@ public class MultiplayerServer extends Thread {
 		world.dispose();
 			if(inCon!=null)
 			inCon.stop=true;
-			if(server!=null)
-			server.close();
-			if(joinThread!=null)
-			joinThread.stop=true;
+			
 			System.exit(0);
 			
-		}catch(IOException e){logError("Failed in shutting down!:"+e.getMessage());}
-		
+		}catch(Exception e){logError("Failed in shutting down!:"+e.getMessage());}
 	}
 
-
+private void addServerListeners() {
+	kServer.addListener(new Listener(){
+		@Override
+		public void connected(Connection connection) {
+			KyroPlayer player=new KyroPlayer(connection, Double.toString(Math.random()), 
+					 new Vector2());
+			PlayerListener lis=new PlayerListener(player);
+			connection.addListener(lis);
+			
+			
+			
+			players.add(player);
+		}
+		@Override
+		public void disconnected(Connection connection) {
+		}@Override
+		public void idle(Connection connection) {
+			// TODO Auto-generated method stub
+			super.idle(connection);
+		}
+		@Override
+		public void received(Connection connection, Object object) {
+			// TODO Auto-generated method stub
+			super.received(connection, object);
+		}
+	});
+		
+	}
 private void log(String s){
 	/*Gdx.app.setLogLevel(Application.LOG_INFO);
 	Gdx.app.log("[PTDM Server]", s);*/
@@ -246,42 +279,48 @@ class ConsoleThread extends Thread{
 	}
 	}
 }
-class JoinThread extends Thread{
-	boolean stop=false;
-	World wworld;
-	public JoinThread(World world){
-		this.wworld=world;
-		start();
+class PlayerListener extends Listener{
+	boolean gotName=false;
+	KyroPlayer p;
+	public PlayerListener(KyroPlayer p) {
+		this.p=p;
+	}
+	
+	@Override
+	public void received(Connection connection, Object ob) {
+		if(ob instanceof String){
+			if(gotName==false){
+				p.name=(String)ob;
+				gotName=true;
+				log((String)ob+" has joined");
+				
+			}
+		}
+		else if(ob instanceof InputPacket){
+			p.player.command=new InputPacket((InputPacket)ob);
+		}
+			
+		
+			
 	}
 	@Override
-	public void run() {
-		while(!stop){
-			Socket socket=null;
-			try {
-				socket=server.accept();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				if(!stop)
-				e.printStackTrace();
-				continue;
-			}
-			
-			
-				try {
-					players.add(new SocketPlayer(socket,Double.toString(Math.random()), new ObjectOutputStream(socket.getOutputStream()), 
-							new ObjectInputStream(socket.getInputStream()), new Multiplayer_Player(wworld,player->wworld.destroyBody(player.getBody())),new Vector2()));
-					log("Player has joined");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					logError("Player Failed to join: "+e.getMessage());
-				}
-			
-				// TODO Auto-generated catch block
-			
-			
-		}
-		
+	public void connected(Connection connection) {
+		log("Player attempting connection...");
 	}
+	
+	@Override
+	public void disconnected(Connection connection) {
+		if(gotName==false)
+			log("Player failed connection");
+		p.connected=false;
+	}
+	@Override
+	public void idle(Connection connection) {
+		// TODO Auto-generated method stub
+		super.idle(connection);
+	}
+	
+	
 }
 
 
