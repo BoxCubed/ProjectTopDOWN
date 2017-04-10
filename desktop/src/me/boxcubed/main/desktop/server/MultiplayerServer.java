@@ -68,7 +68,7 @@ public class MultiplayerServer extends Thread {
 		//TODO make collision class for multiplayer
 				//world.setContactListener(new CollisionDetection());
 				
-		server=new ServerSocket(22222, 2);
+		server=new ServerSocket(7777, 2);
 		inCon=new ConsoleThread();
 		joinThread=new JoinThread(world);
 		
@@ -111,7 +111,7 @@ public class MultiplayerServer extends Thread {
 					
 					}catch(ClassNotFoundException e){
 						logError("FATAL ERROR: Missing Files: "+e.getMessage());Gdx.app.exit();}
-					catch(SocketException |SocketTimeoutException e){log("Player Disconnected: "+e.getMessage());
+					catch(SocketException |SocketTimeoutException|NullPointerException e){log("Player Disconnected: "+e.getMessage());
 					player.player.dispose();
 					players.remove(player);}
 				}

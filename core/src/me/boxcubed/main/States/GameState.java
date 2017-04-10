@@ -246,17 +246,14 @@ public class GameState implements State, CleanInputProcessor{
 		if (input.isKeyPressed(Input.Keys.ESCAPE)) {
 			Gdx.app.exit();
 		}
-        for(HashMap.Entry<String, Player> entry: clients.entrySet()){
-            //entry.getValue().update(Gdx.graphics.getDeltaTime());
-            //System.out.println("Entry keyzzzz "+entry.getKey());
-        }
+       /* for(HashMap.Entry<String, Player> entry: clients.entrySet()){
+        }*/
 		if (input.isKeyJustPressed(Keys.H)) {
 			if (player.isAlive())
 				player.setHealth(player.getMaxHealth());
 			else{
 				player = new Player(gameWORLD,0);
 				playerAI=new SteeringAI(player, player.getWidth());
-			//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
 			}
 		}
 		
