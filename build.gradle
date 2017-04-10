@@ -48,7 +48,6 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
-        compile 'com.google.code.gson:gson:2.8.0'
     }
 }
 
@@ -86,6 +85,8 @@ project(":core") {
         compile "io.socket:socket.io-client:0.6.1"
         compile "io.socket:engine.io-client:0.6.1"
         compile 'com.google.code.gson:gson:2.8.0'
+        compile group: 'com.esotericsoftware', name: 'kryonet', version: '2.22.0-RC1'
+        
     }
 }
 
