@@ -93,13 +93,13 @@ public class MultiplayerServer extends Thread {
 					try{
 					String playerData="";
 					
-					DataPacket packet;
+					//DataPacket packet;
 					player.loc=player.player.getPos().cpy();
 					player.rotation=player.player.rotation;
 					players.remove(player);
-					packet=new DataPacket(player.player.getPos(), players,i);
+					//packet=new DataPacket(player.player.getPos(), players,i);
 					
-					playerData=gson.toJson(packet);
+					//playerData=gson.toJson(packet);
 					players.add(player);
 					//System.out.println(jsonMaker.prettyPrint(playerData));
 					player.out.writeObject(playerData);

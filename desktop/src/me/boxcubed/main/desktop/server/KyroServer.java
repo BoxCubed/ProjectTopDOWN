@@ -15,6 +15,7 @@ import com.boxcubed.net.DataPacket;
 import com.boxcubed.net.InputPacket;
 import com.boxcubed.net.KyroPlayer;
 import com.boxcubed.net.Multiplayer_Player;
+import com.boxcubed.net.StringPacket;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -48,7 +49,8 @@ public class KyroServer extends Thread {
 	@Override
 	public void run() {
 		//The time between the last request they sent to server
-		long startLoop=0,endLoop=0,delta=1,sleep=10,elapsedTime=0;
+		long startLoop=0,endLoop=0,delta=1,elapsedTime=0;
+		float sleep=0.0001f;
 		//hints.connectTimeout=1000;
 		ConsoleThread inCon = null;
 		Gson gson = null;
@@ -69,18 +71,20 @@ public class KyroServer extends Thread {
 				
 		kServer=new Server();
 		
-		kServer.start();
+		new Thread(()->{while(true)
+			try {
+				kServer.update(0);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}).start();
 		kServer.bind(22222, 22222);
 		
 		
 		Kryo kryo = kServer.getKryo();
 		Log.set(Log.LEVEL_INFO);
 	    kryo.register(InputPacket.class);
-	    kryo.register(DataPacket.class);
-	    kryo.register(KyroPlayer.class);
-	    kryo.register(ArrayList.class);
-	    kryo.register(Vector2.class);
-	    kryo.register(String.class);
+	    kryo.register(StringPacket.class);
 	    
 		addServerListeners();
 		
@@ -96,7 +100,7 @@ public class KyroServer extends Thread {
 		while(!stop){
 			
 			try{
-				startLoop=System.currentTimeMillis();
+				startLoop=System.nanoTime();
 				//Checking connections for both Players
 		
 						
@@ -116,7 +120,7 @@ public class KyroServer extends Thread {
 					players.remove(player);
 					packet=new DataPacket(player.player.getPos(), players,i);
 					packetData=gson.toJson(packet);
-					player.connection.sendUDP(packetData);
+					player.connection.sendUDP(new StringPacket(packetData));
 					players.add(player);
 					player.player.update(10);
 					//System.out.println(jsonMaker.prettyPrint(playerData));
@@ -131,6 +135,10 @@ public class KyroServer extends Thread {
 					player.player.dispose();
 					players.remove(player); }
 				}
+				endLoop=System.nanoTime();	
+				delta=endLoop-startLoop;
+				elapsedTime+=delta;
+				world.step((float)delta/1000000000f, 10, 5);
 				String con=inCon.lastOutput;
 				String[] conSplit=con.split(" ");
 				switch(conSplit[0]){
@@ -152,15 +160,16 @@ public class KyroServer extends Thread {
 				case "":break;
 				case "tps":
 					if(conSplit.length==1)
-					log("delta: "+delta+" sleep: "+sleep);
-					else {sleep=Long.parseLong(conSplit[1]); log("sleep time changed");}
+					log("delta: "+(float)delta/1000000000f+" sleep: "+sleep+" Etime: "+elapsedTime);
+					else {sleep=Float.parseFloat(conSplit[1]); log("sleep time changed");}
 					break;
 				case "list":
-					log("There are "+players.size()+" players online");
+					log("There are "+players.size()+" player/s online");
 					break;
 				default:
 					log("That isn't an option");
 				}
+				if(inCon.lastOutput!="")
 				inCon.lastOutput="";
 				
 				
@@ -181,13 +190,10 @@ public class KyroServer extends Thread {
 				
 				
 				
-				endLoop=System.currentTimeMillis();	
-				delta=endLoop-startLoop;
-				elapsedTime+=delta;
 				
-				while(elapsedTime>10){
-					world.step(delta, 10, 5);
-					elapsedTime-=10;}
+				
+				
+					
 			
 			
 			
@@ -297,7 +303,7 @@ class PlayerListener extends Listener{
 			}
 		}
 		else if(ob instanceof InputPacket){
-			p.player.command=new InputPacket((InputPacket)ob);
+			p.player.command=(InputPacket)ob;
 		}
 			
 		

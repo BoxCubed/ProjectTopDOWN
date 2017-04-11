@@ -1,8 +1,7 @@
 package com.boxcubed.net;
 
+import java.io.IOException;
 import java.net.InetAddress;
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -24,7 +23,7 @@ public class ClientConnection extends Thread{
 	public float rotation=0;
 	Player player,player2; 
 	public String ip;
-	private Object recieved=null;
+	private Object recieved=new StringPacket("");
 	public ConnectionState state;
 	Json jsonReader=new Json(OutputType.json);
 	public ClientConnection(Player player){
@@ -56,14 +55,16 @@ public class ClientConnection extends Thread{
 		try{
 		connection=new Client();
 		
-		connection.start();
+		new Thread(()->{while(true)
+			try {
+				connection.update(0);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}).start();
 		Kryo kryo = connection.getKryo();
 	    kryo.register(InputPacket.class);
-	    kryo.register(DataPacket.class);
-	    kryo.register(KyroPlayer.class);
-	    kryo.register(ArrayList.class);
-	    kryo.register(Vector2.class);
-	    kryo.register(String.class);
+	    kryo.register(StringPacket.class);
 		connection.addListener(new PlayerListener());
 		connection.connect(3000, InetAddress.getByName(ip.split(":")[0]), Integer.parseInt(ip.split(":")[1]), Integer.parseInt(ip.split(":")[1]));
 		
@@ -93,14 +94,14 @@ public class ClientConnection extends Thread{
 				
 				
 				try{
-					if(recieved instanceof String&&((String)recieved).startsWith("disconnect:")){
-						System.out.println((String)recieved); 
+					if(recieved instanceof StringPacket&&((StringPacket)recieved).s.startsWith("disconnect:")){
+						System.out.println(((StringPacket)recieved).s); 
 						state=ConnectionState.DISCONNECTED;
 						//TODO Handle server stopping
 						//TopDown.instance.setScreen(new MenuState(GameState.instance));
 						break;}
-					if(!(recieved instanceof String))throw new NullPointerException();
-					DataPacket packet=gson.fromJson((String)recieved, DataPacket.class);
+					if(!(recieved instanceof StringPacket))throw new NullPointerException();
+					DataPacket packet=gson.fromJson(((StringPacket)recieved).s, DataPacket.class);
 					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
 					if(GameState.instance.multiplayerPlayers.size()>packet.players.size())
 					
