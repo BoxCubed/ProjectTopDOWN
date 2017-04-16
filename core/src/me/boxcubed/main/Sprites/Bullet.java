@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.Assets;
 
@@ -27,7 +28,7 @@ public class Bullet extends Sprite implements Entity{
 	FixtureDef fixtureDefBullet;
 	Body bulletBody;
 	Fixture fixture;
-	
+	RayCastCallback callback;
 	TextureRegion muzzleFlash;
 	
 	float rotation;
@@ -65,6 +66,15 @@ public class Bullet extends Sprite implements Entity{
 		
 		muzzleFlash = new TextureRegion();
 		muzzleFlash.setRegion(TopDown.assets.get(Assets.mflashIMAGE, Texture.class));
+		//Begin init of callback for bullet
+		callback=new RayCastCallback() {
+			
+			@Override
+			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		};
     }
 	 @Override
 	    public void update(float delta) {

@@ -12,7 +12,7 @@ import me.boxcubed.main.Sprites.Zombie;
 import me.boxcubed.main.States.GameState;
 
 /**
- * :)
+ * Spawns any entity at an interval
  * @author ryan9
  *
  */
@@ -27,7 +27,10 @@ public class Spawner {
 	private float elapsedTime=0;
 	private float delay;
 	private int limit;
-	private int amount;
+	/**
+	 * The total amount of entities this spawner spawned
+	 */
+	public int amount;
 	public Spawner(EntityType entity, Vector2 pos,float delay,int limit){
 		this.pos=pos;
 		this.entity=entity;
@@ -38,16 +41,15 @@ public class Spawner {
 	 * 
 	 * @param delta in same units as delay given
 	 */
-	public void update(float delta){
+	public void update(float delta,int currentAmount){
 		if(PlayerLight.amlight>0.3f)return;
-		if(amount<limit){  
+		if(currentAmount<limit){  
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){
 			amount++;
 			pos.x=random.nextInt(1570);
 			pos.y=random.nextInt(1570);
 			LivingEntity spawnEntity=null;
-			        //ryan if you get rid of the limiter again I will murder you 
 				if(entity.equals(EntityType.ZOMBIE))
 					
 					spawnEntity=new Zombie(GameState.instance.getWorld(),  GameState.instance.playerAI);
@@ -66,4 +68,4 @@ public class Spawner {
 				}}
 		}
 	
-}// lol noob
+}

@@ -26,6 +26,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.ClientConnection;
 import com.boxcubed.utils.Assets;
+import com.boxcubed.utils.BoxoUtil;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.SteeringAI;
@@ -60,7 +61,6 @@ public class Player extends Sprite implements LivingEntity,Movable {
 	public Vector2 multiPos=new Vector2(100,100);
 	RayCastCallback callback;
 	
-	int counter=0;
 	public int state;
 	public float rotation=0;
 	Sound gunshotSound;
@@ -116,7 +116,7 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		legOffX=10;
 		
 		callback = new RayCastCallback(){
-			//TODO Replace collision of Bullet to ray cast since collision detection is unrealiable with transformation
+			//TODO Replace collision of Bullet to ray cast since collision detection is unreliable with transformation
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 			if(fixture.getUserData()!="ZOMBIE"){
@@ -219,17 +219,14 @@ public class Player extends Sprite implements LivingEntity,Movable {
 		
 		boolean keyPressed=false;
 		
-		boolean pressed = input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE);
+		boolean pressed = BoxoUtil.isButtonJustPressed(Buttons.LEFT) || input.isKeyJustPressed(Keys.SPACE);
 		if (pressed) {
 			//processMovment("SPACE");
-			if(counter<1){
+			
 				GameState.instance.gameWORLD.rayCast(callback, playerBody.getPosition(), new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y));
 				gunshotSound.play(1.0f);
 				GameState.instance.entities.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y,crossH.offX,crossH.offY));
-		   pressed=false;}
-		   counter++;
 		}
-		else{counter=0;}
         
         
         

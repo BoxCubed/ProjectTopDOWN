@@ -14,7 +14,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-
+/**
+ * Not property of Boxcubed
+ * @author Johannes Borchardt
+ */
 public class GIFDecoder {
     /**
      * File read status: No errors.

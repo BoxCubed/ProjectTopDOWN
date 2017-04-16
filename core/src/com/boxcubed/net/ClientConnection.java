@@ -2,12 +2,12 @@ package com.boxcubed.net;
 
 import java.io.IOException;
 import java.net.InetAddress;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+import com.boxcubed.utils.BoxoUtil;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -47,7 +47,7 @@ public class ClientConnection extends Thread{
 	}
 	@Override
 	public void run() {
-		
+	
 		Gdx.app.log("[Client]", "Client Thread started.");
 		SocketHints hints=new SocketHints();
 		//hints.connectTimeout=1000;
@@ -102,7 +102,7 @@ public class ClientConnection extends Thread{
 						break;}
 					if(!(recieved instanceof StringPacket))throw new NullPointerException();
 					DataPacket packet=gson.fromJson(((StringPacket)recieved).s, DataPacket.class);
-					player.multiPos=universalLerpToPos(player.getPos(), packet.pos);
+					player.multiPos=BoxoUtil.universalLerpToPos(player.getPos(), packet.pos);
 					if(GameState.instance.multiplayerPlayers.size()>packet.players.size())
 					
 						GameState.instance.playerRemQueue++;
@@ -153,20 +153,7 @@ public class ClientConnection extends Thread{
 		
 	
 	}
-	private Vector2 universalLerpToPos(Vector2 start,Vector2 finish){
-    	final float speed=0.5f,ispeed=1.0f-speed;
-		Vector3 target = new Vector3(
-				(float)finish.x, 
-				(float)finish.y, 
-				0);
-		Vector3 cameraPosition = new Vector3(start, 0);
-		cameraPosition.scl(ispeed);
-		target.scl(speed);
-		cameraPosition.add(target);
-
-		return new Vector2(cameraPosition.x, cameraPosition.y);
-    	
-    }
+	
 	public enum ConnectionState{CONNECTED,INVALIDIP,DISCONNECTED,CONNECTING}
 class PlayerListener extends Listener{
 @Override

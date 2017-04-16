@@ -30,6 +30,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.ClientConnection;
 import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
+import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
@@ -49,6 +50,7 @@ import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.Sprites.PlayerLight;
 
 public class GameState implements State, CleanInputProcessor{
+	//TODO get rid of that random box that spawns next to the player
 	public World gameWORLD;
 	public OrthographicCamera cam;
 	private SpriteBatch batch=new SpriteBatch();
@@ -79,7 +81,7 @@ public class GameState implements State, CleanInputProcessor{
 	float groanTimer=0;
 	public boolean noZombie = false;
 	public boolean noTime = false;
-    com.boxcubed.node_server.server server;
+    server server;
     private HashMap<String, Player> clients  = new HashMap<String, Player>();;
     public RayHandler rayHandler;
     public ConeLight pointLight;
@@ -148,18 +150,17 @@ public class GameState implements State, CleanInputProcessor{
 
     }
 	public void createNewPlayer(String id){//Used for the server
-        Player player1 = new Player(gameWORLD, 0);
+        Player player1 = new Player(gameWORLD, 2);
         clients.put(id, player1);
         //or it can be clients.put(id, new Player(gameWORLD, 0));
         //both dont work for some reason
     }
-	public void moveClients(String id, double x, double y){
+	public void moveClients(String id, float x, float y){
         if(clients.get(id) != null){
-            clients.get(id).playerBody.setTransform(new Vector2((float) x, (float) y),clients.get(id).playerBody.getAngle());
-           // clients.get(id).setPosition((float) x, (float) y );
-            System.out.println("that totally didnt work");
+            clients.get(id).multiPos=new Vector2(x, y);
+            clients.get(id).setPosition( x,  y );
         }else {
-            System.out.println("null. Worst fucking error. Don't even know why. KMS");
+            System.out.println("null. Worst error. Now to stop complaining and debug");
         }
 	}
 
@@ -173,9 +174,10 @@ public class GameState implements State, CleanInputProcessor{
 
 		//Updating player
 		
-		player.setPosition(player.playerBody.getPosition().x, player.playerBody.getPosition().y);
+		
 		player.update(delta);
 		playerAI.update(delta);
+		//TODO do this a better way
 		if(playerAddQueue!=0){
 			
 				multiplayerPlayers.add(new Player(gameWORLD, 2));playerAddQueue=0;}
@@ -186,15 +188,16 @@ public class GameState implements State, CleanInputProcessor{
 		playerRemQueue=0;}
 
 		multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
+		clients.forEach((id,player)->player.update(delta));
 
-		//Updating Light
+		//Updating Light TODO dont make this only for player aka make a Flashlight class and and handling in gamestate
 		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,
 		player.getRotation(), delta);
 		rayHandler.update();
 		
 		//Update Zombie Spawns
 		if (!noZombie) {
-			zombieSpawner.update(delta);
+			zombieSpawner.update(delta,entities.size());
 		}
 
 		// Checking the entity list for disposables and updating
@@ -217,11 +220,10 @@ public class GameState implements State, CleanInputProcessor{
 			zombieGroan.stop();
 		}
 
-		//List updating
 		
 		
-		lerpToPos(MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
-				 MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2));
+		BoxoUtil.lerpToPos(new Vector2(MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
+				 MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2)),cam);
         server.updateServer(delta);
 	}
 	@Override
@@ -299,7 +301,7 @@ public class GameState implements State, CleanInputProcessor{
 
 		//Shape rendering
 		//TODO get a texture for all shapes
-		sr.setProjectionMatrix(camCombined());
+		sr.setProjectionMatrix(cam.combined);
 		sr.setAutoShapeType(true);
 		sr.begin();
 		entities.forEach(entity->entity.renderShapes(sr));
@@ -348,9 +350,6 @@ public class GameState implements State, CleanInputProcessor{
 		return gameWORLD;
 	}
 
-	public Matrix4 camCombined() {
-		return cam.combined;
-	}
 
 	@Override
 	public void dispose() {
@@ -388,28 +387,17 @@ public class GameState implements State, CleanInputProcessor{
 
 	@Override
 	public void hide() {
-		// dispose();
+		BoxoUtil.remInputProcessor(this);
 	}
+	
 
-    private void lerpToPos(float x,float y){
-		final float speed=0.1f,ispeed=1.0f-speed;
-		Vector3 target = new Vector3(
-				(float)x, 
-				(float)y, 
-				0);
-		Vector3 cameraPosition = cam.position;
-		cameraPosition.scl(ispeed);
-		target.scl(speed);
-		cameraPosition.add(target);
-
-		cam.position.set(cameraPosition);
-	}
+   
    
     @Override
 	public void show() {
     	cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
-		Gdx.input.setInputProcessor(this);
+		BoxoUtil.addInputProcessor(this);
 
 	}
 	

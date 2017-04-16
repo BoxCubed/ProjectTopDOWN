@@ -1,9 +1,8 @@
 package me.boxcubed.main;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.boxcubed.utils.Assets;
+import com.boxcubed.utils.BoxoUtil;
 
 import me.boxcubed.main.States.GameState;
 import me.boxcubed.main.States.SplashState;
@@ -19,12 +18,13 @@ public class TopDown extends Game {
 		
 		
 		
+		
 	}
 
 	@Override
 	public void create () {
 		instance=this;
-		
+		BoxoUtil.reset();
 		if(debug){
 			assets.finishLoading();
 		setScreen(new GameState());
@@ -38,10 +38,12 @@ public class TopDown extends Game {
 
 	@Override
 	public void render () {
-        //Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		BoxoUtil.clearScreen();
+		
 		super.render();
+		BoxoUtil.update();
 			}
+	
 	
 	@Override
 	public void dispose () {

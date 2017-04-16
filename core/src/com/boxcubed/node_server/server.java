@@ -1,22 +1,22 @@
 package com.boxcubed.node_server;
 
-import com.badlogic.gdx.Gdx;
-
-import com.badlogic.gdx.math.Vector2;
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-import me.boxcubed.main.States.GameState;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import me.boxcubed.main.States.GameState;
+
 /**
  * Created by Tej Sidhu on 1/04/2017.
  */
-//---------------------------------------------------------------------------------------------//
-//------------------------------------| Networking |-------------------------------------------//
-//---------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------\\
+//------------------------------------| Networking |-------------------------------------------\\
+//---------------------------------------------------------------------------------------------\\
 public class server {
     private Socket clientSocket;
     public String clientID;
@@ -28,20 +28,16 @@ public class server {
         try {
             clientSocket = IO.socket("http://localhost:8080");
             clientSocket.connect();
-            Gdx.app.log("[SocketIO]", "Connection to socket established");
+            Gdx.app.log("[SocketIO]", "Initalised the socket");
         }catch (Exception e){
-            Gdx.app.log("[SocketIO]", "Error connecting: "+ e);
+            Gdx.app.log("[SocketIO]", "Error connecting: "+ e.getMessage());
         }
     }
     public void configureSocketEvents(){
-        clientSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                Gdx.app.log("[SocketIO]", "Connection success");
-            }
-        }).on("socketID", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
+        clientSocket.on(Socket.EVENT_CONNECT,args->
+           Gdx.app.log("[SocketIO]", "Connection success")
+            ).on("socketID", args-> 
+           {
                 JSONObject data = (JSONObject) args [0];
                 try{
                     clientID = data.getString("id");
@@ -50,9 +46,8 @@ public class server {
                     Gdx.app.log("[SocketIO]", "Error getting client ID " + e );
                 }
             }
-        }).on("newPlayer", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
+        ).on("newPlayer", args->
+           {
                 JSONObject data = (JSONObject) args [0];
 
                 try{
@@ -63,9 +58,8 @@ public class server {
                     Gdx.app.log("[SocketIO]", "Error connecting new player: " + e);
                 }
             }
-        }).on("getPlayers", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
+        ).on("getPlayers", args->{
+           
                 JSONArray objects = (JSONArray) args[0];
                 try {
                     for (int i = 0; i < objects.length(); i++){
@@ -76,21 +70,20 @@ public class server {
                     Gdx.app.log("[SocketIO]", "Error getting players");
                 }
             }
-        }).on("playerMoved", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
+        ).on("playerMoved", args->{
+           
                 JSONObject data = (JSONObject) args[0];
                 System.out.println("playerMoved EVENT");
                 try {
                     String id = data.getString("id");
                     double x= data.getDouble("x");
                     double y = data.getDouble("y");
-                    GameState.instance.moveClients(id, x, y);
+                    GameState.instance.moveClients(id, (float)x,(float) y);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        });
+        );
         //TODO "playerDisconnected" event
     }
     Vector2 previous_pos = new Vector2(GameState.instance.player.getX(),GameState.instance.player.getY());

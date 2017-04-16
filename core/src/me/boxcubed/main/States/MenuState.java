@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -18,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.boxcubed.net.ClientConnection;
 import com.boxcubed.net.ClientConnection.ConnectionState;
 import com.boxcubed.utils.Assets;
+import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.MenuButton;
 import com.boxcubed.utils.MenuListener;
 import com.boxcubed.utils.ParallaxBackground;
@@ -35,10 +34,11 @@ public class MenuState implements Screen {
     MenuButton multiplayerButton;
     TextField ipField;
     //OLD STUFF v
-    TextureAtlas start=TopDown.assets.get(Assets.startATLAS, TextureAtlas.class);;
-    Sprite hover=start.createSprite("hover"),click=start.createSprite("click"),normal=start.createSprite("normal");
+    /*TextureAtlas start=TopDown.assets.get(Assets.startATLAS, TextureAtlas.class);;
+    Sprite hover=start.createSprite("hover"),click=start.createSprite("click"),normal=start.createSprite("normal");*/
+  //OLD  STUFF ^
     SpriteBatch batch=new SpriteBatch();
-    //OLD  STUFF ^
+    
     BitmapFont font;
     GlyphLayout startGlyph;
     ParallaxBackground bg;
@@ -56,7 +56,7 @@ public class MenuState implements Screen {
         //Stage setup
         stage=new Stage();
         ipField=new TextField("localhost:22222", TopDown.assets.get(Assets.menuSKIN, Skin.class));
-        Gdx.input.setInputProcessor(stage);
+        BoxoUtil.addInputProcessor(stage);
         ipField.setPosition(Gdx.graphics.getWidth()/2-150,Gdx.graphics.getHeight()/2-150);
         ipField.setSize(300, 30);
         stage.addActor(ipField);
@@ -232,12 +232,11 @@ public class MenuState implements Screen {
 
     @Override
     public void hide() {
-    	
+    	BoxoUtil.remInputProcessor(stage);
     }
 
     @Override
     public void dispose() {
-        this.dispose();
         batch.dispose();
     }
   
