@@ -186,7 +186,7 @@ public class GameState implements State, CleanInputProcessor{
 		clients.forEach((id,player)->player.update(delta));
 
 		//Updating Light TODO dont make this only for player aka make a Flashlight class and and handling in gamestate
-		playerLight.updateLightPos(player.playerBody.getPosition().x, player.playerBody.getPosition().y,
+		playerLight.updateLightPos(player.getPos().x, player.getPos().y,
 		player.getRotation(), delta);
 		rayHandler.update();
 		

@@ -174,10 +174,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		return Body.getPosition();
 	}
 
-	@Override
-	public void setPos(Vector2 pos) {
-
-	}
+	
 
 	
 	@Override

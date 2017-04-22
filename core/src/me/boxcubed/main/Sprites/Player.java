@@ -22,7 +22,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.ClientConnection;
 import com.boxcubed.utils.Assets;
@@ -31,6 +30,7 @@ import com.boxcubed.utils.BoxoUtil;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.interfaces.EntityType;
+import me.boxcubed.main.Objects.interfaces.GunType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
 import me.boxcubed.main.States.GameState;
@@ -38,14 +38,14 @@ import me.boxcubed.main.States.GameState;
 public class Player extends Sprite implements LivingEntity, Movable {
 	public float delta;
 	private static Texture tex = TopDown.assets.get(Assets.playerIMAGE, Texture.class);
+	//Body stuff
 	public BodyDef playerDef;
 	FixtureDef fixtureDefPlayer;
 	PolygonShape playerShape;
-	public Body playerBody;
+	Body playerBody;
 	Fixture fixture;
-	Vector2 position;// Player position
-	PlayerLight playerLight;
-	Body body;
+	//end body stuff
+	
 	ParticleEffect effect;
 	public Crosshair crossH;
 	double health = getMaxHealth();
@@ -60,11 +60,12 @@ public class Player extends Sprite implements LivingEntity, Movable {
 	// This vector is used for multiplayer positioning so location can be added
 	// when world isn't stepping
 	public Vector2 multiPos = new Vector2(100, 100);
-	RayCastCallback callback;
 
 	public int state;
 	public float rotation = 0;
+	
 	Sound gunshotSound;
+	GunType gun;
 
 	/**
 	 * Create a new Player
@@ -84,7 +85,7 @@ public class Player extends Sprite implements LivingEntity, Movable {
 	public Player(World world, int state) {
 		super(tex);
 		this.state = state;
-
+		
 		/*
 		 * atlas=new TextureAtlas(Gdx.files.internal(
 		 * "assets/spritesheets/playersheet.atlas")); atlas2=new
@@ -108,7 +109,6 @@ public class Player extends Sprite implements LivingEntity, Movable {
 		playerBody = world.createBody(playerDef);
 		fixture = playerBody.createFixture(fixtureDefPlayer);
 		fixture.setUserData("PLAYER");
-		playerLight = new PlayerLight(world, playerBody);
 
 		playerBody.setTransform(340, 300, 0);
 
@@ -127,28 +127,9 @@ public class Player extends Sprite implements LivingEntity, Movable {
 		legOffY = 10;
 		legOffX = 10;
 
-		callback = new RayCastCallback() {
-			// TODO Replace collision of Bullet to ray cast since collision
-			// detection is unreliable with transformation
-			@Override
-			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-				if (fixture.getUserData() != "ZOMBIE") {
-
-					return 0;
-				}
-
-				else {
-					// better disposal...DONE!
-					GameState.instance.entities.forEach(entity -> {
-						if (entity.getFixture().equals(fixture)) {
-							entity.setDisposable(true);
-						}
-					});
-					return 0;
-				}
-			}
-
-		};
+		gun=GunType.PISTOL;
+		
+		
 
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 		if (state == 1)
@@ -207,7 +188,6 @@ public class Player extends Sprite implements LivingEntity, Movable {
 
 	}
 
-	Vector2 diePos;
 	boolean isDisposed = false;
 
 	public void render(SpriteBatch sb) {
@@ -248,15 +228,16 @@ public class Player extends Sprite implements LivingEntity, Movable {
 
 		boolean keyPressed = false;
 
-		boolean pressed = BoxoUtil.isButtonJustPressed(Buttons.LEFT) || input.isKeyJustPressed(Keys.SPACE);
-		if (pressed) {
-			// processMovment("SPACE");
-
-			/*GameState.instance.gameWORLD.rayCast(callback, playerBody.getPosition(),
-					new Vector2(GameState.instance.getMouseCords().x, GameState.instance.getMouseCords().y));*/
+		if (gun.equals(GunType.PISTOL)) {
+			if(BoxoUtil.isButtonJustPressed(Buttons.LEFT) || input.isKeyJustPressed(Keys.SPACE)){
 			gunshotSound.play(1.0f);
 			GameState.instance.entities
 					.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y, crossH.offX, crossH.offY));
+			}
+		}
+		
+		if(gun.equals(GunType.AK47)){
+			//TODO ak47
 		}
 
 		if (input.isKeyPressed(Keys.W) || input.isKeyPressed(Keys.UP)) {
@@ -293,16 +274,8 @@ public class Player extends Sprite implements LivingEntity, Movable {
 			method = "go";
 
 		method += key;
-		if (state == 1 && connection != null) {
-			/*
-			 * connection.commandBuffer="mov:"+(byte)(Gdx.input.isKeyPressed(
-			 * Keys.W)?1:0)+":"
-			 * +(byte)(Gdx.input.isKeyPressed(Keys.A)?1:0)+":"+(byte)(Gdx.input.
-			 * isKeyPressed(Keys.S)?1:0)+":"
-			 * +(byte)(Gdx.input.isKeyPressed(Keys.D)?1:0)+":"+(byte)(Gdx.input.
-			 * isKeyPressed(Keys.SHIFT_LEFT)?1:0)+":"+(byte)(Gdx.input.
-			 * isKeyPressed(Keys.SPACE)?1:0)+":";
-			 */
+		if (key=="UNKNOWN") {
+			
 			connection.w = (byte) (Gdx.input.isKeyPressed(Keys.W) ? 1 : 0);
 			connection.a = (byte) (Gdx.input.isKeyPressed(Keys.A) ? 1 : 0);
 			connection.s = (byte) (Gdx.input.isKeyPressed(Keys.S) ? 1 : 0);
@@ -343,11 +316,7 @@ public class Player extends Sprite implements LivingEntity, Movable {
 			return playerBody.getPosition();
 	}
 
-	@Override
-	public void setPos(Vector2 pos) {
-
-	}
-
+	
 	@Override
 	public Sprite getSprite() {
 		return this;

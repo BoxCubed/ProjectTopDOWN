@@ -93,11 +93,7 @@ public class Pack extends Sprite implements Entity {
 		return EntityType.PACK;
 	}
 
-	@Override
-	public void setPos(Vector2 pos) {
-		body.setTransform(pos, pos.angle());
-		
-	}
+	
 
 	@Override
 	public Sprite getSprite() {

@@ -178,11 +178,7 @@ public void render(SpriteBatch sb) {
 		return playerBody.getPosition();
 	}
 
-	@Override
-	public void setPos(Vector2 pos) {
-
-	}
-
+	
 	@Override
 	public Sprite getSprite() {
 		//Server side no sprite
