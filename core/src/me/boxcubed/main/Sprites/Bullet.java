@@ -138,10 +138,7 @@ public class Bullet extends Sprite implements Entity{
 		return bulletBody;
 	}
 
-	@Override
-	public void setPos(Vector2 pos) {
-		
-	}
+	
 
 	@Override
 	public Sprite getSprite() {
@@ -186,8 +183,6 @@ public class Bullet extends Sprite implements Entity{
 		this.disposable=disposable;
 	}
 	
-	enum BulletType{
-		PISTOL,AK47
-	}
+	
 
 }

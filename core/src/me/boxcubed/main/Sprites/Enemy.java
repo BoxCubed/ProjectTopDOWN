@@ -20,11 +20,7 @@ public class Enemy implements Entity {
         return null;
     }
 
-    @Override
-    public void setPos(Vector2 pos) {
-
-    }
-
+   
   
 
     @Override
