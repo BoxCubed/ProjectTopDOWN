@@ -64,16 +64,30 @@ public class Bullet extends Sprite implements Entity{
 		fixture=bulletBody.createFixture(fixtureDefBullet);
 		fixture.setUserData("BULLET");
 		
-		muzzleFlash = new TextureRegion();
-		muzzleFlash.setRegion(TopDown.assets.get(Assets.mflashIMAGE, Texture.class));
+		muzzleFlash = new TextureRegion(TopDown.assets.get(Assets.mflashIMAGE, Texture.class));
 		//Begin init of callback for bullet
 		callback=new RayCastCallback() {
 			
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-				// TODO Auto-generated method stub
-				return 0;
+				if (fixture.getUserData() == "WALL") {
+					setDisposable(true);
+					return 0;
+				}
+
+				else if(fixture.getUserData() == "ZOMBIE"){
+					// better disposal...DONE!
+					GameState.instance.entities.forEach(entity -> {
+						if (entity.getFixture().equals(fixture)) {
+							entity.setDisposable(true);
+						}
+					});
+					setDisposable(true);
+					return 0;
+				}
+				return 1;
 			}
+			
 		};
     }
 	 @Override
@@ -92,6 +106,8 @@ public class Bullet extends Sprite implements Entity{
 		 }else{return;}
 		 if(getBody().getPosition().x<0||getBody().getPosition().y<0||getBody().getPosition().x>1576||getBody().getPosition().y>1576)
 			 setDisposable(true);
+		 GameState.instance.gameWORLD.rayCast(callback, GameState.instance.player.getBody().getPosition(),
+					bulletBody.getPosition());
 	 }
 	 public void renderShapes(ShapeRenderer sr) {
 	
@@ -170,5 +186,8 @@ public class Bullet extends Sprite implements Entity{
 		this.disposable=disposable;
 	}
 	
+	enum BulletType{
+		PISTOL,AK47
+	}
 
 }

@@ -25,16 +25,15 @@ public CollisionDetection(){
 						GameState.instance.player.playAnimation("attacked");
 						continue;
 					
-		}else if(isOneOf("BULLET", contact)){
+		}/*else if(isOneOf("BULLET", contact)){
 			if(isOneOf("ZOMBIE", contact))
 				entity.setDisposable(true);
 			if(entity.getFixture().getUserData().equals("BULLET"))
 				entity.setDisposable(true);
 			continue;
 			
-		}			
+		}*/			
 		if(isOneInstanceOf(PackType.class, contact)&&isOneOf("PLAYER", contact)){
-		     System.out.println("Touch Pack!");
 		     Player p=GameState.instance.player;
 		     if(p.getHealth()>=p.getMaxHealth()) continue;
 		     entity.setDisposable(true);

@@ -1,6 +1,5 @@
 package me.boxcubed.main.States;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -57,7 +55,6 @@ public class GameState implements State, CleanInputProcessor{
 	public List<Entity> entities;
 	public List<Entity>dispose;
 	public Player player;
-	public boolean debug=true;
 	public static GameState instance;
 	private ShapeRenderer sr;
 	public static final int PPM = 200;
@@ -129,8 +126,6 @@ public class GameState implements State, CleanInputProcessor{
 		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
         player = new Player(gameWORLD,0); //1 means multiplayer
-		//connection=new ClientConnection(player);
-		//This is for multiplayer ^^^
 		multiplayerPlayers=new ArrayList<>();
 		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 		//Ryan better rename this to Zombie AI
@@ -265,16 +260,13 @@ public class GameState implements State, CleanInputProcessor{
 			try {
 				player.connection.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}}
 			player.connection=null;
 			TopDown.instance.setScreen(new MenuState(this));
 		}
-		//mouseMoved(Gdx.input.getX(), Gdx.input.getY()); 
 	}
 
-	DecimalFormat format = new DecimalFormat("#.##");
 
 	@Override
 	public void render() {
