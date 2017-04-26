@@ -1,14 +1,11 @@
-package com.boxcubed.net;
+package com.boxcubed.net.packets;
 
-import java.io.Serializable;
-
-public class InputPacket implements Serializable {
+public class InputPacket {
 	/**
 	 * 
 	 */
-	private static final transient long serialVersionUID = 2440884723277785726L;
-	byte w,a,s,d,space,shift;
-	float rotation;
+	public byte w,a,s,d,space,shift;
+	public float rotation;
 	public InputPacket(byte w, byte a, byte s, byte d, byte space, byte shift, float rotation) {
 		this.w = w;
 		this.a = a;
@@ -29,10 +26,10 @@ public class InputPacket implements Serializable {
 		this.shift = pack.shift;
 		this.rotation = pack.rotation;
 	}
-	@Override
+	/*@Override
 	public String toString() {
 		return w+":"+a+":"+s+":"+d+":"+space+":"+shift+":"+rotation;
-	}
+	}*/
 	
 
 }

@@ -16,10 +16,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglFiles;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.boxcubed.net.DataPacket;
-import com.boxcubed.net.InputPacket;
 import com.boxcubed.net.Multiplayer_Player;
 import com.boxcubed.net.SocketPlayer;
+import com.boxcubed.net.packets.InputPacket;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

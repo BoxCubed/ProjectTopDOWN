@@ -84,7 +84,7 @@ public class server {
 		// TODO "playerDisconnected" event
 	}
 
-	Vector2 previous_pos = new Vector2(GameState.instance.player.getX(), GameState.instance.player.getY());
+	Vector2 previous_pos = new Vector2(GameState.instance.player.getPos().x, GameState.instance.player.getPos().y);
 	private final float update_interval = 1 / 30f;
 	float timer;
 
@@ -93,8 +93,8 @@ public class server {
 		if (timer >= update_interval && has_moved() && GameState.instance.player != null) {
 			JSONObject data = new JSONObject();
 			try {
-				data.put("x", GameState.instance.player.getX());
-				data.put("y", GameState.instance.player.getY());
+				data.put("x", GameState.instance.player.getPos().x);
+				data.put("y", GameState.instance.player.getPos().y);
 				data.put("id", clientID);
 				clientSocket.emit("playerMoved", data);
 			} catch (JSONException e) {
@@ -111,9 +111,9 @@ public class server {
 	}
 
 	public boolean has_moved() {
-		if (previous_pos.x != GameState.instance.player.getX() || previous_pos.y != GameState.instance.player.getY()) {
-			previous_pos.x = GameState.instance.player.getX();
-			previous_pos.y = GameState.instance.player.getY();
+		if (previous_pos.x != GameState.instance.player.getPos().x || previous_pos.y != GameState.instance.player.getPos().y) {
+			previous_pos.x = GameState.instance.player.getPos().x;
+			previous_pos.y = GameState.instance.player.getPos().y;
 			return true;
 		}
 		return false;

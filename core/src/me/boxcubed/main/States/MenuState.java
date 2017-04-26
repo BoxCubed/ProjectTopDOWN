@@ -13,8 +13,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.boxcubed.net.ClientConnection;
-import com.boxcubed.net.ClientConnection.ConnectionState;
+import com.boxcubed.net.NetworkManager;
+import com.boxcubed.net.NetworkManager.ConnectionState;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.MenuButton;
@@ -43,7 +43,7 @@ public class MenuState implements Screen {
     GlyphLayout startGlyph;
     ParallaxBackground bg;
     ShapeRenderer renderer;
-    ClientConnection connection;
+    NetworkManager connection;
     boolean clicked=false;
     public MenuState(GameState loadedInstance) {
     	//Init of debug shape rendrer
@@ -185,7 +185,7 @@ public class MenuState implements Screen {
 						}*/
 						
 						if(connection==null){
-							connection=new ClientConnection(loadedInstance.player,ipField.getText());
+							connection=new NetworkManager(loadedInstance.player,ipField.getText());
 							
 						}else if(connection.state.equals(ConnectionState.CONNECTING))
 							return;
@@ -195,7 +195,7 @@ public class MenuState implements Screen {
 							
 					
 						else if(connection.state.equals(ConnectionState.INVALIDIP)||connection.state.equals(ConnectionState.DISCONNECTED)){
-							connection=new ClientConnection(loadedInstance.player,ipField.getText());
+							connection=new NetworkManager(loadedInstance.player,ipField.getText());
 						}
 						
 					}

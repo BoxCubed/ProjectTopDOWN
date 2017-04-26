@@ -23,47 +23,46 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.boxcubed.net.ClientConnection;
+import com.boxcubed.net.NetworkManager;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
 
 import me.boxcubed.main.TopDown;
-import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.GunType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
 import me.boxcubed.main.States.GameState;
 
-public class Player extends Sprite implements LivingEntity, Movable {
+public class Player implements LivingEntity, Movable {
+	private Sprite sprite;
 	public float delta;
-	private static Texture tex = TopDown.assets.get(Assets.playerIMAGE, Texture.class);
+	private Texture tex = TopDown.assets.get(Assets.playerIMAGE, Texture.class);
 	//Body stuff
 	public BodyDef playerDef;
-	FixtureDef fixtureDefPlayer;
-	PolygonShape playerShape;
-	Body playerBody;
-	Fixture fixture;
+	private FixtureDef fixtureDefPlayer;
+	private PolygonShape playerShape;
+	private Body playerBody;
+	private Fixture fixture;
 	//end body stuff
 	
-	ParticleEffect effect;
 	public Crosshair crossH;
 	double health = getMaxHealth();
 	private Animation<TextureRegion> animation, animationLeg;
 	// private TextureAtlas atlas,atlas2;
 	public float legOffX = 15, legOffY = 15;
 	boolean shooting = false;
-	GameState gameState;
-	public ClientConnection connection;
+	public NetworkManager connection;
 	public String name = Double.toString(Math.random());
 	ParticleEffect bloodEffect = TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class);
 	// This vector is used for multiplayer positioning so location can be added
 	// when world isn't stepping
 	public Vector2 multiPos = new Vector2(100, 100);
-
+	private boolean initsed=false;
+	private ParticleEffect effect=TopDown.assets.get(Assets.flameEFFECT, ParticleEffect.class);
 	public int state;
 	public float rotation = 0;
-	
+	private World world;
 	Sound gunshotSound;
 	GunType gun;
 
@@ -81,10 +80,21 @@ public class Player extends Sprite implements LivingEntity, Movable {
 	 *            isn't 0. Do this before calling update.
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public Player(World world, int state) {
-		super(tex);
+		if(state==1||state==2){
+			this.world=world;
+			this.state=state;
+			return;
+			}
+		init(world, state);
+		
+	}
+	@SuppressWarnings("unchecked")
+	private void init(World world,int state){
+		sprite=new Sprite(tex);
 		this.state = state;
+		this.world=world;
 		
 		/*
 		 * atlas=new TextureAtlas(Gdx.files.internal(
@@ -113,16 +123,10 @@ public class Player extends Sprite implements LivingEntity, Movable {
 		playerBody.setTransform(340, 300, 0);
 
 		playerShape.dispose();
-		setSize(20, 20);
+		sprite.setSize(20, 20);
 		crossH = new Crosshair(100, this);
-		/* effect=new ParticleEffect(); */
-		/*
-		 * GameState.instance.effect.load(Gdx.files.internal(
-		 * "assets/maps/effects/flame.p"),Gdx.files.internal(
-		 * "assets/maps/effects/"));
-		 */
-		GameState.instance.effect.start();
-		/* crossH =new Crosshair(100, this); */
+		
+		effect.start();
 
 		legOffY = 10;
 		legOffX = 10;
@@ -133,20 +137,21 @@ public class Player extends Sprite implements LivingEntity, Movable {
 
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 		if (state == 1)
-			GameState.instance.connection = new ClientConnection(this);
-		if (state == 0)
-			GameState.instance.playerAI = new SteeringAI(this, getWidth());
+			GameState.instance.connection = new NetworkManager(this);
+		
+		initsed=true;
 	}
 
 	float elapsedTime = 0;
 
-	public void setConnection(ClientConnection connection, int state) {
+	public void setConnection(NetworkManager connection, int state) {
 		this.connection = connection;
 		this.state = state;
 	}
 
 	@Override
 	public void update(float delta) {
+		if(!initsed){init(world, state);}
 		if (isAlive()) {
 			lastPos = playerBody.getPosition().cpy();
 			if (delta < 1f)
@@ -155,19 +160,19 @@ public class Player extends Sprite implements LivingEntity, Movable {
 				this.delta = delta;
 			handleInput();
 			if (shooting) {
-				GameState.instance.effect.setPosition(getX(), getY());
-				for (ParticleEmitter emit : GameState.instance.effect.getEmitters()) {
-					emit.getAngle().setHigh(getRotation() + 20);
-					emit.getAngle().setLow(getRotation() - 20);
+				effect.setPosition(getPos().x, getPos().y);
+				for (ParticleEmitter emit : effect.getEmitters()) {
+					emit.getAngle().setHigh(rotation + 20);
+					emit.getAngle().setLow(rotation - 20);
 				}
-				GameState.instance.effect.setDuration(100);
+				effect.setDuration(100);
 
-				if (GameState.instance.effect.isComplete()) {
-					GameState.instance.effect.reset();
-					GameState.instance.effect.start();
+				if (effect.isComplete()) {
+					effect.reset();
+					effect.start();
 				}
 			} else
-				GameState.instance.effect.allowCompletion();
+				effect.allowCompletion();
 			bloodEffect.update(delta / 100);
 			if (hurt) {
 				bloodEffect.setPosition(getPos().x, getPos().y);
@@ -175,11 +180,12 @@ public class Player extends Sprite implements LivingEntity, Movable {
 				if (bloodEffect.isComplete())
 					hurt = false;
 			}
-			GameState.instance.effect.update(delta / 100);
+			effect.update(delta / 100);
 
 			elapsedTime += delta;
 
 			crossH.update(delta);
+			sprite.setRotation(rotation);
 
 		} else {
 			getBody().setAngularVelocity(0);
@@ -194,16 +200,16 @@ public class Player extends Sprite implements LivingEntity, Movable {
 		if (isAlive()) {
 			if (state == 2 || state == 1)
 				playerBody.setTransform(multiPos, 0);
-			GameState.instance.effect.draw(sb);
+			effect.draw(sb);
 			bloodEffect.draw(sb);
 			if (playerBody.getLinearVelocity().isZero())
-				sb.draw(this, playerBody.getPosition().x - 15, playerBody.getPosition().y - 15, 15, 15, 40, 40, 1, 1,
-						getRotation());
+				sb.draw(sprite, playerBody.getPosition().x - 15, playerBody.getPosition().y - 15, 15, 15, 40, 40, 1, 1,
+						rotation);
 			else {
 				sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x - 10,
-						playerBody.getPosition().y - 15, legOffX, legOffY, 24, 24, 1, 1, getRotation());
+						playerBody.getPosition().y - 15, legOffX, legOffY, 24, 24, 1, 1, rotation);
 				sb.draw(animation.getKeyFrame(elapsedTime, true), playerBody.getPosition().x - 15,
-						playerBody.getPosition().y - 20, 15, 15, 40, 40, 1, 1, getRotation());
+						playerBody.getPosition().y - 20, 15, 15, 40, 40, 1, 1, rotation);
 			}
 			crossH.render(sb);
 
@@ -217,7 +223,7 @@ public class Player extends Sprite implements LivingEntity, Movable {
 	public void handleInput() {
 		if (state == 2) {
 			getBody().setTransform(multiPos, 0);
-			setRotation(rotation);
+			sprite.setRotation(rotation);
 			return;
 		}
 		if (state == 1 && connection != null) {
@@ -232,7 +238,7 @@ public class Player extends Sprite implements LivingEntity, Movable {
 			if(BoxoUtil.isButtonJustPressed(Buttons.LEFT) || input.isKeyJustPressed(Keys.SPACE)){
 			gunshotSound.play(1.0f);
 			GameState.instance.entities
-					.add(new Bullet(GameState.instance.getWorld(), getPos().x, getPos().y, crossH.offX, crossH.offY));
+					.add(new Bullet(world, getPos().x, getPos().y, crossH.offX, crossH.offY));
 			}
 		}
 		
@@ -282,7 +288,7 @@ public class Player extends Sprite implements LivingEntity, Movable {
 			connection.d = (byte) (Gdx.input.isKeyPressed(Keys.D) ? 1 : 0);
 			connection.shift = (byte) (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) ? 1 : 0);
 			connection.space = (byte) (Gdx.input.isKeyPressed(Keys.SPACE) ? 1 : 0);
-			connection.rotation = getRotation();
+			connection.rotation = rotation;
 			return true;
 		}
 		if (state == 2)
@@ -319,7 +325,7 @@ public class Player extends Sprite implements LivingEntity, Movable {
 	
 	@Override
 	public Sprite getSprite() {
-		return this;
+		return sprite;
 	}
 
 	// Walking
@@ -380,7 +386,7 @@ public class Player extends Sprite implements LivingEntity, Movable {
 
 	@Override
 	public void dispose() {
-		GameState.instance.getWorld().destroyBody(playerBody);
+		world.destroyBody(playerBody);
 		// GameState.instance.player=new Player(GameState.instance.getWorld());
 		// diePos=getBody().getPosition();
 

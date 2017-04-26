@@ -46,7 +46,7 @@ public class Bullet extends Sprite implements Entity{
 		this.y=y;
 		this.offX=offX;
 		this.offY=offY;
-		rotation = GameState.instance.player.getRotation();
+		rotation = GameState.instance.player.rotation;
 		bulletDef = new BodyDef();
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
 		

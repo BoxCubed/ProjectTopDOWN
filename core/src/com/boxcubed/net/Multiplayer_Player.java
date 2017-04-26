@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.boxcubed.net.packets.InputPacket;
 
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;

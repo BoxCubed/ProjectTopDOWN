@@ -3,6 +3,7 @@ package me.boxcubed.main.States;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -13,7 +14,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -25,7 +25,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.boxcubed.net.ClientConnection;
+import com.boxcubed.net.NetworkManager;
 import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
@@ -62,16 +62,14 @@ public class GameState implements State, CleanInputProcessor{
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	//Support multiple players: DONE!
-	public List<Player> multiplayerPlayers;
-	public int playerAddQueue;
-	public int playerRemQueue;
+	public Map<Player,Integer> multiplayerPlayers;
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
 	Music ambientMusic;
 	Sound zombieGroan;
 	Hud hud;
-	public ClientConnection connection;
+	public NetworkManager connection;
 	Vector2 mouseLoc;
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
@@ -82,7 +80,6 @@ public class GameState implements State, CleanInputProcessor{
     private HashMap<String, Player> clients  = new HashMap<String, Player>();;
     public RayHandler rayHandler;
     public ConeLight pointLight;
-    public ParticleEffect effect;
     private Assets assets=TopDown.assets;
     public Animation<TextureRegion> anim;
 	@SuppressWarnings("unchecked")
@@ -117,7 +114,7 @@ public class GameState implements State, CleanInputProcessor{
         //Sorry if anything is fucked up
         rayHandler = new RayHandler(gameWORLD);
         pointLight = new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45);
-        effect=assets.get(Assets.flameEFFECT, ParticleEffect.class);
+        
 
         ambientMusic =assets.get(Assets.ambientMUSIC, Music.class);
 		ambientMusic.setLooping(true);
@@ -126,10 +123,9 @@ public class GameState implements State, CleanInputProcessor{
 		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
         player = new Player(gameWORLD,0); //1 means multiplayer
-		multiplayerPlayers=new ArrayList<>();
+		multiplayerPlayers=new HashMap<>();
 		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
-		//Ryan better rename this to Zombie AI
-		playerAI=new SteeringAI(player, player.getWidth());
+		playerAI=new SteeringAI(player, player.getSprite().getWidth());
 		//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
 		// Apparently the lighting to the whole map, not sure why its player
 		// light
@@ -153,7 +149,6 @@ public class GameState implements State, CleanInputProcessor{
 	public void moveClients(String id, float x, float y){
         if(clients.get(id) != null){
             clients.get(id).multiPos=new Vector2(x, y);
-            clients.get(id).setPosition( x,  y );
         }else {
             System.out.println("null. Worst error. Now to stop complaining and debug");
         }
@@ -173,21 +168,14 @@ public class GameState implements State, CleanInputProcessor{
 		player.update(delta);
 		playerAI.update(delta);
 		//TODO do this a better way
-		if(playerAddQueue!=0){
 			
-				multiplayerPlayers.add(new Player(gameWORLD, 2));playerAddQueue=0;}
 			
-		if(playerRemQueue!=0){
-			multiplayerPlayers.get(0).dispose();
-			multiplayerPlayers.remove(0);
-		playerRemQueue=0;}
 
-		multiplayerPlayers.iterator().forEachRemaining(player->player.update(delta));
 		clients.forEach((id,player)->player.update(delta));
 
 		//Updating Light TODO dont make this only for player aka make a Flashlight class and and handling in gamestate
 		playerLight.updateLightPos(player.getPos().x, player.getPos().y,
-		player.getRotation(), delta);
+		player.rotation, delta);
 		rayHandler.update();
 		
 		//Update Zombie Spawns
@@ -250,7 +238,7 @@ public class GameState implements State, CleanInputProcessor{
 				player.setHealth(player.getMaxHealth());
 			else{
 				player = new Player(gameWORLD,0);
-				playerAI=new SteeringAI(player, player.getWidth());
+				playerAI=new SteeringAI(player, player.getSprite().getWidth());
 			}
 		}
 		
@@ -307,7 +295,6 @@ public class GameState implements State, CleanInputProcessor{
             entry.getValue().renderShapes(sr);
         }
 		player.render(batch);
-		multiplayerPlayers.iterator().forEachRemaining(player->player.render(batch));
 		batch.setProjectionMatrix(hud.textCam.combined);
 		
 		hud.render(batch);
@@ -328,7 +315,7 @@ public class GameState implements State, CleanInputProcessor{
 		Vector2 direction = mouseLoc.sub(player.getPos());
 		float mouseAngle = direction
 				.angle();
-		player.setRotation(mouseAngle);
+		player.rotation=mouseAngle;
 
 		return true;
 	}
