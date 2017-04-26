@@ -114,7 +114,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		p1 = getPos();
 		p2=GameState.instance.player.getPos();
 		
-		GameState.instance.gameWORLD.rayCast(callback, p1,p2);
+		GameState.instance.getWorld().rayCast(callback, p1,p2);
 		
 		
 		if(GameState.instance.player.isAlive()&&isAlive()){

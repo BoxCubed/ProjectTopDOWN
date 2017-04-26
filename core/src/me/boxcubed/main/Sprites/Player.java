@@ -51,10 +51,10 @@ public class Player implements LivingEntity, Movable {
 	private Animation<TextureRegion> animation, animationLeg;
 	// private TextureAtlas atlas,atlas2;
 	public float legOffX = 15, legOffY = 15;
-	boolean shooting = false;
+	private boolean shooting = false;
 	public NetworkManager connection;
 	public String name = Double.toString(Math.random());
-	ParticleEffect bloodEffect = TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class);
+	private ParticleEffect bloodEffect = TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class);
 	// This vector is used for multiplayer positioning so location can be added
 	// when world isn't stepping
 	public Vector2 multiPos = new Vector2(100, 100);
@@ -137,7 +137,7 @@ public class Player implements LivingEntity, Movable {
 
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 		if (state == 1)
-			GameState.instance.connection = new NetworkManager(this);
+			connection = new NetworkManager(this);
 		
 		initsed=true;
 	}
@@ -199,7 +199,11 @@ public class Player implements LivingEntity, Movable {
 	public void render(SpriteBatch sb) {
 		if (isAlive()) {
 			if (state == 2 || state == 1)
+				if(multiPos!=null){
 				playerBody.setTransform(multiPos, 0);
+				multiPos=null;
+				}
+			//drawing of effects
 			effect.draw(sb);
 			bloodEffect.draw(sb);
 			if (playerBody.getLinearVelocity().isZero())
@@ -226,10 +230,10 @@ public class Player implements LivingEntity, Movable {
 			sprite.setRotation(rotation);
 			return;
 		}
-		if (state == 1 && connection != null) {
+		/*if (state == 1 && connection != null) {
 			processMovment("UNKNOWN");
 			return;
-		}
+		}*/
 		Input input = Gdx.input;
 
 		boolean keyPressed = false;

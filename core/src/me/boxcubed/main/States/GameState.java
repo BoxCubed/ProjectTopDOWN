@@ -3,7 +3,6 @@ package me.boxcubed.main.States;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -25,7 +24,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.boxcubed.net.NetworkManager;
 import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
@@ -49,7 +47,7 @@ import me.boxcubed.main.Sprites.PlayerLight;
 
 public class GameState implements State, CleanInputProcessor{
 	//TODO get rid of that random box that spawns next to the player
-	public World gameWORLD;
+	private World gameWORLD;
 	public OrthographicCamera cam;
 	private SpriteBatch batch=new SpriteBatch();
 	public List<Entity> entities;
@@ -62,14 +60,13 @@ public class GameState implements State, CleanInputProcessor{
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	//Support multiple players: DONE!
-	public Map<Player,Integer> multiplayerPlayers;
+	
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
 	Music ambientMusic;
 	Sound zombieGroan;
 	Hud hud;
-	public NetworkManager connection;
 	Vector2 mouseLoc;
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
@@ -77,7 +74,7 @@ public class GameState implements State, CleanInputProcessor{
 	public boolean noZombie = false;
 	public boolean noTime = false;
     server server;
-    private HashMap<String, Player> clients  = new HashMap<String, Player>();;
+    private HashMap<String, Player> clients  = new HashMap<String, Player>();
     public RayHandler rayHandler;
     public ConeLight pointLight;
     private Assets assets=TopDown.assets;
@@ -123,7 +120,6 @@ public class GameState implements State, CleanInputProcessor{
 		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
         player = new Player(gameWORLD,0); //1 means multiplayer
-		multiplayerPlayers=new HashMap<>();
 		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
 		playerAI=new SteeringAI(player, player.getSprite().getWidth());
 		//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
@@ -172,6 +168,8 @@ public class GameState implements State, CleanInputProcessor{
 			
 
 		clients.forEach((id,player)->player.update(delta));
+		if(player.state!=0)
+		player.connection.updatePlayers(delta);
 
 		//Updating Light TODO dont make this only for player aka make a Flashlight class and and handling in gamestate
 		playerLight.updateLightPos(player.getPos().x, player.getPos().y,
@@ -334,6 +332,7 @@ public class GameState implements State, CleanInputProcessor{
 	public void dispose() {
 		entities.forEach(entity -> entity.dispose());
 		playerLight.dispose();
+		player.dispose();
 		player = null;
 		entities.clear();
 		entities = null;
