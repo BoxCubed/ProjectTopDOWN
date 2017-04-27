@@ -56,6 +56,7 @@ public class NetworkManager extends Thread {
 	}
 	public static void initKryo(Kryo k){
 		k.register(String.class);
+		k.register(StringPacket.class);
 		k.register(Vector2.class);
 		k.register(InputPacket.class);
 		k.register(LocalPlayerPosPacket.class);

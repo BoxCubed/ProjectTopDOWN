@@ -6,4 +6,6 @@ public class BulletFirePacket {
 	public Vector2 location;
 	public float rotation;
 	public String type;
+	public BulletFirePacket() {
+	}
 }
