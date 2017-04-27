@@ -1,4 +1,4 @@
-package com.boxcubed.net;
+package me.boxcubed.main.desktop.server;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 

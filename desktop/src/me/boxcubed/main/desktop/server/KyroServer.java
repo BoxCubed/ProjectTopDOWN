@@ -1,10 +1,10 @@
 package me.boxcubed.main.desktop.server;
 
-import java.io.BufferedReader;import java.io.IOException;import java.io.InputStreamReader;import java.util.HashMap;import com.badlogic.gdx.Gdx;import com.badlogic.gdx.backends.lwjgl.LwjglFiles;import com.badlogic.gdx.maps.tiled.TiledMap;import com.badlogic.gdx.math.Vector2;import com.badlogic.gdx.physics.box2d.World;import com.boxcubed.net.KyroPlayer;import com.boxcubed.net.Multiplayer_Player;import com.boxcubed.net.NetworkManager;import com.boxcubed.net.packets.BulletFirePacket;import com.boxcubed.net.packets.LocalPlayerPosPacket;import com.boxcubed.net.packets.PlayerDisconnectPacket;import com.boxcubed.net.packets.PlayerUpdatePacket;import com.esotericsoftware.kryonet.Connection;import com.esotericsoftware.kryonet.Listener;import com.esotericsoftware.kryonet.Server;import com.esotericsoftware.minlog.Log;import me.boxcubed.main.Objects.collision.MapBodyBuilder;
+import java.io.BufferedReader;import java.io.IOException;import java.io.InputStreamReader;import java.util.HashMap;import java.util.List;import com.badlogic.gdx.Gdx;import com.badlogic.gdx.backends.lwjgl.LwjglFiles;import com.badlogic.gdx.maps.tiled.TiledMap;import com.badlogic.gdx.math.Vector2;import com.badlogic.gdx.physics.box2d.World;import com.boxcubed.net.NetworkManager;import com.boxcubed.net.packets.BulletFirePacket;import com.boxcubed.net.packets.LocalPlayerPosPacket;import com.boxcubed.net.packets.PlayerDisconnectPacket;import com.boxcubed.net.packets.PlayerUpdatePacket;import com.esotericsoftware.kryonet.Connection;import com.esotericsoftware.kryonet.Listener;import com.esotericsoftware.kryonet.Server;import com.esotericsoftware.minlog.Log;import me.boxcubed.main.Objects.collision.MapBodyBuilder;import me.boxcubed.main.Objects.interfaces.Entity;
 
 public class KyroServer extends Thread {
 	Server kServer;
-	HashMap<Integer,KyroPlayer> players;
+	HashMap<Integer,KyroPlayer> players;	List<Entity> entities;
 	public static World world=new World(new Vector2(0, 0), true);
 	public static KyroServer instance;
 	public boolean stop=false;
@@ -66,10 +66,10 @@ public class KyroServer extends Thread {
 			
 		
 		while(!stop){
-			
+			//Game loop workings
 			try{
 				startLoop=System.currentTimeMillis();
-				players.forEach((id,player)->{					if(player.player==null)						player.player=new Multiplayer_Player(world);														});
+				players.forEach((id,player)->{					if(player.player==null)						player.player=new Multiplayer_Player(world);																			});				//process command 
 				String con=inCon.lastOutput;
 				String[] conSplit=con.split(" ");
 				switch(conSplit[0]){
@@ -105,32 +105,6 @@ public class KyroServer extends Thread {
 								endLoop=System.currentTimeMillis();					delta=endLoop-startLoop;				elapsedTime+=delta;				updateWorld();				
 				Thread.sleep(10);
 				//log(Long.toString(delta));
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-					
-			
-			
-			
-			
-		
-			
 			}catch (Exception e){logError("Error occured: "+e.getMessage()); e.printStackTrace();}
 			
 	}

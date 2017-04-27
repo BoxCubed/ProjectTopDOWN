@@ -18,6 +18,7 @@ import com.boxcubed.net.packets.LocalPlayerPosPacket;
 import com.boxcubed.net.packets.ParticlePacket;
 import com.boxcubed.net.packets.PlayerDisconnectPacket;
 import com.boxcubed.net.packets.PlayerUpdatePacket;
+import com.boxcubed.net.packets.StringPacket;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;

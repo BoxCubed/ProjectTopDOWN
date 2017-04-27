@@ -1,4 +1,4 @@
-package com.boxcubed.net;
+package me.boxcubed.main.desktop.server;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

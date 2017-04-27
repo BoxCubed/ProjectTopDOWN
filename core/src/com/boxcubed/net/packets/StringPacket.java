@@ -1,4 +1,4 @@
-package com.boxcubed.net;
+package com.boxcubed.net.packets;
 
 public class StringPacket {
 	public String s;
