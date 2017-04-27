@@ -292,6 +292,8 @@ public class GameState implements State, CleanInputProcessor{
             entry.getValue().render(batch);
             entry.getValue().renderShapes(sr);
         }
+        if(player.state!=0)
+        	player.connection.renderPlayers(batch);
 		player.render(batch);
 		batch.setProjectionMatrix(hud.textCam.combined);
 		
