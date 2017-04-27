@@ -8,4 +8,15 @@ public class BulletFirePacket {
 	public String type;
 	public BulletFirePacket() {
 	}
+	public BulletFirePacket(Vector2 location, float rotation, String type) {
+		this.location = location;
+		this.rotation = rotation;
+		this.type = type;
+	}
+	public BulletFirePacket(float rotation, String type) {
+		super();
+		this.rotation = rotation;
+		this.type = type;
+	}
+	
 }

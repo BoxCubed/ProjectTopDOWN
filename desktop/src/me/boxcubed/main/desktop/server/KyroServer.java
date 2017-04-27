@@ -1,6 +1,6 @@
 package me.boxcubed.main.desktop.server;
 
-import java.io.BufferedReader;import java.io.IOException;import java.io.InputStreamReader;import java.util.HashMap;import com.badlogic.gdx.Gdx;import com.badlogic.gdx.backends.lwjgl.LwjglFiles;import com.badlogic.gdx.maps.tiled.TiledMap;import com.badlogic.gdx.math.Vector2;import com.badlogic.gdx.physics.box2d.World;import com.boxcubed.net.KyroPlayer;import com.boxcubed.net.Multiplayer_Player;import com.boxcubed.net.NetworkManager;import com.boxcubed.net.packets.LocalPlayerPosPacket;import com.boxcubed.net.packets.PlayerDisconnectPacket;import com.boxcubed.net.packets.PlayerUpdatePacket;import com.esotericsoftware.kryonet.Connection;import com.esotericsoftware.kryonet.Listener;import com.esotericsoftware.kryonet.Server;import com.esotericsoftware.minlog.Log;import me.boxcubed.main.Objects.collision.MapBodyBuilder;
+import java.io.BufferedReader;import java.io.IOException;import java.io.InputStreamReader;import java.util.HashMap;import com.badlogic.gdx.Gdx;import com.badlogic.gdx.backends.lwjgl.LwjglFiles;import com.badlogic.gdx.maps.tiled.TiledMap;import com.badlogic.gdx.math.Vector2;import com.badlogic.gdx.physics.box2d.World;import com.boxcubed.net.KyroPlayer;import com.boxcubed.net.Multiplayer_Player;import com.boxcubed.net.NetworkManager;import com.boxcubed.net.packets.BulletFirePacket;import com.boxcubed.net.packets.LocalPlayerPosPacket;import com.boxcubed.net.packets.PlayerDisconnectPacket;import com.boxcubed.net.packets.PlayerUpdatePacket;import com.esotericsoftware.kryonet.Connection;import com.esotericsoftware.kryonet.Listener;import com.esotericsoftware.kryonet.Server;import com.esotericsoftware.minlog.Log;import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 
 public class KyroServer extends Thread {
 	Server kServer;
@@ -145,7 +145,7 @@ public class KyroServer extends Thread {
 			
 		}catch(Exception e){logError("Failed in shutting down!:"+e.getMessage());}
 	}
-private synchronized void updateWorld(){	world.step(10f, 10, 5);}private synchronized void removePlayer(Multiplayer_Player p){	p.dispose();}
+private synchronized void updateWorld(){	world.step(10f, 10, 5);}private synchronized void updatePlayer(PlayerUpdatePacket packet,Multiplayer_Player player) {	if(player==null)		return;	player.getBody().setTransform(packet.location, 0);	player.rotation=packet.rotation;}private synchronized void removePlayer(Multiplayer_Player p){	p.dispose();}
 private void addServerListeners() {
 	kServer.addListener(new Listener(){
 		@Override
@@ -222,13 +222,13 @@ class PlayerListener extends Listener{
 				log(p.name+" has joined");
 				
 			}
-		}		if(gotName==false){log("Player attempted to send packet without name: "+connection.getID());failedNameRecieve++;return;}		else if(ob instanceof PlayerUpdatePacket){			PlayerUpdatePacket packet=(PlayerUpdatePacket)ob;			packet.name=p.name;			packet.health=100;			kServer.sendToAllExceptUDP(connection.getID(), packet);					}
+		}		if(gotName==false){log("Player attempted to send packet without name: "+connection.getID());failedNameRecieve++;return;}		else if(ob instanceof PlayerUpdatePacket){			PlayerUpdatePacket packet=(PlayerUpdatePacket)ob;			packet.name=p.name;			packet.health=100;			updatePlayer(packet,p.player);			kServer.sendToAllExceptUDP(connection.getID(), packet);					}		else if(ob instanceof BulletFirePacket){			kServer.sendToAllExceptTCP(connection.getID(), new BulletFirePacket(p.player.getPos(), ((BulletFirePacket) ob).rotation,((BulletFirePacket) ob).type));		}
 		
 			
 		
 			
 	}
-	@Override
+		@Override
 	public void connected(Connection connection) {
 		log("Player attempting connection...");
 	}

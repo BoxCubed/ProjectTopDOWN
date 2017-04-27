@@ -92,7 +92,6 @@ public class Player implements LivingEntity, Movable {
 	}
 	@SuppressWarnings("unchecked")
 	private void init(World world,int state){
-		System.out.println("New player...");
 		sprite=new Sprite(tex);
 		this.state = state;
 		this.world=world;
@@ -161,7 +160,7 @@ public class Player implements LivingEntity, Movable {
 			else
 				this.delta = delta;
 			handleInput();
-			if (shooting) {
+			if (shooting&&state==0) {
 				effect.setPosition(getPos().x, getPos().y);
 				for (ParticleEmitter emit : effect.getEmitters()) {
 					emit.getAngle().setHigh(rotation + 20);
@@ -232,22 +231,26 @@ public class Player implements LivingEntity, Movable {
 			processMovment("UNKNOWN");
 			return;
 		}*/
+		if(state==2)return;
 		Input input = Gdx.input;
 
 		boolean keyPressed = false;
+		
 
 		if (gun.equals(GunType.PISTOL)) {
 			if(BoxoUtil.isButtonJustPressed(Buttons.LEFT) || input.isKeyJustPressed(Keys.SPACE)){
 			gunshotSound.play(1.0f);
+			
 			GameState.instance.entities
-					.add(new Bullet(world, getPos().x, getPos().y, crossH.offX, crossH.offY));
+					.add(new Bullet(world, getPos().x, getPos().y, crossH.offX, crossH.offY,rotation));
+			if(state==1)
+				connection.onFire(getPos(),rotation,gun.toString());
 			}
 		}
 		
 		if(gun.equals(GunType.AK47)){
 			//TODO ak47
 		}
-
 		if (input.isKeyPressed(Keys.W) || input.isKeyPressed(Keys.UP)) {
 			keyPressed = true;
 			processMovment("UP");

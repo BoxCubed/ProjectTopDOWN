@@ -248,7 +248,6 @@ public class GameState implements State, CleanInputProcessor{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}}
-			player.connection=null;
 			TopDown.instance.setScreen(new MenuState(this));
 			return;
 		}

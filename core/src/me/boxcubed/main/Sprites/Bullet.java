@@ -40,13 +40,13 @@ public class Bullet extends Sprite implements Entity{
 	
 	float elapsedTime=0;
 	
-	public Bullet(World world, float x, float y,float offX,float offY){
+	public Bullet(World world, float x, float y,float offX,float offY, float rotation){
 		super(TopDown.assets.get(Assets.bulletIMAGE, Texture.class));
 		this.x=x;
 		this.y=y;
 		this.offX=offX;
 		this.offY=offY;
-		rotation = GameState.instance.player.rotation;
+		this.rotation = rotation;
 		bulletDef = new BodyDef();
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
 		

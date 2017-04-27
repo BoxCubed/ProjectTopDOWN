@@ -22,14 +22,13 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.minlog.Log;
 
 import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
 
 public class NetworkManager extends Thread {
-	Client connection;
+	private Client connection;
 	public boolean stop = false;
 	public float rotation = 0;
 	private Player player;
@@ -115,6 +114,7 @@ public class NetworkManager extends Thread {
 				
 				lastPos=player.getPos().cpy();
 				lastRot=player.rotation;
+				Thread.sleep(10);
 				
 
 			} catch (Exception e) {
@@ -196,7 +196,7 @@ public class NetworkManager extends Thread {
 			try {
 				bullet = pendingFire.take();
 				GameState.instance.entities.add(new Bullet(world, bullet.location.x, bullet.location.y, (float) (Math.cos(Math.toRadians(bullet.rotation))), 
-						(float) (Math.sin(Math.toRadians(bullet.rotation)))));//TODO bullet types
+						(float) (Math.sin(Math.toRadians(bullet.rotation))),bullet.rotation));//TODO bullet types
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -211,7 +211,6 @@ public class NetworkManager extends Thread {
 			p.render(sb));
 	}
     private synchronized void addPlayer(int id,PlayerUpdatePacket ob) {
-    	System.out.println("Adding new player...");
     	Player p=new Player(GameState.instance.getWorld(), 2);
     	multiplayerPlayers.put(id,p);
     	p.name=ob.name;
@@ -228,6 +227,10 @@ public class NetworkManager extends Thread {
 		
 		
 	}
+    public void onFire(Vector2 pos,float rotation,String type){
+    	connection.sendTCP(new BulletFirePacket(rotation,type));
+    	
+    }
     private void updatePositionFromPacket(int id,PlayerUpdatePacket packet){
     	Player p=multiplayerPlayers.get(id);
     	p.multiPos=packet.location.cpy();
