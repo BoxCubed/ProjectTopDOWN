@@ -1,17 +1,20 @@
-package com.util.easingLib;
-public class Cubic {
+package com.boxcubed.utils.easinglib;
+public class Linear {
+	
+	public static float easeNone (float t,float b , float c, float d) {
+		return c*t/d + b;
+	}
 	
 	public static float easeIn (float t,float b , float c, float d) {
-		return c*(t/=d)*t*t + b;
+		return c*t/d + b;
 	}
 	
 	public static float easeOut (float t,float b , float c, float d) {
-		return c*((t=t/d-1)*t*t + 1) + b;
+		return c*t/d + b;
 	}
 	
 	public static float easeInOut (float t,float b , float c, float d) {
-		if ((t/=d/2) < 1) return c/2*t*t*t + b;
-		return c/2*((t-=2)*t*t + 2) + b;
+		return c*t/d + b;
 	}
-
+	
 }

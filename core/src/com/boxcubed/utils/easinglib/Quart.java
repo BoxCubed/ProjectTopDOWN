@@ -1,17 +1,17 @@
-package com.util.easingLib;
-
-public class Sine {
+package com.boxcubed.utils.easinglib;
+public class Quart {
 	
 	public static float  easeIn(float t,float b , float c, float d) {
-		return -c * (float)Math.cos(t/d * (Math.PI/2)) + c + b;
+		return c*(t/=d)*t*t*t + b;
 	}
 	
 	public static float  easeOut(float t,float b , float c, float d) {
-		return c * (float)Math.sin(t/d * (Math.PI/2)) + b;	
+		return -c * ((t=t/d-1)*t*t*t - 1) + b;
 	}
 	
 	public static float  easeInOut(float t,float b , float c, float d) {
-		return -c/2 * ((float)Math.cos(Math.PI*t/d) - 1) + b;
+		if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
+		return -c/2 * ((t-=2)*t*t*t - 2) + b;
 	}
 	
 }

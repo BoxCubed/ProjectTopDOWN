@@ -1,4 +1,4 @@
-package com.util.easingLib;
+package com.boxcubed.utils.easinglib;
 
 public class Bounce {
 	

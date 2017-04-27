@@ -1,4 +1,4 @@
-package com.util.easingLib; 
+package com.boxcubed.utils.easinglib; 
 public class Expo {
 	
 	public static float  easeIn(float t,float b , float c, float d) {

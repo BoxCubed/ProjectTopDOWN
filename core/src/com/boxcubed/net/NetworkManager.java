@@ -142,7 +142,7 @@ public class NetworkManager extends Thread {
 				PlayerUpdatePacket packet=(PlayerUpdatePacket)ob;
 				if(packet.id!=connection.getID()&&multiplayerPlayers.get(packet.id)!=null)
 					updatePositionFromPacket(connection.getID(), (PlayerUpdatePacket)ob);
-				else addPlayer(connection.getID(),(PlayerUpdatePacket)ob);
+				else if(packet.id!=connection.getID())addPlayer(connection.getID(),(PlayerUpdatePacket)ob);
 				
 				
 			}
