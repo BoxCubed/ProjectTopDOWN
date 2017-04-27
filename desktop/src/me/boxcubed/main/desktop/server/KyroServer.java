@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.KyroPlayer;
 import com.boxcubed.net.Multiplayer_Player;
 import com.boxcubed.net.StringPacket;
-import com.boxcubed.net.packets.DataPacket;
 import com.boxcubed.net.packets.InputPacket;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
@@ -114,12 +113,12 @@ public class KyroServer extends Thread {
 							player.player=new Multiplayer_Player(world, p->world.destroyBody(p.getBody()));
 						if(!player.connected)
 							throw new SocketException();
-					DataPacket packet;
+					//DataPacket packet;
 					player.loc=player.player.getPos().cpy();
 					player.rotation=player.player.rotation;
 					players.remove(player);
-					packet=new DataPacket(player.player.getPos(), players,i);
-					packetData=gson.toJson(packet);
+					//packet=new DataPacket(player.player.getPos(), players,i);
+					//packetData=gson.toJson(packet);
 					player.connection.sendUDP(new StringPacket(packetData));
 					players.add(player);
 					player.player.update(10);
