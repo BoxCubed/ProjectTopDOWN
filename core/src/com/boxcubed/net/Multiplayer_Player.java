@@ -26,7 +26,6 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 	Vector2 position;// Player position
 	Body body;
 	public InputPacket command;
-	public Dispose dispose;
 	World world;
 	double health=getMaxHealth();
 	public float legOffX=15,legOffY=15;
@@ -37,9 +36,8 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 	int counter=0;
 	
 	
-	public Multiplayer_Player(World world,Dispose dispose) {
+	public Multiplayer_Player(World world) {
 		this.world=world;
-		this.dispose=dispose;
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
@@ -250,7 +248,7 @@ public void render(SpriteBatch sb) {
 	@Override
 	public void dispose() {
 		//TODO
-		dispose.dispose(this);
+		world.destroyBody(getBody());
 		//GameState.instance.player=new Player(GameState.instance.getWorld());
 		//diePos=getBody().getPosition();
 	
@@ -287,5 +285,4 @@ public void render(SpriteBatch sb) {
 	public void renderShapes(ShapeRenderer sr) {
 		
 	}
-	public interface Dispose {void dispose(Multiplayer_Player player);}
 }

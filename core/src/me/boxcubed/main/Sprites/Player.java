@@ -92,6 +92,7 @@ public class Player implements LivingEntity, Movable {
 	}
 	@SuppressWarnings("unchecked")
 	private void init(World world,int state){
+		System.out.println("New player...");
 		sprite=new Sprite(tex);
 		this.state = state;
 		this.world=world;
@@ -123,6 +124,7 @@ public class Player implements LivingEntity, Movable {
 		playerBody.setTransform(340, 300, 0);
 
 		playerShape.dispose();
+		
 		sprite.setSize(20, 20);
 		crossH = new Crosshair(100, this);
 		
@@ -195,8 +197,9 @@ public class Player implements LivingEntity, Movable {
 	}
 
 	boolean isDisposed = false;
-
+	@Override
 	public void render(SpriteBatch sb) {
+		if(!initsed)init(world, state);
 		if (isAlive()) {
 			if (state == 2 || state == 1)
 				if(multiPos!=null){
@@ -225,11 +228,6 @@ public class Player implements LivingEntity, Movable {
 	}
 
 	public void handleInput() {
-		if (state == 2) {
-			getBody().setTransform(multiPos, 0);
-			sprite.setRotation(rotation);
-			return;
-		}
 		/*if (state == 1 && connection != null) {
 			processMovment("UNKNOWN");
 			return;

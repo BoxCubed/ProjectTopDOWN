@@ -1,5 +1,6 @@
 package me.boxcubed.main.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -29,9 +30,16 @@ public class DesktopLauncher {
 		}
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new TopDown(debug), config);
+		if(debug){
 		config.resizable = true;
 		config.height = 900;
 		config.width = 1280;
+		}else{
+			config.resizable=false;
+			config.height = 700;
+			config.width = 500;
+			Gdx.graphics.setUndecorated(true);
+		}
 		//config.fullscreen = true;
 
 	}

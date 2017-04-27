@@ -1,39 +1,15 @@
 package me.boxcubed.main.desktop.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.SocketException;
-import java.util.ArrayList;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl.LwjglFiles;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.boxcubed.net.KyroPlayer;
-import com.boxcubed.net.Multiplayer_Player;
-import com.boxcubed.net.NetworkManager;
-import com.boxcubed.net.StringPacket;
-import com.boxcubed.net.packets.InputPacket;
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.minlog.Log;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import me.boxcubed.main.Objects.collision.MapBodyBuilder;
+import java.io.BufferedReader;import java.io.IOException;import java.io.InputStreamReader;import java.util.HashMap;import com.badlogic.gdx.Gdx;import com.badlogic.gdx.backends.lwjgl.LwjglFiles;import com.badlogic.gdx.maps.tiled.TiledMap;import com.badlogic.gdx.math.Vector2;import com.badlogic.gdx.physics.box2d.World;import com.boxcubed.net.KyroPlayer;import com.boxcubed.net.Multiplayer_Player;import com.boxcubed.net.NetworkManager;import com.boxcubed.net.packets.LocalPlayerPosPacket;import com.boxcubed.net.packets.PlayerDisconnectPacket;import com.boxcubed.net.packets.PlayerUpdatePacket;import com.esotericsoftware.kryonet.Connection;import com.esotericsoftware.kryonet.Listener;import com.esotericsoftware.kryonet.Server;import com.esotericsoftware.minlog.Log;import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 
 public class KyroServer extends Thread {
 	Server kServer;
-	ArrayList<KyroPlayer> players;
+	HashMap<Integer,KyroPlayer> players;
 	public static World world=new World(new Vector2(0, 0), true);
 	public static KyroServer instance;
 	public boolean stop=false;
 	
-	GsonBuilder gsonBuilder;
+
 	TiledMap map;
 
 
@@ -53,17 +29,17 @@ public class KyroServer extends Thread {
 		float sleep=0.0001f;
 		//hints.connectTimeout=1000;
 		ConsoleThread inCon = null;
-		Gson gson = null;
+
 		
 		
 
 		try{
 		log("Starting Project Top Down Multiplayer Server...");
 		
-		gson= new Gson();
+
 		
 		Gdx.files=new LwjglFiles();
-		players=new ArrayList<>();
+		players=new HashMap<>();
 		map=new ServerTiledMapLoader().load("assets/maps/map2.tmx");
 		MapBodyBuilder.buildShapes(map, 1, world);
 		//TODO make collision class for multiplayer
@@ -71,19 +47,13 @@ public class KyroServer extends Thread {
 				
 		kServer=new Server();
 		
-		new Thread(()->{while(true)
-			try {
-				kServer.update(0);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}}).start();
+		kServer.start();
 		kServer.bind(22222, 22222);
 		
 		
-		Kryo kryo = kServer.getKryo();
+
 		Log.set(Log.LEVEL_INFO);
-	    NetworkManager.initKryo(kryo);
+	    NetworkManager.initKryo(kServer.getKryo());
 		addServerListeners();
 		
 		inCon=new ConsoleThread();
@@ -98,51 +68,17 @@ public class KyroServer extends Thread {
 		while(!stop){
 			
 			try{
-				startLoop=System.nanoTime();
-				//Checking connections for both Players
-		
-						
-				if(!players.isEmpty())
-				for(int i=0;i<players.size();i++){
-					KyroPlayer player=players.get(0);
-					try{
-						String packetData="";
-						
-						if(player.player==null)
-							player.player=new Multiplayer_Player(world, p->world.destroyBody(p.getBody()));
-						if(!player.connected)
-							throw new SocketException();
-					player.loc=player.player.getPos().cpy();
-					player.rotation=player.player.rotation;
-					players.remove(player);
-					player.connection.sendUDP(new StringPacket(packetData));
-					players.add(player);
-					player.player.update(10);
-					//System.out.println(jsonMaker.prettyPrint(playerData));
-					/*InputPacket in=(InputPacket)player.in.readObject();
-					player.player.processCommand(in);
-					player.player.update(delta);*/
-					
-					
-					
-					
-					}catch(SocketException e){log(player.name+" has disconnected: "+player.reason);
-					player.player.dispose();
-					players.remove(player); }
-				}
-				endLoop=System.nanoTime();	
-				delta=endLoop-startLoop;
-				elapsedTime+=delta;
-				world.step((float)delta/1000000000f, 10, 5);
+				startLoop=System.currentTimeMillis();
+				players.forEach((id,player)->{					if(player.player==null)						player.player=new Multiplayer_Player(world);														});
 				String con=inCon.lastOutput;
 				String[] conSplit=con.split(" ");
 				switch(conSplit[0]){
 				case "teleport":
 					try{
 						
-								players.get(Integer.parseInt(conSplit[1])-1)
+								players.get(Integer.parseInt(conSplit[1]))
 								.player.getBody().setTransform(new Vector2(Float.parseFloat(conSplit[2]), Float.parseFloat(conSplit[3])),
-										players.get(Integer.parseInt(conSplit[1])-1).player.getBody().getTransform().getRotation());
+										players.get(Integer.parseInt(conSplit[1])).player.getBody().getTransform().getRotation());								kServer.sendToUDP(Integer.parseInt(conSplit[1]), new LocalPlayerPosPacket(new Vector2(Float.parseFloat(conSplit[2]), Float.parseFloat(conSplit[3]))));
 								log("Teleported Player to given coords"); 
 								
 							
@@ -166,8 +102,8 @@ public class KyroServer extends Thread {
 				}
 				if(inCon.lastOutput!="")
 				inCon.lastOutput="";
-				
-				
+								endLoop=System.currentTimeMillis();					delta=endLoop-startLoop;				elapsedTime+=delta;				updateWorld();				
+				Thread.sleep(10);
 				//log(Long.toString(delta));
 				
 				
@@ -199,13 +135,7 @@ public class KyroServer extends Thread {
 			
 	}
 		log("Server Shutting Down...");
-		try{players.forEach(player->{try {
-			player.connection.sendTCP("disconnect:Server has Shut Down");
-			player.connection.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}player.player.dispose();});
+		try{players.forEach((id,player)->{player.player.dispose();});		kServer.sendToAllTCP("disconnect:Server has shut down");
 		players.clear();
 		world.dispose();
 			if(inCon!=null)
@@ -215,19 +145,18 @@ public class KyroServer extends Thread {
 			
 		}catch(Exception e){logError("Failed in shutting down!:"+e.getMessage());}
 	}
-
+private synchronized void updateWorld(){	world.step(10f, 10, 5);}private synchronized void removePlayer(Multiplayer_Player p){	p.dispose();}
 private void addServerListeners() {
 	kServer.addListener(new Listener(){
 		@Override
 		public void connected(Connection connection) {
-			KyroPlayer player=new KyroPlayer(connection, Double.toString(Math.random()), 
-					 new Vector2());
-			PlayerListener lis=new PlayerListener(player);
+			
+			PlayerListener lis=new PlayerListener();
 			connection.addListener(lis);
 			
 			
 			
-			players.add(player);
+
 		}
 		@Override
 		public void disconnected(Connection connection) {
@@ -237,9 +166,9 @@ private void addServerListeners() {
 			super.idle(connection);
 		}
 		@Override
-		public void received(Connection connection, Object object) {
-			// TODO Auto-generated method stub
-			super.received(connection, object);
+		public void received(Connection connection, Object object) {			
+
+
 		}
 	});
 		
@@ -281,25 +210,20 @@ class ConsoleThread extends Thread{
 	}
 }
 class PlayerListener extends Listener{
-	boolean gotName=false;
-	KyroPlayer p;
-	public PlayerListener(KyroPlayer p) {
-		this.p=p;
-	}
+	boolean gotName=false;	int failedNameRecieve;
+	public KyroPlayer p;
+		 public PlayerListener() {	}
 	
 	@Override
-	public void received(Connection connection, Object ob) {
+	public void received(Connection connection, Object ob) {		if(failedNameRecieve==10)connection.close();
 		if(ob instanceof String){
-			if(gotName==false){
-				p.name=(String)ob;
-				gotName=true;
-				log((String)ob+" has joined");
+			if(gotName==false&&((String)ob).startsWith("name:")){				gotName=true;				KyroPlayer player=new KyroPlayer(connection, Double.toString(Math.random()), 						 new Vector2());				p=player;				p.name=((String)ob).split(":")[1];				players.put(connection.getID(), player);				
+				
+				log(p.name+" has joined");
 				
 			}
-		}
-		else if(ob instanceof InputPacket){
-			p.player.command=(InputPacket)ob;
-		}
+		}		if(gotName==false){log("Player attempted to send packet without name: "+connection.getID());failedNameRecieve++;return;}		else if(ob instanceof PlayerUpdatePacket){			PlayerUpdatePacket packet=(PlayerUpdatePacket)ob;			packet.name=p.name;			packet.health=100;			kServer.sendToAllExceptUDP(connection.getID(), packet);					}
+		
 			
 		
 			
@@ -312,8 +236,8 @@ class PlayerListener extends Listener{
 	@Override
 	public void disconnected(Connection connection) {
 		if(gotName==false)
-			log("Player failed connection");
-		p.connected=false;
+			log("Player failed connection");		log(p.name+" has disconnected");		
+		p.connected=false;				players.remove(connection.getID());		removePlayer(p.player);		kServer.sendToAllExceptTCP(connection.getID(),new PlayerDisconnectPacket(p.name, connection.getID(), ""));		connection.sendTCP(new PlayerDisconnectPacket(p.name, connection.getID(), "Disconnected"));
 	}
 	@Override
 	public void idle(Connection connection) {

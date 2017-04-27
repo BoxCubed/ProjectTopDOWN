@@ -250,6 +250,7 @@ public class GameState implements State, CleanInputProcessor{
 			}}
 			player.connection=null;
 			TopDown.instance.setScreen(new MenuState(this));
+			return;
 		}
 	}
 

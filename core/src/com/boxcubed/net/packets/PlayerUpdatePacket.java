@@ -22,7 +22,7 @@ public class PlayerUpdatePacket {
 	public PlayerUpdatePacket(float rotation, Vector2 location, int id) {
 		this(rotation, location, id,0,"");
 	}
-	
+	public PlayerUpdatePacket(){}
 	
 
 }
