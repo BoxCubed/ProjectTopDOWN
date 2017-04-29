@@ -65,21 +65,6 @@ public class Player implements LivingEntity, Movable {
 	private World world;
 	Sound gunshotSound;
 	GunType gun;
-
-	/**
-	 * Create a new Player
-	 * 
-	 * @param world
-	 *            the world the player should be in
-	 * @param state
-	 *            The state the player should be in <br>
-	 *            0 is local, 1 is player client, 2 is player server<br>
-	 *            <br>
-	 *            Make sure to supply a connection with
-	 *            {@link Player#setConnection(ClientConnection)} if the state
-	 *            isn't 0. Do this before calling update.
-	 * 
-	 */
 	
 	public Player(World world, int state) {
 		if(state==1||state==2){
@@ -96,12 +81,6 @@ public class Player implements LivingEntity, Movable {
 		this.state = state;
 		this.world=world;
 		
-		/*
-		 * atlas=new TextureAtlas(Gdx.files.internal(
-		 * "assets/spritesheets/playersheet.atlas")); atlas2=new
-		 * TextureAtlas(Gdx.files.internal("assets/spritesheets/leganim.atlas"))
-		 * ;
-		 */
 		animation = TopDown.assets.get(Assets.playerATLAS + ":anim", Animation.class);
 		animationLeg = TopDown.assets.get(Assets.legATLAS + ":anim", Animation.class);
 		playerDef = new BodyDef();
@@ -279,8 +258,10 @@ public class Player implements LivingEntity, Movable {
 	private boolean processMovment(String key) {
 
 		String method;
-		if (Gdx.input.isKeyJustPressed(Keys.SHIFT_LEFT))
+		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){
 			method = "run";
+			}
+		
 		else
 			method = "go";
 
@@ -315,11 +296,6 @@ public class Player implements LivingEntity, Movable {
 
 	@Override
 	public Vector2 getPos() {
-		// This shitttt pissed me off soo many times. Whenever i wanted the
-		// player pos, this stupid shit kept
-		// On giving me the wrong values and for so long i wondered why it never
-		// worked properly
-
 		// For thread safety
 		if (state == 1 || state == 2)
 			return lastPos;
@@ -361,22 +337,26 @@ public class Player implements LivingEntity, Movable {
 
 	@Override
 	public void runUP() {
-
+		playerBody.applyLinearImpulse(new Vector2(0, 120 * delta), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(8f);
 	}
 
 	@Override
 	public void runDOWN() {
-
+		playerBody.applyLinearImpulse(new Vector2(0f, -120f * delta), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(-8f);
 	}
 
 	@Override
 	public void runLEFT() {
-
+		playerBody.applyLinearImpulse(new Vector2(-120f * delta, 0), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(8f);
 	}
 
 	@Override
 	public void runRIGHT() {
-
+		playerBody.applyLinearImpulse(new Vector2(120 * delta, 0), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(-8f);
 	}
 
 	public void stop() {
