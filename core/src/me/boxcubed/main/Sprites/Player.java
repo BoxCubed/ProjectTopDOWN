@@ -337,28 +337,29 @@ public class Player implements LivingEntity, Movable {
 
 	@Override
 	public void runUP() {
-		playerBody.applyLinearImpulse(new Vector2(0, 120 * delta), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(8f);
+		playerBody.applyLinearImpulse(new Vector2(0, 80*delta), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(0);
 	}
 
 	@Override
 	public void runDOWN() {
-		playerBody.applyLinearImpulse(new Vector2(0f, -120f * delta), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(-8f);
+		playerBody.applyLinearImpulse(new Vector2(0, -80*delta), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(0);
 	}
 
 	@Override
 	public void runLEFT() {
-		playerBody.applyLinearImpulse(new Vector2(-120f * delta, 0), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(8f);
+		playerBody.applyLinearImpulse(new Vector2(-80*delta, 0), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(0);
 	}
 
 	@Override
 	public void runRIGHT() {
-		playerBody.applyLinearImpulse(new Vector2(120 * delta, 0), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(-8f);
+		playerBody.applyLinearImpulse(new Vector2(80*delta, 0), playerBody.getWorldCenter(), true);
+		playerBody.setAngularVelocity(0);
 	}
 
+	
 	public void stop() {
 		playerBody.setLinearVelocity(0f, 0f);
 		// playerBody.setAngularVelocity(0);
