@@ -47,7 +47,10 @@ public class Player implements LivingEntity, Movable {
 	//end body stuff
 	
 	public Crosshair crossH;
+	
 	double health = getMaxHealth();
+	float stamina = getMaxStamina();
+	
 	private Animation<TextureRegion> animation, animationLeg;
 	// private TextureAtlas atlas,atlas2;
 	public float legOffX = 15, legOffY = 15;
@@ -62,6 +65,7 @@ public class Player implements LivingEntity, Movable {
 	private ParticleEffect effect=TopDown.assets.get(Assets.flameEFFECT, ParticleEffect.class);
 	public int state;
 	public float rotation = 0;
+	
 	private World world;
 	Sound gunshotSound;
 	GunType gun;
@@ -163,7 +167,10 @@ public class Player implements LivingEntity, Movable {
 			effect.update(delta / 100);
 
 			elapsedTime += delta;
-
+			
+			if(stamina<100&&!Gdx.input.equals(Keys.SHIFT_LEFT))stamina+=delta;
+			System.out.println(stamina);
+			
 			crossH.update(delta);
 			sprite.setRotation(rotation);
 
@@ -259,7 +266,9 @@ public class Player implements LivingEntity, Movable {
 
 		String method;
 		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){
-			method = "run";
+			if(stamina>0){stamina-=delta;
+			method = "run";}
+			else{method="go";}
 			}
 		
 		else
@@ -281,7 +290,6 @@ public class Player implements LivingEntity, Movable {
 			return true;
 		Method m;
 		try {
-			// this, my friends, is reflection. Learn it. Its good.
 			m = getClass().getMethod(method, (Class<?>[]) null);
 			m.invoke(this, (Object[]) null);
 			return true;
@@ -387,6 +395,13 @@ public class Player implements LivingEntity, Movable {
 	public double getHealth() {
 		return health;
 	}
+	public float getStamina(){
+		return stamina;
+	}
+	
+	public void setStamina(float stamina){
+		this.stamina=stamina;
+	}
 
 	@Override
 	public void setHealth(double health) {
@@ -395,6 +410,10 @@ public class Player implements LivingEntity, Movable {
 
 	@Override
 	public double getMaxHealth() {
+		return 50;
+	}
+	
+	public float getMaxStamina(){
 		return 50;
 	}
 

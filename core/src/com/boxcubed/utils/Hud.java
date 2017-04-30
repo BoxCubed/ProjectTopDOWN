@@ -30,7 +30,6 @@ public class Hud {
 		format = new DecimalFormat("#.#");
 	}
 	public void render(SpriteBatch sb){
-		String health = "";
 		int i;
 
 		for (i = 0; i < GameState.instance.player.getHealth() / GameState.instance.player.getMaxHealth() * 100f; i+=10) {
@@ -55,8 +54,7 @@ public class Hud {
 		Vector3 mousePos=GameState.instance.getMouseCords(); 
 		font.draw(sb, "Mouse Position: "+format.format(mousePos.x)+","+format.format(mousePos.y), -600, textCam.viewportHeight/2-20);
 		
-		font.draw(sb, health, -200, textCam.viewportHeight / 2 - 50);
-		
+		font.draw(sb, "Stamina: "+GameState.instance.player.getStamina(),300,textCam.viewportHeight/2);
 	}
 	
 	public void dispose(){
