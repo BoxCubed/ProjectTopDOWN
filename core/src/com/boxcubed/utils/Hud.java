@@ -15,14 +15,16 @@ import me.boxcubed.main.States.GameState;
 
 public class Hud {
 	public OrthographicCamera textCam;
-	Texture healthTex;
+	Texture healthTexture;
+	Texture staminaTexture;
 	DecimalFormat format;
 	BitmapFont font = new BitmapFont();
 	public Hud(){
 		textCam = new OrthographicCamera(1280, 900);
 		textCam.update();
 		
-		healthTex = TopDown.assets.get(Assets.healthIMAGE, Texture.class);
+		healthTexture = TopDown.assets.get(Assets.healthIMAGE, Texture.class);
+		staminaTexture = TopDown.assets.get(Assets.staminaIMAGE,Texture.class);
 	}
 	public void update(){
 		textCam.update();
@@ -33,7 +35,11 @@ public class Hud {
 		int i;
 
 		for (i = 0; i < GameState.instance.player.getHealth() / GameState.instance.player.getMaxHealth() * 100f; i+=10) {
-			sb.draw(healthTex,i*2,textCam.viewportHeight/2-50,30,30);
+			sb.draw(healthTexture,i*2,textCam.viewportHeight/2-50,30,30);
+		}
+		
+		for (i = 0; i < GameState.instance.player.getStamina() / GameState.instance.player.getMaxStamina() * 100f; i+=10) {
+			sb.draw(staminaTexture,i*2,textCam.viewportHeight/2-80,12,15);
 		}
 								//TODO fix alignment
 		font.draw(sb, "FPS/Delta: " + Gdx.graphics.getFramesPerSecond()+"/"+
@@ -54,7 +60,6 @@ public class Hud {
 		Vector3 mousePos=GameState.instance.getMouseCords(); 
 		font.draw(sb, "Mouse Position: "+format.format(mousePos.x)+","+format.format(mousePos.y), -600, textCam.viewportHeight/2-20);
 		
-		font.draw(sb, "Stamina: "+GameState.instance.player.getStamina(),300,textCam.viewportHeight/2);
 	}
 	
 	public void dispose(){

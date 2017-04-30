@@ -26,7 +26,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 			MainMAP="maps/map2.tmx",
 			
 			scrollMenuIMAGE="img/menu.jpg",bulletIMAGE="img/bullet.png",crossHairIMAGE="img/crosshair.png",logoIMAGE="img/logo.png",
-			healthIMAGE="img/health.png",mflashIMAGE="img/muzzle_flash.png",
+			healthIMAGE="img/health.png",mflashIMAGE="img/muzzle_flash.png",staminaIMAGE="img/stamina.png",
 			particleIMAGE="img/particle.png",playerIMAGE="img/player.png",zombieIMAGE="img/skeleton-idle_0.png",
 			
 			playerATLAS="spritesheets/playersheet.atlas",legATLAS="spritesheets/leganim.atlas",zombieAttackATLAS="spritesheets/zombieanim.atlas",
@@ -112,6 +112,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		load(particleIMAGE, Texture.class);
 		load(playerIMAGE, Texture.class);
 		load(zombieIMAGE, Texture.class);
+		load(staminaIMAGE, Texture.class);
 	}
 	private void loadAtlases(){
 		load(playerATLAS, TextureAtlas.class);

@@ -263,7 +263,7 @@ public class Player implements LivingEntity, Movable {
 
 		String method;
 		
-		if(stamina<getMaxStamina()&&!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){stamina+=delta/4;System.out.println("recovering");}
+		if(stamina<getMaxStamina()&&!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){stamina+=delta/4;}
 		
 		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){	
 			if(stamina>0){stamina-=delta/2;
