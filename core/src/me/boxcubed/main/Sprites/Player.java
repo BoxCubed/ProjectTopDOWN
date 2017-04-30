@@ -167,10 +167,7 @@ public class Player implements LivingEntity, Movable {
 			effect.update(delta / 100);
 
 			elapsedTime += delta;
-			
-			if(stamina<100&&!Gdx.input.equals(Keys.SHIFT_LEFT))stamina+=delta;
-			System.out.println(stamina);
-			
+		
 			crossH.update(delta);
 			sprite.setRotation(rotation);
 
@@ -265,8 +262,11 @@ public class Player implements LivingEntity, Movable {
 	private boolean processMovment(String key) {
 
 		String method;
-		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){
-			if(stamina>0){stamina-=delta;
+		
+		if(stamina<getMaxStamina()&&!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){stamina+=delta/4;System.out.println("recovering");}
+		
+		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){	
+			if(stamina>0){stamina-=delta/2;
 			method = "run";}
 			else{method="go";}
 			}
@@ -414,7 +414,7 @@ public class Player implements LivingEntity, Movable {
 	}
 	
 	public float getMaxStamina(){
-		return 50;
+		return 100;
 	}
 
 	boolean hurt = false;
