@@ -19,13 +19,13 @@ import me.boxcubed.main.States.GameState;
 public class NetworkBullet implements Entity{
 	
 		
-		BodyDef bulletDef;
-		PolygonShape bulletShape;
-		FixtureDef fixtureDefBullet;
-		Body bulletBody;
-		Fixture fixture;
-		World world;
-		RayCastCallback callback;
+		private BodyDef bulletDef;
+		private PolygonShape bulletShape;
+		private FixtureDef fixtureDefBullet;
+		private Body bulletBody;
+		private Fixture fixture;
+		private World world;
+		private final RayCastCallback callback;
 		
 		float rotation;
 		public float SPEED = 20;
