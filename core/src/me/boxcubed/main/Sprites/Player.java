@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,14 +24,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.NetworkManager;
 import com.boxcubed.utils.Assets;
-import com.boxcubed.utils.BoxoUtil;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.EntityType;
-import me.boxcubed.main.Objects.interfaces.GunType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
-import me.boxcubed.main.States.GameState;
+import me.boxcubed.main.Sprites.guns.AK47;
+import me.boxcubed.main.Sprites.guns.Gun;
 
 public class Player implements LivingEntity, Movable {
 	private Sprite sprite;
@@ -68,7 +66,7 @@ public class Player implements LivingEntity, Movable {
 	
 	private World world;
 	Sound gunshotSound;
-	GunType gun;
+	Gun gun;
 	
 	public Player(World world, int state) {
 		if(state==1||state==2){
@@ -115,7 +113,8 @@ public class Player implements LivingEntity, Movable {
 		legOffY = 10;
 		legOffX = 10;
 
-		gun=GunType.PISTOL;
+		gun=new AK47();
+		
 		
 		
 
@@ -206,34 +205,21 @@ public class Player implements LivingEntity, Movable {
 			dispose();
 			isDisposed = true;
 		}
-		// finished bullets
 	}
-
+	
 	public void handleInput() {
-		/*if (state == 1 && connection != null) {
-			processMovment("UNKNOWN");
-			return;
-		}*/
+		
 		if(state==2)return;
+		if(state==1)processMovment("UNKNOWN");
 		Input input = Gdx.input;
-
 		boolean keyPressed = false;
-		
+		if(stamina<getMaxStamina()&&!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){stamina+=delta/4;}
 
-		if (gun.equals(GunType.PISTOL)) {
-			if(BoxoUtil.isButtonJustPressed(Buttons.LEFT) || input.isKeyJustPressed(Keys.SPACE)){
-			gunshotSound.play(1.0f);
-			
-			GameState.instance.entities
-					.add(new Bullet(world, getPos().x, getPos().y, crossH.offX, crossH.offY,rotation));
-			if(state==1)
-				connection.onFire(getPos(),rotation,gun.toString());
-			}
-		}
+		if(gun.willFire(input, delta, this))
+			if(state==0)
+			gun.fire(world, this);
+			else gun.netFire(connection, world, this);
 		
-		if(gun.equals(GunType.AK47)){
-			//TODO ak47
-		}
 		if (input.isKeyPressed(Keys.W) || input.isKeyPressed(Keys.UP)) {
 			keyPressed = true;
 			processMovment("UP");
@@ -263,7 +249,7 @@ public class Player implements LivingEntity, Movable {
 
 		String method;
 		
-		if(stamina<getMaxStamina()&&!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){stamina+=delta/4;}
+		
 		
 		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){	
 			if(stamina>0){stamina-=delta/2;
