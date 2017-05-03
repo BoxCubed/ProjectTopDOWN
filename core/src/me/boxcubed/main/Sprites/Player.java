@@ -142,6 +142,7 @@ public class Player implements LivingEntity, Movable {
 			else
 				this.delta = delta;
 			handleInput();
+			if(state==2)playerBody.setLinearVelocity(0, 0);
 			if (shooting&&state==0) {
 				effect.setPosition(getPos().x, getPos().y);
 				for (ParticleEmitter emit : effect.getEmitters()) {
@@ -215,10 +216,12 @@ public class Player implements LivingEntity, Movable {
 		boolean keyPressed = false;
 		if(stamina<getMaxStamina()&&!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){stamina+=delta/4;}
 
-		if(gun.willFire(input, delta, this))
-			if(state==0)
+		if(gun.willFire(input, delta, this)){
+			
 			gun.fire(world, this);
-			else gun.netFire(connection, world, this);
+			if(state==1)
+			gun.netFire(connection, world, this);
+			}
 		
 		if (input.isKeyPressed(Keys.W) || input.isKeyPressed(Keys.UP)) {
 			keyPressed = true;

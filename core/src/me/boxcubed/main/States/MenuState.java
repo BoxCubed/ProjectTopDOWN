@@ -142,7 +142,7 @@ public class MenuState implements Screen {
 					loadedInstance.player.connection=null;
 					
 					}
-				loadedInstance.player=new Player(loadedInstance.getWorld(), 0);
+				loadedInstance.newPlayer(0);
 				
                 TopDown.instance.setScreen(loadedInstance);
 			}

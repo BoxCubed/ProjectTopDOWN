@@ -235,8 +235,7 @@ public class GameState implements State, CleanInputProcessor{
 			if (player.isAlive())
 				player.setHealth(player.getMaxHealth());
 			else{
-				player = new Player(gameWORLD,0);
-				playerAI=new SteeringAI(player, player.getSprite().getWidth());
+				newPlayer(player.state);
 			}
 		}
 		
@@ -327,6 +326,11 @@ public class GameState implements State, CleanInputProcessor{
 
 	public World getWorld() {
 		return gameWORLD;
+	}
+	public void newPlayer(int state){
+		player.dispose();
+		player=new Player(gameWORLD, state);
+		playerAI=new SteeringAI(player, player.getSprite().getWidth());
 	}
 
 

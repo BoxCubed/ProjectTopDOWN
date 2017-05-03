@@ -9,7 +9,7 @@ import me.boxcubed.main.Sprites.Player;
 public interface Gun {
 /**
  * Whether the conditions are met for a bullet to fire
- * @return true if bullet should fire, false ootherwise
+ * @return true if bullet should fire, false otherwise
  * 
  */
 public boolean willFire(Input input, float delta,Player player);
