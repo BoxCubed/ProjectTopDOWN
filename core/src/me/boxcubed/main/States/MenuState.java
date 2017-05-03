@@ -21,6 +21,7 @@ import com.boxcubed.utils.MenuButton;
 import com.boxcubed.utils.MenuListener;
 import com.boxcubed.utils.ParallaxBackground;
 import com.boxcubed.utils.ParallaxLayer;
+import com.boxcubed.utils.easinglib.Bounce;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Sprites.Player;
@@ -40,11 +41,12 @@ public class MenuState implements Screen {
     SpriteBatch batch=new SpriteBatch();
     
     BitmapFont font;
-    GlyphLayout startGlyph;
+    GlyphLayout startGlyph,multiGlyph;
     ParallaxBackground bg;
     ShapeRenderer renderer;
     NetworkManager connection;
     boolean clicked=false;
+    float elapsedTime=0;
     public MenuState(GameState loadedInstance) {
     	//Init of debug shape rendrer
         renderer = new ShapeRenderer();
@@ -74,8 +76,13 @@ public class MenuState implements Screen {
 
     public void update(float delta) {
     	stage.act();
+    	elapsedTime+=delta;
     	clickButton.update(delta);
     	multiplayerButton.update(delta);
+    	if(elapsedTime>2 )return;
+    	clickButton.setY(Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight()/2, 2));
+    	multiplayerButton.setY(Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight()/2-100, 2));
+    	
     	
 
     }
@@ -155,7 +162,7 @@ public class MenuState implements Screen {
         clickButton.getRect().width=clickButton.f.width;
         clickButton.getRect().height=clickButton.f.height;
         font.setColor(Color.GREEN);
-        GlyphLayout multiGlyph=new GlyphLayout(font, "Start Multiplayer");
+        multiGlyph=new GlyphLayout(font, "Start Multiplayer");
     	multiplayerButton=new MenuButton(multiGlyph, font, Gdx.graphics.getWidth()/2-multiGlyph.width/2, Gdx.graphics.getHeight()/2-100, 
     			new MenuListener() {
 					
