@@ -24,7 +24,6 @@ import com.boxcubed.utils.ParallaxLayer;
 import com.boxcubed.utils.easinglib.Bounce;
 
 import me.boxcubed.main.TopDown;
-import me.boxcubed.main.Sprites.Player;
 
 /**
  * @author BoxCubed

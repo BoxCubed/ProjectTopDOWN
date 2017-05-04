@@ -1,30 +1,24 @@
-package me.boxcubed.main.Sprites;
+package me.boxcubed.main.Objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 
-import box2dLight.ConeLight;
 import box2dLight.RayHandler;
-import me.boxcubed.main.Objects.StopWatch;
 
-/**
- * Created by Tej Sidhu on 3/03/2017.
- */
-public class PlayerLight{
+public class Clock {
 	//TODO make new class for just time handling
-    private RayHandler rayHandler;
+    public RayHandler rayHandler;
     boolean flashlightState=true;
-    ConeLight pointLight;
-    StopWatch timer;
-    Player player;
-   private static boolean night=false;
-   public static float amlight=1f;
-    public PlayerLight(World world,Body bod,RayHandler rayHandler,ConeLight light){
+    private StopWatch timer;
+    public boolean progressTime;
+   private boolean night=false;
+   public float amlight=1f;
+    public Clock(World world){
     	timer = new StopWatch();
-    	this.rayHandler=rayHandler;
-    	this.pointLight=light;
+    	rayHandler=new RayHandler(world);
+    	progressTime=true;
         //LIGHT init
         /*rayHandler = new RayHandler(world);
         pointLight =new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45);
@@ -32,25 +26,13 @@ public class PlayerLight{
         //pointLight.attachToBody(bod);
     }
     
-    public void updateLightPos(float x, float y,float angle,float delta){
-        //Makes sure that the light moves with the player
-    	  pointLight.setPosition(x+2.5f, y+2.5f);
-          pointLight.setDirection(angle);
-          
-      if(Gdx.input.isKeyJustPressed(Keys.F)){
-    	flashlightState=!flashlightState;
-      }
-      
-    	if(flashlightState){pointLight.setDistance(100);}else{pointLight.setDistance(0);}
-        if(Gdx.input.isKeyPressed(Keys.L)){
-        	if(flashlightState)pointLight.setDistance(400);}
-        else if(flashlightState)pointLight.setDistance(100);
+    public void updateLight(float delta){
         
         if(Gdx.input.isKeyPressed(Keys.EQUALS))
         	amlight+=0.01f;
         if(Gdx.input.isKeyPressed(Keys.MINUS))
         	amlight-=0.01f; //jkjk
-        
+        if(!progressTime)return;
         if(amlight<0.07||amlight>1){
         	night=!night;}
         if(night){timer.start();}
@@ -60,18 +42,16 @@ public class PlayerLight{
         rayHandler.setAmbientLight(amlight);
         rayHandler.update();
     }
-    /**
-     * @deprecated
-     */
-    public void renderLIGHT(){
+    public void renderLIGHT(OrthographicCamera matrix){
+    	rayHandler.setCombinedMatrix(matrix);
         rayHandler.render();
+        
     }
 
 	public void dispose() {
-        pointLight.dispose();
-		
+		rayHandler.dispose();
 	}
-	public static String amToTime(){
+	public String amToTime(){
 		float hrs,mins;
 		if(night){
 		hrs=(amlight*12);
@@ -87,4 +67,5 @@ public class PlayerLight{
 		
 		//return Float.toString(amlight);
 	}
+
 }

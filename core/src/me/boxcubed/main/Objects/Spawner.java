@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
-import me.boxcubed.main.Sprites.PlayerLight;
 import me.boxcubed.main.Sprites.Zombie;
 import me.boxcubed.main.States.GameState;
 
@@ -27,22 +26,24 @@ public class Spawner {
 	private float elapsedTime=0;
 	private float delay;
 	private int limit;
+	private Clock clock;
 	/**
 	 * The total amount of entities this spawner spawned
 	 */
 	public int amount;
-	public Spawner(EntityType entity, Vector2 pos,float delay,int limit){
+	public Spawner(EntityType entity, Vector2 pos,float delay,int limit,Clock clock){
 		this.pos=pos;
 		this.entity=entity;
 		this.delay=delay;
 		this.limit=limit;
+		this.clock=clock;
 	}
 	/**
 	 * 
 	 * @param delta in same units as delay given
 	 */
 	public void update(float delta,int currentAmount){
-		if(PlayerLight.amlight>0.3f)return;
+		if(clock.amlight>0.3f)return;
 		if(currentAmount<limit){  
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){

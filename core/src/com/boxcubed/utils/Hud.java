@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
 import me.boxcubed.main.TopDown;
-import me.boxcubed.main.Sprites.PlayerLight;
+import me.boxcubed.main.Objects.Clock;
 import me.boxcubed.main.States.GameState;
 
 public class Hud {
@@ -19,7 +19,9 @@ public class Hud {
 	Texture staminaTexture;
 	DecimalFormat format;
 	BitmapFont font = new BitmapFont();
-	public Hud(){
+	Clock clock;
+	public Hud(Clock clock){
+		this.clock=clock;
 		textCam = new OrthographicCamera(1280, 900);
 		textCam.update();
 		
@@ -48,7 +50,7 @@ public class Hud {
 		font.draw(sb, "Entity Number: " + GameState.instance.entities.size(), -380, textCam.viewportHeight / 2);
 		
 		font.draw(sb,														//TODO make time work with night 5 sec delay
-				"Time: " + /* format.format((PlayerLight.amlight*100)/8) */PlayerLight.amToTime(), -120,
+				"Time: " + /* format.format((PlayerLight.amlight*100)/8) */clock.amToTime(), -120,
 				textCam.viewportHeight / 2);
 		
 		font.draw(sb, "noZombieMode: " + GameState.instance.noZombie, 0, textCam.viewportHeight / 2);

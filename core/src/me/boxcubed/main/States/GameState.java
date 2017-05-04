@@ -32,8 +32,9 @@ import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
 
 import box2dLight.ConeLight;
-import box2dLight.RayHandler;
 import me.boxcubed.main.TopDown;
+import me.boxcubed.main.Objects.Clock;
+import me.boxcubed.main.Objects.PlayerLight;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
@@ -43,7 +44,6 @@ import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Pack;
 import me.boxcubed.main.Sprites.Pack.PackType;
 import me.boxcubed.main.Sprites.Player;
-import me.boxcubed.main.Sprites.PlayerLight;
 
 public class GameState implements State, CleanInputProcessor{
 	//TODO get rid of that random box that spawns next to the player
@@ -57,7 +57,7 @@ public class GameState implements State, CleanInputProcessor{
 	private ShapeRenderer sr;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
-	private RayHandler rayHandler;
+	private Clock clock;
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	//Support multiple players: DONE!
@@ -89,11 +89,11 @@ public class GameState implements State, CleanInputProcessor{
 				// World Init
 				gameWORLD = new World(new Vector2(0, 0), true);
 				gameWORLD.setContactListener(new CollisionDetection());
-				
+				clock=new Clock(gameWORLD);
 				
 				World.setVelocityThreshold(1000);
 				// HUD initializing
-				hud = new Hud();
+				hud = new Hud(clock);
 				hud.update();
 
 				// Box2D Stuff
@@ -108,11 +108,9 @@ public class GameState implements State, CleanInputProcessor{
 				entities = new ArrayList<Entity>();
 				dispose =new ArrayList<Entity>();
 
-        //Sorry if anything is fucked up
-        rayHandler = new RayHandler(gameWORLD);
+				
         
-        
-
+        //sound stuff TODO get paulscode 3d sound library
         ambientMusic =assets.get(Assets.ambientMUSIC, Music.class);
 		ambientMusic.setLooping(true);
 		ambientMusic.setVolume(0.6f);
@@ -120,19 +118,18 @@ public class GameState implements State, CleanInputProcessor{
 		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
         player = new Player(gameWORLD,0); //1 means multiplayer
-		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20);
+		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20,clock);
 		playerAI=new SteeringAI(player, player.getSprite().getWidth());
-		//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
-		// Apparently the lighting to the whole map, not sure why its player
 		// light
-		playerLight = new PlayerLight(gameWORLD, player.getBody(),rayHandler,new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45));
+		playerLight = new PlayerLight(gameWORLD, player.getBody(),new ConeLight(clock.rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes
 		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
 		//packs
 		entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
+		anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("img/health.gif").read());
 		//Server stuff
         server = new server();
-        anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("img/health.gif").read());
+       
         
 
     }
@@ -172,8 +169,9 @@ public class GameState implements State, CleanInputProcessor{
 		player.connection.updatePlayers(delta);
 
 		//Updating Light TODO dont make this only for player aka make a Flashlight class and and handling in gamestate
-		playerLight.updateLightPos(player.getPos().x, player.getPos().y,
-		player.rotation, delta);
+		playerLight.updateLightPos(player.getPos(),
+		player.rotation, delta,Gdx.input.isKeyPressed(Keys.L),true);
+		clock.updateLight(delta);
 		
 		//Update Zombie Spawns
 		if (!noZombie) {
@@ -219,9 +217,9 @@ public class GameState implements State, CleanInputProcessor{
 		
 		if (input.isKeyJustPressed(Input.Keys.T)) {
 			noTime = !noTime;
-			if (noTime) {PlayerLight.amlight = 2f;} 
+			if (noTime) {clock.amlight = 2f;clock.progressTime=false;} 
 			else {
-				PlayerLight.amlight = 1f;
+				clock.amlight = 1f;clock.progressTime=true;
 			}
 		}
 
@@ -261,7 +259,7 @@ public class GameState implements State, CleanInputProcessor{
 		tiledMapRenderer.render();
 		if(b2dr!=null)
 		b2dr.render(gameWORLD, cam.combined);
-		rayHandler.setCombinedMatrix(cam);
+		
 		//Entity render
 		batch.begin();                                                   //-------------------------------------\\                                               //       SEE THIS RENDER METHOD?       \\
 		entities.forEach(entity -> {
@@ -271,9 +269,8 @@ public class GameState implements State, CleanInputProcessor{
                                                                       //   AUSTIC, I'D LIKE TO KEEP IT THAT  \\
 		batch.end();                                                     //                 WAY                 \\
 		//Light render                                                //-------------------------------------\\     
-		rayHandler.render();
-		
-		//rendering not affected by light
+		clock.renderLIGHT(cam);
+		//Everything below is rendering not affected by light
 
 		//Shape rendering
 		//TODO get a texture for all shapes
