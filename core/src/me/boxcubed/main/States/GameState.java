@@ -92,6 +92,8 @@ public class GameState implements State, CleanInputProcessor{
 				gameWORLD = new World(new Vector2(0, 0), true);
 				gameWORLD.setContactListener(new CollisionDetection());
 				
+				
+				World.setVelocityThreshold(1000);
 				// HUD initializing
 				hud = new Hud();
 				hud.update();
