@@ -28,10 +28,10 @@ import me.boxcubed.main.TopDown;
  * @author BoxCubed
  */
 public class MenuState implements Screen {
-	Stage stage;
-    MenuButton clickButton;
-    MenuButton multiplayerButton;
-    TextField ipField;
+	private Stage stage;
+    private MenuButton clickButton;
+    private MenuButton multiplayerButton;
+    private TextField ipField,nameField;
     //OLD STUFF v
     /*TextureAtlas start=TopDown.assets.get(Assets.startATLAS, TextureAtlas.class);;
     Sprite hover=start.createSprite("hover"),click=start.createSprite("click"),normal=start.createSprite("normal");*/
@@ -64,10 +64,17 @@ public class MenuState implements Screen {
         //Stage setup
         stage=new Stage();
         ipField=new TextField("localhost:22222", TopDown.assets.get(Assets.menuSKIN, Skin.class));
+        nameField=new TextField("BoxCubed", TopDown.assets.get(Assets.menuSKIN, Skin.class));
         BoxoUtil.addInputProcessor(stage);
+        //ip field
         ipField.setPosition(Gdx.graphics.getWidth()/2-150,Gdx.graphics.getHeight()/2-150);
         ipField.setSize(300, 30);
         stage.addActor(ipField);
+        //name field
+        nameField.setPosition(Gdx.graphics.getWidth()/2-150,Gdx.graphics.getHeight()/2-200);
+        stage.addActor(nameField);
+        nameField.setSize(300, 30);
+        
         //Background setup
         TextureRegion bgRegion=new TextureRegion(TopDown.assets.get(Assets.scrollMenuIMAGE, Texture.class));
         bg=new ParallaxBackground(new ParallaxLayer[]{
@@ -201,6 +208,7 @@ public class MenuState implements Screen {
 						
 						if(connection==null){
 							connection=new NetworkManager(loadedInstance.player,ipField.getText());
+							connection.name=nameField.getText();
 							
 						}else if(connection.state.equals(ConnectionState.CONNECTING))
 							return;

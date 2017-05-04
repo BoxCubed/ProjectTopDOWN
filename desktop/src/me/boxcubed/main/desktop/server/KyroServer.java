@@ -26,7 +26,7 @@ public class KyroServer extends Thread {
 	public void run() {
 		//The time between the last request they sent to server
 		long startLoop=0,endLoop=0,delta=1,elapsedTime=0;
-		float sleep=0.0001f;
+
 		//hints.connectTimeout=1000;
 		ConsoleThread inCon = null;
 
@@ -90,9 +90,9 @@ public class KyroServer extends Thread {
 					break;
 				case "":break;
 				case "tps":
-					if(conSplit.length==1)
-					log("delta: "+(float)delta/1000000000f+" sleep: "+sleep+" Etime: "+elapsedTime);
-					else {sleep=Float.parseFloat(conSplit[1]); log("sleep time changed");}
+
+					log("delta: "+(float)delta +" Etime: "+elapsedTime);
+
 					break;
 				case "list":
 					log("There are "+players.size()+" player/s online");
@@ -185,11 +185,10 @@ class ConsoleThread extends Thread{
 class PlayerListener extends Listener{
 	boolean gotName=false;	int failedNameRecieve;
 	public KyroPlayer p;		  public PlayerListener() {	}
-	
-	@Override
+		@Override
 	public void received(Connection connection, Object ob) {		if(failedNameRecieve==10){			connection.sendTCP(new PlayerDisconnectPacket("", connection.getID(), "Failed to send name!"));			connection.close();}
 		if(ob instanceof String){
-			if(gotName==false&&((String)ob).startsWith("name:")){				gotName=true;				p=new KyroPlayer(connection, Double.toString(Math.random()));				p.name=((String)ob).split(":")[1];				p.id=connection.getID();				players.put(connection.getID(), p);								
+			if(gotName==false&&((String)ob).startsWith("name:")){				gotName=true;				p=new KyroPlayer(connection, Double.toString(Math.random()));				p.name=((String)ob).split(":")[1].trim();				p.id=connection.getID();				players.put(connection.getID(), p);								
 				
 				log(p.name+" has joined");
 				
