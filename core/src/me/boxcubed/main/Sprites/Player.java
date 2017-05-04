@@ -313,29 +313,29 @@ public class Player implements LivingEntity, Movable {
 	@Override
 	public void goUP() {
 		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-		playerBody.applyLinearImpulse(new Vector2(0, 10 * delta), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(5f);
+			playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y+=1.2f, playerBody.getAngle())
+			;}
 		}
-	}
+	
 
 	@Override
 	public void goDOWN() {
 		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-		playerBody.applyLinearImpulse(new Vector2(0f, -10f * delta), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(-5f);}
+	playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y-=1.2f, playerBody.getAngle())
+	;}
 	}
 
 	@Override
 	public void goLEFT() {
 		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-		playerBody.applyLinearImpulse(new Vector2(-10f * delta, 0), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(5f);}
+			playerBody.setTransform(playerBody.getPosition().x-=1.2f,playerBody.getPosition().y, playerBody.getAngle())
+			;}
 	}
 
 	@Override
 	public void goRIGHT() {if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-		playerBody.applyLinearImpulse(new Vector2(10 * delta, 0), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(-5f);}
+		playerBody.setTransform(playerBody.getPosition().x+=1.2f,playerBody.getPosition().y, playerBody.getAngle())
+		;}
 	}// d
 		// Running actions
 
