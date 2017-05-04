@@ -121,7 +121,7 @@ public class GameState implements State, CleanInputProcessor{
 		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20,clock);
 		playerAI=new SteeringAI(player, player.getSprite().getWidth());
 		// light
-		playerLight = new PlayerLight(gameWORLD, player.getBody(),new ConeLight(clock.rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45));
+		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes
 		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
 		//packs
@@ -143,7 +143,7 @@ public class GameState implements State, CleanInputProcessor{
         if(clients.get(id) != null){
             clients.get(id).multiPos=new Vector2(x, y);
         }else {
-            System.out.println("null. Worst error. Now to stop complaining and debug");
+            createNewPlayer(id);
         }
 	}
 

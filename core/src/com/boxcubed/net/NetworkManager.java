@@ -24,6 +24,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import me.boxcubed.main.Objects.interfaces.GunType;
 import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
@@ -197,7 +198,7 @@ public class NetworkManager extends Thread {
 			try {
 				bullet = pendingFire.take();
 				GameState.instance.entities.add(new Bullet(world, bullet.location.x, bullet.location.y, (float) (Math.cos(Math.toRadians(bullet.rotation))), 
-						(float) (Math.sin(Math.toRadians(bullet.rotation))),bullet.rotation));//TODO bullet types
+						(float) (Math.sin(Math.toRadians(bullet.rotation))),bullet.rotation,GunType.valueOf(bullet.type)));//TODO bullet types
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

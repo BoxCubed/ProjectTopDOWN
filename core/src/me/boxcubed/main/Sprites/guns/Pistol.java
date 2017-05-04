@@ -10,6 +10,7 @@ import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
 
 import me.boxcubed.main.TopDown;
+import me.boxcubed.main.Objects.interfaces.GunType;
 import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
@@ -28,7 +29,7 @@ private Sound gunshotSound=TopDown.assets.get(Assets.gunSOUND,Sound.class);
 		gunshotSound.play(1.0f);
 		
 		GameState.instance.entities
-				.add(new Bullet(world, player.getPos().x, player.getPos().y, player.crossH.offX, player.crossH.offY,player.rotation));
+				.add(new Bullet(world, player.getPos().x, player.getPos().y, player.crossH.offX, player.crossH.offY,player.rotation,GunType.AK47));
 			
 
 	}

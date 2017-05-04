@@ -9,6 +9,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -42,6 +43,8 @@ public class Zombie extends Sprite implements LivingEntity {
 	float attackTime;
 	Sound attackSound;
 	private Animation<TextureRegion> zombieAnim,zombieWalk;
+	private ParticleEffect bloodEffect = new ParticleEffect(TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class));
+	private boolean hurt;
 	private float walkTime=0;
 	
 	boolean idle;
@@ -115,7 +118,16 @@ public class Zombie extends Sprite implements LivingEntity {
 		p2=GameState.instance.player.getPos();
 		
 		GameState.instance.getWorld().rayCast(callback, p1,p2);
-		
+		if (hurt) {
+			bloodEffect.setPosition(getPos().x, getPos().y);
+			bloodEffect.update(delta / 100);
+
+			if (bloodEffect.isComplete()){
+				hurt = false;
+				bloodEffect.reset();
+			}
+		}
+
 		
 		if(GameState.instance.player.isAlive()&&isAlive()){
 			if(!idle){
@@ -136,6 +148,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	@Override
 	public void render(SpriteBatch sb) {
 		 walkTime += Gdx.graphics.getDeltaTime();
+		 bloodEffect.draw(sb);
 
 		 if(!idle){
 				if(!attack){
@@ -153,7 +166,8 @@ public class Zombie extends Sprite implements LivingEntity {
 			 sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-25, Body.getPosition().y-20, getWidth()/2, getHeight()/2, 40, 40, 
 						1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		 }
-	
+		 
+		 
 	}
 	boolean rayEnabled;
 	
@@ -191,6 +205,8 @@ public class Zombie extends Sprite implements LivingEntity {
 	public void dispose() {
 		attackSound.dispose();
 		GameState.instance.getWorld().destroyBody(Body);
+		bloodEffect.dispose();
+		
 		
 		
 	}
@@ -222,6 +238,10 @@ public class Zombie extends Sprite implements LivingEntity {
 			attack=true;attackTime=0;
 			if(rand.nextFloat()<0.25f)
 			attackSound.play();
+		}
+		if(key.toUpperCase().equals("ATTACKED")){
+			hurt = true;
+			bloodEffect.start();
 		}
 		
 	}

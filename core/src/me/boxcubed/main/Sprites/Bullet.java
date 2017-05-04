@@ -19,6 +19,8 @@ import com.boxcubed.utils.Assets;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
+import me.boxcubed.main.Objects.interfaces.GunType;
+import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.States.GameState;
 
 public class Bullet extends Sprite implements Entity{
@@ -40,7 +42,7 @@ public class Bullet extends Sprite implements Entity{
 	
 	float elapsedTime=0;
 	
-	public Bullet(World world, float x, float y,float offX,float offY, float rotation){
+	public Bullet(World world, float x, float y,float offX,float offY, float rotation,GunType type){
 		super(TopDown.assets.get(Assets.bulletIMAGE, Texture.class));
 		this.x=x;
 		this.y=y;
@@ -70,16 +72,20 @@ public class Bullet extends Sprite implements Entity{
 			
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+				//System.out.println(point.sub(new Vector2(x, y)).len2());
 				if (fixture.getUserData() == "WALL") {
 					setDisposable(true);
 					return 0;
 				}
-
+				
 				else if(fixture.getUserData() == "ZOMBIE"){
-					// better disposal...DONE!
 					GameState.instance.entities.forEach(entity -> {
 						if (entity.getFixture().equals(fixture)) {
-							entity.setDisposable(true);
+							LivingEntity lentity=(LivingEntity)entity;
+							if(type.equals(GunType.AK47)){
+							lentity.setHealth(lentity.getHealth()-lentity.getMaxHealth()/10);
+							lentity.playAnimation("attacked");
+							}else lentity.setDisposable(true);
 						}
 					});
 					setDisposable(true);

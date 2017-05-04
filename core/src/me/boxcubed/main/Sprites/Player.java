@@ -55,7 +55,7 @@ public class Player implements LivingEntity, Movable {
 	private boolean shooting = false;
 	public NetworkManager connection;
 	public String name = Double.toString(Math.random());
-	private ParticleEffect bloodEffect = TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class);
+	private ParticleEffect bloodEffect = new ParticleEffect(TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class));
 	// This vector is used for multiplayer positioning so location can be added
 	// when world isn't stepping
 	public Vector2 multiPos = new Vector2(100, 100);
@@ -157,9 +157,11 @@ public class Player implements LivingEntity, Movable {
 				}
 			} else
 				effect.allowCompletion();
-			bloodEffect.update(delta / 100);
+			
+			
 			if (hurt) {
 				bloodEffect.setPosition(getPos().x, getPos().y);
+				bloodEffect.update(delta / 100);
 
 				if (bloodEffect.isComplete())
 					hurt = false;
@@ -374,8 +376,7 @@ public class Player implements LivingEntity, Movable {
 	@Override
 	public void dispose() {
 		world.destroyBody(playerBody);
-		// GameState.instance.player=new Player(GameState.instance.getWorld());
-		// diePos=getBody().getPosition();
+		bloodEffect.dispose();
 
 	}
 

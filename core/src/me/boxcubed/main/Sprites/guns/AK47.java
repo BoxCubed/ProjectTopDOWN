@@ -12,6 +12,7 @@ import com.boxcubed.net.NetworkManager;
 import com.boxcubed.utils.Assets;
 
 import me.boxcubed.main.TopDown;
+import me.boxcubed.main.Objects.interfaces.GunType;
 import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
@@ -48,7 +49,7 @@ public class AK47 implements Gun {
 		
 		GameState.instance.entities
 		.add(new Bullet(world, player.getPos().x, player.getPos().y,(float) (Math.cos(Math.toRadians(randRotation))), 
-				(float) (Math.sin(Math.toRadians(randRotation))),randRotation));
+				(float) (Math.sin(Math.toRadians(randRotation))),randRotation,GunType.AK47));
 			
 
 	}
