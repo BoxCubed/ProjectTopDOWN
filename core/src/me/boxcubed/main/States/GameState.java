@@ -57,6 +57,7 @@ public class GameState implements State, CleanInputProcessor{
 	private ShapeRenderer sr;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
+	private RayHandler rayHandler;
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	//Support multiple players: DONE!
@@ -75,8 +76,6 @@ public class GameState implements State, CleanInputProcessor{
 	public boolean noTime = false;
     server server;
     private HashMap<String, Player> clients  = new HashMap<String, Player>();
-    public RayHandler rayHandler;
-    public ConeLight pointLight;
     private Assets assets=TopDown.assets;
     public Animation<TextureRegion> anim;
 	@SuppressWarnings("unchecked")
@@ -85,7 +84,6 @@ public class GameState implements State, CleanInputProcessor{
         // Instance of the game, for ease of access
 				instance = this;
 				// Camera and Map
-				
 				tiledMap = assets.get(Assets.MainMAP,TiledMap.class);
 
 				// World Init
@@ -112,7 +110,7 @@ public class GameState implements State, CleanInputProcessor{
 
         //Sorry if anything is fucked up
         rayHandler = new RayHandler(gameWORLD);
-        pointLight = new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45);
+        
         
 
         ambientMusic =assets.get(Assets.ambientMUSIC, Music.class);
@@ -127,7 +125,7 @@ public class GameState implements State, CleanInputProcessor{
 		//	playerAI.setBehavior(new ReachOrientation<>(playerAI, new MouseLocaion()).setEnabled(true).setAlignTolerance(5).setDecelerationRadius(10));
 		// Apparently the lighting to the whole map, not sure why its player
 		// light
-		playerLight = new PlayerLight(gameWORLD, player.getBody());
+		playerLight = new PlayerLight(gameWORLD, player.getBody(),rayHandler,new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes
 		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
 		//packs
@@ -176,7 +174,6 @@ public class GameState implements State, CleanInputProcessor{
 		//Updating Light TODO dont make this only for player aka make a Flashlight class and and handling in gamestate
 		playerLight.updateLightPos(player.getPos().x, player.getPos().y,
 		player.rotation, delta);
-		rayHandler.update();
 		
 		//Update Zombie Spawns
 		if (!noZombie) {

@@ -8,21 +8,23 @@ import com.badlogic.gdx.physics.box2d.World;
 import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import me.boxcubed.main.Objects.StopWatch;
-import me.boxcubed.main.States.GameState;
 
 /**
  * Created by Tej Sidhu on 3/03/2017.
  */
 public class PlayerLight{
-    public RayHandler rayHandler;
+	//TODO make new class for just time handling
+    private RayHandler rayHandler;
     boolean flashlightState=true;
     ConeLight pointLight;
     StopWatch timer;
     Player player;
    private static boolean night=false;
    public static float amlight=1f;
-    public PlayerLight(World world,Body bod){
+    public PlayerLight(World world,Body bod,RayHandler rayHandler,ConeLight light){
     	timer = new StopWatch();
+    	this.rayHandler=rayHandler;
+    	this.pointLight=light;
         //LIGHT init
         /*rayHandler = new RayHandler(world);
         pointLight =new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45);
@@ -32,17 +34,17 @@ public class PlayerLight{
     
     public void updateLightPos(float x, float y,float angle,float delta){
         //Makes sure that the light moves with the player
-    	  GameState.instance.pointLight.setPosition(x+2.5f, y+2.5f);
-          GameState.instance.pointLight.setDirection(angle);
+    	  pointLight.setPosition(x+2.5f, y+2.5f);
+          pointLight.setDirection(angle);
           
       if(Gdx.input.isKeyJustPressed(Keys.F)){
     	flashlightState=!flashlightState;
       }
       
-    	if(flashlightState){GameState.instance.pointLight.setDistance(100);}else{GameState.instance.pointLight.setDistance(0);}
+    	if(flashlightState){pointLight.setDistance(100);}else{pointLight.setDistance(0);}
         if(Gdx.input.isKeyPressed(Keys.L)){
-        	if(flashlightState)GameState.instance.pointLight.setDistance(400);}
-        else if(flashlightState)GameState.instance.pointLight.setDistance(100);
+        	if(flashlightState)pointLight.setDistance(400);}
+        else if(flashlightState)pointLight.setDistance(100);
         
         if(Gdx.input.isKeyPressed(Keys.EQUALS))
         	amlight+=0.01f;
@@ -55,17 +57,18 @@ public class PlayerLight{
         if(timer.getElapsedTimeSecs()>5){timer.stop();amlight+=0.0005;}
         if(!night&&!timer.isRunning()){amlight-=0.0005*delta;}
 
-        GameState.instance.rayHandler.setAmbientLight(amlight);
-        GameState.instance.rayHandler.update();
+        rayHandler.setAmbientLight(amlight);
+        rayHandler.update();
     }
+    /**
+     * @deprecated
+     */
     public void renderLIGHT(){
         rayHandler.render();
     }
 
 	public void dispose() {
-		// TODO Auto-generated method stub
-        GameState.instance.rayHandler.dispose();
-        GameState.instance.pointLight.dispose();
+        pointLight.dispose();
 		
 	}
 	public static String amToTime(){
