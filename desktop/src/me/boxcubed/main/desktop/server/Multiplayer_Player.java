@@ -30,7 +30,6 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 	double health=getMaxHealth();
 	public float legOffX=15,legOffY=15;
 	boolean shooting=false;
-
 	RayCastCallback callback;
 	
 	int counter=0;
@@ -43,6 +42,7 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 		// Shape
 		playerShape = new PolygonShape();
 		playerShape.setAsBox(10, 10);
+		command=new InputPacket();
 		
 		// Fixture def
 		fixtureDefPlayer = new FixtureDef();
@@ -86,7 +86,6 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 	@Override
 	public void update(float delta) {
 		if(isAlive()){
-			lastPos=playerBody.getPosition().cpy();
 			if(delta<1f)this.delta=1f; else this.delta=delta; 
 			handleInput(); 
 			
@@ -96,7 +95,7 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 			
 			elapsedTime+=delta;
 
-
+			
 
         }
 		else {//TODO Server death handling
@@ -171,7 +170,6 @@ public void render(SpriteBatch sb) {
 		return true;
 
 	}
-	Vector2 lastPos=new Vector2();
 	@Override
 	public Vector2 getPos() {
 		return playerBody.getPosition();
@@ -190,25 +188,25 @@ public void render(SpriteBatch sb) {
 	// Walking
 	@Override
 	public void goUP() {
-		playerBody.applyLinearImpulse(new Vector2(0, 80f), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0, 10f*delta), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(5f);
     }
 
 	@Override
 	public void goDOWN() {
-		playerBody.applyLinearImpulse(new Vector2(0f, -80f), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0f, -10f*delta), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(-5f);
 	}
 
 	@Override
 	public void goLEFT() {
-		playerBody.applyLinearImpulse(new Vector2(-80f, 0), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(-10f*delta, 0), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(5f);
 	}
 
 	@Override
 	public void goRIGHT() {
-		playerBody.applyLinearImpulse(new Vector2(80, 0), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(10*delta, 0), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(-5f);
 	}// d
 		// Running actions

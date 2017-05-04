@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -37,21 +36,29 @@ public class MenuState implements Screen {
     /*TextureAtlas start=TopDown.assets.get(Assets.startATLAS, TextureAtlas.class);;
     Sprite hover=start.createSprite("hover"),click=start.createSprite("click"),normal=start.createSprite("normal");*/
   //OLD  STUFF ^
-    SpriteBatch batch=new SpriteBatch();
+    SpriteBatch batch;
     
     BitmapFont font;
+    GameState loadedInstance;
     GlyphLayout startGlyph,multiGlyph;
     ParallaxBackground bg;
-    ShapeRenderer renderer;
     NetworkManager connection;
     boolean clicked=false;
     float elapsedTime=0;
+    //TODO Thread safe startup
+    private boolean init=false;
     public MenuState(GameState loadedInstance) {
-    	//Init of debug shape rendrer
-        renderer = new ShapeRenderer();
+       
+    	this.loadedInstance=loadedInstance;
+    }
+
+	private void init(GameState loadedInstance) {
+		//Init of debug shape rendrer
+		  batch=new SpriteBatch();
         //init of button
+		
         initButton(loadedInstance);
-        
+      
         
         
         //Stage setup
@@ -64,16 +71,18 @@ public class MenuState implements Screen {
         //Background setup
         TextureRegion bgRegion=new TextureRegion(TopDown.assets.get(Assets.scrollMenuIMAGE, Texture.class));
         bg=new ParallaxBackground(new ParallaxLayer[]{
-        		new ParallaxLayer(bgRegion, new Vector2(100,100),new Vector2(), new Vector2())
+        		new ParallaxLayer(bgRegion, new Vector2(0,100),new Vector2(), new Vector2())
         }, (float)Gdx.graphics.getWidth()/2, (float)Gdx.graphics.getHeight()/2, new Vector2(0, 1));
-       
-    }
+		init=true;
+	}
 
 	public void handleInput() {
 
     }
 
     public void update(float delta) {
+    	if(!init)init(loadedInstance);
+    	
     	stage.act();
     	elapsedTime+=delta;
     	clickButton.update(delta);
@@ -223,6 +232,7 @@ public class MenuState implements Screen {
 
     @Override
     public void resize(int width, int height) {
+    	//TODO CAMERA
 
     }
 
@@ -238,6 +248,7 @@ public class MenuState implements Screen {
 
     @Override
     public void hide() {
+    	if(init)
     	BoxoUtil.remInputProcessor(stage);
     }
 

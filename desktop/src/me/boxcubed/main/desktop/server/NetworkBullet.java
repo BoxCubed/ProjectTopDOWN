@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
-import me.boxcubed.main.States.GameState;
 
 public class NetworkBullet implements Entity{
 	
@@ -25,8 +24,8 @@ public class NetworkBullet implements Entity{
 		private Body bulletBody;
 		private Fixture fixture;
 		private World world;
-		private final RayCastCallback callback;
-		
+		private RayCastCallback callback;
+		private Vector2 start;
 		float rotation;
 		public float SPEED = 20;
 		
@@ -45,6 +44,12 @@ public class NetworkBullet implements Entity{
 			this.rotation = rotation;
 			this.world=world;
 			this.server=server;
+			start=new Vector2(x, y);
+			init=false;
+	    }
+		private boolean init;
+		private void init(){
+			
 			bulletDef = new BodyDef();
 			bulletDef.type = BodyDef.BodyType.DynamicBody;
 			
@@ -86,9 +91,11 @@ public class NetworkBullet implements Entity{
 				}
 				
 			};
-	    }
+			init=true;
+		}
 		 @Override
 		    public void update(float delta) {
+			 if(!init)init();
 			 if(rotation<90||rotation>270){lookRight=true;}
 			 if(rotation<=270&&rotation>=90){lookLeft=true;}
 			
@@ -100,10 +107,10 @@ public class NetworkBullet implements Entity{
 				 if(lookRight){getBody().setTransform(x+10, y-5, rotation);}
 				 else {getBody().setTransform(x-10, y+12, rotation);}
 				 
-			 }else{dispose();}
+			 }
 			 if(getBody().getPosition().x<0||getBody().getPosition().y<0||getBody().getPosition().x>1576||getBody().getPosition().y>1576)
 				 setDisposable(true);
-			world.rayCast(callback, GameState.instance.player.getBody().getPosition(),
+			world.rayCast(callback, start,
 						bulletBody.getPosition());
 		 }
 		 

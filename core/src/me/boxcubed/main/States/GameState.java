@@ -340,6 +340,7 @@ public class GameState implements State, CleanInputProcessor{
 		entities = null;
 		tiledMap.dispose();
 		playerLight.dispose();
+		clock.dispose();
 		gameWORLD.dispose();
 		font.dispose();
 		batch.dispose();
@@ -351,8 +352,8 @@ public class GameState implements State, CleanInputProcessor{
 	}
 	@Override
 	public void resize(int width, int height) {
-		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		cam.update();
+		//cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		//cam.update();
 	}
 
 	@Override

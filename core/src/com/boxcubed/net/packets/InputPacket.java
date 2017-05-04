@@ -16,6 +16,7 @@ public class InputPacket {
 		this.rotation = rotation;
 	}
 	public InputPacket() {
+		
 	}
 	public InputPacket(InputPacket pack){
 		this.w = pack.w;
@@ -26,10 +27,26 @@ public class InputPacket {
 		this.shift = pack.shift;
 		this.rotation = pack.rotation;
 	}
-	/*@Override
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof InputPacket))return false;
+		InputPacket packet=(InputPacket)obj;
+		try{
+		return w==packet.w&&
+				a==packet.a&&
+				s==packet.s&&
+				d==packet.d&&
+				space==packet.space&&
+				shift==packet.shift&&
+				rotation==packet.rotation;}
+		catch(Exception e){return false;}
+		
+		
+	}
+	@Override
 	public String toString() {
 		return w+":"+a+":"+s+":"+d+":"+space+":"+shift+":"+rotation;
-	}*/
+	}
 	
 
 }

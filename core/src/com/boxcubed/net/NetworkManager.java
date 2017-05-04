@@ -24,21 +24,21 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.GunType;
 import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
+import me.boxcubed.main.States.MenuState;
 
 public class NetworkManager extends Thread {
 	private Client connection;
 	public boolean stop = false;
-	public float rotation = 0;
 	private Player player;
-	private Vector2 lastPos=new Vector2();
-	private float lastRot;
-	public String ip,name="BoxCubed",disconnectReason="Disconnected";
+	public String ip,name="BoxCubed",disconnectReason="Unknown";
 	public ConnectionState state;
-	public byte w,a,s,d,shift,space;
+	public InputPacket move;
+	private InputPacket lastMove;
 	public Map<Integer,Player> multiplayerPlayers;
 	public NetworkManager(Player player) {
 		this(player, "localhost:22222");
@@ -49,12 +49,8 @@ public class NetworkManager extends Thread {
 		this.player = player;
 		state = ConnectionState.CONNECTING;
 		this.ip = ip;
-
-		// TODO VERY Temporary
-		// GameState.instance.multiplayerPlayers.add(new
-		// Player(player.getBody().getWorld(), 2));
-		// player2=GameState.instance.multiplayerPlayers.get(0);
-
+		lastMove=new InputPacket();
+		move=new InputPacket();
 		start();
 
 	}
@@ -108,14 +104,10 @@ public class NetworkManager extends Thread {
 		while (!stop) {
 
 			try {
-				Vector2 change=lastPos.sub(player.getPos());
-				if(!player.isDisposable()&&(change.x!=0||change.y!=0||lastRot!=player.rotation)){
-				connection.sendUDP(new PlayerUpdatePacket(player.rotation, player.getPos(),connection.getID()));
-				
-				}
-				
-				lastPos=player.getPos().cpy();
-				lastRot=player.rotation;
+				if(!lastMove.equals(move)){
+					connection.sendUDP(move);
+					lastMove=new InputPacket(move);
+					}
 				Thread.sleep(10);
 				
 
@@ -153,19 +145,26 @@ public class NetworkManager extends Thread {
 				PlayerUpdatePacket packet=(PlayerUpdatePacket)ob;
 				if(packet.id!=connection.getID()&&multiplayerPlayers.get(packet.id)!=null)
 					updatePositionFromPacket(packet.id, (PlayerUpdatePacket)ob);
-				else addPlayer(packet.id,(PlayerUpdatePacket)ob);
+				else if(packet.id!=connection.getID())addPlayer(packet.id,(PlayerUpdatePacket)ob);
+				else {
+					if(player.multiPos==null)player.multiPos=new Vector2();
+					player.multiPos=packet.location;
+					player.setHealth(packet.health);
+				}
 				
 				
 			}
 			else if (ob instanceof PlayerDisconnectPacket){
 				if(((PlayerDisconnectPacket) ob).id==connection.getID()){
 					disconnectReason=((PlayerDisconnectPacket) ob).reason;
-					System.out.println("Kicked from server");
+					System.out.println(disconnectReason);
+					disconnect();
 				}else 
 				remPlayer(((PlayerDisconnectPacket) ob).id);
 			}
 			else if(ob instanceof BulletFirePacket)
 				pendingFire.add((BulletFirePacket)ob);
+			
 				
 			
 			
@@ -173,10 +172,7 @@ public class NetworkManager extends Thread {
 		@Override
 		public void disconnected(Connection connection) {
 			Gdx.app.log("[Client]", "lost connection: "+disconnectReason);
-			multiplayerPlayers.forEach((id,p)->
-			
-			p.dispose());
-			multiplayerPlayers.clear();
+			disconnect();
 		}
 		
 	}
@@ -220,7 +216,6 @@ public class NetworkManager extends Thread {
 		
 	}
     private  synchronized void remPlayer(int id) {
-    	System.out.println("remove player");
     	if(multiplayerPlayers.get(id)!=null)
     		multiplayerPlayers.get(id).setDisposable(true);
     	
@@ -229,6 +224,11 @@ public class NetworkManager extends Thread {
 		
 		
 	}
+    private synchronized void disconnect(){
+    	multiplayerPlayers.forEach((id,p)->p.setDisposable(true));
+    	multiplayerPlayers.clear();
+    	TopDown.instance.setScreen(new MenuState(GameState.instance));
+    }
     public void onFire(Vector2 pos,float rotation,String type){
     	connection.sendTCP(new BulletFirePacket(rotation,type));
     	

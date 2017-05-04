@@ -12,7 +12,7 @@ public class PlayerUpdatePacket {
 	public int id;
 	public String name;
 	public double health;
-	public PlayerUpdatePacket(float rotation, Vector2 location, int id, int health,String name) {
+	public PlayerUpdatePacket(float rotation, Vector2 location, int id, double health,String name) {
 		this.rotation = rotation;
 		this.location = location;
 		this.id = id;

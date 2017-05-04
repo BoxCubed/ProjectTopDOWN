@@ -56,7 +56,7 @@ public class AK47 implements Gun {
 
 	@Override
 	public void netFire(NetworkManager net,World world, Player player) {
-		net.onFire(player.getPos(),player.rotation,this.getClass().getName());
+		net.onFire(player.getPos(),player.rotation,this.getClass().getSimpleName());
 		
 	}
 

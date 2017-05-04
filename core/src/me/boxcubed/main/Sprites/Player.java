@@ -187,7 +187,7 @@ public class Player implements LivingEntity, Movable {
 		if (isAlive()) {
 			if (state == 2 || state == 1)
 				if(multiPos!=null){
-				playerBody.setTransform(multiPos, 0);
+				playerBody.setTransform(playerBody.getTransform().getPosition().lerp(multiPos, 0.5f), 0);
 				multiPos=null;
 				}
 			//drawing of effects
@@ -213,7 +213,7 @@ public class Player implements LivingEntity, Movable {
 	public void handleInput() {
 		
 		if(state==2)return;
-		if(state==1)processMovment("UNKNOWN");
+		if(state==1){processMovment("UNKNOWN");}
 		Input input = Gdx.input;
 		boolean keyPressed = false;
 		if(stamina<getMaxStamina()&&!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){stamina+=delta/4;}
@@ -224,7 +224,7 @@ public class Player implements LivingEntity, Movable {
 			if(state==1)
 			gun.netFire(connection, world, this);
 			}
-		
+		if(state==1)return;
 		if (input.isKeyPressed(Keys.W) || input.isKeyPressed(Keys.UP)) {
 			keyPressed = true;
 			processMovment("UP");
@@ -268,16 +268,17 @@ public class Player implements LivingEntity, Movable {
 		method += key;
 		if (key=="UNKNOWN") {
 			
-			connection.w = (byte) (Gdx.input.isKeyPressed(Keys.W) ? 1 : 0);
-			connection.a = (byte) (Gdx.input.isKeyPressed(Keys.A) ? 1 : 0);
-			connection.s = (byte) (Gdx.input.isKeyPressed(Keys.S) ? 1 : 0);
-			connection.d = (byte) (Gdx.input.isKeyPressed(Keys.D) ? 1 : 0);
-			connection.shift = (byte) (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) ? 1 : 0);
-			connection.space = (byte) (Gdx.input.isKeyPressed(Keys.SPACE) ? 1 : 0);
-			connection.rotation = rotation;
+			connection.move.w = (byte) (Gdx.input.isKeyPressed(Keys.W) ? 1 : 0);
+			connection.move.s = (byte) (Gdx.input.isKeyPressed(Keys.S) ? 1 : 0);
+			connection.move.a = (byte) (Gdx.input.isKeyPressed(Keys.A) ? 1 : 0);
+			
+			connection.move.d = (byte) (Gdx.input.isKeyPressed(Keys.D) ? 1 : 0);
+			connection.move.shift = (byte) (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) ? 1 : 0);
+			connection.move.space = (byte) (Gdx.input.isKeyPressed(Keys.SPACE) ? 1 : 0);
+			connection.move.rotation = rotation;
 			return true;
 		}
-		if (state == 2)
+		if (state == 2||state==1)
 			return true;
 		Method m;
 		try {
