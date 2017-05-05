@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -40,6 +42,7 @@ public class NetworkManager extends Thread {
 	public InputPacket move;
 	private InputPacket lastMove;
 	public Map<Integer,Player> multiplayerPlayers;
+	private BitmapFont font=new BitmapFont();
 	public NetworkManager(Player player) {
 		this(player, "localhost:22222");
 
@@ -80,6 +83,7 @@ public class NetworkManager extends Thread {
 					Integer.parseInt(ip.split(":")[1]));
 			multiplayerPlayers=new HashMap<>();
 			//Log.set(Log.LEVEL_DEBUG);
+			font.getData().setScale(0.5f);
 			connection.sendTCP("name:"+name);
 			
 			
@@ -205,8 +209,14 @@ public class NetworkManager extends Thread {
 		
 	}
 	public synchronized void renderPlayers(SpriteBatch sb){
-		multiplayerPlayers.forEach((id,p)->
-			p.render(sb));
+		multiplayerPlayers.forEach((id,p)->{
+			p.render(sb);
+			GlyphLayout layout=new GlyphLayout(font,p.name);
+		font.draw(sb, layout, p.getPos().x-layout.width/2, p.getPos().y-10);
+		
+		
+		});
+		
 	}
     private synchronized void addPlayer(int id,PlayerUpdatePacket ob) {
     	Player p=new Player(GameState.instance.getWorld(), 2);
