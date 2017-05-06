@@ -3,6 +3,7 @@ package com.boxcubed.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * A simple Menu Button 
@@ -29,6 +31,7 @@ public class MenuButton{
 	public GlyphLayout f,cf;
 	public BitmapFont font,chosenFont;
 	Color col=Color.WHITE,ccol=Color.WHITE;
+	Camera cam;
 	boolean useImage(){
 		if(i==null)return false;
 				return true;
@@ -70,19 +73,27 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 		r=new Rectangle(x, y, 5, 10);
 		
 	}
+	
+	public void setCam(Camera cam){
+		this.cam=cam;
+	}
 	/**
 	 * Call when updating
 	 * @param gc
 	 * provide delta
 	 */
+	
 	boolean debug=true;
 	ShapeRenderer sr=new ShapeRenderer();
 	public void update(float delta){
 		if(!isLocked())
 		setCollisionBounds();
 		Input in=Gdx.input;
+		
 		mx=in.getX();
-		my=in.getY()*-1+Gdx.graphics.getHeight();
+		//my=in.getY()*-1+Gdx.graphics.getHeight();
+		my=in.getY();
+		Vector3 mouse=cam.unproject(new Vector3(mx, my, 0));
 		sr.begin(ShapeType.Line);
 		sr.setColor(Color.GREEN);
 		sr.rect(x, y, r.getWidth(), r.getHeight());
@@ -91,7 +102,7 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 		
 		//System.out.println(mx+","+my);
 		
-		if((mx>x && mx<x+r.getWidth()) && (my>y && my<y+r.getHeight())){
+		if(r.contains(mouse.x, mouse.y)){
 			chosen=true;
 		l.chosen(this);}
 		

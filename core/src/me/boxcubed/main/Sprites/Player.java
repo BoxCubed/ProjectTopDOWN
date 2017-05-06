@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -54,7 +55,7 @@ public class Player implements LivingEntity, Movable {
 	public float legOffX = 15, legOffY = 15;
 	private boolean shooting = false;
 	public NetworkManager connection;
-	public String name = Double.toString(Math.random());
+	public GlyphLayout name = new GlyphLayout();
 	private ParticleEffect bloodEffect = new ParticleEffect(TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class));
 	// This vector is used for multiplayer positioning so location can be added
 	// when world isn't stepping

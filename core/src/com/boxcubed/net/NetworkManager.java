@@ -211,7 +211,7 @@ public class NetworkManager extends Thread {
 	public synchronized void renderPlayers(SpriteBatch sb){
 		multiplayerPlayers.forEach((id,p)->{
 			p.render(sb);
-			GlyphLayout layout=new GlyphLayout(font,p.name);
+			GlyphLayout layout=p.name;
 		font.draw(sb, layout, p.getPos().x-layout.width/2, p.getPos().y-10);
 		
 		
@@ -221,7 +221,7 @@ public class NetworkManager extends Thread {
     private synchronized void addPlayer(int id,PlayerUpdatePacket ob) {
     	Player p=new Player(GameState.instance.getWorld(), 2);
     	multiplayerPlayers.put(id,p);
-    	p.name=ob.name;
+    	p.name.setText(font, ob.name);;
 		
 		
 	}
@@ -247,7 +247,7 @@ public class NetworkManager extends Thread {
     	Player p=multiplayerPlayers.get(id);
     	p.multiPos=packet.location.cpy();
     	p.rotation=packet.rotation;
-    	p.name=packet.name;
+    	p.name.setText(font, packet.name);
     	p.setHealth(packet.health);
     }
 }

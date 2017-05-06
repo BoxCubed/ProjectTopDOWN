@@ -3,6 +3,7 @@ package me.boxcubed.main.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.boxcubed.net.NetworkManager;
 import com.boxcubed.net.NetworkManager.ConnectionState;
 import com.boxcubed.utils.Assets;
@@ -37,6 +39,7 @@ public class MenuState implements Screen {
     Sprite hover=start.createSprite("hover"),click=start.createSprite("click"),normal=start.createSprite("normal");*/
   //OLD  STUFF ^
     SpriteBatch batch;
+    private OrthographicCamera cam;
     
     BitmapFont font;
     GameState loadedInstance;
@@ -55,6 +58,7 @@ public class MenuState implements Screen {
 	private void init(GameState loadedInstance) {
 		//Init of debug shape rendrer
 		  batch=new SpriteBatch();
+		  cam=new OrthographicCamera(1280,900);
         //init of button
 		
         initButton(loadedInstance);
@@ -62,7 +66,7 @@ public class MenuState implements Screen {
         
         
         //Stage setup
-        stage=new Stage();
+        stage=new Stage(new StretchViewport(1280,900,cam) ,batch);
         ipField=new TextField("localhost:22222", TopDown.assets.get(Assets.menuSKIN, Skin.class));
         nameField=new TextField("BoxCubed", TopDown.assets.get(Assets.menuSKIN, Skin.class));
         BoxoUtil.addInputProcessor(stage);
@@ -89,14 +93,14 @@ public class MenuState implements Screen {
 
     public void update(float delta) {
     	if(!init)init(loadedInstance);
-    	
+    	cam.update();
     	stage.act();
     	elapsedTime+=delta;
     	clickButton.update(delta);
     	multiplayerButton.update(delta);
     	if(elapsedTime>2 )return;
-    	clickButton.setY(Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight()/2, 2));
-    	multiplayerButton.setY(Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight()/2-100, 2));
+    	clickButton.setY(900-Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight()/2, 2));
+    	multiplayerButton.setY(900-Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight()/2-100, 2));
     	
     	
 
@@ -114,6 +118,7 @@ public class MenuState implements Screen {
     	update(delta);
 
         bg.render(delta);
+        batch.setProjectionMatrix(cam.combined);
         batch.begin();
         
         //renderer.translate(20, 12, 2);
@@ -166,6 +171,7 @@ public class MenuState implements Screen {
 				
 			}
 		});
+        clickButton.setCam(cam);
         
         //making glyph for when button is not selected
         font.setColor(Color.RED);
@@ -234,6 +240,7 @@ public class MenuState implements Screen {
 						
 					}
 				});
+    	multiplayerButton.setCam(cam);
     	
     }
 
@@ -263,6 +270,8 @@ public class MenuState implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
+        stage.dispose();
+        stage.getBatch().dispose();
     }
   
   
