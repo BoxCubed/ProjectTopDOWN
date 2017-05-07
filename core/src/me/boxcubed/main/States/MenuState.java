@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -34,11 +36,10 @@ public class MenuState implements Screen {
     private MenuButton clickButton;
     private MenuButton multiplayerButton;
     private TextField ipField,nameField;
-    //OLD STUFF v
-    /*TextureAtlas start=TopDown.assets.get(Assets.startATLAS, TextureAtlas.class);;
-    Sprite hover=start.createSprite("hover"),click=start.createSprite("click"),normal=start.createSprite("normal");*/
-  //OLD  STUFF ^
+    private float alpha=0;
+    
     SpriteBatch batch;
+    private ShapeRenderer fader;
     private OrthographicCamera cam;
     
     BitmapFont font;
@@ -48,7 +49,7 @@ public class MenuState implements Screen {
     NetworkManager connection;
     boolean clicked=false;
     float elapsedTime=0;
-    //TODO Thread safe startup
+    // Thread safe startup...DONE!
     private boolean init=false;
     public MenuState(GameState loadedInstance) {
        
@@ -58,6 +59,7 @@ public class MenuState implements Screen {
 	private void init(GameState loadedInstance) {
 		//Init of debug shape rendrer
 		  batch=new SpriteBatch();
+		  fader=new ShapeRenderer(8);
 		  cam=new OrthographicCamera(1280,900);
         //init of button
 		
@@ -93,6 +95,9 @@ public class MenuState implements Screen {
 
     public void update(float delta) {
     	if(!init)init(loadedInstance);
+    	if(alpha<1f){
+    		alpha+=0.005f*delta;
+    	}
     	cam.update();
     	stage.act();
     	elapsedTime+=delta;
@@ -116,8 +121,12 @@ public class MenuState implements Screen {
     public void render(float delta) {
        
     	update(delta);
-
-        bg.render(delta);
+    	bg.render(delta);
+    	fader.begin(ShapeType.Filled);
+        fader.setColor(0,0,0,alpha);
+      // fader.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
+        fader.end();
+        
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         
@@ -127,6 +136,8 @@ public class MenuState implements Screen {
 
         batch.end();
         stage.draw();
+        fader.setProjectionMatrix(cam.combined);
+        
     }
 
     private void initButton(GameState loadedInstance){
@@ -247,8 +258,6 @@ public class MenuState implements Screen {
 
     @Override
     public void resize(int width, int height) {
-    	//TODO CAMERA
-
     }
 
     @Override

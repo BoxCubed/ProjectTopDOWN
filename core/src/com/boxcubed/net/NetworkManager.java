@@ -220,8 +220,9 @@ public class NetworkManager extends Thread {
 	}
     private synchronized void addPlayer(int id,PlayerUpdatePacket ob) {
     	Player p=new Player(GameState.instance.getWorld(), 2);
+    	p.name.setText(font, ob.name);
     	multiplayerPlayers.put(id,p);
-    	p.name.setText(font, ob.name);;
+    	
 		
 		
 	}

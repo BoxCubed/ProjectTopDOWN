@@ -116,7 +116,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		
 		p1 = getPos();
 		p2=GameState.instance.player.getPos();
-		
+		if(GameState.instance.player.isAlive())
 		GameState.instance.getWorld().rayCast(callback, p1,p2);
 		if (hurt) {
 			bloodEffect.setPosition(getPos().x, getPos().y);
@@ -129,11 +129,11 @@ public class Zombie extends Sprite implements LivingEntity {
 		}
 
 		
-		if(GameState.instance.player.isAlive()&&isAlive()){
-			if(!idle){
+		if(GameState.instance.player.isAlive()&&isAlive()&&!idle){
+			
 		ai.update(delta);
 		if(attack)attackTime+=delta;
-			}
+			
 		}
 		else{
 			if(isAlive()){

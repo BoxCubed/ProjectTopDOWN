@@ -112,6 +112,7 @@ public class Bullet extends Sprite implements Entity{
 		 }else{return;}
 		 if(getBody().getPosition().x<0||getBody().getPosition().y<0||getBody().getPosition().x>1576||getBody().getPosition().y>1576)
 			 setDisposable(true);
+		 if(GameState.instance.player.isAlive())
 		 GameState.instance.getWorld().rayCast(callback, GameState.instance.player.getBody().getPosition(),
 					bulletBody.getPosition());
 	 }

@@ -75,6 +75,7 @@ public class Player implements LivingEntity, Movable {
 			this.state=state;
 			return;
 			}
+		name=new GlyphLayout();
 		init(world, state);
 		
 	}
