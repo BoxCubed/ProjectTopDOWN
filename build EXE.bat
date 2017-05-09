@@ -1,0 +1,2 @@
+gradlew desktop:createEXE
+pause

@@ -1,11 +1,18 @@
 apply plugin: "java"
+apply plugin: "edu.sc.seis.launch4j"
 
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 project.ext.mainClassName = "me.boxcubed.main.desktop.DesktopLauncher"
-project.ext.assetsDir = new File("../core/assets");
+project.ext.assetsDir = new File("../android/assets");
 
+sourceSets {
+  main {
+    //if you truly want to override the defaults:
+    output.resourcesDir = '/out/'
+  }
+}
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
@@ -14,6 +21,16 @@ task run(dependsOn: classes, type: JavaExec) {
     ignoreExitValue = true
 }
 
+task jar(type: Jar, overwrite: true) {
+    from files(sourceSets.main.output.classesDir)
+    from files(sourceSets.main.output.resourcesDir)
+    from {configurations.compile.collect {zipTree(it)}}
+    from files(project.assetsDir);
+ 
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+}
 task dist(type: Jar) {
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
@@ -25,12 +42,17 @@ task dist(type: Jar) {
     }
 }
 
+launch4j {
+  mainClassName = project.mainClassName
+  jar = "../libs/desktop-1.0.jar"
+}
+
 dist.dependsOn classes
 
 eclipse {
     project {
         name = appName + "-desktop"
-        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/core/assets'
+        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/android/assets'
     }
 }
 

@@ -2,15 +2,24 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { 
+        
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+        url "https://plugins.gradle.org/m2/" 
+        
+        
+        }
         jcenter()
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath "gradle.plugin.edu.sc.seis.gradle:launch4j:2.3.0"
+       
        
         
         
     }
+    
 }
 
 allprojects {
@@ -32,11 +41,13 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        jcenter()
     }
 }
 
 project(":desktop") {
     apply plugin: "java"
+    apply plugin: "edu.sc.seis.launch4j"
 
 
     dependencies {
@@ -86,6 +97,7 @@ project(":core") {
         compile "io.socket:engine.io-client:0.6.1"
         compile 'com.google.code.gson:gson:2.8.0'
         compile group: 'com.esotericsoftware', name: 'kryonet', version: '2.22.0-RC1'
+        compile 'com.github.nifty-gui:nifty-pauls-soundsystem:1.4.2'
         
     }
 }

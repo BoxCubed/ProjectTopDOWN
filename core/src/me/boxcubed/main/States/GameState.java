@@ -44,6 +44,10 @@ import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Pack;
 import me.boxcubed.main.Sprites.Pack.PackType;
 import me.boxcubed.main.Sprites.Player;
+import paulscode.sound.SoundSystem;
+import paulscode.sound.SoundSystemConfig;
+import paulscode.sound.SoundSystemException;
+import paulscode.sound.libraries.LibraryJavaSound;
 
 public class GameState implements State, CleanInputProcessor{
 	//TODO get rid of that random box that spawns next to the player
@@ -57,7 +61,7 @@ public class GameState implements State, CleanInputProcessor{
 	private ShapeRenderer sr;
 	public static final int PPM = 200;
 	private PlayerLight playerLight;
-	private Clock clock;
+	private Clock clock; 
 	//public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	//Support multiple players: DONE!
@@ -78,6 +82,10 @@ public class GameState implements State, CleanInputProcessor{
     private HashMap<String, Player> clients  = new HashMap<String, Player>();
     private Assets assets=TopDown.assets;
     public Animation<TextureRegion> anim;
+    
+    
+    //sound system
+    protected SoundSystem soundSys;
 	@SuppressWarnings("unchecked")
 	public GameState() {
 
@@ -129,6 +137,16 @@ public class GameState implements State, CleanInputProcessor{
 		anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("img/health.gif").read());
 		//Server stuff
         server = new server();
+        
+        /*try {
+			soundSys=new SoundSystem(LibraryJavaSound.class);
+		} catch (SoundSystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        SoundSystemConfig.setSoundFilesPackage("sounds");
+        
+        soundSys.backgroundMusic("Gun", "gunshot.mp3", true);*/
        
         
 
@@ -347,6 +365,8 @@ public class GameState implements State, CleanInputProcessor{
         for(HashMap.Entry<String, Player> entry: clients.entrySet()){
             entry.getValue().dispose();
         }
+        if(soundSys!=null)
+        	soundSys.cleanup();
 		//GameState.instance.dispose();
 		//GameState.instance.dispose();
 	}
