@@ -218,8 +218,9 @@ public class GameState implements State, CleanInputProcessor{
 
 		
 		
-		BoxoUtil.lerpToPos(new Vector2(MathUtils.clamp(player.getPos().x, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
-				 MathUtils.clamp(player.getPos().y, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2)),cam);
+		BoxoUtil.lerpToPos(new Vector2(MathUtils.clamp(player.getPos().x+player.crossH.offX*30, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
+				 MathUtils.clamp(player.getPos().y+player.crossH.offY*30, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2)),cam);
+		cam.update();
         server.updateServer(delta);
 	}
 	@Override
@@ -272,7 +273,6 @@ public class GameState implements State, CleanInputProcessor{
 	public void render() {
 
 		batch.setProjectionMatrix(cam.combined);
-		cam.update();
 		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();
 		if(b2dr!=null)
@@ -321,15 +321,15 @@ public class GameState implements State, CleanInputProcessor{
 		
 
 		screenY = Gdx.graphics.getHeight() - screenY;
-
-		mouseLoc = new Vector2(getMouseCords().x, getMouseCords().y);
+		Vector3 mouseCoords=getMouseCords();
+		mouseLoc = new Vector2(mouseCoords.x, mouseCoords.y);
 
 		
 		Vector2 direction = mouseLoc.sub(player.getPos());
 		float mouseAngle = direction
 				.angle();
 		player.rotation=mouseAngle;
-
+		
 		return true;
 	}
 	
