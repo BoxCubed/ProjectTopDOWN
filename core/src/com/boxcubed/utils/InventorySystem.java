@@ -1,38 +1,44 @@
 package com.boxcubed.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class InventorySystem {
-	HashMap<String, InventoryItem> inventory;
-	ArrayList<String> items; //to keep track of which item is at which index in the hashmap
-	private static final int maxInventoryItems = 6;
+	InventoryItem[] inventory;
+	private static final int MAX_INVENTORY_ITEMS = 6;//Follow Java Naming convention!
 	private int currentInventoryItems = 0; 
 	public InventorySystem(){
-		inventory = new HashMap<String, InventoryItem>();
+		clearInventory();
 	}
-	public void addItem(int index, String name, InventoryItem item){
-		if(currentInventoryItems < maxInventoryItems){
-		inventory.put(name, item);
-		items.add(name);
+	public void addItem(int index, InventoryItem item){
+		if(currentInventoryItems < MAX_INVENTORY_ITEMS){
+		inventory[index]=item;
 		currentInventoryItems++;
-		}else{
-			System.out.println("Sorry, inventory is full");
-		}
+		}else throw new IllegalArgumentException("Given index is larger than inventory size!");
+		
 	}
+	//TODO Debugging ONLY
 	public void listItems(){
-		System.out.println("Inventory size: "+ inventory.size());
-		System.out.println(inventory.get("ak47"));
+		System.out.println("Inventory size: "+currentInventoryItems);
+		System.out.println(inventory[0]);
 	}
-	public InventoryItem returnItem(String name){
-		return inventory.get(name);
+	/**
+	 * May return null if no item is present in that position. 
+	 * Could throw an error if item index is larger than {@value #MAX_INVENTORY_ITEMS}
+	 * 
+	 * @param index the index to add the item to.
+	 * @return null or item given
+	 * @throws IllegalArgumentException
+	 */
+	public InventoryItem getItem(int index){
+		return inventory[index];
 	}
-	public void removeItem(String itemName){
-		inventory.remove(itemName);
-		System.out.println(itemName+ " has been removed from inventory");
+	
+	public void removeItem(int index){
+		System.out.println(inventory[index].getItemName()+ " has been removed from inventory");
+		inventory[index]=null;
+		
+		currentInventoryItems--;
 	}
 	public void clearInventory(){
-		inventory.clear();
+		inventory=new InventoryItem[MAX_INVENTORY_ITEMS];
 	}
 	
 }

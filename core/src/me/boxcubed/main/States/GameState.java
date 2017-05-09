@@ -30,8 +30,6 @@ import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
-import com.boxcubed.utils.InventorySystem;
-
 import box2dLight.ConeLight;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.Clock;
@@ -51,7 +49,7 @@ import paulscode.sound.SoundSystemException;
 import paulscode.sound.libraries.LibraryJavaSound;*/
 
 public class GameState implements State, CleanInputProcessor{
-	//TODO get rid of that random box that spawns next to the player
+	//get rid of that random box that spawns next to the player...DONE i think...
 	private World gameWORLD;
 	public OrthographicCamera cam;
 	private SpriteBatch batch=new SpriteBatch();
@@ -296,19 +294,20 @@ public class GameState implements State, CleanInputProcessor{
 		sr.begin();
 		entities.forEach(entity->entity.renderShapes(sr));
 		player.renderShapes(sr);
+		hud.render(sr);
 		sr.end();
 		
 		//rendering of hud and player
 		batch.begin();
         for(HashMap.Entry<String, Player> entry: clients.entrySet()){
             entry.getValue().render(batch);
-            entry.getValue().renderShapes(sr);
+            
         }
         if(player.state!=0)
         	player.connection.renderPlayers(batch);
 		player.render(batch);
 		batch.setProjectionMatrix(hud.textCam.combined);
-		batch.draw(player.inventory.returnItem("ak47").getTexture(), hud.textCam.position.x/2 - hud.textCam.viewportWidth/3 ,hud.textCam.position.y/3 - hud.textCam.viewportHeight/3, 80, 80);
+		
 		hud.render(batch);
 
 		batch.end();
@@ -366,8 +365,6 @@ public class GameState implements State, CleanInputProcessor{
         }
 /*        if(soundSys!=null)
         	soundSys.cleanup();*/
-		//GameState.instance.dispose();
-		//GameState.instance.dispose();
 	}
 	@Override
 	public void resize(int width, int height) {

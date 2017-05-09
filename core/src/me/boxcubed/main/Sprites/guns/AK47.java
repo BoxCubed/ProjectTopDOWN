@@ -26,7 +26,7 @@ public class AK47 implements Gun, InventoryItem {
 	private float randRotation;
 	private Sound gunshotSound=TopDown.assets.get(Assets.gunSOUND,Sound.class);
 	//TODO get ak47 image
-	Texture ak47img = new Texture("button/button-start-spritesheet.png");
+	Texture ak47img = TopDown.assets.get(Assets.bulletIMAGE, Texture.class);
 	@Override
 	public boolean willFire(Input input,float delta,Player player) {
 		if(Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)){
