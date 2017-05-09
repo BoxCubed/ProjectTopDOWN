@@ -49,7 +49,7 @@ public class KyroServer extends Thread {
 		
 		kServer.start();
 		kServer.bind(22222, 22222);
-		
+		 
 		
 
 		Log.set(Log.LEVEL_INFO);
