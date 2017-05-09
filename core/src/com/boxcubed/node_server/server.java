@@ -69,7 +69,8 @@ public class server {
 						Gdx.app.log("[SocketIO]", "Error getting players");
 					}
 				}).on("playerMoved", args -> {
-
+					//TODO anti-cheat system
+					//Send keys pressed instead of position. Reduces packets sent
 					JSONObject data = (JSONObject) args[0];
 					System.out.println("playerMoved EVENT");
 					try {
@@ -80,6 +81,16 @@ public class server {
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
+				}).on("playerRotation", args -> {
+					
+				}).on("bulletFired", args ->{
+					
+				}).on("playerDisconnected", args -> {
+					
+				}).on("sendPlayerHealth", args ->{
+					
+				}).on("recievePlayerHealth", args ->{
+					
 				});
 		// TODO "playerDisconnected" event
 	}
@@ -101,13 +112,6 @@ public class server {
 				Gdx.app.log("[SocketIO]", "Error sending player data");
 			}
 		}
-		/*
-		 * For debug purposes System.out.println("hello");
-		 * System.out.println(previous_pos); System.out.println("break");
-		 * System.out.println(GameState.instance.player.getX());
-		 * System.out.println("break2");
-		 * System.out.println(GameState.instance.player.getY());
-		 */
 	}
 
 	public boolean has_moved() {

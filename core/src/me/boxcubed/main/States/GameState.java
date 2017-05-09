@@ -30,6 +30,7 @@ import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
+import com.boxcubed.utils.InventorySystem;
 
 import box2dLight.ConeLight;
 import me.boxcubed.main.TopDown;
@@ -44,10 +45,10 @@ import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Pack;
 import me.boxcubed.main.Sprites.Pack.PackType;
 import me.boxcubed.main.Sprites.Player;
-import paulscode.sound.SoundSystem;
+/*import paulscode.sound.SoundSystem;
 import paulscode.sound.SoundSystemConfig;
 import paulscode.sound.SoundSystemException;
-import paulscode.sound.libraries.LibraryJavaSound;
+import paulscode.sound.libraries.LibraryJavaSound;*/
 
 public class GameState implements State, CleanInputProcessor{
 	//TODO get rid of that random box that spawns next to the player
@@ -83,10 +84,9 @@ public class GameState implements State, CleanInputProcessor{
     private Assets assets=TopDown.assets;
     public Animation<TextureRegion> anim;
     
-    
     //sound system
-    protected SoundSystem soundSys;
-	@SuppressWarnings("unchecked")
+/*    protected SoundSystem soundSys;
+*/	@SuppressWarnings("unchecked")
 	public GameState() {
 
         // Instance of the game, for ease of access
@@ -137,7 +137,6 @@ public class GameState implements State, CleanInputProcessor{
 		anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("img/health.gif").read());
 		//Server stuff
         server = new server();
-        
         /*try {
 			soundSys=new SoundSystem(LibraryJavaSound.class);
 		} catch (SoundSystemException e) {
@@ -309,7 +308,7 @@ public class GameState implements State, CleanInputProcessor{
         	player.connection.renderPlayers(batch);
 		player.render(batch);
 		batch.setProjectionMatrix(hud.textCam.combined);
-		
+		batch.draw(player.inventory.returnItem("ak47").getTexture(), hud.textCam.position.x/2 - hud.textCam.viewportWidth/3 ,hud.textCam.position.y/3 - hud.textCam.viewportHeight/3, 80, 80);
 		hud.render(batch);
 
 		batch.end();
@@ -365,8 +364,8 @@ public class GameState implements State, CleanInputProcessor{
         for(HashMap.Entry<String, Player> entry: clients.entrySet()){
             entry.getValue().dispose();
         }
-        if(soundSys!=null)
-        	soundSys.cleanup();
+/*        if(soundSys!=null)
+        	soundSys.cleanup();*/
 		//GameState.instance.dispose();
 		//GameState.instance.dispose();
 	}

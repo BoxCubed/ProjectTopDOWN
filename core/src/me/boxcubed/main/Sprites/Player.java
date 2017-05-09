@@ -25,6 +25,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.NetworkManager;
 import com.boxcubed.utils.Assets;
+import com.boxcubed.utils.InventorySystem;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.EntityType;
@@ -48,7 +49,7 @@ public class Player implements LivingEntity, Movable {
 	public Crosshair crossH;
 	
 	double health = getMaxHealth();
-	float stamina = getMaxStamina();
+	float stamina = getMaxStamina();//Why are you linking this to a method?
 	
 	private Animation<TextureRegion> animation, animationLeg;
 	// private TextureAtlas atlas,atlas2;
@@ -68,7 +69,8 @@ public class Player implements LivingEntity, Movable {
 	private World world;
 	Sound gunshotSound;
 	Gun gun;
-	
+	AK47 ak= new AK47();
+	public InventorySystem inventory;
 	public Player(World world, int state) {
 		if(state==1||state==2){
 			this.world=world;
@@ -116,9 +118,12 @@ public class Player implements LivingEntity, Movable {
 		legOffX = 10;
 
 		gun=new AK47();
-		
-		
-		
+		//Inventory system
+		inventory = new InventorySystem();
+		//adding items here, for now
+		//will create a method later to add items on events eg. walking over gun or heath pack
+		inventory.addItem(1, "ak47", ak);
+		inventory.listItems();
 
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 		if (state == 1)
@@ -185,6 +190,8 @@ public class Player implements LivingEntity, Movable {
 	boolean isDisposed = false;
 	@Override
 	public void render(SpriteBatch sb) {
+		//Need some sort of reflection method or something to draw the inventory items from here.
+		
 		if(!initsed)init(world, state);
 		if (isAlive()) {
 			if (state == 2 || state == 1)
