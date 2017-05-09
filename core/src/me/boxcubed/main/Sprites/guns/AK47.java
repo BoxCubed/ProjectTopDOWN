@@ -67,7 +67,7 @@ public class AK47 implements Gun, InventoryItem {
 	@Override
 	public String getItemName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "AK47";
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class AK47 implements Gun, InventoryItem {
 		// TODO Auto-generated method stub
 		return ak47img;
 	}
-
+//TODO Remove this
 	@Override
 	public int getIndex() {
 		// TODO Auto-generated method stub

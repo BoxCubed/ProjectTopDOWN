@@ -60,7 +60,7 @@ nbactions.xml
 nb-configuration.xml
 
 ## Gradle
-.gradle
+.gradle/
 gradle-app.setting
 build/
 

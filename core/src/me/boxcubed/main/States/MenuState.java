@@ -60,7 +60,7 @@ public class MenuState implements Screen {
 		//Init of debug shape rendrer
 		  batch=new SpriteBatch();
 		  fader=new ShapeRenderer(8);
-		  cam=new OrthographicCamera(1280,900);
+		  cam=new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         //init of button
 		
         initButton(loadedInstance);
