@@ -45,7 +45,7 @@ public class Player implements LivingEntity, Movable {
 	private Body playerBody;
 	private Fixture fixture;
 	//end body stuff
-	
+	float elapsedTime = 0;
 	public Crosshair crossH;
 	
 	double health = getMaxHealth();
@@ -132,7 +132,7 @@ public class Player implements LivingEntity, Movable {
 		initsed=true;
 	}
 
-	float elapsedTime = 0;
+
 
 	public void setConnection(NetworkManager connection, int state) {
 		this.connection = connection;
@@ -202,7 +202,7 @@ public class Player implements LivingEntity, Movable {
 			//drawing of effects
 			effect.draw(sb);
 			bloodEffect.draw(sb);
-			if (playerBody.getLinearVelocity().isZero())
+			if (!keyPressed)
 				sb.draw(sprite, playerBody.getPosition().x - 15, playerBody.getPosition().y - 15, 15, 15, 40, 40, 1, 1,
 						rotation);
 			else {
@@ -218,13 +218,13 @@ public class Player implements LivingEntity, Movable {
 			isDisposed = true;
 		}
 	}
-	
+	boolean keyPressed = false;
 	public void handleInput() {
 		
 		if(state==2)return;
 		if(state==1){processMovment("UNKNOWN");}
 		Input input = Gdx.input;
-		boolean keyPressed = false;
+		keyPressed=false;
 		if(stamina<getMaxStamina()&&!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){stamina+=delta/4;}
 
 		if(gun.willFire(input, delta, this)){
@@ -266,7 +266,7 @@ public class Player implements LivingEntity, Movable {
 		
 		
 		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){	
-			if(stamina>0){stamina-=delta/4;
+			if(stamina>0){stamina-=delta/4;elapsedTime+=1;
 			method = "run";}
 			else{method="go";}
 			}
@@ -350,26 +350,26 @@ public class Player implements LivingEntity, Movable {
 
 	@Override
 	public void runUP() {
-		playerBody.applyLinearImpulse(new Vector2(0, 10*delta), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(0);
+		playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y+=1.7f, playerBody.getAngle())
+		;
 	}
 
 	@Override
 	public void runDOWN() {
-		playerBody.applyLinearImpulse(new Vector2(0, -10*delta), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(0);
+		playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y-=1.7f, playerBody.getAngle())
+		;
 	}
 
 	@Override
 	public void runLEFT() {
-		playerBody.applyLinearImpulse(new Vector2(-10*delta, 0), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(0);
+		playerBody.setTransform(playerBody.getPosition().x-=1.7,playerBody.getPosition().y, playerBody.getAngle())
+		;
 	}
 
 	@Override
 	public void runRIGHT() {
-		playerBody.applyLinearImpulse(new Vector2(10*delta, 0), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(0);
+		playerBody.setTransform(playerBody.getPosition().x+=1.7,playerBody.getPosition().y, playerBody.getAngle())
+		;
 	}
 
 	
