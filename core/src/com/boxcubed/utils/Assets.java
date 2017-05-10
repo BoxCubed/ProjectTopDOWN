@@ -134,7 +134,6 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		AnimationPrefs prefs=new AnimationPrefs();
 		prefs.duration=1/30f;
 		load(new AssetDescriptor<Animation>(zombieWalkATLAS+":anim", Animation.class,prefs));
-		load(nenw AssetDescriptor)
 		
 
 	}
