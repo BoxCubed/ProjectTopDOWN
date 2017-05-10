@@ -10,9 +10,10 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+
+import me.boxcubed.main.TopDown;
 
 /**
  * A simple Menu Button 
@@ -23,6 +24,7 @@ import com.badlogic.gdx.math.Vector3;
  *
  */
 public class MenuButton{
+	//TODO fix up the retarted way i made this class
 	float x,y;
 	boolean chosen,lock=false;
 	private int mx,my;//mouse x and y
@@ -31,7 +33,6 @@ public class MenuButton{
 	public GlyphLayout f,cf;
 	public BitmapFont font,chosenFont;
 	Color col=Color.WHITE,ccol=Color.WHITE;
-	Camera cam;
 	boolean useImage(){
 		if(i==null)return false;
 				return true;
@@ -74,18 +75,15 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 		
 	}
 	
-	public void setCam(Camera cam){
-		this.cam=cam;
-	}
+	
+	
+	Vector3 mouse;
 	/**
 	 * Call when updating
-	 * @param gc
-	 * provide delta
+	 * @param delta provide delta
+	 * @param cam Provide camera
 	 */
-	
-	boolean debug=true;
-	ShapeRenderer sr=new ShapeRenderer();
-	public void update(float delta){
+	public void update(float delta,Camera cam){
 		if(!isLocked())
 		setCollisionBounds();
 		Input in=Gdx.input;
@@ -93,12 +91,8 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 		mx=in.getX();
 		//my=in.getY()*-1+Gdx.graphics.getHeight();
 		my=in.getY();
-		Vector3 mouse=cam.unproject(new Vector3(mx, my, 0));
-		sr.begin(ShapeType.Line);
-		sr.setColor(Color.GREEN);
-		sr.rect(x, y, r.getWidth(), r.getHeight());
-		sr.rect(mx-5, my-5, 10, 10);
-		sr.end();
+		mouse=cam.unproject(new Vector3(mx, my, 0));
+		
 		
 		//System.out.println(mx+","+my);
 		
@@ -123,7 +117,8 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 	 * @param g
 	 * provide  Sprite Batch
 	 */
-	public void render(SpriteBatch batch){
+	public void render(SpriteBatch batch,Camera cam){
+		
 		if(useImage()){
 			
 			
@@ -149,6 +144,18 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 		
 		
 		
+		
+		
+	}
+	public void render(ShapeRenderer sr,Camera cam){
+		if(TopDown.debug){
+			Gdx.gl.glLineWidth(1);
+			sr.setProjectionMatrix(cam.combined);
+		sr.setColor(Color.GREEN);
+		sr.rect(x, y, r.getWidth(), r.getHeight());
+		sr.rect(mouse.x-5, mouse.y-5, 10, 10);
+		
+		}
 		
 	}
 	public void setX(float x){this.x=x;}

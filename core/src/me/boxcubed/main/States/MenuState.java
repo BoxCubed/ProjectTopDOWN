@@ -101,8 +101,8 @@ public class MenuState implements Screen {
     	cam.update();
     	stage.act();
     	elapsedTime+=delta;
-    	clickButton.update(delta);
-    	multiplayerButton.update(delta);
+    	clickButton.update(delta,cam);
+    	multiplayerButton.update(delta,cam);
     	if(elapsedTime>2 )return;
     	clickButton.setY(900-Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight()/2, 2));
     	multiplayerButton.setY(900-Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight()/2-100, 2));
@@ -122,8 +122,11 @@ public class MenuState implements Screen {
        
     	update(delta);
     	bg.render(delta);
-    	fader.begin(ShapeType.Filled);
+    	fader.setProjectionMatrix(cam.combined);
+    	fader.begin(ShapeType.Line);
         fader.setColor(0,0,0,alpha);
+        clickButton.render(fader, cam);
+        multiplayerButton.render(fader, cam);
       // fader.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
         fader.end();
         
@@ -131,12 +134,12 @@ public class MenuState implements Screen {
         batch.begin();
         
         //renderer.translate(20, 12, 2);
-        clickButton.render(batch);
-        multiplayerButton.render(batch);
+        clickButton.render(batch,cam);
+        multiplayerButton.render(batch,cam);
 
         batch.end();
         stage.draw();
-        fader.setProjectionMatrix(cam.combined);
+        
         
     }
 
@@ -182,7 +185,8 @@ public class MenuState implements Screen {
 				
 			}
 		});
-        clickButton.setCam(cam);
+        
+        
         
         //making glyph for when button is not selected
         font.setColor(Color.RED);
@@ -251,7 +255,6 @@ public class MenuState implements Screen {
 						
 					}
 				});
-    	multiplayerButton.setCam(cam);
     	
     }
 

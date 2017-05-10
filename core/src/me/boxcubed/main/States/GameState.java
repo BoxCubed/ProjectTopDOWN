@@ -268,7 +268,7 @@ public class GameState implements State, CleanInputProcessor{
 
 	@Override
 	public void render() {
-
+		Gdx.gl.glLineWidth(1);
 		batch.setProjectionMatrix(cam.combined);
 		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();

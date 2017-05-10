@@ -49,12 +49,14 @@ public class NetworkManager extends Thread {
 	}
 
 	public NetworkManager(Player player, String ip) {
+		super("PTD Client");
 		this.player = player;
 		state = ConnectionState.CONNECTING;
 		this.ip = ip;
 		lastMove=new InputPacket();
 		move=new InputPacket();
 		start();
+		
 
 	}
 	public static void initKryo(Kryo k){
@@ -72,7 +74,6 @@ public class NetworkManager extends Thread {
 	}
 	@Override
 	public void run() {
-
 		Gdx.app.log("[Client]", "Client Thread started.");
 		try {
 			connection = new Client();
