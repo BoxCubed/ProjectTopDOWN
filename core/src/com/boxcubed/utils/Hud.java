@@ -101,7 +101,7 @@ public class Hud {
 				+ format.format(player.getBody().getPosition().y), -600, textCam.viewportHeight / 2);
 		Vector3 mousePos=gameState.getMouseCords(); 
 		font.draw(sb, "Mouse Position: "+format.format(mousePos.x)+","+format.format(mousePos.y), -600, textCam.viewportHeight/2-20);
-		
+		gameState.player.inventory.render(sb);
 		
 	}
 	

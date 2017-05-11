@@ -70,7 +70,7 @@ public class GameState implements State, CleanInputProcessor{
 	Box2DDebugRenderer b2dr;
 	Music ambientMusic;
 	Sound zombieGroan;
-	Hud hud;
+	public Hud hud;
 	Vector2 mouseLoc;
 	Spawner zombieSpawner;
 	BitmapFont font = new BitmapFont();
