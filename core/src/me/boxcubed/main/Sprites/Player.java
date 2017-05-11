@@ -122,7 +122,7 @@ public class Player implements LivingEntity, Movable {
 		inventory = new InventorySystem();
 		//adding items here, for now
 		//will create a method later to add items on events eg. walking over gun or heath pack
-		inventory.addItem(1, ak);
+		inventory.addItem("ak47", 1, ak);
 		inventory.listItems();
 
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
