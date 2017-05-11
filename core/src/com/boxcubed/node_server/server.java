@@ -95,7 +95,7 @@ public class server {
 		// TODO "playerDisconnected" event
 	}
 
-	Vector2 previous_pos = new Vector2(GameState.instance.player.getPos().x, GameState.instance.player.getPos().y);
+	Vector2 previous_pos = new Vector2();
 	private final float update_interval = 1 / 30f;
 	float timer;
 

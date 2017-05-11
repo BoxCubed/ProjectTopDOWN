@@ -123,15 +123,15 @@ public class GameState implements State, CleanInputProcessor{
 		ambientMusic.play();
 		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
-        player = new Player(gameWORLD,0); //1 means multiplayer
+		if(TopDown.debug)
+			newPlayer(0);
 		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20,clock);
-		playerAI=new SteeringAI(player, player.getSprite().getWidth());
 		// light
 		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes
 		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
 		//packs
-		entities.add(new Pack(PackType.HEALTH, player.getPos().x-50, player.getPos().y-50, gameWORLD));
+		entities.add(new Pack(PackType.HEALTH,250, 250, gameWORLD));
 		anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("img/health.gif").read());
 		//Server stuff
         server = new server();
@@ -340,7 +340,21 @@ public class GameState implements State, CleanInputProcessor{
 		return gameWORLD;
 	}
 	public void newPlayer(int state){
+		if(player!=null){
 		player.dispose();
+		if(player.connection!=null){ 
+			player.connection.stop=true;
+			try {
+				player.connection.join(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			player.connection=null;
+			
+			
+				
+		}}
 		player=new Player(gameWORLD, state);
 		playerAI=new SteeringAI(player, player.getSprite().getWidth());
 	}

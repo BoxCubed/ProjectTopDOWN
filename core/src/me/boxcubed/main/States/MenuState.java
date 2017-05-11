@@ -164,17 +164,7 @@ public class MenuState implements Screen {
 			}
 			@Override
 			public void clicked(MenuButton m) {
-				if(loadedInstance.player.connection!=null){
-					loadedInstance.player.connection.stop=true;
-					try {
-						loadedInstance.player.connection.join();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					loadedInstance.player.connection=null;
-					
-					}
+				
 				loadedInstance.newPlayer(0);
 				
                 TopDown.instance.setScreen(loadedInstance);
@@ -202,12 +192,6 @@ public class MenuState implements Screen {
     			new MenuListener() {
 					
 					@Override
-					public void rightclicked(MenuButton m) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
 					public void notChosen(MenuButton m) {
 						font.setColor(Color.GREEN);
 						if(clicked&&connection!=null)
@@ -220,18 +204,14 @@ public class MenuState implements Screen {
 					@Override
 					public void clicked(MenuButton m) {
 						clicked=true;
-						/*if(loadedInstance.player.connection!=null&&loadedInstance.player.connection.state.equals(ConnectionState.CONNECTED)&&
-								loadedInst){
-							TopDown.instance.setScreen(loadedInstance);
-							return;
-						}*/
 						
 						if(connection==null){
 							connection=new NetworkManager(loadedInstance.player,ipField.getText());
 							connection.name=nameField.getText();
 							
-						}else if(connection.state.equals(ConnectionState.CONNECTING))
+						}else if(connection.state.equals(ConnectionState.CONNECTING)){
 							return;
+							}
 						else if(connection.state.equals(ConnectionState.CONNECTED)){
 							loadedInstance.player.setConnection(connection, 1);
 							TopDown.instance.setScreen(loadedInstance);}

@@ -35,10 +35,9 @@ import me.boxcubed.main.Sprites.guns.AK47;
 import me.boxcubed.main.Sprites.guns.Gun;
 
 public class Player implements LivingEntity, Movable {
-	private Sprite sprite,rifleSprite;
+	private Sprite sprite;
 	public float delta;
 	private Texture tex = TopDown.assets.get(Assets.playerIMAGE, Texture.class);
-	private Texture playerRifle = TopDown.assets.get(Assets.playerRIFLE,Texture.class);
 	//Body stuff
 	public BodyDef playerDef;
 	private FixtureDef fixtureDefPlayer;
@@ -85,7 +84,6 @@ public class Player implements LivingEntity, Movable {
 	@SuppressWarnings("unchecked")
 	private void init(World world,int state){
 		sprite=new Sprite(tex);
-		rifleSprite=new Sprite(playerRifle);
 		this.state = state;
 		this.world=world;
 		

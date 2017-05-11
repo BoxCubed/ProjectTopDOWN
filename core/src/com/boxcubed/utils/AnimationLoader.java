@@ -55,7 +55,7 @@ public class AnimationLoader extends SynchronousAssetLoader<Animation, Animation
 
 	@Override
 	public Animation load(AssetManager manager, String fileName, FileHandle file, AnimationPrefs parameter) {
-		fileName=fileName.replaceAll(":anim", "");
+		fileName=fileName.replaceAll(":anim", ""); 
 			if(parameter!=null)
 		return new Animation<>(parameter.duration, manager.get(fileName, TextureAtlas.class).getRegions(), parameter.mode);
 			else{
