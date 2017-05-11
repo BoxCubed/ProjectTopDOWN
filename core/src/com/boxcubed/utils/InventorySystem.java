@@ -35,9 +35,9 @@ public class InventorySystem {
 		//System.out.println(inventory[0]);
 	}
 	public void render(ShapeRenderer shaper){
-		for(Entry<String, InventoryItem> key: inventoryItems.entrySet()){
+		/*for(Entry<String, InventoryItem> key: inventoryItems.entrySet()){
 			//System.out.println("key: "+key); This works
-		}
+		}*/
 	}
 	public void render(SpriteBatch batcher){
 		for(Entry<String, InventoryItem> key: inventoryItems.entrySet()){

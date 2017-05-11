@@ -46,7 +46,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	private ParticleEffect bloodEffect = new ParticleEffect(TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class));
 	private boolean hurt;
 	private float walkTime=0;
-	private Texture healthBar =TopDown.assets.get(Assets.staminaIMAGE, Texture.class);
+	private TextureRegion healthBar =new TextureRegion(TopDown.assets.get(Assets.staminaIMAGE, Texture.class));
 	boolean idle;
 		
 	Vector2 p1,p2,collision,normal;
@@ -164,7 +164,8 @@ public class Zombie extends Sprite implements LivingEntity {
 			 sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-25, Body.getPosition().y-20, getWidth()/2, getHeight()/2, 40, 40, 
 						1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		 }
-		 
+		 float size=(float)(getHealth()/getMaxHealth()*40f);
+		 sb.draw(healthBar, getPos().x-10, getPos().y+20,0 , 0, size, 10, 1, 1,0);
 		 
 		 
 	}

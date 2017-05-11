@@ -200,7 +200,7 @@ public class NetworkManager extends Thread {
 			try {
 				bullet = pendingFire.take();
 				GameState.instance.entities.add(new Bullet(world, bullet.location.x, bullet.location.y, (float) (Math.cos(Math.toRadians(bullet.rotation))), 
-						(float) (Math.sin(Math.toRadians(bullet.rotation))),bullet.rotation,GunType.valueOf(bullet.type)));//TODO bullet types
+						(float) (Math.sin(Math.toRadians(bullet.rotation))),bullet.rotation,GunType.valueOf(bullet.type),GameState.instance.player));//TODO bullet types
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
