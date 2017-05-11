@@ -3,11 +3,11 @@ package me.boxcubed.main.desktop;
 import java.util.Arrays;
 import java.util.List;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.boxcubed.net.NetworkManager;
-import com.esotericsoftware.minlog.Log;
 
 import me.boxcubed.main.TopDown;
 
@@ -37,18 +37,18 @@ public class DesktopLauncher {
 		Thread.setDefaultUncaughtExceptionHandler((thread,ex)->{
 			if(thread.getName().equals("LWJGL Application")){
 				//TODO Error handling
-				Gdx.app.setLogLevel(Log.LEVEL_ERROR);
+				Gdx.app.setLogLevel(Application.LOG_ERROR);
 				Gdx.app.log("[PTD]", "PTD has Crashed!");
 				ex.printStackTrace();
 				System.exit(-1);
 			}
 			if(thread.getName().equals("PTD Client")){
-				Gdx.app.setLogLevel(Log.LEVEL_ERROR);
-				Gdx.app.log("[PTD]", "PTD server connection has crashed!");
-				ex.printStackTrace();
+				System.err.println("[PTD]: Connection to server has crashed!");
+				System.err.println("[PTD]: "+ex.getMessage());
+				System.err.println("[PTD]: "+ex.getCause());
 				((NetworkManager)thread).stop=true;
 				try {
-					((NetworkManager)thread).join();
+					((NetworkManager)thread).join(2000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

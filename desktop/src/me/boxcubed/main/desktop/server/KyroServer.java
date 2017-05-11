@@ -206,8 +206,8 @@ class PlayerListener extends Listener{
 	
 	@Override
 	public void disconnected(Connection connection) {
-		if(gotName==false)
-			log("Player failed connection");		log(p.name+" has disconnected");		
+		if(gotName==false){
+			log("Player failed connection: Susp. Activity");		return;			}		log(p.name+" has disconnected");		
 		p.connected=false;				removePlayer(p,connection,"Disconnected");
 	}
 	@Override
