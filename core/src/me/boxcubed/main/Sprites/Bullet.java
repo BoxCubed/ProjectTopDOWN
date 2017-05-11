@@ -37,18 +37,19 @@ public class Bullet extends Sprite implements Entity{
 	public float SPEED = 20;
 	
 	float x,y,offX,offY;
-	
+	Player player;
 	boolean lookRight, lookLeft;
 	
 	float elapsedTime=0;
 	
-	public Bullet(World world, float x, float y,float offX,float offY, float rotation,GunType type){
+	public Bullet(World world, float x, float y,float offX,float offY, float rotation,GunType type,Player player){
 		super(TopDown.assets.get(Assets.bulletIMAGE, Texture.class));
 		this.x=x;
 		this.y=y;
 		this.offX=offX;
 		this.offY=offY;
 		this.rotation = rotation;
+		this.player=player;
 		bulletDef = new BodyDef();
 		bulletDef.type = BodyDef.BodyType.DynamicBody;
 		
@@ -95,6 +96,7 @@ public class Bullet extends Sprite implements Entity{
 			}
 			
 		};
+		
     }
 	 @Override
 	    public void update(float delta) {
@@ -113,7 +115,7 @@ public class Bullet extends Sprite implements Entity{
 		 if(getBody().getPosition().x<0||getBody().getPosition().y<0||getBody().getPosition().x>1576||getBody().getPosition().y>1576)
 			 setDisposable(true);
 		 if(GameState.instance.player.isAlive())
-		 GameState.instance.getWorld().rayCast(callback, GameState.instance.player.getBody().getPosition(),
+		 GameState.instance.getWorld().rayCast(callback, player.getBody().getPosition(),
 					bulletBody.getPosition());
 	 }
 	 public void renderShapes(ShapeRenderer sr) {

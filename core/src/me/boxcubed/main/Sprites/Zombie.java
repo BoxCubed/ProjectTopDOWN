@@ -46,7 +46,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	private ParticleEffect bloodEffect = new ParticleEffect(TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class));
 	private boolean hurt;
 	private float walkTime=0;
-	
+	private Texture healthBar =TopDown.assets.get(Assets.staminaIMAGE, Texture.class);
 	boolean idle;
 		
 	Vector2 p1,p2,collision,normal;
@@ -135,11 +135,9 @@ public class Zombie extends Sprite implements LivingEntity {
 		if(attack)attackTime+=delta;
 			
 		}
-		else{
-			if(isAlive()){
+		else if(isAlive()&&GameState.instance.player.isAlive()){
 			getBody().setLinearVelocity(0,0);
 			getBody().setAngularVelocity(0);
-			}
 		}
 
 	
@@ -168,6 +166,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		 }
 		 
 		 
+		 
 	}
 	boolean rayEnabled;
 	
@@ -181,6 +180,10 @@ public class Zombie extends Sprite implements LivingEntity {
 			sr.setColor(Color.RED);
 			sr.line(p1, p2);
 		}
+		/*sr.set(ShapeType.Filled);
+		sr.setColor(Color.GREEN);
+		float size=(float)(getHealth()/getMaxHealth()*40f);
+		sr.rect(getPos().x-10, getPos().y+20, size, 10);*/
 	}
 	
 	@Override

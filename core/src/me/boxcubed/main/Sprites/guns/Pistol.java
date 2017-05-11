@@ -32,7 +32,7 @@ private Texture icon = TopDown.assets.get(Assets.bulletIMAGE);
 		gunshotSound.play(1.0f);
 		
 		GameState.instance.entities
-				.add(new Bullet(world, player.getPos().x, player.getPos().y, player.crossH.offX, player.crossH.offY,player.rotation,GunType.AK47));
+				.add(new Bullet(world, player.getPos().x, player.getPos().y, player.crossH.offX, player.crossH.offY,player.rotation,GunType.AK47,player));
 			
 
 	}

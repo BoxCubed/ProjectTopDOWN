@@ -74,13 +74,10 @@ public class Player implements LivingEntity, Movable {
 	Pistol pistol = new Pistol();
 	public InventorySystem inventory;
 	public Player(World world, int state) {
-		if(state==1||state==2){
-			this.world=world;
-			this.state=state;
-			return;
-			}
+		this.world=world;
+		this.state=state;
+			
 		name=new GlyphLayout();
-		init(world, state);
 		
 	}
 	@SuppressWarnings("unchecked")
@@ -116,8 +113,7 @@ public class Player implements LivingEntity, Movable {
 		sprite.setSize(20, 20);
 		crossH = new Crosshair(100, this);
 		
-		effect.start();
-
+		
 		legOffY = 10;
 		legOffX = 10;
 
@@ -131,8 +127,8 @@ public class Player implements LivingEntity, Movable {
 		inventory.listItems();
 
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
-		if (state == 1)
-			connection = new NetworkManager(this);
+		if (state == 1&&connection==null){
+			connection = new NetworkManager(this);}
 		
 		initsed=true;
 	}

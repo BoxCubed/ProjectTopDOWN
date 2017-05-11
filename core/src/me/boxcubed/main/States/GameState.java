@@ -342,7 +342,7 @@ public class GameState implements State, CleanInputProcessor{
 	public void newPlayer(int state){
 		if(player!=null){
 		player.dispose();
-		if(player.connection!=null){ 
+		if(player.connection!=null&&player.state==0){ 
 			player.connection.stop=true;
 			try {
 				player.connection.join(2000);
@@ -356,7 +356,7 @@ public class GameState implements State, CleanInputProcessor{
 				
 		}}
 		player=new Player(gameWORLD, state);
-		playerAI=new SteeringAI(player, player.getSprite().getWidth());
+		playerAI=new SteeringAI(player, 40);
 	}
 
 
