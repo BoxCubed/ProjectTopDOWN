@@ -79,6 +79,12 @@ public class AK47 implements Gun, InventoryItem {
 	@Override
 	public int getIndex() {
 		// TODO Auto-generated method stub
+		return 1;
+	}
+
+	@Override
+	public int getOffset() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
