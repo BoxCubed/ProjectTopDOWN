@@ -133,7 +133,6 @@ public class MenuState implements Screen {
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         
-        //renderer.translate(20, 12, 2);
         clickButton.render(batch,cam);
         multiplayerButton.render(batch,cam);
 

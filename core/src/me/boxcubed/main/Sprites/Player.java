@@ -52,7 +52,7 @@ public class Player implements LivingEntity, Movable {
 	double health = getMaxHealth();
 	float stamina = getMaxStamina();//Why are you linking this to a method?
 	
-	private Animation<TextureRegion> animation, animationLeg, rifleAnimation;
+	private Animation<TextureRegion> animationLeg, rifleAnimation;
 	// private TextureAtlas atlas,atlas2;
 	public float legOffX = 15, legOffY = 15;
 	private boolean shooting = false;
@@ -89,9 +89,9 @@ public class Player implements LivingEntity, Movable {
 		this.state = state;
 		this.world=world;
 		
-		animation = TopDown.assets.get(Assets.playerATLAS + ":anim", Animation.class);
+		//animation = TopDown.assets.get(Assets.playerATLAS + ":anim", Animation.class);
 		animationLeg = TopDown.assets.get(Assets.legATLAS + ":anim", Animation.class);
-		rifleAnimation = TopDown.assets.get(Assets.rifleWALK+":anim",Animation.class);
+		rifleAnimation = TopDown.assets.get(Assets.rifleWalkATLAS+":anim",Animation.class);
 		
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
@@ -178,7 +178,7 @@ public class Player implements LivingEntity, Movable {
 					hurt = false;
 			}
 			effect.update(delta / 100);
-
+			if(keyPressed)
 			elapsedTime += delta;
 		
 			crossH.update(delta);
@@ -206,17 +206,13 @@ public class Player implements LivingEntity, Movable {
 			//drawing of effects
 			effect.draw(sb);
 			bloodEffect.draw(sb);
-			if (!keyPressed)
-				sb.draw(rifleSprite, playerBody.getPosition().x - 15, playerBody.getPosition().y - 15, 15, 15, 40, 40, 1, 1,
-						rotation);
-			else {
-				sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x - 10,
+			
+			
+
+				sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x - 15,
 						playerBody.getPosition().y - 15, legOffX, legOffY, 24, 24, 1, 1, rotation);
 				sb.draw(rifleAnimation.getKeyFrame(elapsedTime,true), playerBody.getPosition().x-15, playerBody.getPosition().y-20,
-						15, 15, 40, 40, 1, 1, rotation);
-			/*	sb.draw(animation.getKeyFrame(elapsedTime, true), playerBody.getPosition().x - 15,
-						playerBody.getPosition().y - 20, 15, 15, 40, 40, 1, 1, rotation);*/
-			}
+						15, 15, 50, 40, 1, 1, rotation);
 			
 			crossH.render(sb);
 

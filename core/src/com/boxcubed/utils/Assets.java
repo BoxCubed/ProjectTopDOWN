@@ -31,7 +31,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 			
 			playerATLAS="spritesheets/playersheet.atlas",legATLAS="spritesheets/leganim.atlas",zombieAttackATLAS="spritesheets/zombieanim.atlas",
 			zombieWalkATLAS="spritesheets/zombie_walk.atlas",startATLAS="button/start.atlas",
-			rifleWALK="spritesheets/rifle_walk.atlas",
+			rifleWalkATLAS="spritesheets/rifle_walk.atlas",
 			
 			menuFONT="fonts/menuFont.ttf",
 			
@@ -122,7 +122,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		load(legATLAS, TextureAtlas.class);
 		load(zombieWalkATLAS, TextureAtlas.class);
 		load(startATLAS, TextureAtlas.class);
-		load(rifleWALK, TextureAtlas.class);
+		load(rifleWalkATLAS, TextureAtlas.class);
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -135,7 +135,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		AnimationPrefs prefs=new AnimationPrefs();
 		prefs.duration=1/30f;
 		load(new AssetDescriptor<Animation>(zombieWalkATLAS+":anim", Animation.class,prefs));
-		load(new AssetDescriptor<Animation>(rifleWALK+":anim",Animation.class));
+		load(new AssetDescriptor<Animation>(rifleWalkATLAS+":anim",Animation.class));
 
 	}
 
