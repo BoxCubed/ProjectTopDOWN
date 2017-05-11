@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.badlogic.gdx.Gdx;
@@ -210,13 +211,16 @@ public class NetworkManager extends Thread {
 		
 	}
 	public synchronized void renderPlayers(SpriteBatch sb){
-		multiplayerPlayers.forEach((id,p)->{
-			p.render(sb);
-			GlyphLayout layout=p.name;
-		font.draw(sb, layout, p.getPos().x-layout.width/2, p.getPos().y-10);
+		for(Entry<Integer, Player> entry:multiplayerPlayers.entrySet()){
+			entry.getValue().render(sb);
+			GlyphLayout layout=entry.getValue().name;
+		font.draw(sb, layout, entry.getValue().getPos().x-layout.width/2, entry.getValue().getPos().y-10);
+		}
+		
+			
 		
 		
-		});
+		
 		
 	}
     private synchronized void addPlayer(int id,PlayerUpdatePacket ob) {
