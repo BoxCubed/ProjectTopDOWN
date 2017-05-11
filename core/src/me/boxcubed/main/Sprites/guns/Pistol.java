@@ -46,7 +46,7 @@ private Texture icon = TopDown.assets.get(Assets.bulletIMAGE);
 	@Override
 	public String getItemName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "pistol";
 	}
 
 	@Override
@@ -58,7 +58,13 @@ private Texture icon = TopDown.assets.get(Assets.bulletIMAGE);
 	@Override
 	public int getIndex() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 2;
+	}
+
+	@Override
+	public int getOffset() {
+		// TODO Auto-generated method stub
+		return 40;
 	}
 
 }

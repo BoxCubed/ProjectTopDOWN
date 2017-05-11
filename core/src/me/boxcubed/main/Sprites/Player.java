@@ -128,7 +128,7 @@ public class Player implements LivingEntity, Movable {
 		inventory = new InventorySystem();
 		//adding items here, for now
 		//will create a method later to add items on events eg. walking over gun or heath pack
-		inventory.addItem("pisstol", 1, pistol);
+		inventory.addItem(pistol.getItemName(), pistol.getIndex(), pistol);
 		inventory.addItem("ak47", 1, ak);
 		inventory.listItems();
 
