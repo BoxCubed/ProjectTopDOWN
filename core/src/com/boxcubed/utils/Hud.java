@@ -1,16 +1,13 @@
 package com.boxcubed.utils;
 
 import java.text.DecimalFormat;
-import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import me.boxcubed.main.TopDown;
@@ -44,7 +41,7 @@ public class Hud {
 		
 	}
 	public void render(ShapeRenderer sr){
-		int i;
+		//int i;
 		sr.setProjectionMatrix(textCam.combined);
 		Gdx.gl.glLineWidth(10);
 		//gameState.player.inventory.render(sr);
