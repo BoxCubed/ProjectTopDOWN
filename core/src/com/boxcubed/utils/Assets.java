@@ -27,7 +27,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 			
 			scrollMenuIMAGE="img/menu.jpg",bulletIMAGE="img/bullet.png",crossHairIMAGE="img/crosshair.png",logoIMAGE="img/logo.png",
 			healthIMAGE="img/health.png",mflashIMAGE="img/muzzle_flash.png",staminaIMAGE="img/stamina.png",
-			particleIMAGE="img/particle.png",playerIMAGE="img/player.png",zombieIMAGE="img/skeleton-idle_0.png",
+			particleIMAGE="img/particle.png",playerIMAGE="img/player.png",zombieIMAGE="img/skeleton-idle_0.png", playerRIFLE="img/survivor-idle_rifle.png",
 			
 			playerATLAS="spritesheets/playersheet.atlas",legATLAS="spritesheets/leganim.atlas",zombieAttackATLAS="spritesheets/zombieanim.atlas",
 			zombieWalkATLAS="spritesheets/zombie_walk.atlas",startATLAS="button/start.atlas",
@@ -114,6 +114,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		load(playerIMAGE, Texture.class);
 		load(zombieIMAGE, Texture.class);
 		load(staminaIMAGE, Texture.class);
+		load(playerRIFLE, Texture.class);
 	}
 	private void loadAtlases(){
 		load(playerATLAS, TextureAtlas.class);
@@ -134,7 +135,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		AnimationPrefs prefs=new AnimationPrefs();
 		prefs.duration=1/30f;
 		load(new AssetDescriptor<Animation>(zombieWalkATLAS+":anim", Animation.class,prefs));
-		
+		load(new AssetDescriptor<Animation>(rifleWALK+":anim",Animation.class));
 
 	}
 
