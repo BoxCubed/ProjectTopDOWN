@@ -33,6 +33,7 @@ import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Objects.interfaces.Movable;
 import me.boxcubed.main.Sprites.guns.AK47;
 import me.boxcubed.main.Sprites.guns.Gun;
+import me.boxcubed.main.Sprites.guns.Pistol;
 
 public class Player implements LivingEntity, Movable {
 	private Sprite sprite,rifleSprite;
@@ -71,6 +72,7 @@ public class Player implements LivingEntity, Movable {
 	Sound gunshotSound;
 	Gun gun;
 	AK47 ak= new AK47();
+	Pistol pistol = new Pistol();
 	public InventorySystem inventory;
 	public Player(World world, int state) {
 		if(state==1||state==2){
@@ -126,6 +128,7 @@ public class Player implements LivingEntity, Movable {
 		inventory = new InventorySystem();
 		//adding items here, for now
 		//will create a method later to add items on events eg. walking over gun or heath pack
+		inventory.addItem("pisstol", 1, pistol);
 		inventory.addItem("ak47", 1, ak);
 		inventory.listItems();
 
