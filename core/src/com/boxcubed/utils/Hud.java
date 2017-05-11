@@ -1,6 +1,7 @@
 package com.boxcubed.utils;
 
 import java.text.DecimalFormat;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -38,12 +39,16 @@ public class Hud {
 		
 		format = new DecimalFormat("#.#");
 	}
+	public OrthographicCamera getCamera(){
+		return textCam;
+		
+	}
 	public void render(ShapeRenderer sr){
 		int i;
 		sr.setProjectionMatrix(textCam.combined);
 		Gdx.gl.glLineWidth(10);
-		
-		for(i=0;i<gameState.player.inventory.inventory.length;i++){
+		gameState.player.inventory.render(sr);
+		/*for(i=0;i<gameState.player.inventory.inventory.length;i++){
 			InventoryItem item=gameState.player.inventory.inventory[i];
 			if(item!=null)
 				sr.setColor(Color.GREEN);
@@ -53,7 +58,7 @@ public class Hud {
 				Vector2 pos=new Vector2(i*55+300 ,textCam.viewportHeight/2-50);
 				sr.rect(pos.x ,pos.y,50,50);
 			}
-		}
+		}*/
 	}
 	public void render(SpriteBatch sb){
 		int i;
@@ -67,13 +72,16 @@ public class Hud {
 		for (i = 0; i < player.getStamina() / player.getMaxStamina() * 100f; i+=10) {
 			sb.draw(staminaTexture,i*2,textCam.viewportHeight/2-80,12,15);
 		}
-		for(i=0;i<gameState.player.inventory.inventory.length;i++){
-			InventoryItem item=gameState.player.inventory.inventory[i];
+		/*for(i=0;i<gameState.player.inventory.inventory.length;i++){
+			InventoryItem item= gameState.player.inventory.inventory[i];
 			if(item!=null)
-				sb.draw(item.getTexture(), i*55+300 ,textCam.viewportHeight/2-50,50,50);
-			
-			
-		}
+				sb.draw(item.getTexture(), i*55+300 ,textCam.viewportHeight/2-50,50,50);			
+		}*/
+	/*	for(i=0;i<gameState.player.inventory.inventory.length;i++){
+			InventoryItem item= gameState.player.inventory.inventory[i];
+			if(item!=null)
+				sb.draw(item.getTexture(), i*55+300 ,textCam.viewportHeight/2-50,50,50);			
+		}*/
 		
 								//TODO fix alignment
 		font.draw(sb, "FPS/Delta: " + Gdx.graphics.getFramesPerSecond()+"/"+

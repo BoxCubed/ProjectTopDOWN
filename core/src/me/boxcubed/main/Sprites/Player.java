@@ -35,9 +35,10 @@ import me.boxcubed.main.Sprites.guns.AK47;
 import me.boxcubed.main.Sprites.guns.Gun;
 
 public class Player implements LivingEntity, Movable {
-	private Sprite sprite;
+	private Sprite sprite,rifleSprite;
 	public float delta;
 	private Texture tex = TopDown.assets.get(Assets.playerIMAGE, Texture.class);
+	private Texture playerRifle = TopDown.assets.get(Assets.playerRIFLE,Texture.class);
 	//Body stuff
 	public BodyDef playerDef;
 	private FixtureDef fixtureDefPlayer;
@@ -51,7 +52,7 @@ public class Player implements LivingEntity, Movable {
 	double health = getMaxHealth();
 	float stamina = getMaxStamina();//Why are you linking this to a method?
 	
-	private Animation<TextureRegion> animation, animationLeg;
+	private Animation<TextureRegion> animation, animationLeg, rifleAnimation;
 	// private TextureAtlas atlas,atlas2;
 	public float legOffX = 15, legOffY = 15;
 	private boolean shooting = false;
@@ -84,11 +85,14 @@ public class Player implements LivingEntity, Movable {
 	@SuppressWarnings("unchecked")
 	private void init(World world,int state){
 		sprite=new Sprite(tex);
+		rifleSprite=new Sprite(playerRifle);
 		this.state = state;
 		this.world=world;
 		
 		animation = TopDown.assets.get(Assets.playerATLAS + ":anim", Animation.class);
 		animationLeg = TopDown.assets.get(Assets.legATLAS + ":anim", Animation.class);
+		rifleAnimation = TopDown.assets.get(Assets.rifleWALK+":anim",Animation.class);
+		
 		playerDef = new BodyDef();
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
@@ -122,7 +126,7 @@ public class Player implements LivingEntity, Movable {
 		inventory = new InventorySystem();
 		//adding items here, for now
 		//will create a method later to add items on events eg. walking over gun or heath pack
-		inventory.addItem(1, ak);
+		inventory.addItem("ak47", 1, ak);
 		inventory.listItems();
 
 		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
@@ -203,14 +207,17 @@ public class Player implements LivingEntity, Movable {
 			effect.draw(sb);
 			bloodEffect.draw(sb);
 			if (!keyPressed)
-				sb.draw(sprite, playerBody.getPosition().x - 15, playerBody.getPosition().y - 15, 15, 15, 40, 40, 1, 1,
+				sb.draw(rifleSprite, playerBody.getPosition().x - 15, playerBody.getPosition().y - 15, 15, 15, 40, 40, 1, 1,
 						rotation);
 			else {
 				sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x - 10,
 						playerBody.getPosition().y - 15, legOffX, legOffY, 24, 24, 1, 1, rotation);
-				sb.draw(animation.getKeyFrame(elapsedTime, true), playerBody.getPosition().x - 15,
-						playerBody.getPosition().y - 20, 15, 15, 40, 40, 1, 1, rotation);
+				sb.draw(rifleAnimation.getKeyFrame(elapsedTime,true), playerBody.getPosition().x-15, playerBody.getPosition().y-20,
+						15, 15, 40, 40, 1, 1, rotation);
+			/*	sb.draw(animation.getKeyFrame(elapsedTime, true), playerBody.getPosition().x - 15,
+						playerBody.getPosition().y - 20, 15, 15, 40, 40, 1, 1, rotation);*/
 			}
+			
 			crossH.render(sb);
 
 		} else if (!isDisposed) {
