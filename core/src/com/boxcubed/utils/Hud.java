@@ -44,7 +44,6 @@ public class Hud {
 		//int i;
 		sr.setProjectionMatrix(textCam.combined);
 		Gdx.gl.glLineWidth(10);
-		gameState.player.inventory.render(sr);
 		//gameState.player.inventory.render(sr);
 		/*for(i=0;i<gameState.player.inventory.inventory.length;i++){
 			InventoryItem item=gameState.player.inventory.inventory[i];

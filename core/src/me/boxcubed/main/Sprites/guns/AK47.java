@@ -26,7 +26,7 @@ public class AK47 implements Gun, InventoryItem {
 	private float randRotation;
 	private Sound gunshotSound=TopDown.assets.get(Assets.gunSOUND,Sound.class);
 	//TODO get ak47 image
-	Texture ak47img = TopDown.assets.get(Assets.inventoryAK47, Texture.class);
+	Texture ak47img = TopDown.assets.get(Assets.bulletIMAGE, Texture.class);
 	@Override
 	public boolean willFire(Input input,float delta,Player player) {
 		if(Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)){
@@ -78,6 +78,12 @@ public class AK47 implements Gun, InventoryItem {
 //TODO Remove this
 	@Override
 	public int getIndex() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
+	@Override
+	public int getOffset() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

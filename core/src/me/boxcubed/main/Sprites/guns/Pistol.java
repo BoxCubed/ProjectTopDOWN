@@ -19,7 +19,7 @@ import me.boxcubed.main.States.GameState;
 
 public class Pistol implements Gun, InventoryItem {
 private Sound gunshotSound=TopDown.assets.get(Assets.gunSOUND,Sound.class);
-private Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
+private Texture icon = TopDown.assets.get(Assets.bulletIMAGE);
 	@Override
 	public boolean willFire(Input input,float delta,Player p) {
 		
@@ -58,6 +58,13 @@ private Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
 	@Override
 	public int getIndex() {
 		// TODO Auto-generated method stub
-		return 1;
+		return 2;
 	}
+
+	@Override
+	public int getOffset() {
+		// TODO Auto-generated method stub
+		return 40;
+	}
+
 }

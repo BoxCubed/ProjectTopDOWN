@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -292,7 +291,7 @@ public class GameState implements State, CleanInputProcessor{
 		//TODO get a texture for all shapes
 		sr.setProjectionMatrix(cam.combined);
 		sr.setAutoShapeType(true);
-		sr.begin(ShapeType.Filled);
+		sr.begin();
 		entities.forEach(entity->entity.renderShapes(sr));
 		player.renderShapes(sr);
 		hud.render(sr);
