@@ -13,6 +13,8 @@ public class InventorySystem {
 	HashMap<String, InventoryItem> inventoryItems= new HashMap<String, InventoryItem>();
 	private static final int MAX_INVENTORY_ITEMS = 6;//Follow Java Naming convention!no.
 	private int currentInventoryItems = 0; 
+	private static final int OFFSET = 100;
+
 	public InventorySystem(){
 		clearInventory();
 	}
@@ -37,7 +39,10 @@ public class InventorySystem {
 	public void render(SpriteBatch batcher){
 		for(Entry<String, InventoryItem> key: inventoryItems.entrySet()){
 			batcher.draw(key.getValue().getTexture(), GameState.instance.hud.textCam.position.x/2 - GameState.instance.hud.textCam.viewportWidth/3,GameState.instance.hud.textCam.position.y/3 - GameState.instance.hud.textCam.viewportHeight/3, 80, 80);
-			
+			float x = GameState.instance.hud.textCam.position.x/2 - GameState.instance.hud.textCam.viewportWidth/3 + key.getValue().getIndex()*OFFSET;
+		    float y = GameState.instance.hud.textCam.position.y/3 - GameState.instance.hud.textCam.viewportHeight/3;
+		    batcher.draw(key.getValue().getTexture(),x,y, 80, 80);
+		 
 		}
 	}
 	
