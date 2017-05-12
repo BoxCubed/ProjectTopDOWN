@@ -38,7 +38,7 @@ public class InventorySystem {
 	}
 	public void render(SpriteBatch batcher){
 		for(Entry<String, InventoryItem> key: inventoryItems.entrySet()){
-			batcher.draw(key.getValue().getTexture(), GameState.instance.hud.textCam.position.x/2 - GameState.instance.hud.textCam.viewportWidth/3,GameState.instance.hud.textCam.position.y/3 - GameState.instance.hud.textCam.viewportHeight/3, 80, 80);
+			//batcher.draw(key.getValue().getTexture(), GameState.instance.hud.textCam.position.x/2 - GameState.instance.hud.textCam.viewportWidth/3,GameState.instance.hud.textCam.position.y/3 - GameState.instance.hud.textCam.viewportHeight/3, 80, 80);
 			float x = GameState.instance.hud.textCam.position.x/2 - GameState.instance.hud.textCam.viewportWidth/3 + key.getValue().getIndex()*OFFSET;
 		    float y = GameState.instance.hud.textCam.position.y/3 - GameState.instance.hud.textCam.viewportHeight/3;
 		    batcher.draw(key.getValue().getTexture(),x,y, 80, 80);

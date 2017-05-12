@@ -381,74 +381,57 @@ public class Player implements LivingEntity, Movable {
 	}
 
 	
-	public void stop() {
-		playerBody.setLinearVelocity(0f, 0f);
-	    playerBody.setAngularVelocity(0);
-	}
-
-	@Override
-	public Body getBody() {
-		return playerBody;
-	}
-
-	@Override
-	public void dispose() {
-		world.destroyBody(playerBody);
-		bloodEffect.dispose();
-
-	}
-
-	@Override
-	public Fixture getFixture() {
-		return fixture;
-	}
-
-	@Override
-	public double getHealth() {
-		return health;
-	}
-	public float getStamina(){
-		return stamina;
-	}
-	
-	public void setStamina(float stamina){
-		this.stamina=stamina;
-	}
-
-	@Override
-	public void setHealth(double health) {
-		this.health = health;
-	}
-
-	@Override
-	public double getMaxHealth() {
-		return 50;
-	}
-	
-	public float getMaxStamina(){
-		return 100;
-	}
-
-	boolean hurt = false;
-
-	@Override
-	public void playAnimation(String key) {
-		if (key.equals("attacked")) {
-
-			hurt = true;
-			bloodEffect.reset();
-			bloodEffect.start();
-		}
-	}
-
-	@Override
-	public EntityType getID() {
-		return EntityType.PLAYER;
-	}
-
-	@Override
-	public void renderShapes(ShapeRenderer sr) {
-
-	}
-
-}
+	public void stop() {
+		playerBody.setLinearVelocity(0f, 0f);
+	    playerBody.setAngularVelocity(0);
+	}
+	@Override
+	public Body getBody() {
+		return playerBody;
+	}
+	@Override
+	public void dispose() {
+		world.destroyBody(playerBody);
+		bloodEffect.dispose();	}
+	@Override
+	public Fixture getFixture() {
+		return fixture;
+	}
+	@Override
+	public double getHealth() {
+		return health;
+	}
+	public float getStamina(){
+		return stamina;
+	}
+	public void setStamina(float stamina){
+		this.stamina=stamina;
+	}
+	@Override
+	public void setHealth(double health) {
+		this.health = health;
+	}
+	@Override
+	public double getMaxHealth() {
+		return 50;
+	}
+	public float getMaxStamina(){
+		return 100;
+	}
+	boolean hurt = false;
+	@Override
+	public void playAnimation(String key) {
+		if (key.equals("attacked")) {
+			hurt = true;
+			bloodEffect.reset();
+			bloodEffect.start();
+		}
+	}
+	@Override
+	public EntityType getID() {
+		return EntityType.PLAYER;
+	}
+	@Override
+	public void renderShapes(ShapeRenderer sr) {
+	}
+}
