@@ -28,7 +28,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 			scrollMenuIMAGE="img/menu.jpg",bulletIMAGE="img/bullet.png",crossHairIMAGE="img/crosshair.png",logoIMAGE="img/logo.png",
 			healthIMAGE="img/health.png",mflashIMAGE="img/muzzle_flash.png",staminaIMAGE="img/stamina.png",
 			particleIMAGE="img/particle.png",playerIMAGE="img/player.png",zombieIMAGE="img/skeleton-idle_0.png", playerRIFLE="img/survivor-idle_rifle.png",
-			inventoryAK47="img/invbar.png",
+			inventoryAK47="img/invbar.png",inventoryPISTOL="img/invbarpistol.png",
 			playerATLAS="spritesheets/playersheet.atlas",legATLAS="spritesheets/leganim.atlas",zombieAttackATLAS="spritesheets/zombieanim.atlas",
 			zombieWalkATLAS="spritesheets/zombie_walk.atlas",startATLAS="button/start.atlas",
 			rifleWalkATLAS="spritesheets/rifle_walk.atlas",
@@ -116,6 +116,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager{
 		load(staminaIMAGE, Texture.class);
 		load(playerRIFLE, Texture.class);
 		load(inventoryAK47, Texture.class);
+		load(inventoryPISTOL, Texture.class);
 	}
 	private void loadAtlases(){
 		load(playerATLAS, TextureAtlas.class);
