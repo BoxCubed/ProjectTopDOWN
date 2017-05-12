@@ -22,7 +22,7 @@ import me.boxcubed.main.States.GameState;
 public class AK47 implements Gun, InventoryItem {
 	private float elapsedBulletTime=0;
 	private final Random random=new Random();
-	private final int ak47Offset=3;
+	private final int ak47Offset=6;
 	private float randRotation;
 	private Sound gunshotSound=TopDown.assets.get(Assets.gunSOUND,Sound.class);
 	//TODO get ak47 image

@@ -28,6 +28,5 @@ public interface Entity {
         public boolean isDisposable();
         public void setDisposable(boolean disposable);
         public void renderShapes(ShapeRenderer sr);
-		Vector2 getPos();
         }
   
