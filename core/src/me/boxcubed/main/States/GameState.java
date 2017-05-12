@@ -58,7 +58,7 @@ public class GameState implements State, CleanInputProcessor{
 	public Player player;
 	public static GameState instance;
 	private ShapeRenderer sr;
-	public static final int PPM = 10;
+	public static final int PPM = 20;
 	private PlayerLight playerLight;
 	private Clock clock; 
 	//public float mouseX, mouseY;
@@ -168,7 +168,7 @@ public class GameState implements State, CleanInputProcessor{
 		hud.update();
 		
 		//Updating World
-		gameWORLD.step(delta/100, 8, 2);
+		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 
 		//Updating player
 		

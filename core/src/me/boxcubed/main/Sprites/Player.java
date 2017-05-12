@@ -55,7 +55,8 @@ public class Player implements LivingEntity, Movable {
 	
 	private Animation<TextureRegion> animationLeg, rifleAnimation;
 	// private TextureAtlas atlas,atlas2;
-	public float legOffX = 15, legOffY = 15;
+	private float legOffX = 15, legOffY = 15;
+	private float velX=0,velY=0;
 	private boolean shooting = false;
 	public NetworkManager connection;
 	public GlyphLayout name = new GlyphLayout();
@@ -183,8 +184,7 @@ public class Player implements LivingEntity, Movable {
 			sprite.setRotation(rotation);
 
 		} else {
-			getBody().setAngularVelocity(0);
-			getBody().setLinearVelocity(0, 0);
+			stop();
 		}
 
 	}
@@ -253,15 +253,19 @@ public class Player implements LivingEntity, Movable {
 		}
 		if (!keyPressed)
 			stop();
+		else getBody().setAngularVelocity(5f);
 		if (input.isKeyPressed(Keys.NUM_0))
 			shooting = true;
 		else
 			shooting = false;
+		getBody().setLinearVelocity(velX, velY);
+		velX=0;
+		velY=0;
 
 	}
 
 	private boolean processMovment(String key) {
-
+		stop();
 		String method;
 		
 		
@@ -294,6 +298,7 @@ public class Player implements LivingEntity, Movable {
 		try {
 			m = getClass().getMethod(method, (Class<?>[]) null);
 			m.invoke(this, (Object[]) null);
+			
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -327,7 +332,7 @@ public class Player implements LivingEntity, Movable {
 	@Override
 	public void goUP() {
 		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-			playerBody.applyLinearImpulse(new Vector2(0, 1f * delta), playerBody.getWorldCenter(), true);
+			velY=5f;
 			}
 		}
 	
@@ -335,52 +340,50 @@ public class Player implements LivingEntity, Movable {
 	@Override
 	public void goDOWN() {
 		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-			playerBody.applyLinearImpulse(new Vector2(0, -1f * delta), playerBody.getWorldCenter(), true);
+			velY=-5f;
 	}
 	}
 
 	@Override
 	public void goLEFT() {
 		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-			playerBody.applyLinearImpulse(new Vector2(-1f*delta, 0 ), playerBody.getWorldCenter(), true);
-			;}
+			velX=-5f;
+			}
 	}
 
 	@Override
-	public void goRIGHT() {if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-		playerBody.applyLinearImpulse(new Vector2(1f*delta, 0 ), playerBody.getWorldCenter(), true)
-		;}
+	public void goRIGHT() {
+		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
+			velX=5f;
+	
+	}
 	}// d
 		// Running actions
 
 	@Override
 	public void runUP() {
-		playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y+=1.9f, playerBody.getAngle())
-		;
+		velY=10f;
 	}
 
 	@Override
 	public void runDOWN() {
-		playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y-=1.9f, playerBody.getAngle())
-		;
+		velY=-10f;
 	}
 
 	@Override
 	public void runLEFT() {
-		playerBody.setTransform(playerBody.getPosition().x-=1.9,playerBody.getPosition().y, playerBody.getAngle())
-		;
+		velX=-10f;
 	}
 
 	@Override
 	public void runRIGHT() {
-		playerBody.setTransform(playerBody.getPosition().x+=1.9,playerBody.getPosition().y, playerBody.getAngle())
-		;
+		velX=10f;
 	}
 
 	
 	public void stop() {
 		playerBody.setLinearVelocity(0f, 0f);
-		// playerBody.setAngularVelocity(0);
+	    playerBody.setAngularVelocity(0);
 	}
 
 	@Override
