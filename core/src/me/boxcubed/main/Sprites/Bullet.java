@@ -183,6 +183,11 @@ public class Bullet extends Sprite implements Entity{
 	public void setDisposable(boolean disposable) {
 		this.disposable=disposable;
 	}
+	@Override
+	public Vector2 getPos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 
