@@ -350,25 +350,25 @@ public class Player implements LivingEntity, Movable {
 
 	@Override
 	public void runUP() {
-		playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y+=1.7f, playerBody.getAngle())
+		playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y+=1.9f, playerBody.getAngle())
 		;
 	}
 
 	@Override
 	public void runDOWN() {
-		playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y-=1.7f, playerBody.getAngle())
+		playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y-=1.9f, playerBody.getAngle())
 		;
 	}
 
 	@Override
 	public void runLEFT() {
-		playerBody.setTransform(playerBody.getPosition().x-=1.7,playerBody.getPosition().y, playerBody.getAngle())
+		playerBody.setTransform(playerBody.getPosition().x-=1.9,playerBody.getPosition().y, playerBody.getAngle())
 		;
 	}
 
 	@Override
 	public void runRIGHT() {
-		playerBody.setTransform(playerBody.getPosition().x+=1.7,playerBody.getPosition().y, playerBody.getAngle())
+		playerBody.setTransform(playerBody.getPosition().x+=1.9,playerBody.getPosition().y, playerBody.getAngle())
 		;
 	}
 

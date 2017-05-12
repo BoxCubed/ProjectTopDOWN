@@ -60,11 +60,4 @@ private Texture icon = TopDown.assets.get(Assets.bulletIMAGE);
 		// TODO Auto-generated method stub
 		return 1;
 	}
-
-	@Override
-	public int getOffset() {
-		// TODO Auto-generated method stub
-		return 40;
-	}
-
 }
