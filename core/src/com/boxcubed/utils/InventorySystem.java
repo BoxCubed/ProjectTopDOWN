@@ -34,26 +34,13 @@ public class InventorySystem {
 		System.out.println(inventoryItems.entrySet());
 		//System.out.println(inventory[0]);
 	}
-	public void render(ShapeRenderer shaper){
-		/*for(Entry<String, InventoryItem> key: inventoryItems.entrySet()){
-			//System.out.println("key: "+key); This works
-		}*/
-	}
 	public void render(SpriteBatch batcher){
 		for(Entry<String, InventoryItem> key: inventoryItems.entrySet()){
-			//System.out.println("key: "+key); This works
-			batcher.draw(key.getValue().getTexture(), GameState.instance.hud.textCam.position.x/2 - GameState.instance.hud.textCam.viewportWidth/3 + key.getValue().getOffset(),GameState.instance.hud.textCam.position.y/3 - GameState.instance.hud.textCam.viewportHeight/3, 80, 80);
+			batcher.draw(key.getValue().getTexture(), GameState.instance.hud.textCam.position.x/2 - GameState.instance.hud.textCam.viewportWidth/3,GameState.instance.hud.textCam.position.y/3 - GameState.instance.hud.textCam.viewportHeight/3, 80, 80);
 			
 		}
 	}
-	/**
-	 * May return null if no item is present in that position. 
-	 * Could throw an error if item index is larger than {@value #MAX_INVENTORY_ITEMS}
-	 * 
-	 * @param index the index to add the item to.
-	 * @return null or item given
-	 * @throws IllegalArgumentException
-	 */
+	
 	public InventoryItem getItem(String name, int index){
 		return inventoryItems.get(name);//inventory[index];
 	}
