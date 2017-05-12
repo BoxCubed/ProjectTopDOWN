@@ -52,7 +52,7 @@ public class AK47 implements Gun, InventoryItem {
 		gunshotSound.play(1.0f);
 		
 		GameState.instance.entities
-		.add(new Bullet(world, player.getPos().x, player.getPos().y,(float) (Math.cos(Math.toRadians(randRotation))), 
+		.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y,(float) (Math.cos(Math.toRadians(randRotation))), 
 				(float) (Math.sin(Math.toRadians(randRotation))),randRotation,GunType.AK47,player));
 			
 
@@ -60,7 +60,7 @@ public class AK47 implements Gun, InventoryItem {
 
 	@Override
 	public void netFire(NetworkManager net,World world, Player player) {
-		net.onFire(player.getPos(),player.rotation,this.getClass().getSimpleName());
+		net.onFire(player.getPos(false),player.rotation,this.getClass().getSimpleName());
 		
 	}
 

@@ -58,7 +58,7 @@ public class GameState implements State, CleanInputProcessor{
 	public Player player;
 	public static GameState instance;
 	private ShapeRenderer sr;
-	public static final int PPM = 200;
+	public static final int PPM = 10;
 	private PlayerLight playerLight;
 	private Clock clock; 
 	//public float mouseX, mouseY;
@@ -129,9 +129,9 @@ public class GameState implements State, CleanInputProcessor{
 		// light
 		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes
-		MapBodyBuilder.buildShapes(tiledMap, 1f, gameWORLD);
+		MapBodyBuilder.buildShapes(tiledMap, PPM, gameWORLD);
 		//packs
-		entities.add(new Pack(PackType.HEALTH,250, 250, gameWORLD));
+		entities.add(new Pack(PackType.HEALTH,250/PPM, 250/PPM, gameWORLD));
 		anim= GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("img/health.gif").read());
 		//Server stuff
         server = new server();
@@ -184,7 +184,7 @@ public class GameState implements State, CleanInputProcessor{
 		player.connection.updatePlayers(delta);
 
 		//Updating Light TODO dont make this only for player aka make a Flashlight class and and handling in gamestate
-		playerLight.updateLightPos(player.getPos(),
+		playerLight.updateLightPos(player.getPos(true),
 		player.rotation, delta,Gdx.input.isKeyPressed(Keys.L),true);
 		clock.updateLight(delta);
 		
@@ -215,8 +215,8 @@ public class GameState implements State, CleanInputProcessor{
 
 		
 		
-		BoxoUtil.lerpToPos(new Vector2(MathUtils.clamp(player.getPos().x+player.crossH.offX*30, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
-				 MathUtils.clamp(player.getPos().y+player.crossH.offY*30, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2)),cam);
+		BoxoUtil.lerpToPos(new Vector2(MathUtils.clamp(player.getPos(true).x+player.crossH.offX*30, cam.viewportWidth / 2, 1576 - cam.viewportWidth / 2), 
+				 MathUtils.clamp(player.getPos(true).y+player.crossH.offY*30, cam.viewportHeight / 2, 1576 - cam.viewportHeight / 2)),cam);
 		cam.update();
         server.updateServer(delta);
 	}
@@ -323,7 +323,7 @@ public class GameState implements State, CleanInputProcessor{
 		mouseLoc = new Vector2(mouseCoords.x, mouseCoords.y);
 
 		
-		Vector2 direction = mouseLoc.sub(player.getPos());
+		Vector2 direction = mouseLoc.sub(player.getPos(true));
 		float mouseAngle = direction
 				.angle();
 		player.rotation=mouseAngle;

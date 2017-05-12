@@ -104,8 +104,8 @@ public class server {
 		if (timer >= update_interval && has_moved() && GameState.instance.player != null) {
 			JSONObject data = new JSONObject();
 			try {
-				data.put("x", GameState.instance.player.getPos().x);
-				data.put("y", GameState.instance.player.getPos().y);
+				data.put("x", GameState.instance.player.getPos(false).x);
+				data.put("y", GameState.instance.player.getPos(false).y);
 				data.put("id", clientID);
 				clientSocket.emit("playerMoved", data);
 			} catch (JSONException e) {
@@ -115,9 +115,9 @@ public class server {
 	}
 
 	public boolean has_moved() {
-		if (previous_pos.x != GameState.instance.player.getPos().x || previous_pos.y != GameState.instance.player.getPos().y) {
-			previous_pos.x = GameState.instance.player.getPos().x;
-			previous_pos.y = GameState.instance.player.getPos().y;
+		if (previous_pos.x != GameState.instance.player.getPos(false).x || previous_pos.y != GameState.instance.player.getPos(false).y) {
+			previous_pos.x = GameState.instance.player.getPos(false).x;
+			previous_pos.y = GameState.instance.player.getPos(false).y;
 			return true;
 		}
 		return false;

@@ -15,10 +15,7 @@ import me.boxcubed.main.Objects.interfaces.EntityType;
  * @deprecated Why do we have this?
  */
 public class Enemy implements Entity {
-    @Override
-    public Vector2 getPos() {
-        return null;
-    }
+
 
    
   

@@ -34,6 +34,7 @@ import me.boxcubed.main.Objects.interfaces.Movable;
 import me.boxcubed.main.Sprites.guns.AK47;
 import me.boxcubed.main.Sprites.guns.Gun;
 import me.boxcubed.main.Sprites.guns.Pistol;
+import me.boxcubed.main.States.GameState;
 
 public class Player implements LivingEntity, Movable {
 	private Sprite sprite;
@@ -94,7 +95,7 @@ public class Player implements LivingEntity, Movable {
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
 		playerShape = new PolygonShape();
-		playerShape.setAsBox(10, 10);
+		playerShape.setAsBox(0.5f, 0.5f);
 
 		// Fixture def
 		fixtureDefPlayer = new FixtureDef();
@@ -106,7 +107,7 @@ public class Player implements LivingEntity, Movable {
 		fixture = playerBody.createFixture(fixtureDefPlayer);
 		fixture.setUserData("PLAYER");
 
-		playerBody.setTransform(340, 300, 0);
+		playerBody.setTransform(340/GameState.PPM, 300/GameState.PPM, 0);
 
 		playerShape.dispose();
 		
@@ -152,7 +153,7 @@ public class Player implements LivingEntity, Movable {
 			handleInput();
 			if(state==2)playerBody.setLinearVelocity(0, 0);
 			if (shooting&&state==0) {
-				effect.setPosition(getPos().x, getPos().y);
+				effect.setPosition(getPos(true).x, getPos(true).y);
 				for (ParticleEmitter emit : effect.getEmitters()) {
 					emit.getAngle().setHigh(rotation + 20);
 					emit.getAngle().setLow(rotation - 20);
@@ -168,7 +169,7 @@ public class Player implements LivingEntity, Movable {
 			
 			
 			if (hurt) {
-				bloodEffect.setPosition(getPos().x, getPos().y);
+				bloodEffect.setPosition(getPos(true).x, getPos(true).y);
 				bloodEffect.update(delta / 100);
 
 				if (bloodEffect.isComplete())
@@ -206,9 +207,9 @@ public class Player implements LivingEntity, Movable {
 			
 			
 
-				sb.draw(animationLeg.getKeyFrame(elapsedTime, true), playerBody.getPosition().x - 15,
-						playerBody.getPosition().y - 15, legOffX, legOffY, 24, 24, 1, 1, rotation);
-				sb.draw(rifleAnimation.getKeyFrame(elapsedTime,true), playerBody.getPosition().x-15, playerBody.getPosition().y-20,
+				sb.draw(animationLeg.getKeyFrame(elapsedTime, true), (playerBody.getPosition().x )*GameState.PPM-15,
+						(playerBody.getPosition().y)*GameState.PPM-15, legOffX, legOffY, 24, 24, 1, 1, rotation);
+				sb.draw(rifleAnimation.getKeyFrame(elapsedTime,true),(playerBody.getPosition().x)*GameState.PPM-15, (playerBody.getPosition().y)*GameState.PPM-20,
 						15, 15, 50, 40, 1, 1, rotation);
 			
 			crossH.render(sb);
@@ -304,12 +305,15 @@ public class Player implements LivingEntity, Movable {
 	Vector2 lastPos = new Vector2();
 
 	@Override
-	public Vector2 getPos() {
+	public Vector2 getPos(boolean asPixels) {
 		// For thread safety
 		if (state == 1 || state == 2)
-			return lastPos;
-		else
-			return playerBody.getPosition();
+			if(asPixels)
+			return lastPos.scl(GameState.PPM);
+			else return lastPos;
+		else if(asPixels)
+			return playerBody.getPosition().scl(GameState.PPM);
+		else return playerBody.getPosition();
 	}
 
 	
@@ -319,31 +323,32 @@ public class Player implements LivingEntity, Movable {
 	}
 
 	// Walking
+	
 	@Override
 	public void goUP() {
 		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-			playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y+=1.2f, playerBody.getAngle())
-			;}
+			playerBody.applyLinearImpulse(new Vector2(0, 1f * delta), playerBody.getWorldCenter(), true);
+			}
 		}
 	
 
 	@Override
 	public void goDOWN() {
 		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-	playerBody.setTransform(playerBody.getPosition().x,playerBody.getPosition().y-=1.2f, playerBody.getAngle())
-	;}
+			playerBody.applyLinearImpulse(new Vector2(0, -1f * delta), playerBody.getWorldCenter(), true);
+	}
 	}
 
 	@Override
 	public void goLEFT() {
 		if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-			playerBody.setTransform(playerBody.getPosition().x-=1.2f,playerBody.getPosition().y, playerBody.getAngle())
+			playerBody.applyLinearImpulse(new Vector2(-1f*delta, 0 ), playerBody.getWorldCenter(), true);
 			;}
 	}
 
 	@Override
 	public void goRIGHT() {if(!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)||stamina<=0){
-		playerBody.setTransform(playerBody.getPosition().x+=1.2f,playerBody.getPosition().y, playerBody.getAngle())
+		playerBody.applyLinearImpulse(new Vector2(1f*delta, 0 ), playerBody.getWorldCenter(), true)
 		;}
 	}// d
 		// Running actions

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -31,7 +30,7 @@ public class Pack extends Sprite implements Entity {
 		def.type = BodyDef.BodyType.DynamicBody;
 		// Shape
 		shape= new PolygonShape();
-		shape.setAsBox(10, 10);
+		shape.setAsBox(0.5f, 0.5f);
 		
 		// Fixture def
 		fixtureDef = new FixtureDef();
@@ -73,16 +72,12 @@ public class Pack extends Sprite implements Entity {
 
 	@Override
 	public void render(SpriteBatch sb) {
-		sb.draw(GameState.instance.anim.getKeyFrame(Gdx.graphics.getDeltaTime()*10), x-10f, y-10f,0, 0, 20, 20, 1, 1, 0);
+		sb.draw(GameState.instance.anim.getKeyFrame(Gdx.graphics.getDeltaTime()*10), x*GameState.PPM-10f, y*GameState.PPM-10f,0, 0, 20, 20, 1, 1, 0);
 		
 	}
 	
 
-	@Override
-	public Vector2 getPos() {
-		return body.getPosition();
-	}
-
+	
 	@Override
 	public Body getBody() {
 		return body;

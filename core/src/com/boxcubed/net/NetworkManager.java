@@ -214,7 +214,7 @@ public class NetworkManager extends Thread {
 		for(Entry<Integer, Player> entry:multiplayerPlayers.entrySet()){
 			entry.getValue().render(sb);
 			GlyphLayout layout=entry.getValue().name;
-		font.draw(sb, layout, entry.getValue().getPos().x-layout.width/2, entry.getValue().getPos().y-10);
+		font.draw(sb, layout, entry.getValue().getPos(true).x-layout.width/2, entry.getValue().getPos(true).y-10);
 		}
 		
 			

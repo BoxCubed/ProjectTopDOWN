@@ -7,8 +7,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
+import me.boxcubed.main.States.GameState;
+
 public interface Entity {
-	  public Vector2 getPos();
+	  public default Vector2 getPos(boolean asPixels){
+		  if(asPixels)
+			  return getBody().getPosition().scl(GameState.PPM);
+		  else return getBody().getPosition();
+	  };
 	  public Body getBody();
 
 	  public EntityType getID();

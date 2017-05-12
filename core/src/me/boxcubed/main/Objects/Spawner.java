@@ -48,8 +48,8 @@ public class Spawner {
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){
 			amount++;
-			pos.x=random.nextInt(1570);
-			pos.y=random.nextInt(1570);
+			pos.x=random.nextInt(1570/GameState.PPM);
+			pos.y=random.nextInt(1570/GameState.PPM);
 			LivingEntity spawnEntity=null;
 				if(entity.equals(EntityType.ZOMBIE))
 					

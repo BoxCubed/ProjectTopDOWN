@@ -34,11 +34,10 @@ public class Bullet extends Sprite implements Entity{
 	TextureRegion muzzleFlash;
 	
 	float rotation;
-	public float SPEED = 20;
+	public float SPEED = 1;
 	
 	float x,y,offX,offY;
 	Player player;
-	boolean lookRight, lookLeft;
 	
 	float elapsedTime=0;
 	
@@ -55,7 +54,7 @@ public class Bullet extends Sprite implements Entity{
 		
 		// Shape
 		bulletShape = new PolygonShape();
-		bulletShape.setAsBox(2, 2);
+		bulletShape.setAsBox(0.01f, 0.01f);
 		
 		// Fixture def
 		fixtureDefBullet = new FixtureDef();
@@ -100,19 +99,16 @@ public class Bullet extends Sprite implements Entity{
     }
 	 @Override
 	    public void update(float delta) {
-		 if(rotation<90||rotation>270){lookRight=true;}
-		 if(rotation<=270&&rotation>=90){lookLeft=true;}
 		
 		 if(!isDisposable()){
 			 
 			 x+=offX*delta*SPEED;
 			 y+=offY*delta*SPEED;
 			 
-			 if(lookRight){getBody().setTransform(x+10, y-5, rotation);}
-			 else {getBody().setTransform(x-10, y+12, rotation);}
+			 getBody().setTransform(x, y, rotation);
 			 
 		 }else{return;}
-		 if(getBody().getPosition().x<0||getBody().getPosition().y<0||getBody().getPosition().x>1576||getBody().getPosition().y>1576)
+		 if(getPos(true).x<0||getPos(true).y<0||getPos(true).x>1576||getPos(true).y>1576)
 			 setDisposable(true);
 		 if(GameState.instance.player.isAlive())
 		 GameState.instance.getWorld().rayCast(callback, player.getBody().getPosition(),
@@ -129,18 +125,14 @@ public class Bullet extends Sprite implements Entity{
 					 GameState.instance.player.getPos().y,offX,offY,40,20,1,1,rotation);
 			*/
 			 
-		 if(lookRight)sb.draw(this, x+5, y-8, 5, 5, 30, 20, 1, 1, rotation,true);
-		 if(lookLeft)sb.draw(this, x-17, y+5, 5, 5, 30, 20, 1, 1, rotation,true);
+		 sb.draw(this, x*GameState.PPM, y*GameState.PPM, 5, 5, 30, 20, 1, 1, rotation,true);
 		 }else{
 			 this.dispose();
 		 }
 	 }
 
 	
-	@Override
-	public Vector2 getPos() {
-        return bulletBody.getPosition();
-	}
+	
 
 	@Override
 	public Body getBody() {

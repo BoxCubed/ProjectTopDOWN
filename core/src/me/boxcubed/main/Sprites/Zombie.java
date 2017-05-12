@@ -34,7 +34,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	public BodyDef Def;
 	FixtureDef fixtureDef;
 	CircleShape Shape;
-	public Body Body;
+	private Body Body;
 	Fixture fixture;
 	double health;
 	Vector2 position,vel,target;
@@ -69,7 +69,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		
 		// Shape
 		Shape = new CircleShape();
-		Shape.setRadius(10);
+		Shape.setRadius(10/GameState.PPM);
 		
 		// Fixture def
 		fixtureDef = new FixtureDef();
@@ -80,7 +80,6 @@ public class Zombie extends Sprite implements LivingEntity {
 		Body = world.createBody(Def);
 		fixture = Body.createFixture(fixtureDef);
 		fixture.setUserData("ZOMBIE");
-		Body.setTransform(400, 100, 0);
 		Shape.dispose();
 		zombieAnim = TopDown.assets.get(Assets.zombieAttackATLAS+":anim", Animation.class);
 	    zombieWalk = TopDown.assets.get(Assets.zombieWalkATLAS+":anim", Animation.class);
@@ -114,12 +113,12 @@ public class Zombie extends Sprite implements LivingEntity {
 		
 		idle=false;
 		
-		p1 = getPos();
-		p2=GameState.instance.player.getPos();
+		p1 = getPos(false);
+		p2=GameState.instance.player.getPos(false);
 		if(GameState.instance.player.isAlive())
 		GameState.instance.getWorld().rayCast(callback, p1,p2);
 		if (hurt) {
-			bloodEffect.setPosition(getPos().x, getPos().y);
+			bloodEffect.setPosition(getPos(true).x, getPos(true).y);
 			bloodEffect.update(delta / 100);
 
 			if (bloodEffect.isComplete()){
@@ -150,10 +149,10 @@ public class Zombie extends Sprite implements LivingEntity {
 
 		 if(!idle){
 				if(!attack){
-					sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-25, Body.getPosition().y-20, getWidth()/2, getHeight()/2 , 40, 40, 
+					sb.draw(zombieWalk.getKeyFrame(walkTime, true), getPos(true).x-15, getPos(true).y-20, getWidth()/2, getHeight()/2 , 40, 40, 
 							1, 1, (float)Math.toDegrees(Body.getAngle())+90);}
 				else {
-					sb.draw(zombieAnim.getKeyFrame(attackTime, false), Body.getPosition().x-25, Body.getPosition().y-20, getWidth()/2, getHeight()/2, 40, 40, 
+					sb.draw(zombieAnim.getKeyFrame(attackTime, false), getPos(true).x-25, getPos(true).y-20, getWidth()/2, getHeight()/2, 40, 40, 
 							1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 					
 					if(zombieAnim.isAnimationFinished(attackTime))
@@ -161,11 +160,11 @@ public class Zombie extends Sprite implements LivingEntity {
 				
 				}
 		 }else{
-			 sb.draw(zombieWalk.getKeyFrame(walkTime, true), Body.getPosition().x-25, Body.getPosition().y-20, getWidth()/2, getHeight()/2, 40, 40, 
+			 sb.draw(zombieWalk.getKeyFrame(walkTime, true), getPos(true).x-25, getPos(true).y-20, getWidth()/2, getHeight()/2, 40, 40, 
 						1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		 }
 		 float size=(float)(getHealth()/getMaxHealth()*40f);
-		 sb.draw(healthBar, getPos().x-10, getPos().y+20,0 , 0, size, 10, 1, 1,0);
+		 sb.draw(healthBar, getPos(true).x-10, getPos(true).y+20,0 , 0, size, 10, 1, 1,0);
 		 
 		 
 	}
@@ -178,8 +177,9 @@ public class Zombie extends Sprite implements LivingEntity {
 			rayEnabled=!rayEnabled;
 		}
 		if(rayEnabled){
+			Gdx.gl.glLineWidth(1);
 			sr.setColor(Color.RED);
-			sr.line(p1, p2);
+			sr.line(p1.scl(GameState.PPM), p2.scl(GameState.PPM));
 		}
 		/*sr.set(ShapeType.Filled);
 		sr.setColor(Color.GREEN);
@@ -187,11 +187,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		sr.rect(getPos().x-10, getPos().y+20, size, 10);*/
 	}
 	
-	@Override
-	public Vector2 getPos() {
-		return Body.getPosition();
-	}
-
+	
 	
 
 	
