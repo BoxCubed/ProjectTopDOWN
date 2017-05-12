@@ -58,7 +58,7 @@ private Texture icon = TopDown.assets.get(Assets.bulletIMAGE);
 	@Override
 	public int getIndex() {
 		// TODO Auto-generated method stub
-		return 2;
+		return 1;
 	}
 
 	@Override
