@@ -14,7 +14,7 @@ import me.boxcubed.main.TopDown;
 
 public class DesktopLauncher {
 	private boolean debug=false;
-	private LwjglApplication app;
+	//private LwjglApplication app;
 	public DesktopLauncher(String[] args) {
 		for(String s:args)System.out.println(s);
 		List<String> largs=Arrays.asList(args);
@@ -23,7 +23,7 @@ public class DesktopLauncher {
 			System.out.println("Debug was set to true");
 		}
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		app=new LwjglApplication(new TopDown(debug), config);
+		new LwjglApplication(new TopDown(debug), config);
 		if(debug){
 		config.resizable = true;
 		config.height = 900;

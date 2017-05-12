@@ -41,7 +41,7 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 		playerDef.type = BodyDef.BodyType.DynamicBody;
 		// Shape
 		playerShape = new PolygonShape();
-		playerShape.setAsBox(10, 10);
+		playerShape.setAsBox(0.5f, 0.5f);
 		command=new InputPacket();
 		
 		// Fixture def
@@ -55,7 +55,7 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 		fixture.setUserData("PLAYER");
 
 		
-		playerBody.setTransform(340, 300, 0);
+		playerBody.setTransform(34, 30, 0);
 
         playerShape.dispose();
 		
@@ -170,10 +170,7 @@ public void render(SpriteBatch sb) {
 		return true;
 
 	}
-	@Override
-	public Vector2 getPos() {
-		return playerBody.getPosition();
-	}
+	
 
 	
 	@Override
@@ -188,25 +185,25 @@ public void render(SpriteBatch sb) {
 	// Walking
 	@Override
 	public void goUP() {
-		playerBody.applyLinearImpulse(new Vector2(0, 10f*delta), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0, 1f*delta), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(5f);
     }
 
 	@Override
 	public void goDOWN() {
-		playerBody.applyLinearImpulse(new Vector2(0f, -10f*delta), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(0f, -1f*delta), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(-5f);
 	}
 
 	@Override
 	public void goLEFT() {
-		playerBody.applyLinearImpulse(new Vector2(-10f*delta, 0), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(-1f*delta, 0), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(5f);
 	}
 
 	@Override
 	public void goRIGHT() {
-		playerBody.applyLinearImpulse(new Vector2(10*delta, 0), playerBody.getWorldCenter(), true);
+		playerBody.applyLinearImpulse(new Vector2(1f*delta, 0), playerBody.getWorldCenter(), true);
 		playerBody.setAngularVelocity(-5f);
 	}// d
 		// Running actions

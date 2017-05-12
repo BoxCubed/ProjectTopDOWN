@@ -117,11 +117,7 @@ public class NetworkBullet implements Entity{
 		
 
 		
-		@Override
-		public Vector2 getPos() {
-	        return bulletBody.getPosition();
-		}
-
+	
 		@Override
 		public Body getBody() {
 			return bulletBody;
