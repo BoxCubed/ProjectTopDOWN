@@ -54,7 +54,7 @@ public class Bullet extends Sprite implements Entity{
 		
 		// Shape
 		bulletShape = new PolygonShape();
-		bulletShape.setAsBox(0.01f, 0.01f);
+		bulletShape.setAsBox(0.1f, 0.1f);
 		
 		// Fixture def
 		fixtureDefBullet = new FixtureDef();

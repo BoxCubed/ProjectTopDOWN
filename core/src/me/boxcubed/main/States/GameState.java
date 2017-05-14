@@ -184,7 +184,7 @@ public class GameState implements State, CleanInputProcessor{
 		player.connection.updatePlayers(delta);
 
 		//Updating Light TODO dont make this only for player aka make a Flashlight class and and handling in gamestate
-		playerLight.updateLightPos(player.getPos(true),
+		playerLight.updateLightPos(player.getPos(false),
 		player.rotation, delta,Gdx.input.isKeyPressed(Keys.L),true);
 		clock.updateLight(delta);
 		
@@ -273,7 +273,7 @@ public class GameState implements State, CleanInputProcessor{
 		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();
 		if(b2dr!=null)
-		b2dr.render(gameWORLD, cam.combined);
+		b2dr.render(gameWORLD, cam.combined.scl(PPM));
 		
 		//Entity render
 		batch.begin();                                                   //-------------------------------------\\                                               //       SEE THIS RENDER METHOD?       \\

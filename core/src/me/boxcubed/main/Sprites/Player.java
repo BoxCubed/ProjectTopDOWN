@@ -51,10 +51,10 @@ public class Player implements LivingEntity, Movable {
 	public Crosshair crossH;
 	
 	double health = getMaxHealth();
-	float stamina = getMaxStamina();//Why are you linking this to a method?
+	float stamina = getMaxStamina();
 	
 	private Animation<TextureRegion> animationLeg, rifleAnimation;
-	// private TextureAtlas atlas,atlas2;
+
 	private float legOffX = 15, legOffY = 15;
 	private float velX=0,velY=0;
 	private boolean shooting = false;

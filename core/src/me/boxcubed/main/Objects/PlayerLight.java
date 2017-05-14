@@ -16,14 +16,14 @@ public class PlayerLight{
     }
     public void updateLightPos(Vector2 pos,float angle,float delta,boolean strong,boolean on){
         //Makes sure that the light moves with the player
-    	  pointLight.setPosition(pos.x+2.5f, pos.y+2.5f);
+    	  pointLight.setPosition(pos.x, pos.y);
           pointLight.setDirection(angle);
      flashlightState=on;
       
-    	if(flashlightState){pointLight.setDistance(100);}else{pointLight.setDistance(0);}
+    	if(flashlightState){pointLight.setDistance(5);}else{pointLight.setDistance(0);}
         if(strong){
-        	if(flashlightState)pointLight.setDistance(400);}
-        else if(flashlightState)pointLight.setDistance(100);
+        	if(flashlightState)pointLight.setDistance(20);}
+        else if(flashlightState)pointLight.setDistance(5);
         
     }
     

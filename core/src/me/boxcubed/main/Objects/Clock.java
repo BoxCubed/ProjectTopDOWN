@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 
 import box2dLight.RayHandler;
+import me.boxcubed.main.TopDown;
+import me.boxcubed.main.States.GameState;
 
 public class Clock {
 	//TODO make new class for just time handling
@@ -18,7 +20,7 @@ public class Clock {
     public Clock(World world){
     	timer = new StopWatch();
     	rayHandler=new RayHandler(world);
-    	progressTime=true;
+    	progressTime=!TopDown.debug;
         //LIGHT init
         /*rayHandler = new RayHandler(world);
         pointLight =new ConeLight(rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45);
@@ -42,8 +44,9 @@ public class Clock {
         rayHandler.setAmbientLight(amlight);
         rayHandler.update();
     }
-    public void renderLIGHT(OrthographicCamera matrix){
-    	rayHandler.setCombinedMatrix(matrix);
+    @SuppressWarnings("deprecation")
+	public void renderLIGHT(OrthographicCamera matrix){
+    	rayHandler.setCombinedMatrix(matrix.combined.scl(GameState.PPM));
         rayHandler.render();
         
     }
