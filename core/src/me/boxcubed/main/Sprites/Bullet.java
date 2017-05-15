@@ -125,7 +125,7 @@ public class Bullet extends Sprite implements Entity{
 					 GameState.instance.player.getPos().y,offX,offY,40,20,1,1,rotation);
 			*/
 			 
-		 sb.draw(this, x*GameState.PPM, y*GameState.PPM, 5, 5, 30, 20, 1, 1, rotation,true);
+		 sb.draw(this, x*GameState.PPM, y*GameState.PPM,4, 2, 30, 20, 1, 1, rotation,true);
 		 }else{
 			 this.dispose();
 		 }
