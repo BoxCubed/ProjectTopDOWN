@@ -384,67 +384,7 @@ public class Player implements LivingEntity, Movable {
 	public void stop() {
 		playerBody.setLinearVelocity(0f, 0f);
 	    playerBody.setAngularVelocity(0);
-	}
-	@SuppressWarnings("unchecked")
-	private void init(World world,int state){
-		sprite=new Sprite(tex);
-		this.state = state;
-		this.world=world;
-		
-		//animation = TopDown.assets.get(Assets.playerATLAS + ":anim", Animation.class);
-		animationLeg = TopDown.assets.get(Assets.legATLAS + ":anim", Animation.class);
-		rifleAnimation = TopDown.assets.get(Assets.rifleWalkATLAS+":anim",Animation.class);
-		
-		playerDef = new BodyDef();
-		playerDef.type = BodyDef.BodyType.DynamicBody;
-		// Shape
-		playerShape = new PolygonShape();
-		playerShape.setAsBox(0.5f, 0.5f);
-
-		// Fixture def
-		fixtureDefPlayer = new FixtureDef();
-		fixtureDefPlayer.shape = playerShape;
-
-		fixtureDefPlayer.friction = 0f;
-		// Creates the body and assigns vars to all important values
-		playerBody = world.createBody(playerDef);
-		fixture = playerBody.createFixture(fixtureDefPlayer);
-		fixture.setUserData("PLAYER");
-
-		playerBody.setTransform(340/GameState.PPM, 300/GameState.PPM, 0);
-
-		playerShape.dispose();
-		
-		sprite.setSize(20, 20);
-		crossH = new Crosshair(100, this);
-		
-		
-		legOffY = 10;
-		legOffX = 10;
-
-		gun=new AK47();
-		//Inventory system
-		inventory = new InventorySystem();
-		//adding items here, for now
-		//will create a method later to add items on events eg. walking over gun or heath pack
-		inventory.addItem(pistol.getItemName(), pistol.getIndex(), pistol);
-		inventory.addItem(ak.getItemName(), ak.getIndex(), ak);
-		inventory.listItems();
-
-		gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
-		if (state == 1&&connection==null){
-			connection = new NetworkManager(this);}
-		
-		initsed=true;
-	}
-
-
-
-	public void setConnection(NetworkManager connection, int state) {
-		this.connection = connection;
-		this.state = state;
-	}
-
+	}
 	@Override
 	public Body getBody() {
 		return playerBody;
