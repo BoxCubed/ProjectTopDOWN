@@ -165,7 +165,7 @@ public class MenuState implements Screen {
 			@Override
 			public void clicked(MenuButton m) {
 				
-				loadedInstance.newPlayer(0);
+						loadedInstance.newPlayer(0);
 				
                 TopDown.instance.setScreen(loadedInstance);
 			}
