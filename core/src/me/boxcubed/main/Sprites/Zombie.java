@@ -164,7 +164,7 @@ public class Zombie extends Sprite implements LivingEntity {
 						1, 1, (float)Math.toDegrees(Body.getAngle())+90);
 		 }
 		 float size=(float)(getHealth()/getMaxHealth()*40f);
-		 sb.draw(healthBar, getPos(true).x-10, getPos(true).y+20,0 , 0, size, 10, 1, 1,0);
+		 sb.draw(healthBar, getPos(true).x-10, getPos(true).y+18,0 , 0, size, 5, 1, 1,0);
 		 
 		 
 	}
