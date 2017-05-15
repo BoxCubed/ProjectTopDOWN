@@ -20,48 +20,48 @@ import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
 
 public class AK47 implements Gun, InventoryItem {
-	private float elapsedBulletTime=0;
-	private final Random random=new Random();
-	private final int ak47Offset=6;
+	private float elapsedBulletTime = 0;
+	private final Random random = new Random();
+	private final int ak47Offset = 6;
 	private float randRotation;
-	private Sound gunshotSound=TopDown.assets.get(Assets.gunSOUND,Sound.class);
-	//TODO get ak47 image
+	private Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
+	// TODO get ak47 image
 	Texture ak47img = TopDown.assets.get(Assets.inventoryAK47, Texture.class);
+
 	@Override
-	public boolean willFire(Input input,float delta,Player player) {
-		if(Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)){
-			elapsedBulletTime+=delta;
-			if(elapsedBulletTime>10){
-				boolean togg=random.nextBoolean();
-				randRotation=player.rotation;
-				if(togg)
-					randRotation+=random.nextInt(ak47Offset)+3;
-				else 
-					randRotation-=random.nextInt(ak47Offset)+3;
-				
-				
-			elapsedBulletTime=0;	
-			return true;
+	public boolean willFire(Input input, float delta, Player player) {
+		if (Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)) {
+			elapsedBulletTime += delta;
+			if (elapsedBulletTime > 10) {
+				boolean togg = random.nextBoolean();
+				randRotation = player.rotation;
+				if (togg)
+					randRotation += random.nextInt(ak47Offset) + 3;
+				else
+					randRotation -= random.nextInt(ak47Offset) + 3;
+
+				elapsedBulletTime = 0;
+				return true;
 			}
-		}else elapsedBulletTime=0;
+		} else
+			elapsedBulletTime = 0;
 		return false;
 	}
 
 	@Override
 	public void fire(World world, Player player) {
 		gunshotSound.play(1.0f);
-		
-		GameState.instance.entities
-		.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y,(float) (Math.cos(Math.toRadians(randRotation))), 
-				(float) (Math.sin(Math.toRadians(randRotation))),randRotation,GunType.AK47,player));
-			
+
+		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y,
+				(float) (Math.cos(Math.toRadians(randRotation))), (float) (Math.sin(Math.toRadians(randRotation))),
+				randRotation, GunType.AK47, player));
 
 	}
 
 	@Override
-	public void netFire(NetworkManager net,World world, Player player) {
-		net.onFire(player.getPos(false),player.rotation,this.getClass().getSimpleName());
-		
+	public void netFire(NetworkManager net, World world, Player player) {
+		net.onFire(player.getPos(false), player.rotation, this.getClass().getSimpleName());
+
 	}
 
 	@Override
@@ -75,7 +75,8 @@ public class AK47 implements Gun, InventoryItem {
 		// TODO Auto-generated method stub
 		return ak47img;
 	}
-//TODO Remove this
+
+	// TODO Remove this
 	@Override
 	public int getIndex() {
 		// TODO Auto-generated method stub

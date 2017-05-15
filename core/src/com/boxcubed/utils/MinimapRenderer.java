@@ -26,6 +26,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
 import com.badlogic.gdx.physics.box2d.joints.PulleyJoint;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import me.boxcubed.main.States.GameState;
 
 /**
  * A class based of the original {@link Box2DDebugRenderer} but with the basis of rendering the world minimap style<br>
@@ -56,16 +59,16 @@ public class MinimapRenderer {
 	private boolean drawVelocities;
 	private boolean drawContacts;
 
-	public MinimapRenderer (SpriteBatch batch,ShapeRenderer renderer) {
-		this(true, true, false, true, false, true,batch,renderer);
+	public MinimapRenderer () {
+		this(true, true, false, true, false, true);
 	}
-
 	public MinimapRenderer (boolean drawBodies, boolean drawJoints, boolean drawAABBs, boolean drawInactiveBodies,
-		boolean drawVelocities, boolean drawContacts,SpriteBatch batch,ShapeRenderer renderer) {
+		boolean drawVelocities, boolean drawContacts) {
 		// next we setup the immediate mode renderer
-		this.batch=batch;
-		this.renderer=renderer;
-		cam=new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch=new SpriteBatch();
+		renderer=new ShapeRenderer();
+		renderer.setAutoShapeType(true);
+		cam=new OrthographicCamera(Gdx.graphics.getWidth()/5,Gdx.graphics.getHeight()/5);
 		// initialize vertices array
 		for (int i = 0; i < vertices.length; i++)
 			vertices[i] = new Vector2();
@@ -79,7 +82,10 @@ public class MinimapRenderer {
 	}
 
 	/** Make sure to scale the matrix with the size of the minimap*/
-	public void renderShapes (World world,Vector2 center) {
+	public void renderShapes (World world,float x,float y) {
+		cam.position.x=x;
+		cam.position.y=y;
+		cam.update();
 		renderer.setProjectionMatrix(cam.combined);
 		renderBodies(world);
 	}
@@ -97,6 +103,8 @@ public class MinimapRenderer {
 	public final Color VELOCITY_COLOR = new Color(1.0f, 0, 0f, 1f);
 
 	private void renderBodies (World world) {
+		renderer.begin();
+		
 		renderer.set(ShapeType.Line);
 
 		if (drawBodies || drawAABBs) {
@@ -120,6 +128,7 @@ public class MinimapRenderer {
 				drawContact(contact);
 			
 		}
+		renderer.end();
 	}
 
 	protected void renderBody (Body body) {
