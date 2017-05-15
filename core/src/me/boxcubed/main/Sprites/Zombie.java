@@ -69,7 +69,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		
 		// Shape
 		Shape = new CircleShape();
-		Shape.setRadius(10/GameState.PPM);
+		Shape.setRadius(0.5f);
 		
 		// Fixture def
 		fixtureDef = new FixtureDef();
