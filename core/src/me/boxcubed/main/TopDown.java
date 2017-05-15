@@ -11,42 +11,38 @@ public class TopDown extends Game {
 	public static TopDown instance;
 	public static boolean debug;
 	public static Assets assets;
+
 	public TopDown(boolean debug) {
-		TopDown.debug=debug;
-		//TODO Move every single asset into this
-		assets=new Assets();
-		
-		
-		
-		
+		TopDown.debug = debug;
+		// TODO Move every single asset into this
+		assets = new Assets();
+
 	}
 
 	@Override
-	public void create () {
-		instance=this;
+	public void create() {
+		instance = this;
 		BoxoUtil.reset();
-		if(debug){
+		if (debug) {
 			assets.finishLoading();
-		setScreen(new GameState());
-		GameState.instance.noTime=true;
-		GameState.instance.noZombie=true;
-		}
-		else 
+			setScreen(new GameState());
+			GameState.instance.noTime = true;
+			GameState.instance.noZombie = true;
+		} else
 			setScreen(new SplashState());
-		//new ClientServerTest(2);
+		// new ClientServerTest(2);
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 		BoxoUtil.clearScreen();
-		
+
 		super.render();
 		BoxoUtil.update();
-			}
-	
-	
+	}
+
 	@Override
-	public void dispose () {
+	public void dispose() {
 		super.dispose();
 		assets.dispose();
 	}

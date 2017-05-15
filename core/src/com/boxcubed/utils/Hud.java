@@ -1,5 +1,7 @@
 package com.boxcubed.utils;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.text.DecimalFormat;
 
 import com.badlogic.gdx.Gdx;
@@ -17,11 +19,13 @@ import me.boxcubed.main.States.GameState;
 
 public class Hud {
 	public OrthographicCamera textCam;
+	private MinimapRenderer minimap;
 	Texture healthTexture;
 	Texture staminaTexture;
 	DecimalFormat format;
 	BitmapFont font = new BitmapFont();
 	Clock clock;
+	Robot rob;
 	GameState gameState=GameState.instance;
 	public Hud(Clock clock){
 		this.clock=clock;
@@ -30,10 +34,14 @@ public class Hud {
 		
 		healthTexture = TopDown.assets.get(Assets.healthIMAGE, Texture.class);
 		staminaTexture = TopDown.assets.get(Assets.staminaIMAGE,Texture.class);
+		minimap=new MinimapRenderer();
+		try{
+			rob=new Robot();
+		}catch(AWTException e){e.printStackTrace();}
 	}
 	public void update(){
 		textCam.update();
-		
+		//rob.mouseMove(0, 0);
 		format = new DecimalFormat("#.#");
 	}
 	public OrthographicCamera getCamera(){
@@ -43,6 +51,9 @@ public class Hud {
 	public void render(ShapeRenderer sr){
 		//int i;
 		sr.setProjectionMatrix(textCam.combined);
+		//minimap.renderShapes(GameState.instance.getWorld(),GameState.instance.cam.position.x,-50);
+		
+		
 		//Gdx.gl.glLineWidth(10);
 		//gameState.player.inventory.render(sr);
 		 
@@ -101,6 +112,7 @@ public class Hud {
 		Vector3 mousePos=gameState.getMouseCords(); 
 		font.draw(sb, "Mouse Position: "+format.format(mousePos.x)+","+format.format(mousePos.y), -600, textCam.viewportHeight/2-20);
 		gameState.player.inventory.render(sb);
+		minimap.renderGraphics(GameState.instance.getWorld(), null);
 		
 	}
 	
