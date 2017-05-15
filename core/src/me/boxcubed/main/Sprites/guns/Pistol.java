@@ -58,6 +58,6 @@ private Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
 	@Override
 	public int getIndex() {
 		// TODO Auto-generated method stub
-		return 1;
+		return 0;
 	}
 }
