@@ -51,7 +51,7 @@ public class InventorySystem {
 			float x = GameState.instance.hud.textCam.position.x/2 - GameState.instance.hud.textCam.viewportWidth/3;//+ key.getValue().getIndex()*OFFSET;
 		    float y = GameState.instance.hud.textCam.position.y/4 - GameState.instance.hud.textCam.viewportHeight/2;
 			if(key.getKey() == itemSelected){
-				batcher.draw(key.getValue().getTexture(),previousX + OFFSET*key.getValue().getIndex(),y, 60, 60);
+				batcher.draw(key.getValue().getActiveTexture(),previousX + OFFSET*key.getValue().getIndex(),y, 80, 80);
 			}else{
 			    batcher.draw(key.getValue().getTexture(),previousX + OFFSET*key.getValue().getIndex(),y, 80, 80);
 			}
