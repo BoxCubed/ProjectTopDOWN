@@ -18,7 +18,7 @@ public CollisionDetection(){
 	@Override
 	public void beginContact(Contact contact) {
 		for(Entity entity:GameState.instance.entities){
-			if((entity.getFixture().equals(contact.getFixtureA())||entity.getFixture().equals(contact.getFixtureB()))){
+			if(entity.getFixture()!=null&&(entity.getFixture().equals(contact.getFixtureA())||entity.getFixture().equals(contact.getFixtureB()))){
 					if(isOneOf("PLAYER", contact)&&isOneOf("ZOMBIE", contact)){
 					  entity.playAnimation("attack");
 						GameState.instance.player.setHealth(GameState.instance.player.getHealth()-1);

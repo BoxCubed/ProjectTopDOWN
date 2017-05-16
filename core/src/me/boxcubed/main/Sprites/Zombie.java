@@ -176,7 +176,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		if(Gdx.input.isKeyJustPressed(Keys.P)){
 			rayEnabled=!rayEnabled;
 		}
-		if(rayEnabled){
+		if(TopDown.debug){
 			sr.setColor(Color.RED);
 			sr.line(p1.scl(GameState.PPM), p2.scl(GameState.PPM));
 		}

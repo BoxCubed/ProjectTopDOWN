@@ -33,13 +33,7 @@ public class AK47 implements Gun, InventoryItem {
 		if (Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)) {
 			elapsedBulletTime += delta;
 			if (elapsedBulletTime > 10) {
-				boolean togg = random.nextBoolean();
-				randRotation = player.rotation;
-				if (togg)
-					randRotation += random.nextInt(ak47Offset) + 3;
-				else
-					randRotation -= random.nextInt(ak47Offset) + 3;
-
+				
 				elapsedBulletTime = 0;
 				return true;
 			}
@@ -50,6 +44,13 @@ public class AK47 implements Gun, InventoryItem {
 
 	@Override
 	public void fire(World world, Player player) {
+		boolean togg = random.nextBoolean();
+		randRotation = player.rotation;
+		if (togg)
+			randRotation += random.nextInt(ak47Offset) + 3;
+		else
+			randRotation -= random.nextInt(ak47Offset) + 3;
+		
 		gunshotSound.play(1.0f);
 
 		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y-0.4f,

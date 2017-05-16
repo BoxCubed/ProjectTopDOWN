@@ -99,7 +99,7 @@ public class GameState implements State, CleanInputProcessor {
 		gameWORLD.setContactListener(new CollisionDetection());
 		clock = new Clock(gameWORLD);
 
-		World.setVelocityThreshold(1000);
+		World.setVelocityThreshold(20f);
 		// HUD initializing
 		hud = new Hud(clock);
 		hud.update();

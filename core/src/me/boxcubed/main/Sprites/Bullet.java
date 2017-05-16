@@ -1,6 +1,7 @@
 package me.boxcubed.main.Sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.Assets;
@@ -25,11 +23,6 @@ import me.boxcubed.main.States.GameState;
 
 public class Bullet extends Sprite implements Entity{
 	
-	BodyDef bulletDef;
-	PolygonShape bulletShape;
-	FixtureDef fixtureDefBullet;
-	Body bulletBody;
-	Fixture fixture;
 	RayCastCallback callback;
 	TextureRegion muzzleFlash;
 	
@@ -49,25 +42,10 @@ public class Bullet extends Sprite implements Entity{
 		this.offY=offY;
 		this.rotation = rotation;
 		this.player=player;
-		bulletDef = new BodyDef();
-		bulletDef.type = BodyDef.BodyType.KinematicBody;
 		
-		// Shape
-		bulletShape = new PolygonShape();
-		bulletShape.setAsBox(0.1f, 0.1f);
 		
-		// Fixture def
-		fixtureDefBullet = new FixtureDef();
-		fixtureDefBullet.shape = bulletShape;
-
-		fixtureDefBullet.friction = 0f;
-		// Creates the body and assigns vars to all important values
-		bulletBody = world.createBody(bulletDef);
-		fixture=bulletBody.createFixture(fixtureDefBullet);
-		fixture.setUserData("BULLET");
 		
 		muzzleFlash = new TextureRegion(TopDown.assets.get(Assets.mflashIMAGE, Texture.class));
-		//Begin init of callback for bullet
 		callback=new RayCastCallback() {
 			
 			@Override
@@ -80,7 +58,7 @@ public class Bullet extends Sprite implements Entity{
 				
 				else if(fixture.getUserData() == "ZOMBIE"){
 					GameState.instance.entities.forEach(entity -> {
-						if (entity.getFixture().equals(fixture)) {
+						if (entity.getFixture()!=null&&entity.getFixture().equals(fixture)) {
 							LivingEntity lentity=(LivingEntity)entity;
 							if(type.equals(GunType.AK47)){
 							lentity.setHealth(lentity.getHealth()-lentity.getMaxHealth()/10);
@@ -105,16 +83,19 @@ public class Bullet extends Sprite implements Entity{
 			 x+=offX*delta*SPEED;
 			 y+=offY*delta*SPEED;
 			 
-			 getBody().setTransform(x, y, rotation);
 			 
 		 }else{return;}
 		 if(getPos(true).x<0||getPos(true).y<0||getPos(true).x>1576||getPos(true).y>1576)
 			 setDisposable(true);
 		 if(GameState.instance.player.isAlive())
 		 GameState.instance.getWorld().rayCast(callback, player.getBody().getPosition(),
-					bulletBody.getPosition());
+					getPos(false));
 	 }
 	 public void renderShapes(ShapeRenderer sr) {
+		 if(TopDown.debug){
+			 sr.setColor(Color.BLUE);
+			 sr.line(getPos(true), player.getPos(true));
+			 }
 	
 	 }
 	 @Override
@@ -125,7 +106,7 @@ public class Bullet extends Sprite implements Entity{
 					 GameState.instance.player.getPos().y,offX,offY,40,20,1,1,rotation);
 			*/
 			 
-		 sb.draw(this, x*GameState.PPM, y*GameState.PPM,0, 0, 20, 2, 1, 1, rotation,true);
+		 sb.draw(this, x*GameState.PPM-5, y*GameState.PPM,0, 0, 20, 5, 1, 1, rotation,true);
 		 }else{
 			 this.dispose();
 		 }
@@ -136,9 +117,17 @@ public class Bullet extends Sprite implements Entity{
 
 	@Override
 	public Body getBody() {
-		return bulletBody;
+		return null;
 	}
 
+	@Override 
+	public Vector2 getPos(boolean asPix){
+		if(asPix)
+			return new Vector2(x, y).scl(GameState.PPM);
+		return new Vector2(x,y);
+		
+		
+	}
 	
 
 	@Override
@@ -155,12 +144,11 @@ public class Bullet extends Sprite implements Entity{
     
 	@Override
 	public void dispose() {
-		GameState.instance.getWorld().destroyBody(bulletBody);
 	}
 
 	@Override
 	public Fixture getFixture() {
-		return fixture;
+		return null;
 	}
 
 	@Override
