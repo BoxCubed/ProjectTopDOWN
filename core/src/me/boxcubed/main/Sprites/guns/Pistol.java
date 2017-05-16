@@ -33,7 +33,7 @@ public class Pistol implements Gun, InventoryItem {
 		gunshotSound.play(1.0f);
 
 		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y,
-				player.crossH.offX, player.crossH.offY, player.rotation, GunType.AK47, player));
+				player.crossH.offX, player.crossH.offY, player.rotation, GunType.PISTOL, player));
 
 	}
 
