@@ -27,7 +27,7 @@ public class Pack extends Sprite implements Entity {
 		this.x=x;
 		this.y=y;
 		def = new BodyDef();
-		def.type = BodyDef.BodyType.DynamicBody;
+		def.type = BodyDef.BodyType.StaticBody;
 		// Shape
 		shape= new PolygonShape();
 		shape.setAsBox(0.5f, 0.5f);
