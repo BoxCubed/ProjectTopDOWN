@@ -55,7 +55,7 @@ public class Clock {
 
 	@SuppressWarnings("deprecation")
 	public void renderLIGHT(OrthographicCamera matrix) {
-		rayHandler.setCombinedMatrix(matrix.combined.scl(GameState.PPM));
+		rayHandler.setCombinedMatrix(matrix.combined.cpy().scl(GameState.PPM));
 		rayHandler.render();
 
 	}

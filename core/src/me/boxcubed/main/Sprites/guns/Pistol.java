@@ -60,4 +60,10 @@ private Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
 		// TODO Auto-generated method stub
 		return 1;
 	}
+
+	@Override
+	public Texture getActiveTexture() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

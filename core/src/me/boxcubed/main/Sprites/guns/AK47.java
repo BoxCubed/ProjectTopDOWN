@@ -83,4 +83,10 @@ public class AK47 implements Gun, InventoryItem {
 		return 0;
 	}
 
+	@Override
+	public Texture getActiveTexture() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -50,7 +50,7 @@ public class Bullet extends Sprite implements Entity{
 		this.rotation = rotation;
 		this.player=player;
 		bulletDef = new BodyDef();
-		bulletDef.type = BodyDef.BodyType.DynamicBody;
+		bulletDef.type = BodyDef.BodyType.KinematicBody;
 		
 		// Shape
 		bulletShape = new PolygonShape();

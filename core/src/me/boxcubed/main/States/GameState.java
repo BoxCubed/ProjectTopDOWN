@@ -127,7 +127,7 @@ public class GameState implements State, CleanInputProcessor {
 			newPlayer(0);
 		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20, clock);
 		// light
-		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45));
+		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 100, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes
 		MapBodyBuilder.buildShapes(tiledMap, PPM, gameWORLD);
 		// packs
@@ -173,7 +173,6 @@ public class GameState implements State, CleanInputProcessor {
 
 		player.update(delta);
 		playerAI.update(delta);
-		// TODO do this a better way
 
 		clients.forEach((id, player) -> player.update(delta));
 		if (player.state != 0)
@@ -271,26 +270,22 @@ public class GameState implements State, CleanInputProcessor {
 
 	@Override
 	public void render() {
-		Gdx.gl.glLineWidth(1);
 		batch.setProjectionMatrix(cam.combined);
 		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();
-		if (b2dr != null)
-			b2dr.render(gameWORLD, cam.combined.scl(PPM));
 
 		// Entity render
-		batch.begin(); // -------------------------------------\\ // SEE THIS
-						// RENDER METHOD? \\
+		batch.begin();
 		entities.forEach(entity -> {
 			if (!entity.isDisposable())
 				entity.render(batch);
-		}); // SEE HOW IT'S CLEAN, AND NOT \\
-			// AUSTIC, I'D LIKE TO KEEP IT THAT \\
-		batch.end(); // WAY \\
-		// Light render //-------------------------------------\\
+		});
+		batch.end();
+		// Light render
 		clock.renderLIGHT(cam);
 		// Everything below is rendering not affected by light
-
+		if (b2dr != null)
+			b2dr.render(gameWORLD, cam.combined.cpy().scl(PPM));
 		// Shape rendering
 		// TODO get a texture for all shapes
 		sr.setProjectionMatrix(cam.combined);

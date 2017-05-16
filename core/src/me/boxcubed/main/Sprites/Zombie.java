@@ -134,10 +134,10 @@ public class Zombie extends Sprite implements LivingEntity {
 		if(attack)attackTime+=delta;
 			
 		}
-		else if(isAlive()&&GameState.instance.player.isAlive()){
+		/*else if(isAlive()&&GameState.instance.player.isAlive()){
 			getBody().setLinearVelocity(0,0);
 			getBody().setAngularVelocity(0);
-		}
+		}*/
 
 	
 	}
@@ -177,7 +177,6 @@ public class Zombie extends Sprite implements LivingEntity {
 			rayEnabled=!rayEnabled;
 		}
 		if(rayEnabled){
-			Gdx.gl.glLineWidth(1);
 			sr.setColor(Color.RED);
 			sr.line(p1.scl(GameState.PPM), p2.scl(GameState.PPM));
 		}

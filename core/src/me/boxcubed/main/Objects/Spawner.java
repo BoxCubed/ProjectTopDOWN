@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
+import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.Sprites.Player;
@@ -48,8 +49,14 @@ public class Spawner {
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){
 			amount++;
-			pos.x=random.nextInt(1570/GameState.PPM);
-			pos.y=random.nextInt(1570/GameState.PPM);
+			
+			pos.x=random.nextInt(1570);
+			pos.y=random.nextInt(1570);
+			while(MapBodyBuilder.checkCollision(pos))
+			{
+			pos.x=random.nextInt(1570);
+			pos.y=random.nextInt(1570);
+			}
 			LivingEntity spawnEntity=null;
 				if(entity.equals(EntityType.ZOMBIE))
 					
@@ -60,7 +67,7 @@ public class Spawner {
 					spawnEntity=new Player(GameState.instance.getWorld(),0);
 				
 				if(spawnEntity!=null){
-				spawnEntity.getBody().setTransform(pos, spawnEntity.getBody().getAngle());
+				spawnEntity.getBody().setTransform(pos.scl(1f/GameState.PPM), spawnEntity.getBody().getAngle());
 				GameState.instance.entities.add(spawnEntity);
 				}
 				elapsedTime=0;
