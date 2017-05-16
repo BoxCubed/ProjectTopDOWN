@@ -1,2 +1,0 @@
-gradlew desktop:jar
-pause
