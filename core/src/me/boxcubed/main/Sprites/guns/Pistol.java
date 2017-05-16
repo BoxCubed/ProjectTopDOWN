@@ -20,11 +20,10 @@ import me.boxcubed.main.States.GameState;
 public class Pistol implements Gun, InventoryItem {
 	private Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 	private Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
-	Texture piss_active = new Texture("img/invbarpistol_active.png");
+	Texture piss_active = TopDown.assets.get(Assets.pistolActiveIMAGE, Texture.class);
 
 	@Override
 	public boolean willFire(Input input, float delta, Player p) {
-
 		return BoxoUtil.isButtonJustPressed(Buttons.LEFT) || input.isKeyJustPressed(Keys.SPACE);
 	}
 
