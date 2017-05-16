@@ -126,4 +126,22 @@ public class MapBodyBuilder {
         chain.createChain(worldVertices);
         return chain;
     }
+    /**
+     * Checks if the point given collides with any object in the map.<br>
+     * The map objects are initialized with {@link #buildShapes(Map, float, World)}
+     * @return false if point does not intersect any area or if {@link #buildShapes(Map, float, World)} was never called.
+     * true if the point does collide with a shape in the map
+     * @param point The point to check. Must be scaled to map pixels
+     */
+    public static boolean checkCollision(Vector2 point){
+    	if(shapes==null)return false;
+    	for(Shape2D shape:shapes){
+    		if(shape.contains(point))
+    			//System.out.println("Found collision at: "+point);
+    			return true;
+    			
+    		}
+    	
+    	return false;
+    }
 }

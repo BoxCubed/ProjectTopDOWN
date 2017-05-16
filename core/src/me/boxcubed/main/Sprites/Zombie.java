@@ -134,10 +134,10 @@ public class Zombie extends Sprite implements LivingEntity {
 		if(attack)attackTime+=delta;
 			
 		}
-		else if(isAlive()&&GameState.instance.player.isAlive()){
+		/*else if(isAlive()&&GameState.instance.player.isAlive()){
 			getBody().setLinearVelocity(0,0);
 			getBody().setAngularVelocity(0);
-		}
+		}*/
 
 	
 	}

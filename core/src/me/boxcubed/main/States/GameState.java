@@ -127,7 +127,7 @@ public class GameState implements State, CleanInputProcessor {
 			newPlayer(0);
 		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20, clock);
 		// light
-		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 1000, Color.YELLOW, 0, 100, 100, 90, 45));
+		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 100, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes
 		MapBodyBuilder.buildShapes(tiledMap, PPM, gameWORLD);
 		// packs
@@ -173,7 +173,6 @@ public class GameState implements State, CleanInputProcessor {
 
 		player.update(delta);
 		playerAI.update(delta);
-		// TODO do this a better way
 
 		clients.forEach((id, player) -> player.update(delta));
 		if (player.state != 0)
