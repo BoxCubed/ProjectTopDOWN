@@ -50,7 +50,7 @@ public class Hud {
 	}
 	public void render(ShapeRenderer sr){
 		//int i;
-		sr.setProjectionMatrix(textCam.combined);
+		//sr.setProjectionMatrix(textCam.combined);
 		//minimap.renderShapes(GameState.instance.getWorld(),GameState.instance.cam.position.x,-50);
 		
 		
