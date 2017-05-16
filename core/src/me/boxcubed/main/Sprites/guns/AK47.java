@@ -52,7 +52,7 @@ public class AK47 implements Gun, InventoryItem {
 	public void fire(World world, Player player) {
 		gunshotSound.play(1.0f);
 
-		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y,
+		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y-0.4f,
 				(float) (Math.cos(Math.toRadians(randRotation))), (float) (Math.sin(Math.toRadians(randRotation))),
 				randRotation, GunType.AK47, player));
 
