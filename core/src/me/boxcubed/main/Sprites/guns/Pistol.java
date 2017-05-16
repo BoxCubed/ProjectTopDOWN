@@ -18,29 +18,29 @@ import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
 
 public class Pistol implements Gun, InventoryItem {
-private Sound gunshotSound=TopDown.assets.get(Assets.gunSOUND,Sound.class);
-private Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
+	private Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
+	private Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
+	Texture piss_active = new Texture("img/invbarpistol_active.png");
+
 	@Override
-	public boolean willFire(Input input,float delta,Player p) {
-		
-		
+	public boolean willFire(Input input, float delta, Player p) {
+
 		return BoxoUtil.isButtonJustPressed(Buttons.LEFT) || input.isKeyJustPressed(Keys.SPACE);
 	}
 
 	@Override
 	public void fire(World world, Player player) {
 		gunshotSound.play(1.0f);
-		
-		GameState.instance.entities
-				.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y, player.crossH.offX, player.crossH.offY,player.rotation,GunType.AK47,player));
-			
+
+		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y,
+				player.crossH.offX, player.crossH.offY, player.rotation, GunType.AK47, player));
 
 	}
 
 	@Override
-	public void netFire(NetworkManager net,World world, Player player) {
-		net.onFire(player.getPos(false),player.rotation,this.getClass().getName());
-		
+	public void netFire(NetworkManager net, World world, Player player) {
+		net.onFire(player.getPos(false), player.rotation, this.getClass().getName());
+
 	}
 
 	@Override
@@ -64,6 +64,6 @@ private Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
 	@Override
 	public Texture getActiveTexture() {
 		// TODO Auto-generated method stub
-		return null;
+		return piss_active;
 	}
 }

@@ -27,7 +27,7 @@ public class AK47 implements Gun, InventoryItem {
 	private Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 	// TODO get ak47 image
 	Texture ak47img = TopDown.assets.get(Assets.inventoryAK47, Texture.class);
-
+	Texture akActive = new Texture("img/invbar_active.png");
 	@Override
 	public boolean willFire(Input input, float delta, Player player) {
 		if (Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)) {
@@ -86,7 +86,7 @@ public class AK47 implements Gun, InventoryItem {
 	@Override
 	public Texture getActiveTexture() {
 		// TODO Auto-generated method stub
-		return null;
+		return akActive;
 	}
 
 }
