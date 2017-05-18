@@ -2,6 +2,7 @@ package com.boxcubed.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.badlogic.gdx.Gdx;
@@ -22,12 +23,14 @@ public class BoxoUtil implements InputProcessor{
 	private static LinkedBlockingQueue<InputProcessor> qRemove=new LinkedBlockingQueue<>();
 	// for the ButtonJustPressed method
 	private static boolean[] justPressed=new boolean[5];
+	private static Random random=new Random();
 	
 	/**
 	 * Call this to reset the API<br>
 	 * This will clear the input processors and reset the Gdx input processor to this class
 	 */
 	public static void reset(){
+		
 		inputProcessors=new ArrayList<>();
 		qAdd=new LinkedBlockingQueue<>();
 		qRemove=new LinkedBlockingQueue<>();
@@ -70,6 +73,37 @@ public class BoxoUtil implements InputProcessor{
 		return new Vector2(cameraPosition.x, cameraPosition.y);
     	
     }
+	private static float elapsed,duration,intensity;
+	/**
+	 * Start the screen shaking with a given power and duration
+	 * @param intensity How much intensity should the shaking use.
+	 * @param duration Time in milliseconds the screen should shake.
+	 */
+	public static void shake(float intensity, float duration) {
+	    elapsed = 0;
+	    BoxoUtil.duration= duration / 1000f;
+	    BoxoUtil.intensity = intensity;
+	}
+	 
+	/**
+	 * Updates the shake and the camera.
+	 * This must be called prior to camera.update()
+	 */
+	public static void updateShake(float delta, OrthographicCamera camera) {
+	 
+	    // Only shake when required.
+	    if(elapsed < duration) {
+	 
+	        // Calculate the amount of shake based on how long it has been shaking already
+	        float currentPower = intensity * camera.zoom * ((duration - elapsed) / duration);
+	        float x = (random.nextFloat() - 0.5f) * 2 * currentPower;
+	        float y = (random.nextFloat() - 0.5f) * 2 * currentPower;
+	        camera.translate(-x, -y);
+	 
+	        // Increase the elapsed time by the delta provided.
+	        elapsed += delta;
+	    }
+	}
 	/**
 	 * Whether a button was just pressed 
 	 * @param button the button to check

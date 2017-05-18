@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.NetworkManager;
 import com.boxcubed.utils.Assets;
+import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.InventoryItem;
 
 import me.boxcubed.main.TopDown;
@@ -56,6 +57,7 @@ public class AK47 implements Gun, InventoryItem {
 		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y-0.4f,
 				(float) (Math.cos(Math.toRadians(randRotation))), (float) (Math.sin(Math.toRadians(randRotation))),
 				randRotation, GunType.AK47, player));
+		BoxoUtil.shake(2, 10);
 
 	}
 

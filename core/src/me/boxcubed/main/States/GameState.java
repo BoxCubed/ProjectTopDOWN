@@ -213,6 +213,7 @@ public class GameState implements State, CleanInputProcessor {
 				MathUtils.clamp(player.getPos(true).y + player.crossH.offY * 30, cam.viewportHeight / 2,
 						1576 - cam.viewportHeight / 2)),
 				cam);
+		BoxoUtil.updateShake(Gdx.graphics.getDeltaTime(), cam);
 		cam.update();
 		server.updateServer(delta);
 	}
