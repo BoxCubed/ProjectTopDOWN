@@ -41,7 +41,7 @@ public class KyroServer extends Thread {
 		Gdx.files=new LwjglFiles();
 		players=new HashMap<>();		entities=new ArrayList<>();
 		map=new ServerTiledMapLoader().load("assets/maps/map2.tmx");
-		MapBodyBuilder.buildShapes(map, 1, world);
+		MapBodyBuilder.buildShapes(map, 20f, world);
 		//TODO make collision class for multiplayer
 				//world.setContactListener(new CollisionDetection());
 				

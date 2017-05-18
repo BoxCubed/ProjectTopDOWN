@@ -98,7 +98,7 @@ public class MenuState implements Screen {
 		
 		stage.addActor(singleButton);
 
-		initButtons();
+		initButtons(loadedInstance);
 		// Background setup
 		TextureRegion bgRegion = new TextureRegion(TopDown.assets.get(Assets.scrollMenuIMAGE, Texture.class));
 		bg = new ParallaxBackground(
@@ -157,7 +157,7 @@ public class MenuState implements Screen {
 	}
 	
 	
-	private void initButtons(){
+	private void initButtons(GameState loadedInstance){
 		if(TopDown.debug){
 			multiButton.debug();
 			singleButton.debug();
@@ -174,6 +174,7 @@ public class MenuState implements Screen {
 				} else if (connection.state.equals(ConnectionState.CONNECTING)) {
 					return;
 				} else if (connection.state.equals(ConnectionState.CONNECTED)) {
+						loadedInstance.newPlayer(1);
 					loadedInstance.player.setConnection(connection, 1);
 					TopDown.instance.setScreen(loadedInstance);
 				}

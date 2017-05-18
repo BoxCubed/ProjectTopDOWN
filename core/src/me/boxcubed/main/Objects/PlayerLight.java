@@ -29,7 +29,7 @@ public class PlayerLight{
     
 
 	public void dispose() {
-        pointLight.dispose();
+        pointLight.remove();
 		
 	}
 	

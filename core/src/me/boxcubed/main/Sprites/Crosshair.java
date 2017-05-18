@@ -8,7 +8,6 @@ import com.boxcubed.utils.Assets;
 
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.Entity;
-import me.boxcubed.main.States.GameState;
 /**
  * Uses unit circle(kinda) to place a crosshair in front of the player<br>
  * See? Math class is useful
@@ -29,19 +28,18 @@ public class Crosshair extends Sprite{
 		pos=new Vector2();
 		//Gdx.input.setCursorCatched(true);+
 	}
-	public void update(float delta){
-		float angle=player.getSprite().getRotation();
+	public void update(float delta,float angle){
 		offX=(float) (Math.cos(Math.toRadians(angle)));
 		offY=(float) (Math.sin(Math.toRadians(angle)));
-		pos.x=(float) ((player.getPos(true).x)*GameState.PPM+offX*dist);
-		pos.y=(float) ((player.getPos(true).y)*GameState.PPM+offY*dist);
+		pos.x=player.getPos(true).x+offX*dist;
+		pos.y=player.getPos(true).y+offY*dist;
 
 		
 		
 		
 	}
 	public void render(SpriteBatch sb){
-		sb.draw(this, pos.x, pos.y,20,20);
+		sb.draw(this, pos.x-10, pos.y-10,20,20);
 	}
 
 }

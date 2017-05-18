@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.utils.Assets;
 
+import box2dLight.PointLight;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
@@ -32,7 +33,8 @@ public class Bullet extends Sprite implements Entity{
 	float x,y,offX,offY;
 	Vector2 firePos;
 	Player player;
-	
+	PointLight flash;
+	float flashDist=0.8f;
 	float elapsedTime=0;
 	
 	public Bullet(World world, float x, float y,float offX,float offY, float rotation,GunType type,Player player){
@@ -44,6 +46,12 @@ public class Bullet extends Sprite implements Entity{
 		this.rotation = rotation;
 		this.player=player;
 		firePos=new Vector2(x, y);
+		
+		flash=new PointLight(GameState.instance.clock.rayHandler,50);
+		flash.setDistance(flashDist);
+		flash.setXray(true);
+		flash.setColor(Color.YELLOW);
+		flash.setSoft(false);
 		
 		
 		muzzleFlash = new TextureRegion(TopDown.assets.get(Assets.mflashIMAGE, Texture.class));
@@ -86,6 +94,10 @@ public class Bullet extends Sprite implements Entity{
 			 
 			 
 		 }else{return;}
+		 flash.setPosition(x,y);
+		 flashDist-=0.03f*delta;
+		 flash.setDistance(flashDist);
+		 
 		 if(getPos(true).x<0||getPos(true).y<0||getPos(true).x>1576||getPos(true).y>1576)
 			 setDisposable(true);
 		 if(GameState.instance.player.isAlive())
@@ -151,6 +163,7 @@ public class Bullet extends Sprite implements Entity{
     
 	@Override
 	public void dispose() {
+		flash.remove();
 	}
 
 	@Override

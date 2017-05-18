@@ -1,5 +1,7 @@
 package me.boxcubed.main.desktop.server;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -55,7 +57,7 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 		fixture.setUserData("PLAYER");
 
 		
-		playerBody.setTransform(34, 30, 0);
+		playerBody.setTransform(340f/20f, 300f/20f, 0);
 
         playerShape.dispose();
 		
@@ -93,7 +95,6 @@ public class Multiplayer_Player implements LivingEntity,Movable{
 			
 			
 			
-			elapsedTime+=delta;
 
 			
 
@@ -113,6 +114,9 @@ public void render(SpriteBatch sb) {
 	public void handleInput() {
 		
 		processCommand(command);
+		if (stamina < 100 && !shift) {
+			stamina += delta / 4;
+		}
 		boolean pressed = shooting;
 		if (pressed) {
 			
@@ -127,11 +131,21 @@ public void render(SpriteBatch sb) {
 		
 	}
 	public float rotation=0;
+	private float velX,velY,stamina=100;
+	boolean shift=false;
 	public boolean processCommand(InputPacket key) {
 		//TODO add shooting toggle
 		if(key==null)return false;
 		boolean pressed=false;
-		boolean shift=key.shift!=0;
+		shift=key.shift!=0;
+		if (shift) {
+
+			if (stamina > 0) {
+				stamina -= delta / 4;
+				elapsedTime += 1;
+
+			}else shift=false;
+			}
 		if(key.w!=0){
 			pressed=true;
 			if(shift)
@@ -156,7 +170,7 @@ public void render(SpriteBatch sb) {
 				runRIGHT();
 			else goRIGHT();
 				}
-		if(!pressed)stop();
+		
 		
 		if(key.space!=0)
 			shooting=true;
@@ -164,8 +178,8 @@ public void render(SpriteBatch sb) {
 		rotation=key.rotation;
 		
 		
-		
-		
+		playerBody.setLinearVelocity(velX, velY);
+		if(!pressed)stop();
 		
 		return true;
 
@@ -184,53 +198,90 @@ public void render(SpriteBatch sb) {
 	
 	// Walking
 	@Override
+
 	public void goUP() {
-		playerBody.applyLinearImpulse(new Vector2(0, 1f*delta), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(5f);
-    }
+
+		if (!shift || stamina <= 0) {
+
+			velY = 5f;
+
+		}
+
+	}
 
 	@Override
+
 	public void goDOWN() {
-		playerBody.applyLinearImpulse(new Vector2(0f, -1f*delta), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(-5f);
+
+		if (!shift || stamina <= 0) {
+
+			velY = -5f;
+
+		}
+
 	}
 
 	@Override
+
 	public void goLEFT() {
-		playerBody.applyLinearImpulse(new Vector2(-1f*delta, 0), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(5f);
+
+		if (!shift || stamina <= 0) {
+
+			velX = -5f;
+
+		}
+
 	}
 
 	@Override
+
 	public void goRIGHT() {
-		playerBody.applyLinearImpulse(new Vector2(1f*delta, 0), playerBody.getWorldCenter(), true);
-		playerBody.setAngularVelocity(-5f);
+
+		if (!shift || stamina <= 0) {
+
+			velX = 5f;
+
+		}
+
 	}// d
-		// Running actions
+
+	// Running actions
 
 	@Override
+
 	public void runUP() {
-		goUP();
+
+		velY = 10f;
+
 	}
 
 	@Override
+
 	public void runDOWN() {
-		goDOWN();
+
+		velY = -10f;
+
 	}
 
 	@Override
+
 	public void runLEFT() {
-		goLEFT();
+
+		velX = -10f;
+
 	}
 
 	@Override
+
 	public void runRIGHT() {
-		goRIGHT();
+
+		velX = 10f;
+
 	}
 
 	public void stop() {
 		playerBody.setLinearVelocity(0f, 0f);
-		//playerBody.setAngularVelocity(0);
+		playerBody.setAngularVelocity(0);
 	}
 
 	
@@ -238,6 +289,10 @@ public void render(SpriteBatch sb) {
 	@Override
 	public Body getBody() {
 		return playerBody;
+	}
+	@Override
+	public Vector2 getPos(boolean asPixels) {
+		return playerBody.getPosition();
 	}
 
 	@Override

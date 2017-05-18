@@ -61,7 +61,7 @@ public class GameState implements State, CleanInputProcessor {
 	private ShapeRenderer sr;
 	public static final int PPM = 20;
 	private PlayerLight playerLight;
-	private Clock clock;
+	public Clock clock;
 	// public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	// Support multiple players: DONE!
@@ -170,7 +170,6 @@ public class GameState implements State, CleanInputProcessor {
 		gameWORLD.step(Gdx.graphics.getDeltaTime(), 8, 2);
 
 		// Updating player
-
 		player.update(delta);
 		playerAI.update(delta);
 

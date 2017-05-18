@@ -60,6 +60,9 @@ public class NetworkManager extends Thread {
 		
 
 	}
+	public void setPlayer(Player p){
+		player=p;
+	}
 	public static void initKryo(Kryo k){
 		k.register(String.class);
 		k.register(StringPacket.class);
@@ -94,11 +97,8 @@ public class NetworkManager extends Thread {
 			System.out.println("Failed connecting to server: " + e.getMessage());
 			state = ConnectionState.INVALID_IP;
 			
-			try {
-				connection.dispose();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+
+			
 			
 			return;
 		}
@@ -128,13 +128,7 @@ public class NetworkManager extends Thread {
 		Gdx.app.log("[Client]", "Shutting Down...");
 		connection.stop();
 		
-		connection.close();
-		try {
-			connection.dispose();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	public enum ConnectionState {
@@ -153,8 +147,7 @@ public class NetworkManager extends Thread {
 					updatePositionFromPacket(packet.id, (PlayerUpdatePacket)ob);
 				else if(packet.id!=connection.getID())addPlayer(packet.id,(PlayerUpdatePacket)ob);
 				else {
-					if(player.multiPos==null)player.multiPos=new Vector2();
-					player.multiPos=packet.location;
+					player.setMultiPos(packet.location.cpy());;
 					player.setHealth(packet.health);
 				}
 				

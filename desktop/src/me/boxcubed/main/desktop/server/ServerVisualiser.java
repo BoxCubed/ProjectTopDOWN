@@ -37,7 +37,7 @@ public class ServerVisualiser implements ApplicationListener {
 		float delta=Gdx.graphics.getDeltaTime();
 		BoxoUtil.clearScreen();
 		cam.update();
-		renderer.render(world, cam.combined);
+		renderer.render(world, cam.combined.cpy().scl(20f));
 		
 		if(Gdx.input.isKeyPressed(Keys.UP))
 			cam.translate(0, 1000*delta);
