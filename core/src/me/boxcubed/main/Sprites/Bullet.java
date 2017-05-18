@@ -94,11 +94,17 @@ public class Bullet extends Sprite implements Entity{
 	 }
 	 public void renderShapes(ShapeRenderer sr) {
 		 if(TopDown.debug){
-			 sr.setColor(Color.BLUE);
+			 sr.setColor(toRGB(255,200,14));
 			 sr.line(getPos(true), player.getPos(true));
 			 }
 	
 	 }
+	 public Color toRGB(int r, int g, int b) {
+		  float RED = r / 255.0f;
+		  float GREEN = g / 255.0f;
+		  float BLUE = b / 255.0f;
+		  return new Color(RED, GREEN, BLUE, 1);
+		 }
 	 @Override
 		public void render(SpriteBatch sb) {
 		 if(!isDisposable()){
