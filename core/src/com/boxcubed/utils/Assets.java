@@ -22,7 +22,7 @@ import com.boxcubed.utils.AnimationLoader.AnimationPrefs;
 public class Assets extends com.badlogic.gdx.assets.AssetManager {
 	public static final String nineMMGunSOUND = "sounds/9_mm_gunshot.mp3", gunSOUND = "sounds/gunshot.mp3",
 			ZAttackSOUND = "sounds/zombie_attack.mp3", ZGroanSOUND = "sounds/zombie_groan.wav",
-			ambientMUSIC = "sounds/ambient_music.mp3", ZScreamsSOUND = "sounds/zombie_screams.mp3",
+			ambientMUSIC = "sounds/ambient_music.mp3", ZScreamsSOUND = "sounds/zombie_screams.mp3",buttonChangeSOUND="sounds/button-choose.wav",
 
 			MainMAP = "maps/map2.tmx",
 
@@ -39,7 +39,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
 
 			menuFONT = "fonts/menuFont.ttf",
 
-			menuSKIN = "button/skins/visUI/uiskin.json",
+			visSKIN = "button/skins/visUI/uiskin.json",starSKIN="button/skins/starSoldier/star-soldier-ui.json",neutSKIN="button/skins/neutralizer/neutralizer-ui.json",
 
 			flameEFFECT = "maps/effects/flame.p", bloodEFFECT = "maps/effects/blood.p"
 
@@ -65,7 +65,9 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
 	}
 
 	private void loadSkins() {
-		load(menuSKIN, Skin.class);
+		load(visSKIN, Skin.class);
+		load(neutSKIN, Skin.class);
+		load(starSKIN, Skin.class);
 
 	}
 
@@ -86,10 +88,10 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
 		load(menuFONT, BitmapFont.class, menuFont);
 
 	}
-
+ 
 	private void loadMaps() {
 		load("maps/map2.tmx", TiledMap.class);
-
+		
 	}
 
 	private void loadSounds() {
@@ -99,6 +101,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
 		load(ZGroanSOUND, Sound.class);
 		load(ambientMUSIC, Music.class);
 		load(ZScreamsSOUND, Sound.class);
+		load(buttonChangeSOUND, Sound.class);
 
 	}
 

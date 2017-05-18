@@ -26,9 +26,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
 import com.badlogic.gdx.physics.box2d.joints.PulleyJoint;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import me.boxcubed.main.States.GameState;
 
 /**
  * A class based of the original {@link Box2DDebugRenderer} but with the basis of rendering the world minimap style<br>
@@ -90,6 +87,7 @@ public class MinimapRenderer {
 		renderBodies(world);
 	}
 	public void renderGraphics(World world,Vector2 center){
+		batch.setProjectionMatrix(cam.combined);
 		
 	}
 

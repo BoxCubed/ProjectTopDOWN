@@ -92,7 +92,7 @@ public class NetworkManager extends Thread {
 
 		} catch (Exception e) {
 			System.out.println("Failed connecting to server: " + e.getMessage());
-			state = ConnectionState.INVALIDIP;
+			state = ConnectionState.INVALID_IP;
 			
 			try {
 				connection.dispose();
@@ -138,7 +138,7 @@ public class NetworkManager extends Thread {
 	}
 
 	public enum ConnectionState {
-		CONNECTED, INVALIDIP, DISCONNECTED, CONNECTING
+		CONNECTED, INVALID_IP, DISCONNECTED, CONNECTING
 	}
 
 	class PlayerListener extends Listener {
@@ -165,6 +165,7 @@ public class NetworkManager extends Thread {
 					disconnectReason=((PlayerDisconnectPacket) ob).reason;
 					System.out.println(disconnectReason);
 					disconnect();
+					
 				}else 
 				remPlayer(((PlayerDisconnectPacket) ob).id);
 			}
@@ -178,7 +179,9 @@ public class NetworkManager extends Thread {
 		@Override
 		public void disconnected(Connection connection) {
 			Gdx.app.log("[Client]", "lost connection: "+disconnectReason);
+			state=ConnectionState.DISCONNECTED;
 			disconnect();
+			
 		}
 		
 	}
@@ -240,10 +243,14 @@ public class NetworkManager extends Thread {
 		
 		
 	}
-    private synchronized void disconnect(){
+    private synchronized void disconnect() {
     	multiplayerPlayers.forEach((id,p)->p.setDisposable(true));
     	multiplayerPlayers.clear();
     	TopDown.instance.setScreen(new MenuState(GameState.instance));
+    	try{connection.stop();connection.dispose();}
+    	catch(IOException e){e.printStackTrace();}
+    	finally{state=ConnectionState.DISCONNECTED;}
+    	
     }
     public void onFire(Vector2 pos,float rotation,String type){
     	connection.sendTCP(new BulletFirePacket(rotation,type));

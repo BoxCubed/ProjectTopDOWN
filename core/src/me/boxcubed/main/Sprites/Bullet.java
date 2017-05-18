@@ -27,9 +27,10 @@ public class Bullet extends Sprite implements Entity{
 	TextureRegion muzzleFlash;
 	
 	float rotation;
-	public float SPEED = 1;
+	public float SPEED = 0.5f;
 	
 	float x,y,offX,offY;
+	Vector2 firePos;
 	Player player;
 	
 	float elapsedTime=0;
@@ -42,7 +43,7 @@ public class Bullet extends Sprite implements Entity{
 		this.offY=offY;
 		this.rotation = rotation;
 		this.player=player;
-		
+		firePos=new Vector2(x, y);
 		
 		
 		muzzleFlash = new TextureRegion(TopDown.assets.get(Assets.mflashIMAGE, Texture.class));

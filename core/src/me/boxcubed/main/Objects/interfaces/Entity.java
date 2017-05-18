@@ -12,8 +12,8 @@ import me.boxcubed.main.States.GameState;
 public interface Entity {
 	  public default Vector2 getPos(boolean asPixels){
 		  if(asPixels)
-			  return getBody().getPosition().scl(GameState.PPM);
-		  else return getBody().getPosition();
+			  return getBody().getPosition().cpy().scl(GameState.PPM);
+		  else return getBody().getPosition().cpy();
 	  };
 	  public Body getBody();
 
