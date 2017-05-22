@@ -23,6 +23,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
 	public static final String nineMMGunSOUND = "sounds/9_mm_gunshot.mp3", gunSOUND = "sounds/gunshot.mp3",
 			ZAttackSOUND = "sounds/zombie_attack.mp3", ZGroanSOUND = "sounds/zombie_groan.wav",
 			ambientMUSIC = "sounds/ambient_music.mp3", ZScreamsSOUND = "sounds/zombie_screams.mp3",buttonChangeSOUND="sounds/button-choose.wav",
+			menuMUSIC="sounds/Drafty-Places.mp3",
 
 			MainMAP = "maps/map2.tmx",
 
@@ -100,6 +101,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
 		load(ZAttackSOUND, Sound.class);
 		load(ZGroanSOUND, Sound.class);
 		load(ambientMUSIC, Music.class);
+		load(menuMUSIC,Music.class);
 		load(ZScreamsSOUND, Sound.class);
 		load(buttonChangeSOUND, Sound.class);
 

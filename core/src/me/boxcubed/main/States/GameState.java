@@ -120,7 +120,7 @@ public class GameState implements State, CleanInputProcessor {
 		ambientMusic = assets.get(Assets.ambientMUSIC, Music.class);
 		ambientMusic.setLooping(true);
 		ambientMusic.setVolume(0.6f);
-		ambientMusic.play();
+		
 		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
 		// Adding player
 		if (TopDown.debug)
@@ -370,6 +370,8 @@ public class GameState implements State, CleanInputProcessor {
 		for (HashMap.Entry<String, Player> entry : clients.entrySet()) {
 			entry.getValue().dispose();
 		}
+		zombieGroan.dispose();
+		ambientMusic.dispose();
 		/*
 		 * if(soundSys!=null) soundSys.cleanup();
 		 */
@@ -395,6 +397,7 @@ public class GameState implements State, CleanInputProcessor {
 	@Override
 	public void hide() {
 		BoxoUtil.remInputProcessor(this);
+		ambientMusic.stop();
 	}
 
 	@Override
@@ -402,7 +405,7 @@ public class GameState implements State, CleanInputProcessor {
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		cam.update();
 		BoxoUtil.addInputProcessor(this);
-
+		ambientMusic.play();
 	}
 
 }

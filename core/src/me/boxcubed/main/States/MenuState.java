@@ -2,7 +2,9 @@ package me.boxcubed.main.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -27,7 +29,6 @@ import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.ParallaxBackground;
 import com.boxcubed.utils.ParallaxLayer;
-import com.boxcubed.utils.easinglib.Bounce;
 
 import me.boxcubed.main.TopDown;
 
@@ -38,13 +39,14 @@ public class MenuState implements Screen {
 	private Stage stage;
 	private TextField ipField, nameField;
 	private Button multiButton,singleButton;
-	private float alpha = 0;
+	private float alpha = -0.1f;
 
 	SpriteBatch batch;
 	private ShapeRenderer fader;
 	private OrthographicCamera cam;
 	private Viewport port;
 	private Sound buttonSound=TopDown.assets.get(Assets.buttonChangeSOUND, Sound.class);
+	private Music menuMusic=TopDown.assets.get(Assets.menuMUSIC,Music.class);
 	BitmapFont font;
 	GameState loadedInstance;
 	GlyphLayout startGlyph, multiGlyph;
@@ -56,6 +58,8 @@ public class MenuState implements Screen {
 	private boolean init = false;
 
 	public MenuState(GameState loadedInstance) {
+		menuMusic.setLooping(true);
+		menuMusic.setVolume(0);
 
 		this.loadedInstance = loadedInstance;
 	}
@@ -67,8 +71,8 @@ public class MenuState implements Screen {
 		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		// init of button
 
+		//music
 		
-
 		// Stage setup
 		port=new ScreenViewport(cam);
 		stage = new Stage(port, batch);
@@ -114,9 +118,10 @@ public class MenuState implements Screen {
 	public void update(float delta) {
 		if (!init)
 			init(loadedInstance);
-		if (alpha < 1f) {
-			alpha += 0.005f * delta;
+		if (alpha <0.9f) {
+			alpha += 0.3f * delta;
 		}
+		menuMusic.setVolume(alpha);
 		cam.update();
 		if(clicked){
 			multiButton.clearChildren();
@@ -126,32 +131,35 @@ public class MenuState implements Screen {
 		elapsedTime += delta;
 		if (elapsedTime > 2)
 			return;
-		singleButton.setPosition(singleButton.getX(), 900 - Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight() / 2 - 50, 2));
-		multiButton.setPosition(multiButton.getX(), 900 - Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight() / 2 + 50, 2));
+		//singleButton.setPosition(singleButton.getX(), 900 - Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight() / 2 - 50, 2));
+		//multiButton.setPosition(multiButton.getX(), 900 - Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight() / 2 + 50, 2));
 
 	}
 
 	@Override
 	public void show() {
-
+		menuMusic.play();
 	}
 
 	@Override
 	public void render(float delta) {
-
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		update(delta);
 		bg.render(delta);
 		fader.setProjectionMatrix(cam.combined);
-		fader.begin(ShapeType.Line);
-		fader.setColor(0, 0, 0, alpha);
-	    fader.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
+		fader.begin(ShapeType.Filled);
+		fader.setColor(0, 0, 0, 0.5f);
+	   // fader.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
 		fader.end();
 
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
-
-
+		
+		
 		batch.end();
+		multiButton.getColor().a=alpha;
+		singleButton.getColor().a=alpha;
 		stage.draw();
 
 	}
@@ -189,13 +197,10 @@ public class MenuState implements Screen {
 				super.enter(event, x, y, pointer, fromActor);
 				if(fromActor==null){
 				buttonSound.play();
-				multiButton.setX(multiButton.getX()+10);}
-			}
+			}}
 			@Override
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 				super.exit(event, x, y, pointer, toActor);
-				if(toActor==null)
-				multiButton.setX(multiButton.getX()-10);
 			}
 			
 		});
@@ -211,12 +216,10 @@ public class MenuState implements Screen {
 				super.enter(event, x, y, pointer, fromActor);
 				if(fromActor==null)
 				buttonSound.play();
-				singleButton.setX(singleButton.getX()+5);
 			}
 			@Override
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 				super.exit(event, x, y, pointer, toActor);
-				singleButton.setX(singleButton.getX()-5);
 			}
 		});
 		
@@ -243,6 +246,7 @@ public class MenuState implements Screen {
 	public void hide() {
 		if (init)
 			BoxoUtil.remInputProcessor(stage);
+		menuMusic.stop();
 	}
 
 	@Override
@@ -250,6 +254,7 @@ public class MenuState implements Screen {
 		batch.dispose();
 		stage.dispose();
 		stage.getBatch().dispose();
+		menuMusic.dispose();
 	}
 
 }
