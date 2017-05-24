@@ -11,9 +11,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,6 +29,7 @@ import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.ParallaxBackground;
 import com.boxcubed.utils.ParallaxLayer;
 
+import box2dLight.RayHandler;
 import me.boxcubed.main.TopDown;
 
 /**
@@ -42,7 +42,6 @@ public class MenuState implements Screen {
 	private float alpha = -0.1f;
 
 	SpriteBatch batch;
-	private ShapeRenderer fader;
 	private OrthographicCamera cam;
 	private Viewport port;
 	private Sound buttonSound=TopDown.assets.get(Assets.buttonChangeSOUND, Sound.class);
@@ -51,12 +50,16 @@ public class MenuState implements Screen {
 	GameState loadedInstance;
 	GlyphLayout startGlyph, multiGlyph;
 	ParallaxBackground bg;
+	
 	NetworkManager connection;
 	boolean clicked = false;
 	float elapsedTime = 0;
 	// Thread safe startup...DONE!
 	private boolean init = false;
-
+	
+	//The only fade effect i know
+	private RayHandler fader;
+	private World world;
 	public MenuState(GameState loadedInstance) {
 		menuMusic.setLooping(true);
 		menuMusic.setVolume(0);
@@ -67,7 +70,8 @@ public class MenuState implements Screen {
 	private void init(GameState loadedInstance) {
 		// Init of debug shape rendrer
 		batch = new SpriteBatch();
-		fader = new ShapeRenderer(8);
+		world=new World(new Vector2(0, 0),false);
+		fader = new RayHandler(world);
 		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		// init of button
 
@@ -147,11 +151,6 @@ public class MenuState implements Screen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		update(delta);
 		bg.render(delta);
-		fader.setProjectionMatrix(cam.combined);
-		fader.begin(ShapeType.Filled);
-		fader.setColor(0, 0, 0, 0.5f);
-	   // fader.rect(0, 0, cam.viewportWidth, cam.viewportHeight);
-		fader.end();
 
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
@@ -255,6 +254,8 @@ public class MenuState implements Screen {
 		stage.dispose();
 		stage.getBatch().dispose();
 		menuMusic.dispose();
+		fader.dispose();
+		world.dispose();
 	}
 
 }
