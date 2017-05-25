@@ -6,22 +6,16 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Disposable;
 
-import me.boxcubed.main.States.GameState;
-
 public interface Entity extends Disposable,Renderable{
-	  public default Vector2 getPos(boolean asPixels){
-		  if(asPixels)
-			  return getBody().getPosition().cpy().scl(GameState.PPM);
-		  else return getBody().getPosition().cpy();
-	  };
-	  public Body getBody();
+	  Vector2 getPos(boolean asPixels);
+	  Body getBody();
 
-	  public EntityType getID();
-		public Sprite getSprite();
-        public void playAnimation(String key);
+	  EntityType getID();
+		Sprite getSprite();
+        void playAnimation(String key);
        
-        public Fixture getFixture();
-        public boolean isDisposable();
-        public void setDisposable(boolean disposable);
+        Fixture getFixture();
+        boolean isDisposable();
+        void setDisposable(boolean disposable);
         }
   

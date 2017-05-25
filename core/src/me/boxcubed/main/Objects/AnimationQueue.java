@@ -12,8 +12,8 @@ import com.badlogic.gdx.math.Vector2;
  * @author ryan9
  *
  */
-public class AnimationQueue {
-	public static List<AnimationItem> queue;
+class AnimationQueue {
+	private static List<AnimationItem> queue;
 	private static AnimationQueue instance;
 	public AnimationQueue(){
 		queue=new ArrayList<>();
@@ -34,9 +34,9 @@ public class AnimationQueue {
 		queue.add(instance.new AnimationItem(anim,vect));
 	}
 public class AnimationItem{
-	public StopWatch watch;
-	public Animation<TextureRegion> anim;
-	public Vector2 vect;
+	public final StopWatch watch;
+	public final Animation<TextureRegion> anim;
+	public final Vector2 vect;
 	public AnimationItem(Animation<TextureRegion> anim,Vector2 vect) {
 		watch=new StopWatch();
 		watch.start();

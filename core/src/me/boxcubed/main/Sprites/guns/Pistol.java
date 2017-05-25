@@ -1,7 +1,6 @@
 package me.boxcubed.main.Sprites.guns;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,13 +17,13 @@ import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
 
 public class Pistol implements Gun, InventoryItem {
-	private Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
-	private Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
-	Texture piss_active = TopDown.assets.get(Assets.pistolActiveIMAGE, Texture.class);
+	private final Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
+	private final Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
+	private final Texture piss_active = TopDown.assets.get(Assets.pistolActiveIMAGE, Texture.class);
 
 	@Override
 	public boolean willFire(Input input, float delta, Player p) {
-		return BoxoUtil.isButtonJustPressed(Buttons.LEFT) || input.isKeyJustPressed(Keys.SPACE);
+		return BoxoUtil.isButtonJustPressed() || input.isKeyJustPressed(Keys.SPACE);
 	}
 
 	@Override

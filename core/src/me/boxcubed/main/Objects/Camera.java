@@ -12,10 +12,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  * 
  */
 
-public class Camera {
-    public static OrthographicCamera cam;
-    Vector2 camCoords;
-    FitViewport viewport;
+class Camera {
+    private static OrthographicCamera cam;
+    private final Vector2 camCoords;
+    private final FitViewport viewport;
 
     public Camera(){
         camCoords = new Vector2(); 

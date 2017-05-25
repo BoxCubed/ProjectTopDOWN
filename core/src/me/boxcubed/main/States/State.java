@@ -12,31 +12,31 @@ import com.badlogic.gdx.Screen;
  * 
  * @author ryan9
  */
-public interface State  extends Screen {
+abstract class State  implements Screen {
     //protected Vector3 mouse;    //Mouse xy
 
-    
-
-    
 
 
 
-     void handleInput();
 
-    public void update(float delta);
+
+
+   public abstract void handleInput();
+
+    public abstract void update(float delta);
     @Override
-    default void render(float delta) {
+    public void render(float delta) {
     	handleInput();
     	update(delta*100);
     	render();
     	
     }
 
-    public void render();
+   abstract void render();
     /*
      * (non-Javadoc)
      * Remember to dispose batch with <code>batch.dispose()</code>
      * @see com.badlogic.gdx.Screen#dispose()
      */
-    public void dispose();
+    public abstract void dispose();
 }

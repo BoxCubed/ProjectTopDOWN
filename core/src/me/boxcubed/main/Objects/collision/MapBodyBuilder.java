@@ -30,7 +30,7 @@ public class MapBodyBuilder {
     /**
      * Stores the shapes of the most recent call to {@link MapBodyBuilder#buildShapes(Map, float, World)}
      */
-    public static Shape2D[] shapes;
+    private static Shape2D[] shapes;
     public static Array<Body> buildShapes(Map map, float pixels, World world) {
         ppt = pixels;
         MapObjects objects = map.getLayers().get("Objects").getObjects();
@@ -63,7 +63,7 @@ public class MapBodyBuilder {
             BodyDef bd = new BodyDef();
             bd.type = BodyType.StaticBody;
             Body body = world.createBody(bd);
-            body.createFixture(shape, 1).setUserData("WALL");;
+            body.createFixture(shape, 1).setUserData("WALL");
 
             bodies.add(body);
 

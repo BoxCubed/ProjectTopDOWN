@@ -10,15 +10,17 @@ import com.badlogic.gdx.physics.box2d.Body;
 import me.boxcubed.main.Objects.interfaces.LivingEntity;
 
 public class SteeringAI implements Steerable<Vector2> {
-	LivingEntity entity;
-	boolean tagged;
+	private final LivingEntity entity;
+	private boolean tagged;
 	
-	float speedMax,speedMaxAcc,
-		  speedMaxAng,speedMaxAngAcc,
-		  boundingRadius;
-	SteeringBehavior<Vector2>behavior;
-	SteeringAcceleration<Vector2>steeringOutput;
-	float speedZeroLin=500;
+	private float speedMax;
+    private float speedMaxAcc;
+    private float speedMaxAng;
+    private float speedMaxAngAcc;
+    private final float boundingRadius;
+	private SteeringBehavior<Vector2>behavior;
+	private final SteeringAcceleration<Vector2>steeringOutput;
+	private float speedZeroLin=500;
 	
 	public SteeringAI(LivingEntity entity,float boundingRadius){
 		this.entity=entity;
@@ -186,13 +188,13 @@ public class SteeringAI implements Steerable<Vector2> {
 	public void setTagged(boolean tagged) {
 		this.tagged=tagged;
 	}
-	public Body getBody(){
+	private Body getBody(){
 		return entity.getBody();
 	}
 	public void setBehavior(SteeringBehavior<Vector2> beh){
 		this.behavior=beh;
 	}
-	public SteeringBehavior<Vector2> getBehavior(){
+	private SteeringBehavior<Vector2> getBehavior(){
 		return behavior;}
 
 }

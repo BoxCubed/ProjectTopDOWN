@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * @deprecated no use 
  *
  */
-public class GameStateManager {
-    private Stack<State> states;//This holds an array of all the states such as the main menu, play and game over state
+class GameStateManager {
+    private final Stack<State> states;//This holds an array of all the states such as the main menu, play and game over state
 
 
 

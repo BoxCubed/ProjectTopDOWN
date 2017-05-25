@@ -12,13 +12,13 @@ import com.badlogic.gdx.math.Vector3;
 import me.boxcubed.main.States.GameState;
 
 public class InventorySystem {
-	InventoryItem[] inventory;
-	LinkedHashMap<Integer, InventoryItem> inventoryItems= new LinkedHashMap<Integer, InventoryItem>();
+	private InventoryItem[] inventory;
+	private final LinkedHashMap<Integer, InventoryItem> inventoryItems= new LinkedHashMap<Integer, InventoryItem>();
 	private static final int MAX_INVENTORY_ITEMS = 6;//Follow Java Naming convention!no.
 	private int currentInventoryItems = 0; 
 	private static final int OFFSET = 80;
-	Texture inventoryUI = new Texture("img/inventoryUI.png");
-	private int[] keys;
+	private final Texture inventoryUI = new Texture("img/inventoryUI.png");
+	private final int[] keys;
 	public InventorySystem(){
 		clearInventory();
 		keys=new int[MAX_INVENTORY_ITEMS];
@@ -55,7 +55,7 @@ public class InventorySystem {
 		System.out.println("Inventory size: "+currentInventoryItems);
 		//System.out.println(inventory[0]);
 	}
-	float previousX;
+	private float previousX;
 	Vector3 touchPos = new Vector3();
 	public void render(SpriteBatch batcher){
 		batcher.draw(inventoryUI, GameState.instance.hud.textCam.position.x/2 - GameState.instance.hud.textCam.viewportWidth/3, GameState.instance.hud.textCam.position.y/4 - GameState.instance.hud.textCam.viewportHeight/2, 650, 80);
@@ -77,7 +77,7 @@ public class InventorySystem {
 		update(Gdx.graphics.getDeltaTime());
 	}
 	public InventoryItem itemSelected =null;
-	public void update(float delta){
+	private void update(float delta){
 		for(int i=0;i<keys.length;i++){
 			int key=keys[i];
 			if(Gdx.input.isKeyPressed(key)){
@@ -88,8 +88,8 @@ public class InventorySystem {
 
 	}
 	
-	public InventoryItem getItem(int index){
-		return inventory[index];
+	public InventoryItem getItem(){
+		return inventory[0];
 	}
 	
 	public void removeItem(int index){
@@ -98,7 +98,7 @@ public class InventorySystem {
 		inventoryItems.remove(index);
 		currentInventoryItems--;
 	}
-	public void clearInventory(){
+	private void clearInventory(){
 		inventoryItems.clear();
 		inventory=new InventoryItem[MAX_INVENTORY_ITEMS];
 		//See in hashmaps how there is a method to clear the array, it would be great of we could go back to it

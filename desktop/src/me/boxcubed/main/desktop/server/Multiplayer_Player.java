@@ -321,6 +321,23 @@ public void render(SpriteBatch sb) {
 	public double getMaxHealth() {
 		return 50;
 	}
+
+	@Override
+	public boolean isAlive() {
+		return getHealth()>0;
+	}
+
+	@Override
+	public boolean isDisposable() {
+		return isAlive();
+	}
+
+	@Override
+	public void setDisposable(boolean disposable) {
+		if(disposable)
+		setHealth(0);
+	}
+
 	@Override
 	public void playAnimation(String key) {
 

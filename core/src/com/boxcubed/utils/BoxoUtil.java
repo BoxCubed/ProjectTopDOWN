@@ -22,8 +22,8 @@ public class BoxoUtil implements InputProcessor{
 	private static LinkedBlockingQueue<InputProcessor> qAdd=new LinkedBlockingQueue<>();
 	private static LinkedBlockingQueue<InputProcessor> qRemove=new LinkedBlockingQueue<>();
 	// for the ButtonJustPressed method
-	private static boolean[] justPressed=new boolean[5];
-	private static Random random=new Random();
+	private static final boolean[] justPressed=new boolean[5];
+	private static final Random random=new Random();
 	
 	/**
 	 * Call this to reset the API<br>
@@ -76,13 +76,12 @@ public class BoxoUtil implements InputProcessor{
 	private static float elapsed,duration,intensity;
 	/**
 	 * Start the screen shaking with a given power and duration
-	 * @param intensity How much intensity should the shaking use.
-	 * @param duration Time in milliseconds the screen should shake.
-	 */
-	public static void shake(float intensity, float duration) {
+     *
+     */
+	public static void shake() {
 	    elapsed = 0;
-	    BoxoUtil.duration= duration / 1000f;
-	    BoxoUtil.intensity = intensity;
+	    BoxoUtil.duration= (float) 10 / 1000f;
+	    BoxoUtil.intensity = (float) 2;
 	}
 	 
 	/**
@@ -106,12 +105,11 @@ public class BoxoUtil implements InputProcessor{
 	}
 	/**
 	 * Whether a button was just pressed 
-	 * @param button the button to check
 	 * @return whether the button was pressed in this update call. Returns false if button is invalid.
 	 */
-	public static boolean isButtonJustPressed(int button){
+	public static boolean isButtonJustPressed(){
 		try{
-		return justPressed[button];}
+		return justPressed[com.badlogic.gdx.Input.Buttons.LEFT];}
 		catch(IndexOutOfBoundsException e){return false;}
 	}
 	/**
@@ -166,43 +164,52 @@ public class BoxoUtil implements InputProcessor{
 		}
 	@Override
 	public boolean keyDown(int keycode) {
-		inputProcessors.forEach(i->i.keyDown(keycode));
+		for(InputProcessor i:inputProcessors)
+			i.keyDown(keycode);
+
 		return false;
 	}
 	@Override
 	public boolean keyUp(int keycode) {
-		inputProcessors.forEach(i->i.keyDown(keycode));
+		for(InputProcessor i:inputProcessors)
+			i.keyDown(keycode);
 		return false;
 	}
 	@Override
 	public boolean keyTyped(char character) {
-		inputProcessors.forEach(i->i.keyTyped(character));
+		for(InputProcessor i:inputProcessors)
+			i.keyUp(character);
 		return false;
 	}
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		justPressed[button]=true;
-		inputProcessors.forEach(i->i.touchDown(screenX, screenY, pointer, button));
+		for(InputProcessor i:inputProcessors)
+			i.touchDown(screenX,screenY,pointer,button);
 		return false;
 	}
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		inputProcessors.forEach(i->i.touchUp(screenX, screenY, pointer, button));
+		for(InputProcessor i:inputProcessors)
+			i.touchUp(screenX,screenY,pointer,button);
 		return false;
 	}
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		inputProcessors.forEach(i->i.touchDragged(screenX, screenY, pointer));
+		for(InputProcessor i:inputProcessors)
+			i.touchDragged(screenX, screenY, pointer);
 		return false;
 	}
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		inputProcessors.forEach(i->i.mouseMoved(screenX, screenY));
+		for(InputProcessor i:inputProcessors)
+			i.mouseMoved(screenX,screenY);
 		return false;
 	}
 	@Override
 	public boolean scrolled(int amount) {
-		inputProcessors.forEach(i->i.scrolled(amount));
+		for(InputProcessor i:inputProcessors)
+			i.scrolled(amount);
 		return false;
 	}
 	

@@ -8,8 +8,8 @@ import me.boxcubed.main.States.GameState;
  * @deprecated Using Crosshair math instead
  * 
  */
-public class MouseLocaion implements Location<Vector2> {
-	float rot=0;
+class MouseLocaion implements Location<Vector2> {
+	private float rot=0;
 	@Override
 	public Vector2 getPosition() {
 		return new Vector2(GameState.instance.getMouseCords().x,GameState.instance.getMouseCords().y);

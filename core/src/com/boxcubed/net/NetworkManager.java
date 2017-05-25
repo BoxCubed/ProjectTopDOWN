@@ -38,12 +38,14 @@ public class NetworkManager extends Thread {
 	private Client connection;
 	public boolean stop = false;
 	private Player player;
-	public String ip,name="BoxCubed",disconnectReason="Unknown";
+	private final String ip;
+	public String name="BoxCubed";
+	private String disconnectReason="Unknown";
 	public ConnectionState state;
-	public InputPacket move;
+	public final InputPacket move;
 	private InputPacket lastMove;
-	public Map<Integer,Player> multiplayerPlayers;
-	private BitmapFont font=new BitmapFont();
+	private Map<Integer,Player> multiplayerPlayers;
+	private final BitmapFont font=new BitmapFont();
 	public NetworkManager(Player player) {
 		this(player, "localhost:22222");
 
@@ -135,7 +137,7 @@ public class NetworkManager extends Thread {
 		CONNECTED, INVALID_IP, DISCONNECTED, CONNECTING
 	}
 
-	class PlayerListener extends Listener {
+	private class PlayerListener extends Listener {
 		@Override
 		public void received(Connection connection, Object ob) {
 			if(ob instanceof LocalPlayerPosPacket){
@@ -147,8 +149,8 @@ public class NetworkManager extends Thread {
 					updatePositionFromPacket(packet.id, (PlayerUpdatePacket)ob);
 				else if(packet.id!=connection.getID())addPlayer(packet.id,(PlayerUpdatePacket)ob);
 				else {
-					player.setMultiPos(packet.location.cpy());;
-					player.setHealth(packet.health);
+					player.setMultiPos(packet.location.cpy());
+                    player.setHealth(packet.health);
 				}
 				
 				
@@ -178,19 +180,25 @@ public class NetworkManager extends Thread {
 		}
 		
 	}
-	private LinkedBlockingQueue<BulletFirePacket> pendingFire=new LinkedBlockingQueue<>();
-	private List<Integer>dispose=new ArrayList<>();
-	private World world=GameState.instance.getWorld();
+	private final LinkedBlockingQueue<BulletFirePacket> pendingFire=new LinkedBlockingQueue<>();
+	private final List<Integer>dispose=new ArrayList<>();
+	private final World world=GameState.instance.getWorld();
 	public synchronized void updatePlayers(float delta) {
-		multiplayerPlayers.forEach((id,p)->{
+		for(Map.Entry<Integer,Player> entry:multiplayerPlayers.entrySet()){
+			Player p=entry.getValue();
 			if(p.isDisposable()){
 				p.dispose();
-				dispose.add(id);
+				dispose.add(entry.getKey());
 			}
 			else p.update(delta);
-		});
-		dispose.forEach(multiplayerPlayers::remove);
+
+		}
+		for(int i:dispose){
+			multiplayerPlayers.remove(i);
+
+		}
 		dispose.clear();
+
 		if(!pendingFire.isEmpty()){
 			BulletFirePacket bullet;
 			try {
@@ -237,7 +245,11 @@ public class NetworkManager extends Thread {
 		
 	}
     private synchronized void disconnect() {
-    	multiplayerPlayers.forEach((id,p)->p.setDisposable(true));
+
+		for(Player p:multiplayerPlayers.values())
+			p.setDisposable(true);
+
+
     	multiplayerPlayers.clear();
     	TopDown.instance.setScreen(new MenuState(GameState.instance));
     	try{connection.stop();connection.dispose();}

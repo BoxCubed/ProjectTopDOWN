@@ -23,12 +23,10 @@ import me.boxcubed.main.States.GameState;
 public class AK47 implements Gun, InventoryItem {
 	private float elapsedBulletTime = 0;
 	private final Random random = new Random();
-	private final int ak47Offset = 1;
-	private float randRotation;
-	private Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
+	private final Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 	// TODO get ak47 image
-	Texture ak47img = TopDown.assets.get(Assets.inventoryAK47, Texture.class);
-	Texture akActive = TopDown.assets.get(Assets.ak47ActiveIMAGE,Texture.class);
+	private final Texture ak47img = TopDown.assets.get(Assets.inventoryAK47, Texture.class);
+	private final Texture akActive = TopDown.assets.get(Assets.ak47ActiveIMAGE,Texture.class);
 	@Override
 	public boolean willFire(Input input, float delta, Player player) {
 		if (Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)) {
@@ -46,8 +44,9 @@ public class AK47 implements Gun, InventoryItem {
 	@Override
 	public void fire(World world, Player player) {
 		boolean togg = random.nextBoolean();
-		randRotation = player.rotation;
-		if (togg)
+		float randRotation = player.rotation;
+        int ak47Offset = 1;
+        if (togg)
 			randRotation += random.nextInt(ak47Offset) + 3;
 		else
 			randRotation -= random.nextInt(ak47Offset) + 3;
@@ -57,7 +56,7 @@ public class AK47 implements Gun, InventoryItem {
 		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y-0.4f,
 				(float) (Math.cos(Math.toRadians(randRotation))), (float) (Math.sin(Math.toRadians(randRotation))),
 				randRotation, GunType.AK47, player));
-		BoxoUtil.shake(2, 10);
+		BoxoUtil.shake();
 
 	}
 

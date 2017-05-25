@@ -3,11 +3,11 @@ package com.boxcubed.utils;
 import com.badlogic.gdx.graphics.Texture;
 
 public interface InventoryItem {
-	public String getItemName();
+	String getItemName();
 
-	public Texture getTexture();// This is like a logo for the gun to display to
+	Texture getTexture();// This is like a logo for the gun to display to
 								// the user
-	public Texture getActiveTexture();
-	public int getIndex();
+                                Texture getActiveTexture();
+	int getIndex();
 
 }

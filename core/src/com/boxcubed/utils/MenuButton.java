@@ -25,19 +25,23 @@ import me.boxcubed.main.TopDown;
  */
 public class MenuButton{
 	//TODO fix up the retarted way i made this class
-	float x,y;
-	boolean chosen,lock=false;
-	private int mx,my;//mouse x and y
-	Sprite i,ci;
-	Rectangle r;
-	public GlyphLayout f,cf;
-	public BitmapFont font,chosenFont;
-	Color col=Color.WHITE,ccol=Color.WHITE;
-	boolean useImage(){
-		if(i==null)return false;
-				return true;
+	private float x;
+	private float y;
+	private boolean chosen;
+	private boolean lock=false;
+	private Sprite i;
+	private Sprite ci;
+	private final Rectangle r;
+	private GlyphLayout f;
+	private GlyphLayout cf;
+	private BitmapFont font;
+	private BitmapFont chosenFont;
+	private Color col=Color.WHITE;
+	private Color ccol=Color.WHITE;
+	private boolean useImage(){
+		return i != null;
 	}
-	MenuListener l=null;
+	private MenuListener l=null;
 	public MenuButton(Sprite i,float x,float y,MenuListener l){
 		this.i=i;
 		this.l=l;
@@ -63,7 +67,7 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 		
 		
 	}
-	public MenuButton(GlyphLayout f,GlyphLayout cf,BitmapFont c,BitmapFont cc,float x,float y,MenuListener l){
+	private MenuButton(GlyphLayout f, GlyphLayout cf, BitmapFont c, BitmapFont cc, float x, float y, MenuListener l){
 		this.f=f;
 		font=c;
 		chosenFont=cc;
@@ -77,7 +81,7 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 	
 	
 	
-	Vector3 mouse;
+	private Vector3 mouse;
 	/**
 	 * Call when updating
 	 * @param delta provide delta
@@ -87,10 +91,10 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 		if(!isLocked())
 		setCollisionBounds();
 		Input in=Gdx.input;
-		
-		mx=in.getX();
+
+		int mx = in.getX();
 		//my=in.getY()*-1+Gdx.graphics.getHeight();
-		my=in.getY();
+        int my = in.getY();
 		mouse=cam.unproject(new Vector3(mx, my, 0));
 		
 		
@@ -159,7 +163,7 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 		
 	}
 	public void setX(float x){this.x=x;}
-	public void setY(float y){this.y=y;}
+	private void setY(float y){this.y=y;}
 	public void setGlyphChosen(GlyphLayout s){this.cf=s;}
 	public void setGlyphNotChosen(GlyphLayout s){this.f=s;}
 	/**
@@ -170,7 +174,7 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 	public Rectangle getRect(){return r;}
 	public void setColor(Color c){this.col=c; }
 	public void setChosenColor(Color c){this.ccol=c;}
-	public boolean isChosen(){return chosen;}
+	private boolean isChosen(){return chosen;}
 	public void addListener(MenuListener l){this.l=l;}
 	/**
 	 *Sets an image to the button
@@ -190,7 +194,7 @@ public 	MenuButton(GlyphLayout i,BitmapFont f,float x,float y,MenuListener l){
 	 * Should be used if a custom one is to be made with {@code getRect()}
 	 */
 	public  void setCollisionLock(boolean lock){this.lock=lock;}
-	public boolean isLocked(){return lock;}
+	private boolean isLocked(){return lock;}
 	public MenuButton getInstance(){return this;}
 	/**
 	 * Uses a linear equation in order to space the button evenly with the others. Only edits the Y value

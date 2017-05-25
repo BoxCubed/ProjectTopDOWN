@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class ParallaxLayer{
-   public TextureRegion region ;
-   public Vector2 parallaxRatio;
-   public Vector2 startPosition;
-   public Vector2 padding ;
+   public final TextureRegion region ;
+   public final Vector2 parallaxRatio;
+   public final Vector2 startPosition;
+   public final Vector2 padding ;
    public ParallaxLayer(TextureRegion region,Vector2 parallaxRatio,Vector2 padding){
       this(region, parallaxRatio, new Vector2(0,0),padding);
    }

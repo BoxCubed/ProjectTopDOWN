@@ -31,27 +31,31 @@ import me.boxcubed.main.Objects.interfaces.LivingEntity;
 import me.boxcubed.main.States.GameState;
 
 public class Zombie extends Sprite implements LivingEntity {
-	public BodyDef Def;
-	FixtureDef fixtureDef;
-	CircleShape Shape;
-	private Body Body;
-	Fixture fixture;
-	double health;
+	private final BodyDef Def;
+	private final FixtureDef fixtureDef;
+	private final CircleShape Shape;
+	private final Body Body;
+	private final Fixture fixture;
+	private double health;
 	Vector2 position,vel,target;
-	SteeringAI ai;
-	boolean attack;
-	float attackTime;
-	Sound attackSound;
-	private Animation<TextureRegion> zombieAnim,zombieWalk;
-	private ParticleEffect bloodEffect = new ParticleEffect(TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class));
+	private final SteeringAI ai;
+	private boolean attack;
+	private float attackTime;
+	private final Sound attackSound;
+	private final Animation<TextureRegion> zombieAnim;
+	private final Animation<TextureRegion> zombieWalk;
+	private final ParticleEffect bloodEffect = new ParticleEffect(TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class));
 	private boolean hurt;
 	private float walkTime=0;
-	private TextureRegion healthBar =new TextureRegion(TopDown.assets.get(Assets.staminaIMAGE, Texture.class));
-	boolean idle;
+	private final TextureRegion healthBar =new TextureRegion(TopDown.assets.get(Assets.staminaIMAGE, Texture.class));
+	private boolean idle;
 		
-	Vector2 p1,p2,collision,normal;
+	private Vector2 p1;
+	private Vector2 p2;
+	Vector2 collision;
+	Vector2 normal;
 	
-	RayCastCallback callback;
+	private final RayCastCallback callback;
 	
 	@SuppressWarnings("unchecked")
 	public Zombie(World world,SteeringAI playerAI) {
@@ -168,7 +172,7 @@ public class Zombie extends Sprite implements LivingEntity {
 		 
 		 
 	}
-	boolean rayEnabled;
+	private boolean rayEnabled;
 	
 	@Override
 	public void renderShapes(ShapeRenderer sr) {
@@ -229,7 +233,7 @@ public class Zombie extends Sprite implements LivingEntity {
 	public double getMaxHealth() {
 		return 100;
 	}
-	Random rand=new Random();
+	private final Random rand=new Random();
 	@Override
 	public void playAnimation(String key) {
 		if(key.toUpperCase().equals("ATTACK")){
@@ -251,4 +255,30 @@ public class Zombie extends Sprite implements LivingEntity {
 		return EntityType.ZOMBIE;
 	}
 
+	@Override
+	public Vector2 getPos(boolean asPixels) {
+		if (asPixels)
+
+			return Body.getPosition().cpy().scl(GameState.PPM);
+
+		else
+			return Body.getPosition();
+	}
+
+	@Override
+	public boolean isAlive() {
+		return getHealth()>0;
+	}
+
+	@Override
+	public boolean isDisposable() {
+		return isAlive();
+	}
+
+	@Override
+	public void setDisposable(boolean disposable) {
+		if(disposable)
+			setHealth(0);
+		else setHealth(getMaxHealth());
+	}
 }

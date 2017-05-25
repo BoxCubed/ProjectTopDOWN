@@ -11,9 +11,9 @@ import me.boxcubed.main.States.GameState;
 
 public class Clock {
 	// TODO make new class for just time handling
-	public RayHandler rayHandler;
+	public final RayHandler rayHandler;
 	boolean flashlightState = true;
-	private StopWatch timer;
+	private final StopWatch timer;
 	public boolean progressTime;
 	private boolean night = false;
 	public float amlight = 1f;

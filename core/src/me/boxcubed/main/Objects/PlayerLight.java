@@ -9,16 +9,16 @@ import box2dLight.Light;
  */
 public class PlayerLight{
 	//TODO make new class for just time handling
-    boolean flashlightState=true;
-    Light pointLight;
+    private boolean flashlightState=true;
+    private final Light pointLight;
     public PlayerLight(Light light){
     	this.pointLight=light;
     }
-    public void updateLightPos(Vector2 pos,float angle,float delta,boolean strong,boolean on){
+    public void updateLightPos(Vector2 pos, float angle, float delta, boolean strong){
         //Makes sure that the light moves with the player
     	  pointLight.setPosition(pos.x, pos.y);
           pointLight.setDirection(angle);
-     flashlightState=on;
+     flashlightState= true;
       
     	if(flashlightState){pointLight.setDistance(5);}else{pointLight.setDistance(0);}
         if(strong){

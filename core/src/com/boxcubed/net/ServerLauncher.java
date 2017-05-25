@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-public class ServerLauncher extends Thread{
-	ServerSocket server;
-	Socket accept;
-	public boolean stop=false;
+class ServerLauncher extends Thread{
+	private final ServerSocket server;
+	private Socket accept;
+	private boolean stop=false;
 
 	public ServerLauncher() {
 		ServerSocketHints hints=new ServerSocketHints();
@@ -35,6 +35,7 @@ public class ServerLauncher extends Thread{
 		PrintWriter out = new PrintWriter(accept.getOutputStream(), true);
 	    BufferedReader in = new BufferedReader(
 	        new InputStreamReader(accept.getInputStream()));
+
 		while(!stop){
 			try{
 				if(accept==null||!accept.isConnected()){

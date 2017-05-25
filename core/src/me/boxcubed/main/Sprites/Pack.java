@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -16,14 +17,15 @@ import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.States.GameState;
 
 public class Pack extends Sprite implements Entity {
-	BodyDef def;
-	Fixture fixture;
-	FixtureDef fixtureDef;
-	Body body;
-	PolygonShape shape;
-	float x,y;
+	private final BodyDef def;
+	private final Fixture fixture;
+	private final FixtureDef fixtureDef;
+	private final Body body;
+	private final PolygonShape shape;
+	private final float x;
+	private final float y;
 	
-	public Pack(PackType type, float x, float y,World world){
+	public Pack(float x, float y, World world){
 		this.x=x;
 		this.y=y;
 		def = new BodyDef();
@@ -40,7 +42,7 @@ public class Pack extends Sprite implements Entity {
 		// Creates the body and assigns vars to all important values
 		body = world.createBody(def);
 		fixture = body.createFixture(fixtureDef);
-		fixture.setUserData(type);
+		fixture.setUserData(PackType.HEALTH);
 		
 		body.setTransform(x, y, 0);
 
@@ -129,10 +131,17 @@ public class Pack extends Sprite implements Entity {
 	public enum PackType{
 		HEALTH,AMMO,POWER,WEAPON
 	}
-	boolean disposable=false;
+	private boolean disposable=false;
 	@Override
 	public boolean isDisposable() {
 		// TODO Auto-generated method stub
 		return disposable;
+	}
+
+	@Override
+	public Vector2 getPos(boolean asPixels) {
+		if(asPixels)
+			return body.getPosition().cpy().scl(GameState.PPM);
+		return body.getPosition();
 	}
 }

@@ -41,26 +41,26 @@ public class MenuState implements Screen {
 	private Button multiButton,singleButton;
 	private float alpha = -0.1f;
 
-	SpriteBatch batch;
+	private SpriteBatch batch;
 	private OrthographicCamera cam;
 	private Viewport port;
-	private Sound buttonSound=TopDown.assets.get(Assets.buttonChangeSOUND, Sound.class);
-	private Music menuMusic=TopDown.assets.get(Assets.menuMUSIC,Music.class);
-	BitmapFont font;
-	GameState loadedInstance;
-	GlyphLayout startGlyph, multiGlyph;
-	ParallaxBackground bg;
+	private final Sound buttonSound=TopDown.assets.get(Assets.buttonChangeSOUND, Sound.class);
+	private final Music menuMusic=TopDown.assets.get(Assets.menuMUSIC,Music.class);
+
+	private final GameState loadedInstance;
+
+	private ParallaxBackground bg;
 	
-	NetworkManager connection;
-	boolean clicked = false;
-	float elapsedTime = 0;
+	private NetworkManager connection;
+	private boolean clicked = false;
+	private float elapsedTime = 0;
 	// Thread safe startup...DONE!
 	private boolean init = false;
 	
 	//The only fade effect i know
 	private RayHandler fader;
 	private World world;
-	public MenuState(GameState loadedInstance) {
+	public MenuState(final GameState loadedInstance) {
 		menuMusic.setLooping(true);
 		menuMusic.setVolume(0);
 
@@ -80,7 +80,7 @@ public class MenuState implements Screen {
 		// Stage setup
 		port=new ScreenViewport(cam);
 		stage = new Stage(port, batch);
-		ipField = new TextField("localhost:22222", TopDown.assets.get(Assets.neutSKIN, Skin.class));
+		ipField = new TextField("101.182.234.23:22222", TopDown.assets.get(Assets.neutSKIN, Skin.class));
 		nameField = new TextField("BoxCubed", TopDown.assets.get(Assets.neutSKIN, Skin.class));
 		multiButton=new Button(TopDown.assets.get(Assets.starSKIN, Skin.class));
 		singleButton=new Button(TopDown.assets.get(Assets.starSKIN, Skin.class));
@@ -119,7 +119,7 @@ public class MenuState implements Screen {
 
 	}
 
-	public void update(float delta) {
+	private void update(float delta) {
 		if (!init)
 			init(loadedInstance);
 		if (alpha <0.9f) {
@@ -133,8 +133,8 @@ public class MenuState implements Screen {
 		}
 		stage.act();
 		elapsedTime += delta;
-		if (elapsedTime > 2)
-			return;
+		if (elapsedTime > 2) {
+        }
 		//singleButton.setPosition(singleButton.getX(), 900 - Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight() / 2 - 50, 2));
 		//multiButton.setPosition(multiButton.getX(), 900 - Bounce.easeOut(elapsedTime, 0, Gdx.graphics.getHeight() / 2 + 50, 2));
 
@@ -164,7 +164,7 @@ public class MenuState implements Screen {
 	}
 	
 	
-	private void initButtons(GameState loadedInstance){
+	private void initButtons(final GameState loadedInstance){
 		if(TopDown.debug){
 			multiButton.debug();
 			singleButton.debug();
@@ -179,10 +179,9 @@ public class MenuState implements Screen {
 					connection.name = nameField.getText();
 
 				} else if (connection.state.equals(ConnectionState.CONNECTING)) {
-					return;
-				} else if (connection.state.equals(ConnectionState.CONNECTED)) {
+                } else if (connection.state.equals(ConnectionState.CONNECTED)) {
 						loadedInstance.newPlayer(1);
-					loadedInstance.player.setConnection(connection, 1);
+					loadedInstance.player.setConnection(connection);
 					TopDown.instance.setScreen(loadedInstance);
 				}
 

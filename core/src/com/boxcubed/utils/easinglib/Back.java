@@ -1,6 +1,6 @@
 package com.boxcubed.utils.easinglib;
 
-public class Back {
+class Back {
 	
 	public static float  easeIn(float t,float b , float c, float d) {
 		float s = 1.70158f;

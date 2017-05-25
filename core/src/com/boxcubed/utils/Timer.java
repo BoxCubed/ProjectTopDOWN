@@ -1,8 +1,8 @@
 package com.boxcubed.utils;
 
-public class Timer {
-	public float rate = 0;
-	public float last = 0;
+class Timer {
+	private float rate = 0;
+	private float last = 0;
 	
 	public Timer(float r)
 	{
@@ -45,14 +45,10 @@ public class Timer {
 	
 	public boolean checkNoReboot()
 	{
-		if(last+rate<System.currentTimeMillis())
-		{
-			return true;
-		}
-		return false;
+		return last + rate < System.currentTimeMillis();
 	}
 	
-	public void reboot()
+	private void reboot()
 	{
 		last = System.currentTimeMillis();
 	}

@@ -1,16 +1,5 @@
 package com.boxcubed.node_server;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import me.boxcubed.main.States.GameState;
-
 /**
  * Created by Tej Sidhu on 1/04/2017.
  */
@@ -19,15 +8,15 @@ import me.boxcubed.main.States.GameState;
 // |-------------------------------------------\\
 // ---------------------------------------------------------------------------------------------\\
 public class server {
-	private Socket clientSocket;
-	public String clientID;
+	/*private Socket clientSocket;
+	private String clientID;
 
 	public server() {
 		connectSocket();
 		configureSocketEvents();
 	}
 
-	public void connectSocket() {
+	private void connectSocket() {
 		try {
 			clientSocket = IO.socket("http://localhost:8080");
 			clientSocket.connect();
@@ -37,7 +26,7 @@ public class server {
 		}
 	}
 
-	public void configureSocketEvents() {
+	private void configureSocketEvents() {
 		clientSocket.on(Socket.EVENT_CONNECT, args -> Gdx.app.log("[SocketIO]", "Connection success"))
 				.on("socketID", args -> {
 					JSONObject data = (JSONObject) args[0];
@@ -95,13 +84,13 @@ public class server {
 		// TODO "playerDisconnected" event
 	}
 
-	Vector2 previous_pos = new Vector2();
-	private final float update_interval = 1 / 30f;
-	float timer;
+	private final Vector2 previous_pos = new Vector2();
+    private float timer;
 
 	public void updateServer(float delta) {
 		timer += delta;
-		if (timer >= update_interval && has_moved() && GameState.instance.player != null) {
+        float update_interval = 1 / 30f;
+        if (timer >= update_interval && has_moved() && GameState.instance.player != null) {
 			JSONObject data = new JSONObject();
 			try {
 				data.put("x", GameState.instance.player.getPos(false).x);
@@ -114,12 +103,12 @@ public class server {
 		}
 	}
 
-	public boolean has_moved() {
+	private boolean has_moved() {
 		if (previous_pos.x != GameState.instance.player.getPos(false).x || previous_pos.y != GameState.instance.player.getPos(false).y) {
 			previous_pos.x = GameState.instance.player.getPos(false).x;
 			previous_pos.y = GameState.instance.player.getPos(false).y;
 			return true;
 		}
 		return false;
-	}
+	}*/
 }

@@ -34,27 +34,32 @@ public class DesktopLauncher {
 			config.width = 500;
 			Gdx.graphics.setUndecorated(true);
 		}
-		Thread.setDefaultUncaughtExceptionHandler((thread,ex)->{
-			if(thread.getName().equals("LWJGL Application")){
-				//TODO Error handling
-				Gdx.app.setLogLevel(Application.LOG_ERROR);
-				Gdx.app.log("[PTD]", "PTD has Crashed!");
-				ex.printStackTrace();
-				System.exit(-1);
-			}
-			if(thread.getName().equals("PTD Client")){
-				System.err.println("[PTD]: Connection to server has crashed!");
-				System.err.println("[PTD]: "+ex.getMessage());
-				System.err.println("[PTD]: "+ex.getCause());
-				((NetworkManager)thread).stop=true;
-				try {
-					((NetworkManager)thread).join(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread thread, Throwable ex) {
+
+					if(thread.getName().equals("LWJGL Application")){
+						//TODO Error handling
+						Gdx.app.setLogLevel(Application.LOG_ERROR);
+						Gdx.app.log("[PTD]", "PTD has Crashed!");
+						ex.printStackTrace();
+						System.exit(-1);
+					}
+					if(thread.getName().equals("PTD Client")){
+						System.err.println("[PTD]: Connection to server has crashed!");
+						System.err.println("[PTD]: "+ex.getMessage());
+						System.err.println("[PTD]: "+ex.getCause());
+						((NetworkManager)thread).stop=true;
+						try {
+							((NetworkManager)thread).join(2000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+
+					}
+
 			}
 		});
 	}

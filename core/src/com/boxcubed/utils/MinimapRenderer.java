@@ -33,12 +33,12 @@ import com.badlogic.gdx.utils.Array;
  * @author ryan9
  *
  */
-public class MinimapRenderer {
+class MinimapRenderer {
 
 	/** the immediate mode renderer to output our debug drawings **/
-	private ShapeRenderer renderer;
-	private SpriteBatch batch;
-	public final OrthographicCamera cam;
+	private final ShapeRenderer renderer;
+	private final SpriteBatch batch;
+	private final OrthographicCamera cam;
 
 	/** vertices for polygon rendering **/
 	private final static Vector2[] vertices = new Vector2[1000];
@@ -56,11 +56,8 @@ public class MinimapRenderer {
 	private boolean drawVelocities;
 	private boolean drawContacts;
 
-	public MinimapRenderer () {
-		this(true, true, false, true, false, true);
-	}
-	public MinimapRenderer (boolean drawBodies, boolean drawJoints, boolean drawAABBs, boolean drawInactiveBodies,
-		boolean drawVelocities, boolean drawContacts) {
+
+	public MinimapRenderer() {
 		// next we setup the immediate mode renderer
 		batch=new SpriteBatch();
 		renderer=new ShapeRenderer();
@@ -70,12 +67,12 @@ public class MinimapRenderer {
 		for (int i = 0; i < vertices.length; i++)
 			vertices[i] = new Vector2();
 
-		this.drawBodies = drawBodies;
-		this.drawJoints = drawJoints;
-		this.drawAABBs = drawAABBs;
-		this.drawInactiveBodies = drawInactiveBodies;
-		this.drawVelocities = drawVelocities;
-		this.drawContacts = drawContacts;
+		this.drawBodies = true;
+		this.drawJoints = true;
+		this.drawAABBs = false;
+		this.drawInactiveBodies = true;
+		this.drawVelocities = false;
+		this.drawContacts = true;
 	}
 
 	/** Make sure to scale the matrix with the size of the minimap*/
@@ -86,19 +83,19 @@ public class MinimapRenderer {
 		renderer.setProjectionMatrix(cam.combined);
 		renderBodies(world);
 	}
-	public void renderGraphics(World world,Vector2 center){
+	public void renderGraphics(World world){
 		batch.setProjectionMatrix(cam.combined);
 		
 	}
 
-	public final Color SHAPE_NOT_ACTIVE = new Color(0.5f, 0.5f, 0.3f, 1);
-	public final Color SHAPE_STATIC = new Color(0.5f, 0.9f, 0.5f, 1);
-	public final Color SHAPE_KINEMATIC = new Color(0.5f, 0.5f, 0.9f, 1);
-	public final Color SHAPE_NOT_AWAKE = new Color(0.6f, 0.6f, 0.6f, 1);
-	public final Color SHAPE_AWAKE = new Color(0.9f, 0.7f, 0.7f, 1);
-	public final Color JOINT_COLOR = new Color(0.5f, 0.8f, 0.8f, 1);
-	public final Color AABB_COLOR = new Color(1.0f, 0, 1.0f, 1f);
-	public final Color VELOCITY_COLOR = new Color(1.0f, 0, 0f, 1f);
+	private final Color SHAPE_NOT_ACTIVE = new Color(0.5f, 0.5f, 0.3f, 1);
+	private final Color SHAPE_STATIC = new Color(0.5f, 0.9f, 0.5f, 1);
+	private final Color SHAPE_KINEMATIC = new Color(0.5f, 0.5f, 0.9f, 1);
+	private final Color SHAPE_NOT_AWAKE = new Color(0.6f, 0.6f, 0.6f, 1);
+	private final Color SHAPE_AWAKE = new Color(0.9f, 0.7f, 0.7f, 1);
+	private final Color JOINT_COLOR = new Color(0.5f, 0.8f, 0.8f, 1);
+	private final Color AABB_COLOR = new Color(1.0f, 0, 1.0f, 1f);
+	private final Color VELOCITY_COLOR = new Color(1.0f, 0, 0f, 1f);
 
 	private void renderBodies (World world) {
 		renderer.begin();
@@ -129,7 +126,7 @@ public class MinimapRenderer {
 		renderer.end();
 	}
 
-	protected void renderBody (Body body) {
+	private void renderBody(Body body) {
 		Transform transform = body.getTransform();
 		for (Fixture fixture : body.getFixtureList()) {
 			if (drawBodies) {
@@ -147,13 +144,13 @@ public class MinimapRenderer {
 	}
 
 	private Color getColorByBody (Body body) {
-		if (body.isActive() == false)
+		if (!body.isActive())
 			return SHAPE_NOT_ACTIVE;
 		else if (body.getType() == BodyType.StaticBody)
 			return SHAPE_STATIC;
 		else if (body.getType() == BodyType.KinematicBody)
 			return SHAPE_KINEMATIC;
-		else if (body.isAwake() == false)
+		else if (!body.isAwake())
 			return SHAPE_NOT_AWAKE;
 		else
 			return SHAPE_AWAKE;
@@ -175,7 +172,7 @@ public class MinimapRenderer {
 			vertices[2].set(upper.x, upper.y);
 			vertices[3].set(lower.x, upper.y);
 
-			drawSolidPolygon(vertices, 4, AABB_COLOR, true);
+			drawSolidPolygon(4, AABB_COLOR, true);
 		} else if (fixture.getType() == Type.Polygon) {
 			PolygonShape shape = (PolygonShape)fixture.getShape();
 			int vertexCount = shape.getVertexCount();
@@ -198,11 +195,11 @@ public class MinimapRenderer {
 			vertices[2].set(upper.x, upper.y);
 			vertices[3].set(lower.x, upper.y);
 
-			drawSolidPolygon(vertices, 4, AABB_COLOR, true);
+			drawSolidPolygon(4, AABB_COLOR, true);
 		}
 	}
 
-	private static Vector2 t = new Vector2();
+	private static final Vector2 t = new Vector2();
 	private static Vector2 axis = new Vector2();
 
 	private void drawShape (Fixture fixture, Transform transform, Color color) {
@@ -220,7 +217,7 @@ public class MinimapRenderer {
 			edge.getVertex2(vertices[1]);
 			transform.mul(vertices[0]);
 			transform.mul(vertices[1]);
-			drawSolidPolygon(vertices, 2, color, true);
+			drawSolidPolygon(2, color, true);
 			return;
 		}
 
@@ -231,7 +228,7 @@ public class MinimapRenderer {
 				chain.getVertex(i, vertices[i]);
 				transform.mul(vertices[i]);
 			}
-			drawSolidPolygon(vertices, vertexCount, color, true);
+			drawSolidPolygon(vertexCount, color, true);
 			return;
 		}
 
@@ -242,7 +239,7 @@ public class MinimapRenderer {
 				chain.getVertex(i, vertices[i]);
 				transform.mul(vertices[i]);
 			}
-			drawSolidPolygon(vertices, vertexCount, color, false);
+			drawSolidPolygon(vertexCount, color, false);
 		}
 	}
 
@@ -268,12 +265,12 @@ public class MinimapRenderer {
 		renderer.line(center.x, center.y, 0, center.x + axis.x * radius, center.y + axis.y * radius, 0);
 	}
 
-	private void drawSolidPolygon (Vector2[] vertices, int vertexCount, Color color, boolean closed) {
+	private void drawSolidPolygon(int vertexCount, Color color, boolean closed) {
 		renderer.setColor(color.r, color.g, color.b, color.a);
-		lv.set(vertices[0]);
-		f.set(vertices[0]);
+		lv.set(MinimapRenderer.vertices[0]);
+		f.set(MinimapRenderer.vertices[0]);
 		for (int i = 1; i < vertexCount; i++) {
-			Vector2 v = vertices[i];
+			Vector2 v = MinimapRenderer.vertices[i];
 			renderer.line(lv.x, lv.y, v.x, v.y);
 			lv.set(v);
 		}

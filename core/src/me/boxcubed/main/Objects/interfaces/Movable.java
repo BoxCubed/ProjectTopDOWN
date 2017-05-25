@@ -2,13 +2,13 @@ package me.boxcubed.main.Objects.interfaces;
 
 public interface Movable {
 	//Walking
-    public void goUP();
-    public void goDOWN();
-    public void goLEFT();
-    public void goRIGHT();
+    void goUP();
+    void goDOWN();
+    void goLEFT();
+    void goRIGHT();
     //Running
-    public void runUP();
-    public void runDOWN();
-    public void runLEFT();
-    public void runRIGHT();
+    void runUP();
+    void runDOWN();
+    void runLEFT();
+    void runRIGHT();
 }

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -24,10 +26,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
-import com.boxcubed.utils.CleanInputProcessor;
 import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
 import box2dLight.ConeLight;
@@ -39,49 +44,45 @@ import me.boxcubed.main.Objects.SteeringAI;
 import me.boxcubed.main.Objects.collision.CollisionDetection;
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
-import me.boxcubed.main.Objects.interfaces.EntityType;
 import me.boxcubed.main.Sprites.Pack;
-import me.boxcubed.main.Sprites.Pack.PackType;
 import me.boxcubed.main.Sprites.Player;
-/*import paulscode.sound.SoundSystem;
-import paulscode.sound.SoundSystemConfig;
-import paulscode.sound.SoundSystemException;
-import paulscode.sound.libraries.LibraryJavaSound;*/
 
-public class GameState implements State, CleanInputProcessor {
+
+public class GameState extends State implements InputProcessor {
 	// get rid of that random box that spawns next to the player...DONE i
 	// think...
-	private World gameWORLD;
-	public OrthographicCamera cam;
-	private SpriteBatch batch = new SpriteBatch();
+	private final World gameWORLD;
+	private OrthographicCamera cam;
+	private final SpriteBatch batch = new SpriteBatch();
 	public List<Entity> entities;
-	public List<Entity> dispose;
+	private final List<Entity> dispose;
 	public Player player;
 	public static GameState instance;
-	private ShapeRenderer sr;
+	private final ShapeRenderer sr;
 	public static final int PPM = 20;
-	private PlayerLight playerLight;
-	public Clock clock;
+	private final PlayerLight playerLight;
+	public final Clock clock;
 	// public float mouseX, mouseY;
 	public SteeringAI playerAI;
 	// Support multiple players: DONE!
 
-	TiledMap tiledMap;
-	TiledMapRenderer tiledMapRenderer;
-	Box2DDebugRenderer b2dr;
-	Music ambientMusic;
-	Sound zombieGroan;
-	public Hud hud;
-	Vector2 mouseLoc;
-	Spawner zombieSpawner;
-	BitmapFont font = new BitmapFont();
-	float groanTimer = 0;
+	private final TiledMap tiledMap;
+	private final TiledMapRenderer tiledMapRenderer;
+	private Box2DDebugRenderer b2dr;
+	private final Music ambientMusic;
+	private final Sound zombieGroan;
+	public final Hud hud;
+	private Vector2 mouseLoc;
+	private final Spawner zombieSpawner;
+	private final BitmapFont font = new BitmapFont();
+	private float groanTimer = 0;
 	public boolean noZombie = false;
 	public boolean noTime = false;
-	server server;
-	private HashMap<String, Player> clients = new HashMap<String, Player>();
-	private Assets assets = TopDown.assets;
-	public Animation<TextureRegion> anim;
+	private final server server;
+	private final HashMap<String, Player> clients = new HashMap<String, Player>();
+    public final Animation<TextureRegion> anim;
+    private Touchpad touchpad=null;
+    private Stage stage=null;
 
 	// sound system
 	/*
@@ -92,12 +93,28 @@ public class GameState implements State, CleanInputProcessor {
 		// Instance of the game, for ease of access
 		instance = this;
 		// Camera and Map
-		tiledMap = assets.get(Assets.MainMAP, TiledMap.class);
+        Assets assets = TopDown.assets;
+        tiledMap = assets.get(Assets.MainMAP, TiledMap.class);
 
 		// World Init
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
 		clock = new Clock(gameWORLD);
+
+        //android
+        if(Gdx.app.getType().equals(Application.ApplicationType.Android)){
+            cam=new OrthographicCamera(800,400);
+            touchpad=new Touchpad(10f,TopDown.assets.get(Assets.neutSKIN,Skin.class));
+            stage=new Stage(new StretchViewport(800,400,cam),batch);
+            touchpad.setSize(100,100);
+            touchpad.setPosition(20,20);
+            stage.addActor(touchpad);
+            BoxoUtil.addInputProcessor(stage);
+
+
+
+
+        }
 
 		World.setVelocityThreshold(20f);
 		// HUD initializing
@@ -125,14 +142,14 @@ public class GameState implements State, CleanInputProcessor {
 		// Adding player
 		if (TopDown.debug)
 			newPlayer(0);
-		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20, clock);
+		zombieSpawner = new Spawner(new Vector2(100, 100), clock);
 		// light
 		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 100, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes
 		MapBodyBuilder.buildShapes(tiledMap, PPM, gameWORLD);
 		// packs
-		entities.add(new Pack(PackType.HEALTH, 250 / PPM, 250 / PPM, gameWORLD));
-		anim = GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("img/health.gif").read());
+		entities.add(new Pack(250 / PPM, 250 / PPM, gameWORLD));
+		anim = GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP,Gdx.files.internal("img/health.gif").read());
 		// Server stuff
 		server = new server();
 		/*
@@ -173,13 +190,13 @@ public class GameState implements State, CleanInputProcessor {
 		player.update(delta);
 		playerAI.update(delta);
 
-		clients.forEach((id, player) -> player.update(delta));
+		//clients.forEach((id, player) -> player.update(delta));
 		if (player.state != 0)
 			player.connection.updatePlayers(delta);
 
 		// Updating Light TODO dont make this only for player aka make a
 		// Flashlight class and and handling in gamestate
-		playerLight.updateLightPos(player.getPos(false), player.rotation, delta, Gdx.input.isKeyPressed(Keys.L), true);
+		playerLight.updateLightPos(player.getPos(false), player.rotation, delta, Gdx.input.isKeyPressed(Keys.L));
 		clock.updateLight(delta);
 
 		// Update Zombie Spawns
@@ -188,13 +205,14 @@ public class GameState implements State, CleanInputProcessor {
 		}
 
 		// Checking the entity list for disposables and updating
-		entities.forEach(entity -> {
-			if (entity.isDisposable()) {
-				entity.dispose();
-				dispose.add(entity);
-			} else
-				entity.update(delta);
-		});
+        for(Entity entity:entities){
+            if (entity.isDisposable()) {
+                entity.dispose();
+                dispose.add(entity);
+            } else
+                entity.update(delta);
+        }
+
 		entities.removeAll(dispose);
 		dispose.clear();
 
@@ -206,6 +224,9 @@ public class GameState implements State, CleanInputProcessor {
 		if (groanTimer > 800) {
 			zombieGroan.stop();
 		}
+        if(Gdx.app.getType().equals(Application.ApplicationType.Android))
+            handleAndroid();
+
 
 		BoxoUtil.lerpToPos(new Vector2(
 				MathUtils.clamp(player.getPos(true).x + player.crossH.offX * 30, cam.viewportWidth / 2,
@@ -215,16 +236,18 @@ public class GameState implements State, CleanInputProcessor {
 				cam);
 		BoxoUtil.updateShake(Gdx.graphics.getDeltaTime(), cam);
 		cam.update();
-		server.updateServer(delta);
+		//server.updateServer(delta);
 	}
-
+    private void handleAndroid(){
+        stage.act();
+    }
 	@Override
 	public void handleInput() {
 
 		Input input = Gdx.input;
 
 		if (input.isKeyJustPressed(Input.Keys.Z)) {
-			GameState.instance.entities.forEach(entity -> entity.dispose());
+			for(Entity e:entities)e.dispose();
 			GameState.instance.entities.clear();
 			noZombie = !noZombie;
 		}
@@ -264,7 +287,6 @@ public class GameState implements State, CleanInputProcessor {
 				}
 			}
 			TopDown.instance.setScreen(new MenuState(this));
-			return;
 		}
 	}
 
@@ -276,10 +298,11 @@ public class GameState implements State, CleanInputProcessor {
 
 		// Entity render
 		batch.begin();
-		entities.forEach(entity -> {
-			if (!entity.isDisposable())
-				entity.render(batch);
-		});
+
+        for(Entity entity:entities){
+            if (!entity.isDisposable())
+                entity.render(batch);
+        }
 		batch.end();
 		// Light render
 		clock.renderLIGHT(cam);
@@ -291,7 +314,10 @@ public class GameState implements State, CleanInputProcessor {
 		sr.setProjectionMatrix(cam.combined);
 		sr.setAutoShapeType(true);
 		sr.begin();
-		entities.forEach(entity -> entity.renderShapes(sr));
+        for(Entity entity:entities){
+            entity.renderShapes(sr);
+        }
+
 		player.renderShapes(sr);
 		hud.render(sr);
 		sr.end();
@@ -309,22 +335,36 @@ public class GameState implements State, CleanInputProcessor {
 		hud.render(batch);
 
 		batch.end();
+        if(stage!=null)
+            stage.draw();
 
 	}
+
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 
-		screenY = Gdx.graphics.getHeight() - screenY;
+
 		Vector3 mouseCoords = getMouseCords();
 		mouseLoc = new Vector2(mouseCoords.x, mouseCoords.y);
 
 		Vector2 direction = mouseLoc.sub(player.getPos(true));
-		float mouseAngle = direction.angle();
-		player.rotation = mouseAngle;
+		player.rotation = direction.angle();
 
 		return true;
 	}
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        Vector3 mouseCoords = getMouseCords();
+        mouseLoc = new Vector2(mouseCoords.x, mouseCoords.y);
+
+        Vector2 direction = mouseLoc.sub(player.getPos(true));
+        player.rotation = direction.angle();
+
+        return true;
+    }
+
+
 
 	public Vector3 getMouseCords() {
 		return cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -355,8 +395,10 @@ public class GameState implements State, CleanInputProcessor {
 
 	@Override
 	public void dispose() {
-		entities.forEach(entity -> entity.dispose());
-		playerLight.dispose();
+        for (Entity entity : entities) {
+            entity.dispose();
+        }
+        playerLight.dispose();
 		player.dispose();
 		player = null;
 		entities.clear();
@@ -397,15 +439,61 @@ public class GameState implements State, CleanInputProcessor {
 	@Override
 	public void hide() {
 		BoxoUtil.remInputProcessor(this);
+        if(stage!=null)
+            BoxoUtil.remInputProcessor(stage);
 		ambientMusic.stop();
 	}
 
 	@Override
 	public void show() {
-		cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		cam = new OrthographicCamera(800, 400);
 		cam.update();
 		BoxoUtil.addInputProcessor(this);
 		ambientMusic.play();
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+
+
 
 }

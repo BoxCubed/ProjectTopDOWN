@@ -16,14 +16,14 @@ import me.boxcubed.main.Objects.interfaces.Entity;
  */
 public class Crosshair extends Sprite{
 	//REMEMBER USE COS
-	float dist=5;
+	private float dist=5;
 	public float offX,offY;
-	Vector2 pos;
-	Entity player;
+	private final Vector2 pos;
+	private final Entity player;
 
-	public Crosshair(float dist,Entity player) {
+	public Crosshair(Entity player) {
 		super( TopDown.assets.get(Assets.crossHairIMAGE, Texture.class));
-		this.dist=dist;
+		this.dist= (float) 80;
 		this.player=player;
 		pos=new Vector2();
 		//Gdx.input.setCursorCatched(true);+

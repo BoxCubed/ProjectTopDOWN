@@ -21,22 +21,22 @@ public class Spawner {
 	 * Map limits: y: 40-345
 	 * x: 22-680
 	 */
-	Random random=new Random();
-	EntityType entity;
-	Vector2 pos;
+	private final Random random=new Random();
+	private final EntityType entity;
+	private final Vector2 pos;
 	private float elapsedTime=0;
-	private float delay;
-	private int limit;
-	private Clock clock;
+	private final float delay;
+	private final int limit;
+	private final Clock clock;
 	/**
 	 * The total amount of entities this spawner spawned
 	 */
-	public int amount;
-	public Spawner(EntityType entity, Vector2 pos,float delay,int limit,Clock clock){
+	private int amount;
+	public Spawner(Vector2 pos, Clock clock){
 		this.pos=pos;
-		this.entity=entity;
-		this.delay=delay;
-		this.limit=limit;
+		this.entity= EntityType.ZOMBIE;
+		this.delay= (float) 100;
+		this.limit= 20;
 		this.clock=clock;
 	}
 	/**

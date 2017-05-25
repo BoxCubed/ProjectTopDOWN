@@ -27,7 +27,7 @@ import me.boxcubed.main.States.GameState;
            /         /
                     /
  */
-public class BulletContactListener implements ContactListener {
+class BulletContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         Fixture fa = contact.getFixtureA();

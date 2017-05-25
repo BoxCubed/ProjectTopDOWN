@@ -20,29 +20,48 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.boxcubed.utils.AnimationLoader.AnimationPrefs;
 
 public class Assets extends com.badlogic.gdx.assets.AssetManager {
-	public static final String nineMMGunSOUND = "sounds/9_mm_gunshot.mp3", gunSOUND = "sounds/gunshot.mp3",
-			ZAttackSOUND = "sounds/zombie_attack.mp3", ZGroanSOUND = "sounds/zombie_groan.wav",
-			ambientMUSIC = "sounds/ambient_music.mp3", ZScreamsSOUND = "sounds/zombie_screams.mp3",buttonChangeSOUND="sounds/button-choose.wav",
-			menuMUSIC="sounds/Drafty-Places.mp3",
+	private static final String nineMMGunSOUND = "sounds/9_mm_gunshot.mp3";
+	public static final String gunSOUND = "sounds/gunshot.mp3";
+	public static final String ZAttackSOUND = "sounds/zombie_attack.mp3";
+	private static final String ZGroanSOUND = "sounds/zombie_groan.ogg";
+	public static final String ambientMUSIC = "sounds/ambient_music.mp3";
+	public static final String ZScreamsSOUND = "sounds/zombie_screams.mp3";
+	public static final String buttonChangeSOUND="sounds/button-choose.ogg";
+	public static final String menuMUSIC="sounds/Drafty-Places.mp3";
 
-			MainMAP = "maps/map2.tmx",
+	public static final String MainMAP = "maps/map2.tmx";
 
-			scrollMenuIMAGE = "img/menu.jpg", bulletIMAGE = "img/bullet.png", crossHairIMAGE = "img/crosshair.png",
-			logoIMAGE = "img/logo.png", healthIMAGE = "img/health.png", mflashIMAGE = "img/muzzle_flash.png",
-			staminaIMAGE = "img/stamina.png", particleIMAGE = "img/particle.png", playerIMAGE = "img/player.png",
-			zombieIMAGE = "img/skeleton-idle_0.png", playerRIFLE = "img/survivor-idle_rifle.png",
-			inventoryAK47 = "img/invbar.png", inventoryPISTOL = "img/invbarpistol.png",ak47ActiveIMAGE="img/invbar_active.png",
-			pistolActiveIMAGE="img/invbarpistol_active.png",
-			
-			playerATLAS = "spritesheets/playersheet.atlas", legATLAS = "spritesheets/leganim.atlas",
-			zombieAttackATLAS = "spritesheets/zombieanim.atlas", zombieWalkATLAS = "spritesheets/zombie_walk.atlas",
-			startATLAS = "button/start.atlas", rifleWalkATLAS = "spritesheets/rifle_walk.atlas",
+	public static final String scrollMenuIMAGE = "img/menu.jpg";
+	public static final String bulletIMAGE = "img/bullet.png";
+	public static final String crossHairIMAGE = "img/crosshair.png";
+	public static final String logoIMAGE = "img/logo.png";
+	public static final String healthIMAGE = "img/health.png";
+	public static final String mflashIMAGE = "img/muzzle_flash.png";
+	public static final String staminaIMAGE = "img/stamina.png";
+	private static final String particleIMAGE = "img/particle.png";
+	public static final String playerIMAGE = "img/player.png";
+	public static final String zombieIMAGE = "img/skeleton-idle_0.png";
+	private static final String playerRIFLE = "img/survivor-idle_rifle.png";
+	public static final String inventoryAK47 = "img/invbar.png";
+	public static final String inventoryPISTOL = "img/invbarpistol.png";
+	public static final String ak47ActiveIMAGE="img/invbar_active.png";
+	public static final String pistolActiveIMAGE="img/invbarpistol_active.png";
 
-			menuFONT = "fonts/menuFont.ttf",
+	public static final String playerATLAS = "spritesheets/playersheet.atlas";
+	public static final String legATLAS = "spritesheets/leganim.atlas";
+	public static final String zombieAttackATLAS = "spritesheets/zombieanim.atlas";
+	public static final String zombieWalkATLAS = "spritesheets/zombie_walk.atlas";
+	private static final String startATLAS = "button/start.atlas";
+	public static final String rifleWalkATLAS = "spritesheets/rifle_walk.atlas";
 
-			visSKIN = "button/skins/visUI/uiskin.json",starSKIN="button/skins/starSoldier/star-soldier-ui.json",neutSKIN="button/skins/neutralizer/neutralizer-ui.json",
+	private static final String menuFONT = "fonts/menuFont.ttf";
 
-			flameEFFECT = "maps/effects/flame.p", bloodEFFECT = "maps/effects/blood.p"
+	private static final String visSKIN = "button/skins/visUI/uiskin.json";
+	public static final String starSKIN="button/skins/starSoldier/star-soldier-ui.json";
+	public static final String neutSKIN="button/skins/neutralizer/neutralizer-ui.json";
+
+	public static final String flameEFFECT = "maps/effects/flame.p";
+	public static final String bloodEFFECT = "maps/effects/blood.p"
 
 	;
 

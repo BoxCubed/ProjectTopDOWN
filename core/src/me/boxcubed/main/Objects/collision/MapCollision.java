@@ -16,13 +16,13 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author ryantheautism
  *
  */
-public class MapCollision {
-	TiledMap tm;
-    World world;
-    FixtureDef fdef;
-    PolygonShape shape;
-    Body body;
-    BodyDef bdef;
+class MapCollision {
+	private final TiledMap tm;
+    private final World world;
+    private FixtureDef fdef;
+    private PolygonShape shape;
+    private Body body;
+    private BodyDef bdef;
 
     public MapCollision(TiledMap tm, World world){
         this.tm=tm;
@@ -30,7 +30,7 @@ public class MapCollision {
         init();
     }
     
-    public void init(){
+    private void init(){
     	//learn to comment next time
         bdef = new BodyDef();
         shape = new PolygonShape();
@@ -47,8 +47,8 @@ public class MapCollision {
 
             fdef.shape=shape;
 
-            body.createFixture(fdef).setUserData("WALL");;
-            
+            body.createFixture(fdef).setUserData("WALL");
+
         }
         for(MapObject object : tm.getLayers().get(1).getObjects().getByType(PolygonMapObject.class)){
             Polygon rect = ((PolygonMapObject)object).getPolygon();
@@ -62,8 +62,8 @@ public class MapCollision {
 
             fdef.shape=shape;
 
-            body.createFixture(fdef).setUserData("WALL");;
-            
+            body.createFixture(fdef).setUserData("WALL");
+
         }
         shape.dispose();
         

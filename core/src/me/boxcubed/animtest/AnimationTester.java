@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class AnimationTester extends ApplicationAdapter {
-	SpriteBatch batch;
-	Sprite sprite;
-	Animation<TextureRegion> anim;
-	TextureAtlas atlas;
-	float elapsedTime = 0f;
+class AnimationTester extends ApplicationAdapter {
+	private SpriteBatch batch;
+	private Sprite sprite;
+	private Animation<TextureRegion> anim;
+	private TextureAtlas atlas;
+	private float elapsedTime = 0f;
 	
 	public void create(){
 		sprite = new Sprite();

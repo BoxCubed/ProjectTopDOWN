@@ -12,8 +12,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.util.Map;
+
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Objects.interfaces.EntityType;
+import me.boxcubed.main.States.GameState;
 
 public class NetworkBullet implements Entity{
 	
@@ -79,11 +82,13 @@ public class NetworkBullet implements Entity{
 
 					else if(fixture.getUserData() == "PLAYER"){
 						// better disposal...DONE!
-						server.players.forEach((id,player)->{
+
+						for(Map.Entry<Integer,KyroPlayer> entry:server.players.entrySet()){
+							KyroPlayer player=entry.getValue();
 							if(player.player.getFixture().equals(fixture)){
 								player.player.setHealth(player.player.getHealth()-10);
 							}
-						});
+						}
 						setDisposable(true);
 						return 0;
 					}
@@ -113,12 +118,16 @@ public class NetworkBullet implements Entity{
 			world.rayCast(callback, start,
 						bulletBody.getPosition());
 		 }
-		 
-		
 
-		
-	
-		@Override
+
+	@Override
+	public Vector2 getPos(boolean asPixels) {
+		if(asPixels)
+		return bulletBody.getPosition().cpy().scl(GameState.PPM);
+		return bulletBody.getPosition();
+	}
+
+	@Override
 		public Body getBody() {
 			return bulletBody;
 		}

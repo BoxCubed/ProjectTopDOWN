@@ -24,20 +24,23 @@ import me.boxcubed.main.States.GameState;
 
 public class Bullet extends Sprite implements Entity{
 	
-	RayCastCallback callback;
-	TextureRegion muzzleFlash;
+	private final RayCastCallback callback;
+	private final TextureRegion muzzleFlash;
 	
-	float rotation;
-	public float SPEED = 0.5f;
+	private final float rotation;
+	private final float SPEED = 0.5f;
 	
-	float x,y,offX,offY;
-	Vector2 firePos;
-	Player player;
-	PointLight flash;
-	float flashDist=0.8f;
-	float elapsedTime=0;
+	private float x;
+	private float y;
+	private final float offX;
+	private final float offY;
+	private final Vector2 firePos;
+	private final Player player;
+	private final PointLight flash;
+	private float flashDist=0.8f;
+	private float elapsedTime=0;
 	
-	public Bullet(World world, float x, float y,float offX,float offY, float rotation,GunType type,Player player){
+	public Bullet(World world, float x, float y,float offX,float offY, float rotation,final GunType type,Player player){
 		super(TopDown.assets.get(Assets.bulletIMAGE, Texture.class));
 		this.x=x;
 		this.y=y;
@@ -66,15 +69,16 @@ public class Bullet extends Sprite implements Entity{
 				}
 				
 				else if(fixture.getUserData() == "ZOMBIE"){
-					GameState.instance.entities.forEach(entity -> {
+					for(Entity entity:GameState.instance.entities){
 						if (entity.getFixture()!=null&&entity.getFixture().equals(fixture)) {
 							LivingEntity lentity=(LivingEntity)entity;
 							if(type.equals(GunType.AK47)){
-							lentity.setHealth(lentity.getHealth()-lentity.getMaxHealth()/10);
-							lentity.playAnimation("attacked");
+								lentity.setHealth(lentity.getHealth()-lentity.getMaxHealth()/10);
+								lentity.playAnimation("attacked");
 							}else lentity.setDisposable(true);
 						}
-					});
+					}
+
 					setDisposable(true);
 					return 0;
 				}
@@ -106,15 +110,15 @@ public class Bullet extends Sprite implements Entity{
 	 }
 	 public void renderShapes(ShapeRenderer sr) {
 		 if(TopDown.debug){
-			 sr.setColor(toRGB(255,200,14));
+			 sr.setColor(toRGB());
 			 sr.line(getPos(true), player.getPos(true));
 			 }
 	
 	 }
-	 public Color toRGB(int r, int g, int b) {
-		  float RED = r / 255.0f;
-		  float GREEN = g / 255.0f;
-		  float BLUE = b / 255.0f;
+	 private Color toRGB() {
+		  float RED = 255 / 255.0f;
+		  float GREEN = 200 / 255.0f;
+		  float BLUE = 14 / 255.0f;
 		  return new Color(RED, GREEN, BLUE, 1);
 		 }
 	 @Override
@@ -182,7 +186,7 @@ public class Bullet extends Sprite implements Entity{
 	public EntityType getID() {
 		return EntityType.BULLET;
 	}
-    boolean disposable=false;
+    private boolean disposable=false;
 	@Override
 	public boolean isDisposable() {
 		return disposable;

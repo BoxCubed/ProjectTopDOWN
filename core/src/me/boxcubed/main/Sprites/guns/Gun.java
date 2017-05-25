@@ -12,15 +12,15 @@ public interface Gun {
  * @return true if bullet should fire, false otherwise
  * 
  */
-public boolean willFire(Input input, float delta,Player player);
+boolean willFire(Input input, float delta, Player player);
 
 /**
  * Fire this gun. Calls every update as long as {@link Gun#willFire(Input)} is true
  */
-public void fire(World world,Player player);
+void fire(World world, Player player);
 /**
  * The code to run in order to tell server bullet was fired.<br>
  * Will be deprecated soon since we are moving to anti cheat method of server client communication
  */
-public void netFire(NetworkManager net,World world, Player player);
+void netFire(NetworkManager net, World world, Player player);
 }
