@@ -45,7 +45,7 @@ task dist(type: Jar) {
 launch4j {
   mainClassName = project.mainClassName
   jar = "../libs/desktop-1.0.jar"
-  icon="logo.ico"
+  icon="../../logo.ico"
 }
 
 dist.dependsOn classes

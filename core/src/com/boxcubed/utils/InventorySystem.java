@@ -40,7 +40,7 @@ public class InventorySystem {
 		inventory[index]=item;
 		inventoryItems.put(index, item);
 		currentInventoryItems++;
-		System.out.println(item.getItemName()+ " has been added to the inventory");
+		//System.out.println(item.getItemName()+ " has been added to the inventory");
 		}else throw new IllegalArgumentException("Given index is larger than inventory size!");
 		
 	}

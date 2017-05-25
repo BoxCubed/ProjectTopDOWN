@@ -11,6 +11,7 @@ import com.boxcubed.net.NetworkManager;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.InventoryItem;
 
+import box2dLight.ConeLight;
 import box2dLight.DirectionalLight;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.Renderable;
@@ -18,11 +19,11 @@ import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
 
 public class LaserGun implements Gun, InventoryItem,Renderable,Disposable {
-	DirectionalLight light;
+	ConeLight light;
 	Texture ak47img = TopDown.assets.get(Assets.inventoryAK47, Texture.class);
 	Texture akActive = TopDown.assets.get(Assets.ak47ActiveIMAGE,Texture.class);
 	public LaserGun() {
-		light=new DirectionalLight(GameState.instance.clock.rayHandler, 100, Color.RED, -90);
+		light=new ConeLight(GameState.instance.clock.rayHandler,100,Color.RED,1000f,0f,0f,0f,10f);
 		light.setActive(false);
 		
 	}
@@ -56,7 +57,7 @@ public class LaserGun implements Gun, InventoryItem,Renderable,Disposable {
 	@Override
 	public void fire(World world, Player player) {
 		
-		light.setPosition(1, 2);
+		light.setPosition(player.getPos(false).x, player.getPos(false).y);
 		
 		
 
