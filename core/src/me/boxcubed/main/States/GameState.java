@@ -240,7 +240,7 @@ public class GameState extends State implements InputProcessor {
 	}
     private void handleAndroid(){
         stage.act();
-        
+
     }
 	@Override
 	public void handleInput() {
