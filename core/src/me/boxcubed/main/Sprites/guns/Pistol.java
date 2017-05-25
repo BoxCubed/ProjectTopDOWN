@@ -45,7 +45,7 @@ public class Pistol implements Gun, InventoryItem {
 	@Override
 	public String getItemName() {
 		// TODO Auto-generated method stub
-		return "pistol";
+		return "Pistol";
 	}
 
 	@Override

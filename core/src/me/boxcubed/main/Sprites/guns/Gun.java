@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.net.NetworkManager;
 
-import me.boxcubed.main.Objects.interfaces.Renderable;
 import me.boxcubed.main.Sprites.Player;
 
 public interface Gun {
