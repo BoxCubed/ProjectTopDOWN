@@ -92,7 +92,7 @@ public class GameState implements State, CleanInputProcessor {
 		// Instance of the game, for ease of access
 		instance = this;
 		// Camera and Map
-		tiledMap = assets.get(Assets.MainMAP, TiledMap.class);
+		tiledMap = assets.get(Assets.Main_MAP, TiledMap.class);
 
 		// World Init
 		gameWORLD = new World(new Vector2(0, 0), true);
@@ -117,11 +117,11 @@ public class GameState implements State, CleanInputProcessor {
 		dispose = new ArrayList<Entity>();
 
 		// sound stuff TODO get paulscode 3d sound library
-		ambientMusic = assets.get(Assets.ambientMUSIC, Music.class);
+		ambientMusic = assets.get(Assets.ambient_MUSIC, Music.class);
 		ambientMusic.setLooping(true);
 		ambientMusic.setVolume(0.6f);
 		
-		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
+		zombieGroan = assets.get(Assets.ZScreams_SOUND, Sound.class);
 		// Adding player
 		if (TopDown.debug)
 			newPlayer(0);

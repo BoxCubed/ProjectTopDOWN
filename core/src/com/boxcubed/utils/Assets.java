@@ -1,7 +1,7 @@
 package com.boxcubed.utils;
 
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.loaders.ParticleEffectLoader.ParticleEffectParameter;
+import java.lang.reflect.Field;
+
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -20,29 +20,30 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.boxcubed.utils.AnimationLoader.AnimationPrefs;
 
 public class Assets extends com.badlogic.gdx.assets.AssetManager {
-	public static final String nineMMGunSOUND = "sounds/9_mm_gunshot.mp3", gunSOUND = "sounds/gunshot.mp3",
-			ZAttackSOUND = "sounds/zombie_attack.mp3", ZGroanSOUND = "sounds/zombie_groan.wav",
-			ambientMUSIC = "sounds/ambient_music.mp3", ZScreamsSOUND = "sounds/zombie_screams.mp3",buttonChangeSOUND="sounds/button-choose.wav",
-			menuMUSIC="sounds/Drafty-Places.mp3",
+	//TODO Move to a txt file
+	public static final String nineMMGun_SOUND = "sounds/9_mm_gunshot.mp3", gun_SOUND = "sounds/gunshot.mp3",
+			ZAttack_SOUND = "sounds/zombie_attack.mp3", ZGroan_SOUND = "sounds/zombie_groan.wav",
+			ambient_MUSIC = "sounds/ambient_music.mp3", ZScreams_SOUND = "sounds/zombie_screams.mp3",buttonChange_SOUND="sounds/button-choose.wav",
+			menu_MUSIC="sounds/Drafty-Places.mp3",
 
-			MainMAP = "maps/map2.tmx",
+			Main_MAP = "maps/map2.tmx",
 
-			scrollMenuIMAGE = "img/menu.jpg", bulletIMAGE = "img/bullet.png", crossHairIMAGE = "img/crosshair.png",
-			logoIMAGE = "img/logo.png", healthIMAGE = "img/health.png", mflashIMAGE = "img/muzzle_flash.png",
-			staminaIMAGE = "img/stamina.png", particleIMAGE = "img/particle.png", playerIMAGE = "img/player.png",
-			zombieIMAGE = "img/skeleton-idle_0.png", playerRIFLE = "img/survivor-idle_rifle.png",
-			inventoryAK47 = "img/invbar.png", inventoryPISTOL = "img/invbarpistol.png",ak47ActiveIMAGE="img/invbar_active.png",
-			pistolActiveIMAGE="img/invbarpistol_active.png",
+			scrollMenu_IMAGE = "img/menu.jpg", bullet_IMAGE = "img/bullet.png", crossHair_IMAGE = "img/crosshair.png",
+			logo_IMAGE = "img/logo.png", health_IMAGE = "img/health.png", mflash_IMAGE = "img/muzzle_flash.png",
+			stamina_IMAGE = "img/stamina.png", particle_IMAGE = "img/particle.png", player_IMAGE = "img/player.png",
+			zombie_IMAGE = "img/skeleton-idle_0.png", playerRifle_IMAGE = "img/survivor-idle_rifle.png",
+			inventoryAK47_IMAGE = "img/invbar.png", inventoryPistol_IMAGE = "img/invbarpistol.png",ak47Active_IMAGE="img/invbar_active.png",
+			pistolActive_IMAGE="img/invbarpistol_active.png",
 			
-			playerATLAS = "spritesheets/playersheet.atlas", legATLAS = "spritesheets/leganim.atlas",
-			zombieAttackATLAS = "spritesheets/zombieanim.atlas", zombieWalkATLAS = "spritesheets/zombie_walk.atlas",
-			startATLAS = "button/start.atlas", rifleWalkATLAS = "spritesheets/rifle_walk.atlas",
+			player_ATLAS = "spritesheets/playersheet.atlas", leg_ATLAS = "spritesheets/leganim.atlas",
+			zombieAttack_ATLAS = "spritesheets/zombieanim.atlas", zombieWalk_ATLAS_30 = "spritesheets/zombie_walk.atlas",
+			start_ATLAS = "button/start.atlas", rifleWalk_ATLAS = "spritesheets/rifle_walk.atlas",
 
-			menuFONT = "fonts/menuFont.ttf",
+			menu_FONT = "fonts/menuFont.ttf",
 
-			visSKIN = "button/skins/visUI/uiskin.json",starSKIN="button/skins/starSoldier/star-soldier-ui.json",neutSKIN="button/skins/neutralizer/neutralizer-ui.json",
+			vis_SKIN = "button/skins/visUI/uiskin.json",star_SKIN="button/skins/starSoldier/star-soldier-ui.json",neut_SKIN="button/skins/neutralizer/neutralizer-ui.json",
 
-			flameEFFECT = "maps/effects/flame.p", bloodEFFECT = "maps/effects/blood.p"
+			flame_EFFECT = "maps/effects/flame.p", blood_EFFECT = "maps/effects/blood.p"
 
 	;
 
@@ -53,99 +54,74 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
 		setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(getFileHandleResolver()));
 
 		setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(new InternalFileHandleResolver()));
-
-		loadImages();
-		loadFonts();
-		loadMaps();
-		loadAtlases();
-		loadEffects();
-		loadSkins();
-		loadSounds();
-		loadAnimations();
-
+		final Field[] fieldsArray=Assets.class.getFields();	
+		loadAll(fieldsArray);
 	}
+	
 
-	private void loadSkins() {
-		load(visSKIN, Skin.class);
-		load(neutSKIN, Skin.class);
-		load(starSKIN, Skin.class);
+	
 
+	
+	
+	private void loadAll(Field... fields){
+		load(logo_IMAGE,Texture.class);
+
+		for(Field field:fields){
+			String name=field.getName();
+			if(name.contains("_")&&!name.equals("logo_IMAGE")){
+				
+				String load="";
+				String[] array=name.split("_");
+				String type=array[1];
+				try {
+					load = (String)field.get(null);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				switch(type){
+				case "IMAGE":
+					load(load,Texture.class);
+					break;
+				case "SOUND":
+					load(load, Sound.class);
+					break;
+				case "ATLAS":
+					load(load, TextureAtlas.class);
+					if(array.length==2)
+						load(load+":anim", Animation.class);
+					else{
+					AnimationPrefs prefs = new AnimationPrefs();
+					prefs.duration = 1f / Float.parseFloat(array[2]);
+					load(load+":anim", Animation.class,prefs);
+					}
+					break;
+				case "MUSIC":
+					load(load, Music.class);
+					break;
+				case "MAP":
+					load(load,TiledMap.class);
+					break;
+				case "SKIN":
+					load(load, Skin.class);
+					break;
+				case "FONT":
+					FreeTypeFontLoaderParameter menuFont = new FreeTypeFontLoaderParameter();
+					menuFont.fontFileName = load;
+
+					menuFont.fontParameters.size = 50;
+					load(load,BitmapFont.class,menuFont);
+					break;
+				case "EFFECT":
+					load(load,ParticleEffect.class);
+					break;
+					
+
+				}
+			}
+		}
 	}
-
-	private void loadEffects() {
-		ParticleEffectParameter param = new ParticleEffectParameter();
-		// param.imagesDir=Gdx.files.internal("maps/effects");
-		load(flameEFFECT, ParticleEffect.class, param);
-		load(bloodEFFECT, ParticleEffect.class, param);
-
-	}
-
-	private void loadFonts() {
-		FreeTypeFontLoaderParameter menuFont = new FreeTypeFontLoaderParameter();
-		menuFont.fontFileName = menuFONT;
-
-		menuFont.fontParameters.size = 50;
-
-		load(menuFONT, BitmapFont.class, menuFont);
-
-	}
- 
-	private void loadMaps() {
-		load("maps/map2.tmx", TiledMap.class);
-		
-	}
-
-	private void loadSounds() {
-		load(nineMMGunSOUND, Sound.class);
-		load(gunSOUND, Sound.class);
-		load(ZAttackSOUND, Sound.class);
-		load(ZGroanSOUND, Sound.class);
-		load(ambientMUSIC, Music.class);
-		load(menuMUSIC,Music.class);
-		load(ZScreamsSOUND, Sound.class);
-		load(buttonChangeSOUND, Sound.class);
-
-	}
-
-	private void loadImages() {
-		load(logoIMAGE, Texture.class);
-		load(scrollMenuIMAGE, Texture.class);
-		load(bulletIMAGE, Texture.class);
-		load(crossHairIMAGE, Texture.class);
-		load(healthIMAGE, Texture.class);
-		load(mflashIMAGE, Texture.class);
-		load(particleIMAGE, Texture.class);
-		load(playerIMAGE, Texture.class);
-		load(zombieIMAGE, Texture.class);
-		load(staminaIMAGE, Texture.class);
-		load(playerRIFLE, Texture.class);
-		load(inventoryAK47, Texture.class);
-		load(inventoryPISTOL, Texture.class);
-		load(ak47ActiveIMAGE, Texture.class);
-		load(pistolActiveIMAGE, Texture.class);
-	}
-
-	private void loadAtlases() {
-		load(playerATLAS, TextureAtlas.class);
-		load(zombieAttackATLAS, TextureAtlas.class);
-		load(legATLAS, TextureAtlas.class);
-		load(zombieWalkATLAS, TextureAtlas.class);
-		load(startATLAS, TextureAtlas.class);
-		load(rifleWalkATLAS, TextureAtlas.class);
-	}
-
-	@SuppressWarnings("rawtypes")
-	private void loadAnimations() {
-		load(new AssetDescriptor<Animation>(playerATLAS + ":anim", Animation.class));
-
-		load(new AssetDescriptor<Animation>(legATLAS + ":anim", Animation.class));
-
-		load(new AssetDescriptor<Animation>(zombieAttackATLAS + ":anim", Animation.class));
-		AnimationPrefs prefs = new AnimationPrefs();
-		prefs.duration = 1 / 30f;
-		load(new AssetDescriptor<Animation>(zombieWalkATLAS + ":anim", Animation.class, prefs));
-		load(new AssetDescriptor<Animation>(rifleWalkATLAS + ":anim", Animation.class));
-
-	}
+	
+	
 
 }

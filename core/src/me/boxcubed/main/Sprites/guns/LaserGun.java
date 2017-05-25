@@ -12,7 +12,6 @@ import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.InventoryItem;
 
 import box2dLight.ConeLight;
-import box2dLight.DirectionalLight;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.Renderable;
 import me.boxcubed.main.Sprites.Player;
@@ -20,8 +19,8 @@ import me.boxcubed.main.States.GameState;
 
 public class LaserGun implements Gun, InventoryItem,Renderable,Disposable {
 	ConeLight light;
-	Texture ak47img = TopDown.assets.get(Assets.inventoryAK47, Texture.class);
-	Texture akActive = TopDown.assets.get(Assets.ak47ActiveIMAGE,Texture.class);
+	Texture ak47img = TopDown.assets.get(Assets.inventoryAK47_IMAGE, Texture.class);
+	Texture akActive = TopDown.assets.get(Assets.ak47Active_IMAGE,Texture.class);
 	public LaserGun() {
 		light=new ConeLight(GameState.instance.clock.rayHandler,100,Color.RED,1000f,0f,0f,0f,10f);
 		light.setActive(false);

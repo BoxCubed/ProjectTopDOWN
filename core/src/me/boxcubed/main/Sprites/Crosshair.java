@@ -22,7 +22,7 @@ public class Crosshair extends Sprite{
 	Entity player;
 
 	public Crosshair(float dist,Entity player) {
-		super( TopDown.assets.get(Assets.crossHairIMAGE, Texture.class));
+		super( TopDown.assets.get(Assets.crossHair_IMAGE, Texture.class));
 		this.dist=dist;
 		this.player=player;
 		pos=new Vector2();

@@ -44,8 +44,8 @@ public class MenuState implements Screen {
 	SpriteBatch batch;
 	private OrthographicCamera cam;
 	private Viewport port;
-	private Sound buttonSound=TopDown.assets.get(Assets.buttonChangeSOUND, Sound.class);
-	private Music menuMusic=TopDown.assets.get(Assets.menuMUSIC,Music.class);
+	private Sound buttonSound=TopDown.assets.get(Assets.buttonChange_SOUND, Sound.class);
+	private Music menuMusic=TopDown.assets.get(Assets.menu_MUSIC,Music.class);
 	BitmapFont font;
 	GameState loadedInstance;
 	GlyphLayout startGlyph, multiGlyph;
@@ -80,10 +80,10 @@ public class MenuState implements Screen {
 		// Stage setup
 		port=new ScreenViewport(cam);
 		stage = new Stage(port, batch);
-		ipField = new TextField("localhost:22222", TopDown.assets.get(Assets.neutSKIN, Skin.class));
-		nameField = new TextField("BoxCubed", TopDown.assets.get(Assets.neutSKIN, Skin.class));
-		multiButton=new Button(TopDown.assets.get(Assets.starSKIN, Skin.class));
-		singleButton=new Button(TopDown.assets.get(Assets.starSKIN, Skin.class));
+		ipField = new TextField("localhost:22222", TopDown.assets.get(Assets.neut_SKIN, Skin.class));
+		nameField = new TextField("BoxCubed", TopDown.assets.get(Assets.neut_SKIN, Skin.class));
+		multiButton=new Button(TopDown.assets.get(Assets.star_SKIN, Skin.class));
+		singleButton=new Button(TopDown.assets.get(Assets.star_SKIN, Skin.class));
 		
 		BoxoUtil.addInputProcessor(stage);
 		// ip field
@@ -108,7 +108,7 @@ public class MenuState implements Screen {
 
 		initButtons(loadedInstance);
 		// Background setup
-		TextureRegion bgRegion = new TextureRegion(TopDown.assets.get(Assets.scrollMenuIMAGE, Texture.class));
+		TextureRegion bgRegion = new TextureRegion(TopDown.assets.get(Assets.scrollMenu_IMAGE, Texture.class));
 		bg = new ParallaxBackground(
 				new ParallaxLayer[] { new ParallaxLayer(bgRegion, new Vector2(0, 100), new Vector2(), new Vector2()) },
 				(float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2, new Vector2(0, 1));
