@@ -81,7 +81,7 @@ public class GameState extends State implements InputProcessor {
 	private final server server;
 	private final HashMap<String, Player> clients = new HashMap<String, Player>();
     public final Animation<TextureRegion> anim;
-    private Touchpad touchpad=null;
+    public Touchpad touchpad=null;
     private Stage stage=null;
 
 	// sound system
@@ -240,6 +240,7 @@ public class GameState extends State implements InputProcessor {
 	}
     private void handleAndroid(){
         stage.act();
+        
     }
 	@Override
 	public void handleInput() {
@@ -355,7 +356,10 @@ public class GameState extends State implements InputProcessor {
 	}
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        Vector3 mouseCoords = getMouseCords();
+
+        if(touchpad!=null&&touchpad.isTouched()&&pointer==0)return false;
+
+        Vector3 mouseCoords = getMouseCords(touchpad.isTouched()? 1:0);
         mouseLoc = new Vector2(mouseCoords.x, mouseCoords.y);
 
         Vector2 direction = mouseLoc.sub(player.getPos(true));
@@ -366,9 +370,12 @@ public class GameState extends State implements InputProcessor {
 
 
 
-	public Vector3 getMouseCords() {
-		return cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+	public Vector3 getMouseCords(int pointer) {
+		return cam.unproject(new Vector3(Gdx.input.getX(pointer), Gdx.input.getY(pointer), 0));
 	}
+	public Vector3 getMouseCords() {
+        return getMouseCords(0);
+    }
 
 	public World getWorld() {
 		return gameWORLD;
