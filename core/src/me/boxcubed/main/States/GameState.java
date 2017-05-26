@@ -81,8 +81,10 @@ public class GameState extends State implements InputProcessor {
 	private final server server;
 	private final HashMap<String, Player> clients = new HashMap<String, Player>();
     public final Animation<TextureRegion> anim;
-    public Touchpad touchpad=null;
+    public Touchpad touchpad=null,lookpad=null;
     private Stage stage=null;
+	public boolean lookWithJoy=true;
+	private int touched=0;
 
 	// sound system
 	/*
@@ -104,11 +106,17 @@ public class GameState extends State implements InputProcessor {
         //android
         if(Gdx.app.getType().equals(Application.ApplicationType.Android)){
             cam=new OrthographicCamera(800,400);
-            touchpad=new Touchpad(10f,TopDown.assets.get(Assets.neutSKIN,Skin.class));
+            touchpad=new Touchpad(0f,TopDown.assets.get(Assets.neutSKIN,Skin.class));
             stage=new Stage(new StretchViewport(800,400,cam),batch);
-            touchpad.setSize(100,100);
+            touchpad.setSize(110,110);
             touchpad.setPosition(20,20);
+			lookpad=new Touchpad(0f, TopDown.assets.get(Assets.neutSKIN,Skin.class));
+			lookpad.setColor(Color.RED);
+            lookpad.setSize(110,110);
+            lookpad.setResetOnTouchUp(false);
+			lookpad.setPosition(cam.viewportWidth-130,20);
             stage.addActor(touchpad);
+			stage.addActor(lookpad);
             BoxoUtil.addInputProcessor(stage);
 
 
@@ -240,6 +248,17 @@ public class GameState extends State implements InputProcessor {
 	}
     private void handleAndroid(){
         stage.act();
+		touched=0;
+		for(int i=0;i<5;i++)
+			if(Gdx.input.isTouched(i))touched++;
+		if(lookWithJoy){
+			Vector2 joy=new Vector2(lookpad.getKnobX(),lookpad.getKnobY()).sub(50,50);
+			if(!joy.isZero())
+			player.rotation=joy.angle();
+
+		}else return;
+		if(touchpad.isTouched()&&touched==1)lookPointer=1;
+		else if(!touchpad.isTouched())lookPointer=0;
 
     }
 	@Override
@@ -336,8 +355,10 @@ public class GameState extends State implements InputProcessor {
 		hud.render(batch);
 
 		batch.end();
-        if(stage!=null)
+        if(stage!=null){
             stage.draw();
+        	batch.setColor(Color.WHITE);
+        }
 
 	}
 
@@ -354,12 +375,13 @@ public class GameState extends State implements InputProcessor {
 
 		return true;
 	}
+	int lookPointer=0;
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
 
-        if(touchpad!=null&&touchpad.isTouched()&&pointer==0)return false;
+        if((touchpad!=null&&touchpad.isTouched()&&pointer==0)||lookWithJoy)return false;
 
-        Vector3 mouseCoords = getMouseCords(touchpad.isTouched()? 1:0);
+        Vector3 mouseCoords = getMouseCords(lookPointer);
         mouseLoc = new Vector2(mouseCoords.x, mouseCoords.y);
 
         Vector2 direction = mouseLoc.sub(player.getPos(true));

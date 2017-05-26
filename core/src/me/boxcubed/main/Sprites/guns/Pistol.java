@@ -20,10 +20,23 @@ public class Pistol implements Gun, InventoryItem {
 	private final Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
 	private final Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
 	private final Texture piss_active = TopDown.assets.get(Assets.pistolActiveIMAGE, Texture.class);
+	private boolean fired;
 
 	@Override
 	public boolean willFire(Input input, float delta, Player p) {
+		if(!GameState.instance.lookWithJoy)
 		return BoxoUtil.isButtonJustPressed() || input.isKeyJustPressed(Keys.SPACE);
+		if(GameState.instance.lookpad.getKnobPercentX()>0.75f||GameState.instance.lookpad.getKnobPercentY()>0.75f||
+		   GameState.instance.lookpad.getKnobPercentX()<-0.75f||GameState.instance.lookpad.getKnobPercentY()<-0.9f
+				){
+			if(fired){
+				return false;
+			}else fired=true;
+			return true;
+
+
+		}else fired=false;
+		return false;
 	}
 
 	@Override
