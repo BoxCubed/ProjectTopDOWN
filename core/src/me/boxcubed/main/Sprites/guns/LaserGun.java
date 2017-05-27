@@ -20,8 +20,8 @@ import me.boxcubed.main.States.GameState;
 
 public class LaserGun implements Gun, InventoryItem,Renderable,Disposable {
 	private final ConeLight light;
-	private final Texture ak47img = TopDown.assets.get(Assets.inventoryAK47, Texture.class);
-	private final Texture akActive = TopDown.assets.get(Assets.ak47ActiveIMAGE,Texture.class);
+	private final Texture ak47img = TopDown.assets.get(Assets.inventoryAK47_IMAGE, Texture.class);
+	private final Texture akActive = TopDown.assets.get(Assets.ak47Active_IMAGE,Texture.class);
 	public LaserGun() {
 		light=new ConeLight(GameState.instance.clock.rayHandler,100,Color.RED,1000f,0f,0f,0f,10f);
 		light.setActive(false);

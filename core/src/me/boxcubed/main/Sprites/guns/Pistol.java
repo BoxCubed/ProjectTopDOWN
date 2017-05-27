@@ -17,9 +17,9 @@ import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
 
 public class Pistol implements Gun, InventoryItem {
-	private final Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
-	private final Texture icon = TopDown.assets.get(Assets.inventoryPISTOL);
-	private final Texture piss_active = TopDown.assets.get(Assets.pistolActiveIMAGE, Texture.class);
+	private final Sound gunshotSound = TopDown.assets.get(Assets.gun_SOUND, Sound.class);
+	private final Texture icon = TopDown.assets.get(Assets.inventoryPistol_IMAGE);
+	private final Texture piss_active = TopDown.assets.get(Assets.pistolActive_IMAGE, Texture.class);
 	private boolean fired;
 
 	@Override

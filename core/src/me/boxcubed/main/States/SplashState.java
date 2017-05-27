@@ -34,8 +34,8 @@ private Assets assets;
 		camera.update();
 		assets=TopDown.assets;
 		font=new BitmapFont();
-		assets.finishLoadingAsset(Assets.logoIMAGE);
-        Texture logo = assets.get(Assets.logoIMAGE, Texture.class);
+		assets.finishLoadingAsset(Assets.logo_IMAGE);
+        Texture logo = assets.get(Assets.logo_IMAGE, Texture.class);
 		logoSprite=new Sprite(logo);
 		
 

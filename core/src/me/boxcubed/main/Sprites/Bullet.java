@@ -41,7 +41,7 @@ public class Bullet extends Sprite implements Entity{
 	private float elapsedTime=0;
 	
 	public Bullet(World world, float x, float y,float offX,float offY, float rotation,final GunType type,Player player){
-		super(TopDown.assets.get(Assets.bulletIMAGE, Texture.class));
+		super(TopDown.assets.get(Assets.bullet_IMAGE, Texture.class));
 		this.x=x;
 		this.y=y;
 		this.offX=offX;
@@ -57,7 +57,7 @@ public class Bullet extends Sprite implements Entity{
 		flash.setSoft(false);
 		
 		
-		muzzleFlash = new TextureRegion(TopDown.assets.get(Assets.mflashIMAGE, Texture.class));
+		muzzleFlash = new TextureRegion(TopDown.assets.get(Assets.mflash_IMAGE, Texture.class));
 		callback=new RayCastCallback() {
 			
 			@Override

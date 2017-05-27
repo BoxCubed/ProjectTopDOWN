@@ -96,7 +96,7 @@ public class GameState extends State implements InputProcessor {
 		instance = this;
 		// Camera and Map
         Assets assets = TopDown.assets;
-        tiledMap = assets.get(Assets.MainMAP, TiledMap.class);
+        tiledMap = assets.get(Assets.Main_MAP, TiledMap.class);
 
 		// World Init
 		gameWORLD = new World(new Vector2(0, 0), true);
@@ -106,11 +106,11 @@ public class GameState extends State implements InputProcessor {
         //android
         if(Gdx.app.getType().equals(Application.ApplicationType.Android)){
             cam=new OrthographicCamera(800,400);
-            touchpad=new Touchpad(0f,TopDown.assets.get(Assets.neutSKIN,Skin.class));
+            touchpad=new Touchpad(0f,TopDown.assets.get(Assets.neut_SKIN,Skin.class));
             stage=new Stage(new StretchViewport(800,400,cam),batch);
             touchpad.setSize(110,110);
             touchpad.setPosition(20,20);
-			lookpad=new Touchpad(0f, TopDown.assets.get(Assets.neutSKIN,Skin.class));
+			lookpad=new Touchpad(0f, TopDown.assets.get(Assets.neut_SKIN,Skin.class));
 			lookpad.setColor(Color.RED);
             lookpad.setSize(110,110);
             lookpad.setResetOnTouchUp(false);
@@ -142,11 +142,11 @@ public class GameState extends State implements InputProcessor {
 		dispose = new ArrayList<Entity>();
 
 		// sound stuff TODO get paulscode 3d sound library
-		ambientMusic = assets.get(Assets.ambientMUSIC, Music.class);
+		ambientMusic = assets.get(Assets.ambient_MUSIC, Music.class);
 		ambientMusic.setLooping(true);
 		ambientMusic.setVolume(0.6f);
 		
-		zombieGroan = assets.get(Assets.ZScreamsSOUND, Sound.class);
+		zombieGroan = assets.get(Assets.ZScreams_SOUND, Sound.class);
 		// Adding player
 		if (TopDown.debug)
 			newPlayer(0);

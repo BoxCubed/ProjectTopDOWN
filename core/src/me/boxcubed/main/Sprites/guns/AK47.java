@@ -23,10 +23,10 @@ import me.boxcubed.main.States.GameState;
 public class AK47 implements Gun, InventoryItem {
 	private float elapsedBulletTime = 0;
 	private final Random random = new Random();
-	private final Sound gunshotSound = TopDown.assets.get(Assets.gunSOUND, Sound.class);
+	private final Sound gunshotSound = TopDown.assets.get(Assets.gun_SOUND, Sound.class);
 	// TODO get ak47 image
-	private final Texture ak47img = TopDown.assets.get(Assets.inventoryAK47, Texture.class);
-	private final Texture akActive = TopDown.assets.get(Assets.ak47ActiveIMAGE,Texture.class);
+	private final Texture ak47img = TopDown.assets.get(Assets.inventoryAK47_IMAGE, Texture.class);
+	private final Texture akActive = TopDown.assets.get(Assets.ak47Active_IMAGE,Texture.class);
 	@Override
 	public boolean willFire(Input input, float delta, Player player) {
 		if (Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)) {

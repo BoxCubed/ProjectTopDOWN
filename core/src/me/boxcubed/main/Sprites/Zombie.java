@@ -44,10 +44,10 @@ public class Zombie extends Sprite implements LivingEntity {
 	private final Sound attackSound;
 	private final Animation<TextureRegion> zombieAnim;
 	private final Animation<TextureRegion> zombieWalk;
-	private final ParticleEffect bloodEffect = new ParticleEffect(TopDown.assets.get(Assets.bloodEFFECT, ParticleEffect.class));
+	private final ParticleEffect bloodEffect = new ParticleEffect(TopDown.assets.get(Assets.blood_EFFECT, ParticleEffect.class));
 	private boolean hurt;
 	private float walkTime=0;
-	private final TextureRegion healthBar =new TextureRegion(TopDown.assets.get(Assets.staminaIMAGE, Texture.class));
+	private final TextureRegion healthBar =new TextureRegion(TopDown.assets.get(Assets.stamina_IMAGE, Texture.class));
 	private boolean idle;
 		
 	private Vector2 p1;
@@ -59,8 +59,8 @@ public class Zombie extends Sprite implements LivingEntity {
 	
 	@SuppressWarnings("unchecked")
 	public Zombie(World world,SteeringAI playerAI) {
-		super( TopDown.assets.get(Assets.zombieIMAGE, Texture.class));
-		attackSound =TopDown.assets.get(Assets.ZAttackSOUND, Sound.class);
+		super( TopDown.assets.get(Assets.zombie_IMAGE, Texture.class));
+		attackSound =TopDown.assets.get(Assets.ZAttack_SOUND, Sound.class);
 		
 		
 		setSize(50, 50);
@@ -85,8 +85,8 @@ public class Zombie extends Sprite implements LivingEntity {
 		fixture = Body.createFixture(fixtureDef);
 		fixture.setUserData("ZOMBIE");
 		Shape.dispose();
-		zombieAnim = TopDown.assets.get(Assets.zombieAttackATLAS+":anim", Animation.class);
-	    zombieWalk = TopDown.assets.get(Assets.zombieWalkATLAS+":anim", Animation.class);
+		zombieAnim = TopDown.assets.get(Assets.zombieAttack_ATLAS+":anim", Animation.class);
+	    zombieWalk = TopDown.assets.get(Assets.zombieWalk_ATLAS_30+":anim", Animation.class);
 	        
 	        
 		callback = new RayCastCallback(){
