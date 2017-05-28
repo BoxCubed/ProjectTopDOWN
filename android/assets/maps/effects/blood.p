@@ -62,8 +62,8 @@ timeline0: 0.0
 - Scale - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 20.0
-highMax: 20.0
+highMin: 30.0
+highMax: 30.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
@@ -100,12 +100,16 @@ active: false
 - Gravity - 
 active: false
 - Tint - 
-colorsCount: 3
+colorsCount: 6
 colors0: 1.0
 colors1: 0.0
 colors2: 0.0
-timelineCount: 1
+colors3: 0.0
+colors4: 0.17254902
+colors5: 1.0
+timelineCount: 2
 timeline0: 0.0
+timeline1: 1.0
 - Transparency - 
 lowMin: 0.0
 lowMax: 0.0
@@ -124,4 +128,4 @@ additive: true
 behind: false
 premultipliedAlpha: false
 - Image Path -
-particle.png
+particleBlood.png
