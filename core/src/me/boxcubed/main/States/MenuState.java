@@ -41,16 +41,16 @@ public class MenuState implements Screen {
 	private Button multiButton,singleButton;
 	private float alpha = -0.1f;
 
-	SpriteBatch batch;
+	private SpriteBatch batch;
 	private OrthographicCamera cam;
 	private Viewport port;
 	private Sound buttonSound=TopDown.assets.get(Assets.buttonChange_SOUND, Sound.class);
 	private Music menuMusic=TopDown.assets.get(Assets.menu_MUSIC,Music.class);
-	BitmapFont font;
+
 	GameState loadedInstance;
-	GlyphLayout startGlyph, multiGlyph;
+
 	ParallaxBackground bg;
-	
+
 	NetworkManager connection;
 	boolean clicked = false;
 	float elapsedTime = 0;
