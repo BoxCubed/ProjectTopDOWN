@@ -226,7 +226,7 @@ public class MenuState implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		//init(loadedInstance);
+		init(loadedInstance);
 		if(init)
 		port.update(width, height);
 	}
