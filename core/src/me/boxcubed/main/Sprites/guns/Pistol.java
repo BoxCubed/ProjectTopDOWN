@@ -1,5 +1,7 @@
 package me.boxcubed.main.Sprites.guns;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
@@ -24,9 +26,23 @@ public class Pistol implements Gun, InventoryItem {
 
 	@Override
 	public boolean willFire(Input input, float delta, Player p) {
-		if(!GameState.instance.lookWithJoy)
+		if(Gdx.app.getType().equals(Application.ApplicationType.Android)){
+			if(GameState.instance.firePressed){
+				if(fired){
+					return false;
+				}else fired=true;
+			return true;}else
+			    fired=false;
+			    return false;
+
+
+
+
+		}
+
+//		if(!GameState.instance.lookWithJoy)
 		return BoxoUtil.isButtonJustPressed() || input.isKeyJustPressed(Keys.SPACE);
-		if(GameState.instance.lookpad.getKnobPercentX()>0.75f||GameState.instance.lookpad.getKnobPercentY()>0.75f||
+		/*if(GameState.instance.lookpad.getKnobPercentX()>0.75f||GameState.instance.lookpad.getKnobPercentY()>0.75f||
 		   GameState.instance.lookpad.getKnobPercentX()<-0.75f||GameState.instance.lookpad.getKnobPercentY()<-0.9f
 				){
 			if(fired){
@@ -36,7 +52,7 @@ public class Pistol implements Gun, InventoryItem {
 
 
 		}else fired=false;
-		return false;
+		return false;*/
 	}
 
 	@Override

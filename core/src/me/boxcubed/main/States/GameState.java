@@ -13,6 +13,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,15 +27,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.GIFDecoder;
-import com.boxcubed.utils.Hud;
+import me.boxcubed.main.Objects.Hud;
 import box2dLight.ConeLight;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.Clock;
@@ -81,8 +86,12 @@ public class GameState extends State implements InputProcessor {
 	private final server server;
 	private final HashMap<String, Player> clients = new HashMap<String, Player>();
     public final Animation<TextureRegion> anim;
+
+    private Image fireButton=null;
+    public  boolean firePressed;
     public Touchpad touchpad=null,lookpad=null;
     private Stage stage=null;
+
 	public boolean lookWithJoy=true;
 	private int touched=0;
 
@@ -108,16 +117,39 @@ public class GameState extends State implements InputProcessor {
             cam=new OrthographicCamera(800,400);
             touchpad=new Touchpad(0f,TopDown.assets.get(Assets.neut_SKIN,Skin.class));
             stage=new Stage(new StretchViewport(800,400,cam),batch);
+
             touchpad.setSize(110,110);
             touchpad.setPosition(20,20);
+
 			lookpad=new Touchpad(0f, TopDown.assets.get(Assets.neut_SKIN,Skin.class));
 			lookpad.setColor(Color.RED);
             lookpad.setSize(110,110);
             lookpad.setResetOnTouchUp(false);
 			lookpad.setPosition(cam.viewportWidth-130,20);
+
+			fireButton=new Image(new TextureRegion(TopDown.assets.get(Assets.bulletFire_IMAGE,Texture.class)));
+			fireButton.addListener(new ClickListener(){
+				@Override
+				public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+					super.enter(event, x, y, pointer, fromActor);
+					firePressed=true;
+					fireButton.setColor(Color.GRAY);
+
+				}
+
+				@Override
+				public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+					firePressed=false;
+					fireButton.setColor(Color.WHITE);				}
+			});
+			fireButton.setSize(50,50);
+			fireButton.setPosition(cam.viewportWidth-70,140);
+
             stage.addActor(touchpad);
 			stage.addActor(lookpad);
+			stage.addActor(fireButton);
             BoxoUtil.addInputProcessor(stage);
+
 
 
 
@@ -150,7 +182,7 @@ public class GameState extends State implements InputProcessor {
 		// Adding player
 		if (TopDown.debug)
 			newPlayer(0);
-		zombieSpawner = new Spawner(new Vector2(100, 100), clock);
+		zombieSpawner = new Spawner(new Vector2(100, 100), clock,this);
 		// light
 		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 100, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes

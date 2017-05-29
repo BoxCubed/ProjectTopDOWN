@@ -72,7 +72,7 @@ public class MenuState implements Screen {
 		batch = new SpriteBatch();
 		world=new World(new Vector2(0, 0),false);
 		fader = new RayHandler(world);
-		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		cam = new OrthographicCamera(800, 400);
 		// init of button
 
 		//music

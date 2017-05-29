@@ -1,5 +1,5 @@
 package com.boxcubed.utils.easinglib;
-class Quad {
+public class Quad {
 	
 	public static float  easeIn(float t,float b , float c, float d) {
 		return c*(t/=d)*t + b;

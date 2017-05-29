@@ -33,7 +33,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
             stamina_IMAGE = "img/stamina.png", particle_IMAGE = "img/particle.png", player_IMAGE = "img/player.png",
             zombie_IMAGE = "img/skeleton-idle_0.png", playerRifle_IMAGE = "img/survivor-idle_rifle.png",
             inventoryAK47_IMAGE = "img/invbar.png", inventoryPistol_IMAGE = "img/invbarpistol.png",ak47Active_IMAGE="img/invbar_active.png",
-            pistolActive_IMAGE="img/invbarpistol_active.png",
+            pistolActive_IMAGE="img/invbarpistol_active.png",bulletFire_IMAGE="img/bulletButton.png",
 
             player_ATLAS = "spritesheets/playersheet.atlas", leg_ATLAS = "spritesheets/leganim.atlas",
             zombieAttack_ATLAS = "spritesheets/zombieanim.atlas", zombieWalk_ATLAS_30 = "spritesheets/zombie_walk.atlas",

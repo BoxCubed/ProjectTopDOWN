@@ -2,6 +2,8 @@ package me.boxcubed.main.Sprites.guns;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
@@ -27,8 +29,28 @@ public class AK47 implements Gun, InventoryItem {
 	// TODO get ak47 image
 	private final Texture ak47img = TopDown.assets.get(Assets.inventoryAK47_IMAGE, Texture.class);
 	private final Texture akActive = TopDown.assets.get(Assets.ak47Active_IMAGE,Texture.class);
+	private boolean firstFire;
 	@Override
 	public boolean willFire(Input input, float delta, Player player) {
+
+		if(Gdx.app.getType().equals(Application.ApplicationType.Android)){
+			if(GameState.instance.firePressed){
+				if(elapsedBulletTime==-1){
+					firstFire=true;
+					elapsedBulletTime=0;
+
+					return true;
+				}
+				firstFire=false;
+				elapsedBulletTime+=delta;
+				if(elapsedBulletTime>10){
+					elapsedBulletTime=0f;
+					return true;
+				}
+			}else elapsedBulletTime=-1;
+			return false;
+		}
+
 		if (Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)) {
 			elapsedBulletTime += delta;
 			if (elapsedBulletTime > 10) {
@@ -54,8 +76,12 @@ public class AK47 implements Gun, InventoryItem {
 		gunshotSound.play(1.0f);
 
 		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y-0.4f,
-				(float) (Math.cos(Math.toRadians(randRotation))), (float) (Math.sin(Math.toRadians(randRotation))),
+				firstFire? (float)Math.cos(Math.toRadians(player.rotation))
+						:(float) (Math.cos(Math.toRadians(randRotation))),
+				firstFire? (float)Math.sin(Math.toRadians(player.rotation)):
+						(float) (Math.sin(Math.toRadians(randRotation))),
 				randRotation, GunType.AK47, player));
+		if(!firstFire)
 		BoxoUtil.shake();
 
 	}

@@ -2,6 +2,7 @@ package me.boxcubed.main.Objects;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
@@ -28,16 +29,18 @@ public class Spawner {
 	private final float delay;
 	private final int limit;
 	private final Clock clock;
+	private final GameState instance;
 	/**
 	 * The total amount of entities this spawner spawned
 	 */
 	private int amount;
-	public Spawner(Vector2 pos, Clock clock){
+	public Spawner(Vector2 pos, Clock clock, GameState instance){
 		this.pos=pos;
 		this.entity= EntityType.ZOMBIE;
 		this.delay= (float) 100;
 		this.limit= 20;
 		this.clock=clock;
+		this.instance=instance;
 	}
 	/**
 	 * 
@@ -45,11 +48,12 @@ public class Spawner {
 	 */
 	public void update(float delta,int currentAmount){
 		if(clock.amlight>0.3f)return;
-		if(currentAmount<limit){  
+
+		if(currentAmount<limit){
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){
 			amount++;
-			
+
 			pos.x=random.nextInt(1570);
 			pos.y=random.nextInt(1570);
 			while(MapBodyBuilder.checkCollision(pos))
@@ -60,15 +64,16 @@ public class Spawner {
 			LivingEntity spawnEntity=null;
 				if(entity.equals(EntityType.ZOMBIE))
 					
-					spawnEntity=new Zombie(GameState.instance.getWorld(),  GameState.instance.playerAI);
+					spawnEntity=new Zombie(instance.getWorld(),  instance.playerAI);
 					
 				
 				if(entity.equals(EntityType.PLAYER))
-					spawnEntity=new Player(GameState.instance.getWorld(),0);
+					spawnEntity=new Player(instance.getWorld(),0);
 				
 				if(spawnEntity!=null){
 				spawnEntity.getBody().setTransform(pos.scl(1f/GameState.PPM), spawnEntity.getBody().getAngle());
-				GameState.instance.entities.add(spawnEntity);
+					System.out.println("spawned entity at "+pos);
+				instance.entities.add(spawnEntity);
 				}
 				elapsedTime=0;
 			
