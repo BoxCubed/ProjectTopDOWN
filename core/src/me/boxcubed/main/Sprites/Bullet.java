@@ -34,7 +34,7 @@ public class Bullet extends Sprite implements Entity{
 	Vector2 firePos;
 	Player player;
 	PointLight flash;
-	float flashDist=0.8f;
+	float flashDist=0.4f;
 	float elapsedTime=0;
 	
 	public Bullet(World world, float x, float y,float offX,float offY, float rotation,GunType type,Player player){
@@ -61,6 +61,7 @@ public class Bullet extends Sprite implements Entity{
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 				//System.out.println(point.sub(new Vector2(x, y)).len2());
 				if (fixture.getUserData() == "WALL") {
+					
 					setDisposable(true);
 					return 0;
 				}
