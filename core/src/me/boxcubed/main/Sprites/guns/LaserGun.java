@@ -66,7 +66,7 @@ public class LaserGun implements Gun, InventoryItem,Disposable,Renderable {
 		if(firing!=Gdx.input.isKeyPressed(Keys.SPACE)){
 			elapsedTime=0;
 			firing=Gdx.input.isKeyPressed(Keys.SPACE);
-			pos=player.getPos(false).cpy();
+			pos.set(player.getPos(false));
 			target=new Vector2();
 			collide=false;
 		
@@ -80,6 +80,10 @@ public class LaserGun implements Gun, InventoryItem,Disposable,Renderable {
 		
 		//light.setPosition(player.getPos(false).x, player.getPos(false).y);
 		//light.setDirection(player.rotation);
+		Vector2 off=new Vector2(player.crossH.offX, player.crossH.offY);
+		
+		pos.x+=off.x;
+		pos.y+=off.y;
 		world.rayCast(new RayCastCallback() {
 			
 			@Override
@@ -88,12 +92,12 @@ public class LaserGun implements Gun, InventoryItem,Disposable,Renderable {
 					if(collide)
 						return 0;
 					collide=true;
-					target=point.cpy();
+					target.set(point);
 					
 				return 0;}
 				else {collide=false;return 1;}
 			}
-		}, player.getPos(false).x, player.getPos(false).y, player.crossH.offX*2000, player.crossH.offY*2000);
+		}, player.getPos(false).x, player.getPos(false).y, pos.x, pos.y);
 		
 
 	}
@@ -113,13 +117,7 @@ public class LaserGun implements Gun, InventoryItem,Disposable,Renderable {
 	}
 	@Override
 	public void update(float delta) {
-		if(firing&&!collide){
-			if(pos.dst2(p.getPos(false))>target.dst2(p.getPos(false))){
-				pos.set(target);
-			}
-
-			pos.add(p.crossH.offX*SPEED, p.crossH.offY*SPEED);
-		}
+		
 		
 	}
 	@Override
