@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -37,6 +38,9 @@ public class Bullet extends Sprite implements Entity{
 	float flashDist=0.4f;
 	float elapsedTime=0;
 	
+	Vector2 normalvector;
+	Vector2 collision;
+	
 	public Bullet(World world, float x, float y,float offX,float offY, float rotation,GunType type,Player player){
 		super(TopDown.assets.get(Assets.bullet_IMAGE, Texture.class));
 		this.x=x;
@@ -59,9 +63,7 @@ public class Bullet extends Sprite implements Entity{
 			
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-				//System.out.println(point.sub(new Vector2(x, y)).len2());
-				if (fixture.getUserData() == "WALL") {
-					
+       		if (fixture.getUserData() == "WALL") {
 					setDisposable(true);
 					return 0;
 				}
@@ -75,6 +77,7 @@ public class Bullet extends Sprite implements Entity{
 							lentity.playAnimation("attacked");
 							}else lentity.setDisposable(true);
 						}
+					System.out.println(normal);
 					});
 					setDisposable(true);
 					return 0;
@@ -109,6 +112,10 @@ public class Bullet extends Sprite implements Entity{
 		 if(TopDown.debug){
 			 sr.setColor(toRGB(255,200,14));
 			 sr.line(getPos(true), player.getPos(true));
+			 
+				sr.setColor(Color.BLUE);
+				sr.line(new Vector3(collision,0),new Vector3(collision.x-10,collision.y,0));
+			
 			 }
 	
 	 }
