@@ -37,7 +37,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
 			
 			player_ATLAS = "spritesheets/playersheet.atlas", leg_ATLAS = "spritesheets/leganim.atlas",
 			zombieAttack_ATLAS = "spritesheets/zombieanim.atlas", zombieWalk_ATLAS_30 = "spritesheets/zombie_walk.atlas",
-			start_ATLAS = "button/start.atlas", rifleWalk_ATLAS = "spritesheets/rifle_walk.atlas",
+			start_ATLAS = "button/start.atlas", rifleWalk_ATLAS = "spritesheets/rifle_walk.atlas", rileReload_ATLAS="spritesheets/riflereload.atlas",
 
 			menu_FONT = "fonts/menuFont.ttf",
 

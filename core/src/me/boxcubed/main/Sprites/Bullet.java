@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -77,7 +76,6 @@ public class Bullet extends Sprite implements Entity{
 							lentity.playAnimation("attacked");
 							}else lentity.setDisposable(true);
 						}
-					System.out.println(normal);
 					});
 					setDisposable(true);
 					return 0;
@@ -114,8 +112,6 @@ public class Bullet extends Sprite implements Entity{
 			 sr.line(getPos(true), player.getPos(true));
 			 
 				sr.setColor(Color.BLUE);
-				sr.line(new Vector3(collision,0),new Vector3(collision.x-10,collision.y,0));
-			
 			 }
 	
 	 }
