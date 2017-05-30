@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
@@ -13,10 +14,10 @@ import com.boxcubed.utils.BoxoUtil;
 import me.boxcubed.main.TopDown;
 
 public class SplashState implements State {
-private float rotation=0;
-private Texture logo;
-private Sprite logoSprite;
-private final int LOGO_WIDTH=300,LOGO_HEIGHT=300;
+//private Texture logo;
+private TextureRegion name;
+//private Sprite logoSprite;
+private final int LOGO_WIDTH=300,LOGO_HEIGHT=100;
 private OrthographicCamera camera;
 private BitmapFont font;
 private SpriteBatch batch=new SpriteBatch();
@@ -32,18 +33,25 @@ private Assets assets;
 		camera.update();
 		assets=TopDown.assets;
 		font=new BitmapFont();
-		assets.finishLoadingAsset(Assets.logo_IMAGE);
-		logo=assets.get(Assets.logo_IMAGE, Texture.class);
-		logoSprite=new Sprite(logo);
+	//	assets.finishLoadingAsset(Assets.logo_IMAGE);
+		assets.finishLoadingAsset(Assets.name_IMAGE);
+		//logo=assets.get(Assets.logo_IMAGE, Texture.class);
+		name=new TextureRegion(assets.get(Assets.name_IMAGE,Texture.class));
+	//	logoSprite=new Sprite(logo);
+		name.setRegion(0, name.getTexture().getHeight(), name.getTexture().getWidth(), 50);
 		
 
 	}
 	boolean loaded=false;
 	private GameState loadingInstance;
+	private float progress;
 	@Override
 	public void update(float delta) {
 		//Adjusts the rotation of the image based on the amount loaded
-		rotation=-assets.getProgress()*360f+360;
+		//rotation=-assets.getProgress()*360f+360;
+		//Does some complex stuff that took way too long to work out
+		progress=assets.getProgress()*(float)name.getTexture().getHeight();
+		name.setRegion(0,(int)(name.getTexture().getHeight()-progress),(int)name.getTexture().getWidth(),(int)progress);
 		//lerps camera to the middle, giving a cool intro effect
 		BoxoUtil.lerpToPos(new Vector2(0, 0), camera);
 		//as usual
@@ -70,8 +78,8 @@ private Assets assets;
 	public void render() {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(logoSprite, -LOGO_WIDTH/2, -LOGO_HEIGHT/2, 
-				LOGO_WIDTH/2, LOGO_HEIGHT/2, LOGO_WIDTH, LOGO_HEIGHT, 1, 1, rotation);
+		batch.draw(name,-LOGO_WIDTH/2, -name.getTexture().getHeight()/2, 
+				LOGO_WIDTH/2, LOGO_HEIGHT/2, LOGO_WIDTH, progress/*-assets.getProgress()*name.getTexture().getHeight()*/, 1, 1, 0);
 		font.getData().setScale(1f);
 		font.draw(batch, "Project Top Down", -60, camera.viewportHeight/2);
 		font.draw(batch, "Brought to you by Box Cubed", -100, camera.viewportHeight/2-50);
