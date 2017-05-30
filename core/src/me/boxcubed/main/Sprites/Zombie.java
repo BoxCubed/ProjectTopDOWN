@@ -272,7 +272,7 @@ public class Zombie extends Sprite implements LivingEntity {
 
 	@Override
 	public boolean isDisposable() {
-		return isAlive();
+		return !isAlive();
 	}
 
 	@Override

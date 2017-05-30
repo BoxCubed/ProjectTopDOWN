@@ -7,8 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -87,21 +85,24 @@ public class MenuState implements Screen {
 		
 		BoxoUtil.addInputProcessor(stage);
 		// ip field
-		ipField.setPosition(Gdx.graphics.getWidth() / 2 - 150, Gdx.graphics.getHeight() / 2 - 100);
 		ipField.setSize(300, 30);
+		ipField.setPosition(Gdx.graphics.getWidth() / 2 - ipField.getWidth()/2, Gdx.graphics.getHeight() / 2 - 100);
+		
 		stage.addActor(ipField);
 		// name field
-		nameField.setPosition(Gdx.graphics.getWidth() / 2 - 150, Gdx.graphics.getHeight() / 2 - 150);
-		stage.addActor(nameField);
 		nameField.setSize(300, 30);
+		nameField.setPosition(Gdx.graphics.getWidth() / 2 - nameField.getWidth()/2, Gdx.graphics.getHeight() / 2 - 150);
+		stage.addActor(nameField);
 		
-		multiButton.setPosition(Gdx.graphics.getWidth()/2-350/2, Gdx.graphics.getHeight()/2+50);
 		multiButton.setSize(350, 80);
+		multiButton.setPosition(Gdx.graphics.getWidth()/2-multiButton.getWidth()/2, Gdx.graphics.getHeight()/2+50);
+		
 		multiButton.add("Start Multiplayer");
 		stage.addActor(multiButton);
 		
-		singleButton.setPosition(Gdx.graphics.getWidth()/2-350/2, Gdx.graphics.getHeight()/2-50);
 		singleButton.setSize(350, 80);
+		singleButton.setPosition(Gdx.graphics.getWidth()/2-singleButton.getWidth()/2, Gdx.graphics.getHeight()/2-50);
+		
 		singleButton.add("Start Singleplayer");
 		
 		stage.addActor(singleButton);
@@ -205,8 +206,8 @@ public class MenuState implements Screen {
 		singleButton.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				menuMusic.stop();
 				loadedInstance.newPlayer(0);
-
 				TopDown.instance.setScreen(loadedInstance);
 			}
 			@Override
@@ -244,7 +245,7 @@ public class MenuState implements Screen {
 	public void hide() {
 		if (init)
 			BoxoUtil.remInputProcessor(stage);
-		menuMusic.stop();
+		//menuMusic.stop();
 	}
 
 	@Override

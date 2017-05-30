@@ -1,11 +1,9 @@
 package me.boxcubed.main.Sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -25,7 +23,7 @@ import me.boxcubed.main.States.GameState;
 public class Bullet extends Sprite implements Entity{
 	
 	private final RayCastCallback callback;
-	private final TextureRegion muzzleFlash;
+	//private final TextureRegion muzzleFlash;
 	
 	private final float rotation;
 	private final float SPEED = 0.5f;
@@ -34,11 +32,11 @@ public class Bullet extends Sprite implements Entity{
 	private float y;
 	private final float offX;
 	private final float offY;
-	private final Vector2 firePos;
+	//private final Vector2 firePos;
 	private final Player player;
 	private final PointLight flash;
 	private float flashDist=0.8f;
-	private float elapsedTime=0;
+	//private float elapsedTime=0;
 	
 	public Bullet(World world, float x, float y,float offX,float offY, float rotation,final GunType type,Player player){
 		super(TopDown.assets.get(Assets.bullet_IMAGE, Texture.class));
@@ -48,7 +46,6 @@ public class Bullet extends Sprite implements Entity{
 		this.offY=offY;
 		this.rotation = rotation;
 		this.player=player;
-		firePos=new Vector2(x, y);
 		
 		flash=new PointLight(GameState.instance.clock.rayHandler,50);
 		flash.setDistance(flashDist);
@@ -57,7 +54,6 @@ public class Bullet extends Sprite implements Entity{
 		flash.setSoft(false);
 		
 		
-		muzzleFlash = new TextureRegion(TopDown.assets.get(Assets.mflash_IMAGE, Texture.class));
 		callback=new RayCastCallback() {
 			
 			@Override
@@ -124,7 +120,6 @@ public class Bullet extends Sprite implements Entity{
 	 @Override
 		public void render(SpriteBatch sb) {
 		 if(!isDisposable()){
-			 elapsedTime+=Gdx.graphics.getDeltaTime();
 			/* if(elapsedTime<0.1)sb.draw(muzzleFlash,GameState.instance.player.getPos().x, 
 					 GameState.instance.player.getPos().y,offX,offY,40,20,1,1,rotation);
 			*/

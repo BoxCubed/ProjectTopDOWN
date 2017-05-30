@@ -23,7 +23,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
     //TODO Move to a txt file
     public static final String nineMMGun_SOUND = "sounds/9_mm_gunshot.mp3", gun_SOUND = "sounds/gunshot.mp3",
             ZAttack_SOUND = "sounds/zombie_attack.mp3", //ZGroan_SOUND = "sounds/zombie_groan.wav",
-            ambient_MUSIC = "sounds/ambient_music.mp3", ZScreams_SOUND = "sounds/zombie_screams.mp3",buttonChange_SOUND="sounds/button-choose.ogg",
+            ambient_MUSIC = "sounds/ambient_music.ogg", ZScreams_SOUND = "sounds/zombie_screams.mp3",buttonChange_SOUND="sounds/button-choose.ogg",
             menu_MUSIC="sounds/Drafty-Places.mp3",
 
             Main_MAP = "maps/map2.tmx",

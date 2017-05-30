@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -35,14 +36,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.GIFDecoder;
-import me.boxcubed.main.Objects.Hud;
+
 import box2dLight.ConeLight;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.Clock;
+import me.boxcubed.main.Objects.Hud;
 import me.boxcubed.main.Objects.PlayerLight;
 import me.boxcubed.main.Objects.Spawner;
 import me.boxcubed.main.Objects.SteeringAI;
@@ -51,6 +52,7 @@ import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Sprites.Pack;
 import me.boxcubed.main.Sprites.Player;
+import me.boxcubed.main.Sprites.Zombie;
 
 
 public class GameState extends State implements InputProcessor {
@@ -83,7 +85,7 @@ public class GameState extends State implements InputProcessor {
 	private float groanTimer = 0;
 	public boolean noZombie = false;
 	public boolean noTime = false;
-	private final server server;
+//	private final server server;
 	private final HashMap<String, Player> clients = new HashMap<String, Player>();
     public final Animation<TextureRegion> anim;
 
@@ -148,7 +150,6 @@ public class GameState extends State implements InputProcessor {
             stage.addActor(touchpad);
 			stage.addActor(lookpad);
 			stage.addActor(fireButton);
-            BoxoUtil.addInputProcessor(stage);
 
 
 
@@ -174,6 +175,7 @@ public class GameState extends State implements InputProcessor {
 		dispose = new ArrayList<Entity>();
 
 		// sound stuff TODO get paulscode 3d sound library
+		
 		ambientMusic = assets.get(Assets.ambient_MUSIC, Music.class);
 		ambientMusic.setLooping(true);
 		ambientMusic.setVolume(0.6f);
@@ -189,9 +191,12 @@ public class GameState extends State implements InputProcessor {
 		MapBodyBuilder.buildShapes(tiledMap, PPM, gameWORLD);
 		// packs
 		entities.add(new Pack(250 / PPM, 250 / PPM, gameWORLD));
+		
 		anim = GIFDecoder.loadGIFAnimation(Animation.PlayMode.LOOP,Gdx.files.internal("img/health.gif").read());
 		// Server stuff
-		server = new server();
+		//server = new server();
+		
+		System.out.println("Finished init Gamestate");
 		/*
 		 * try { soundSys=new SoundSystem(LibraryJavaSound.class); } catch
 		 * (SoundSystemException e) { // TODO Auto-generated catch block
@@ -219,6 +224,7 @@ public class GameState extends State implements InputProcessor {
 	}
 
 	public void update(float delta) {
+		
 
 		// Updating HUD
 		hud.update();
@@ -474,7 +480,7 @@ public class GameState extends State implements InputProcessor {
 			entry.getValue().dispose();
 		}
 		zombieGroan.dispose();
-		ambientMusic.dispose();
+		//ambientMusic.dispose();
 		/*
 		 * if(soundSys!=null) soundSys.cleanup();
 		 */
@@ -510,6 +516,9 @@ public class GameState extends State implements InputProcessor {
 		cam = new OrthographicCamera(800, 400);
 		cam.update();
 		BoxoUtil.addInputProcessor(this);
+		if(stage!=null)
+		BoxoUtil.addInputProcessor(stage);
+		if(!Gdx.app.getType().equals(ApplicationType.Desktop))
 		ambientMusic.play();
 	}
 
