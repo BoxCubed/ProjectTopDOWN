@@ -1,23 +1,20 @@
 package com.boxcubed.net.packets;
 
 public class PlayerDisconnectPacket {
-	public String name;
+    public String name;
     public String reason;
-	public int id;
-	
-	
-	
-	
-	public PlayerDisconnectPacket() {
-		
+    public int id;
+
+
+    public PlayerDisconnectPacket() {
+
     }
 
 
+    public PlayerDisconnectPacket(String name, int id, String reason) {
+        this.name = name;
+        this.id = id;
+        this.reason = reason;
+    }
 
-	public PlayerDisconnectPacket(String name, int id,String reason) {
-		this.name = name;
-		this.id = id;
-		this.reason=reason;
-	}
-	
 }

@@ -1,14 +1,17 @@
 package me.boxcubed.main.Objects.interfaces;
 
 public interface LivingEntity extends Entity {
-	double getHealth();
-	void setHealth(double health);
-	double getMaxHealth();
-	boolean isAlive();
+    double getHealth();
+
+    void setHealth(double health);
+
+    double getMaxHealth();
+
+    boolean isAlive();
 
 
-	 boolean isDisposable();
+    boolean isDisposable();
 
-	void setDisposable(boolean disposable);
+    void setDisposable(boolean disposable);
 }
   

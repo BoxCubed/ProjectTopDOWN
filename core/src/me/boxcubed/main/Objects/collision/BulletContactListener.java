@@ -6,39 +6,40 @@ import me.boxcubed.main.States.GameState;
 
 /**
  * Created by Tej Sidhu on 13/03/2017.
+ *
  * @deprecated Thats right. How do u feel. Now go move this into a class that works
- *        _..-''--'----_.
-           ,''.-''| .---/ _`-._
-         ,' \ \  ;| | ,/ / `-._`-.
-       ,' ,',\ \( | |// /,-._  / /
-       ;.`. `,\ \`| |/ / |   )/ /
-      / /`_`.\_\ \| /_.-.'-''/ /
-     / /_|_:.`. \ |;'`..')  / /
-     `-._`-._`.`.;`.\  ,'  / /
-         `-._`.`/    ,'-._/ /
-           : `-/     \`-.._/
-           |  :      ;._ (
-           :  |      \  ` \
-            \         \   |
-             :        :   ;
-             |           /
-             ;         ,'
-            /         /
-           /         /
-                    /
+ * _..-''--'----_.
+ * ,''.-''| .---/ _`-._
+ * ,' \ \  ;| | ,/ / `-._`-.
+ * ,' ,',\ \( | |// /,-._  / /
+ * ;.`. `,\ \`| |/ / |   )/ /
+ * / /`_`.\_\ \| /_.-.'-''/ /
+ * / /_|_:.`. \ |;'`..')  / /
+ * `-._`-._`.`.;`.\  ,'  / /
+ * `-._`.`/    ,'-._/ /
+ * : `-/     \`-.._/
+ * |  :      ;._ (
+ * :  |      \  ` \
+ * \         \   |
+ * :        :   ;
+ * |           /
+ * ;         ,'
+ * /         /
+ * /         /
+ * /
  */
 class BulletContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
-        if(fa == null || fb == null)
+        if (fa == null || fb == null)
             return;
-        if(fa.getUserData() == null || fb.getUserData() == null)
+        if (fa.getUserData() == null || fb.getUserData() == null)
             return;
-        for(Entity entity: GameState.instance.entities){
-            if((entity.getFixture().equals(fa)||entity.getFixture().equals(fb))
-                    &&(contact.getFixtureA().getUserData().equals("BULLET")||contact.getFixtureA().getUserData().equals("BULLET"))){
+        for (Entity entity : GameState.instance.entities) {
+            if ((entity.getFixture().equals(fa) || entity.getFixture().equals(fb))
+                    && (contact.getFixtureA().getUserData().equals("BULLET") || contact.getFixtureA().getUserData().equals("BULLET"))) {
                 System.out.println("HIT");
 
             }

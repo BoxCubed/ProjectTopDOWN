@@ -56,6 +56,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        compile "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:1.2.0"
     }
 }
 
@@ -94,6 +95,7 @@ project(":core") {
         compile group: 'com.esotericsoftware', name: 'kryonet', version: '2.22.0-RC1'
         compile 'com.github.nifty-gui:nifty-pauls-soundsystem:1.4.2'
 		compile group: 'com.kotcrab.vis', name: 'vis-ui', version: '1.3.0'
+        compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:1.2.0"
         
         
     }

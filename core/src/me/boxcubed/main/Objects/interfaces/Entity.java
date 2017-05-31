@@ -6,16 +6,21 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Disposable;
 
-public interface Entity extends Disposable,Renderable{
-	  Vector2 getPos(boolean asPixels);
-	  Body getBody();
+public interface Entity extends Disposable, Renderable {
+    Vector2 getPos(boolean asPixels);
 
-	  EntityType getID();
-		Sprite getSprite();
-        void playAnimation(String key);
-       
-        Fixture getFixture();
-        boolean isDisposable();
-        void setDisposable(boolean disposable);
-        }
+    Body getBody();
+
+    EntityType getID();
+
+    Sprite getSprite();
+
+    void playAnimation(String key);
+
+    Fixture getFixture();
+
+    boolean isDisposable();
+
+    void setDisposable(boolean disposable);
+}
   

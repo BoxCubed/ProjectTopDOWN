@@ -3,7 +3,7 @@ package me.boxcubed.main.States;
 /**
  * Created by Tej Sidhu on 23/02/2017.
  */
-public class GameOverState extends State{
+public class GameOverState extends State {
     protected GameOverState() {
     }//Hello
 

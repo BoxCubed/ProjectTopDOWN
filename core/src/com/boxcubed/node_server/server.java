@@ -8,8 +8,8 @@ package com.boxcubed.node_server;
 // |-------------------------------------------\\
 // ---------------------------------------------------------------------------------------------\\
 public class server {
-	/*private Socket clientSocket;
-	private String clientID;
+    /*private Socket clientSocket;
+    private String clientID;
 
 	public server() {
 		connectSocket();

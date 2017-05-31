@@ -11,39 +11,37 @@ import com.boxcubed.net.NetworkManager;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.InventoryItem;
-
-import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.interfaces.GunType;
 import me.boxcubed.main.Sprites.Bullet;
 import me.boxcubed.main.Sprites.Player;
 import me.boxcubed.main.States.GameState;
+import me.boxcubed.main.TopDown;
 
 public class Pistol implements Gun, InventoryItem {
-	private final Sound gunshotSound = TopDown.assets.get(Assets.gun_SOUND, Sound.class);
-	private final Texture icon = TopDown.assets.get(Assets.inventoryPistol_IMAGE);
-	private final Texture piss_active = TopDown.assets.get(Assets.pistolActive_IMAGE, Texture.class);
-	private boolean fired;
+    private final Sound gunshotSound = TopDown.assets.get(Assets.gun_SOUND, Sound.class);
+    private final Texture icon = TopDown.assets.get(Assets.inventoryPistol_IMAGE);
+    private final Texture piss_active = TopDown.assets.get(Assets.pistolActive_IMAGE, Texture.class);
+    private boolean fired;
 
-	@Override
-	public boolean willFire(Input input, float delta, Player p) {
-		if(Gdx.app.getType().equals(Application.ApplicationType.Android)){
-			if(GameState.instance.firePressed){
-				if(fired){
-					return false;
-				}else fired=true;
-			return true;}else
-			    fired=false;
-			    return false;
+    @Override
+    public boolean willFire(Input input, float delta, Player p) {
+        if (Gdx.app.getType().equals(Application.ApplicationType.Android)) {
+            if (GameState.instance.firePressed) {
+                if (fired) {
+                    return false;
+                } else fired = true;
+                return true;
+            } else
+                fired = false;
+            return false;
 
 
-
-
-		}
+        }
 
 //		if(!GameState.instance.lookWithJoy)
-		return BoxoUtil.isButtonJustPressed() || input.isKeyJustPressed(Keys.SPACE);
-		/*if(GameState.instance.lookpad.getKnobPercentX()>0.75f||GameState.instance.lookpad.getKnobPercentY()>0.75f||
-		   GameState.instance.lookpad.getKnobPercentX()<-0.75f||GameState.instance.lookpad.getKnobPercentY()<-0.9f
+        return BoxoUtil.isButtonJustPressed() || input.isKeyJustPressed(Keys.SPACE);
+        /*if(GameState.instance.lookpad.getKnobPercentX()>0.75f||GameState.instance.lookpad.getKnobPercentY()>0.75f||
+           GameState.instance.lookpad.getKnobPercentX()<-0.75f||GameState.instance.lookpad.getKnobPercentY()<-0.9f
 				){
 			if(fired){
 				return false;
@@ -53,44 +51,44 @@ public class Pistol implements Gun, InventoryItem {
 
 		}else fired=false;
 		return false;*/
-	}
+    }
 
-	@Override
-	public void fire(World world, Player player) {
-		gunshotSound.play(1.0f);
+    @Override
+    public void fire(World world, Player player) {
+        gunshotSound.play(1.0f);
 
-		GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y,
-				player.crossH.offX, player.crossH.offY, player.rotation, GunType.PISTOL, player));
+        GameState.instance.entities.add(new Bullet(world, player.getPos(false).x, player.getPos(false).y,
+                player.crossH.offX, player.crossH.offY, player.rotation, GunType.PISTOL, player));
 
-	}
+    }
 
-	@Override
-	public void netFire(NetworkManager net, World world, Player player) {
-		net.onFire(player.getPos(false), player.rotation, this.getClass().getName());
+    @Override
+    public void netFire(NetworkManager net, World world, Player player) {
+        net.onFire(player.getPos(false), player.rotation, this.getClass().getName());
 
-	}
+    }
 
-	@Override
-	public String getItemName() {
-		// TODO Auto-generated method stub
-		return "Pistol";
-	}
+    @Override
+    public String getItemName() {
+        // TODO Auto-generated method stub
+        return "Pistol";
+    }
 
-	@Override
-	public Texture getTexture() {
-		// TODO Auto-generated method stub
-		return icon;
-	}
+    @Override
+    public Texture getTexture() {
+        // TODO Auto-generated method stub
+        return icon;
+    }
 
-	@Override
-	public int getIndex() {
-		// TODO Auto-generated method stub
-		return 1;
-	}
+    @Override
+    public int getIndex() {
+        // TODO Auto-generated method stub
+        return 1;
+    }
 
-	@Override
-	public Texture getActiveTexture() {
-		// TODO Auto-generated method stub
-		return piss_active;
-	}
+    @Override
+    public Texture getActiveTexture() {
+        // TODO Auto-generated method stub
+        return piss_active;
+    }
 }

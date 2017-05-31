@@ -1,5 +1,5 @@
 package me.boxcubed.main.Objects.interfaces;
 
 public enum EntityType {
-PLAYER,ZOMBIE,BULLET,PACK
+    PLAYER, ZOMBIE, BULLET, PACK
 }
