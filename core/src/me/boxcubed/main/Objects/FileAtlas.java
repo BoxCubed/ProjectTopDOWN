@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 class FileAtlas {
 	
 	
-	private static Class<? extends FileAtlas> fileAt;
+	static Class<? extends FileAtlas> fileAt;
 	public static TiledMap map=new TmxMapLoader().load("assets/maps/map2.tmx");
 	
 	public static Texture zombieTex=new Texture(Gdx.files.internal("assets/img/skeleton-idle_0.png"));

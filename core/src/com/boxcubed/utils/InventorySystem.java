@@ -3,16 +3,13 @@ package com.boxcubed.utils;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector3;
 
 import me.boxcubed.main.States.GameState;

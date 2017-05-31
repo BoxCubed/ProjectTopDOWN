@@ -52,7 +52,6 @@ import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.Entity;
 import me.boxcubed.main.Sprites.Pack;
 import me.boxcubed.main.Sprites.Player;
-import me.boxcubed.main.Sprites.Zombie;
 
 
 public class GameState extends State implements InputProcessor {

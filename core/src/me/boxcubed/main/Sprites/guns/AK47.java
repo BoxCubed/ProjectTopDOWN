@@ -3,7 +3,6 @@ package me.boxcubed.main.Sprites.guns;
 import java.util.Random;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
@@ -52,14 +51,19 @@ public class AK47 implements Gun, InventoryItem {
 		}
 
 		if (Gdx.input.isButtonPressed(Buttons.LEFT) || input.isKeyPressed(Keys.SPACE)) {
-			elapsedBulletTime += delta;
-			if (elapsedBulletTime > 10) {
-				
-				elapsedBulletTime = 0;
+			if(elapsedBulletTime==-1){
+				firstFire=true;
+				elapsedBulletTime=0;
+
 				return true;
 			}
-		} else
-			elapsedBulletTime = 0;
+			firstFire=false;
+			elapsedBulletTime+=delta;
+			if(elapsedBulletTime>10){
+				elapsedBulletTime=0f;
+				return true;
+			}
+		}else elapsedBulletTime=-1;
 		return false;
 	}
 

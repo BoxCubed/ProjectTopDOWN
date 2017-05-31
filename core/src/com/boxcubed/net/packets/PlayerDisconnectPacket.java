@@ -1,7 +1,7 @@
 package com.boxcubed.net.packets;
 
 public class PlayerDisconnectPacket {
-	private String name;
+	public String name;
     public String reason;
 	public int id;
 	

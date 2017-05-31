@@ -2,7 +2,6 @@ package me.boxcubed.main.Objects;
 
 import java.util.Random;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
@@ -33,7 +32,6 @@ public class Spawner {
 	/**
 	 * The total amount of entities this spawner spawned
 	 */
-	private int amount;
 	public Spawner(Vector2 pos, Clock clock, GameState instance){
 		this.pos=pos;
 		this.entity= EntityType.ZOMBIE;
@@ -52,7 +50,6 @@ public class Spawner {
 		if(currentAmount<limit){
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){
-			amount++;
 
 			pos.x=random.nextInt(1570);
 			pos.y=random.nextInt(1570);
