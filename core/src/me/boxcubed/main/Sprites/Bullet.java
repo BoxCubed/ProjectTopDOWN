@@ -109,10 +109,7 @@ public class Bullet extends Sprite implements Entity{
 	 public void renderShapes(ShapeRenderer sr) {
 		 if(TopDown.debug){
 			 sr.setColor(toRGB(255,200,14));
-			 sr.line(getPos(true), player.getPos(true));
-			 	if(collision!=null){
-				sr.setColor(Color.BLUE);
-			 }
+			 sr.line(getPos(true), player.getPos(true));		 }
 	
 	 }
 	 public Color toRGB(int r, int g, int b) {
