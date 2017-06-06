@@ -31,10 +31,10 @@ public class Clock {
 		if (Gdx.input.isKeyPressed(Keys.EQUALS))
 			amlight += 0.01f;
 		if (Gdx.input.isKeyPressed(Keys.MINUS))
-			amlight -= 0.01f; // jkjk
+			amlight -= 0.01f;
 		rayHandler.setAmbientLight(amlight);
 		rayHandler.update();
-		if (!progressTime)
+		/*if (!progressTime)
 			return;
 		if (amlight < 0.07 || amlight > 1) {
 			night = !night;
@@ -48,6 +48,10 @@ public class Clock {
 		}
 		if (!night && !timer.isRunning()) {
 			amlight -= 0.0005 * delta;
+		}*/
+		
+		if(amlight>0.08){
+			amlight-=0.0005f;
 		}
 
 		
