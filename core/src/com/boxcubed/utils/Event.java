@@ -27,5 +27,7 @@ public class Event {
 		return timer.getElapsedTime();
 	}
 	
-	
+	public int getType(){
+		return type;
+	}
 }

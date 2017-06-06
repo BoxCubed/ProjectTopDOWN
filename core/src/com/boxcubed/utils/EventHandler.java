@@ -18,6 +18,19 @@ public class EventHandler {
 		eventList.add(new Event(id, type, this));
 	}
 	
+	public void removeEvent(String id){
+		eventList.remove(getEventIndex(id));
+	}
+	
+	public int getEventIndex(String id){
+		for(int i=0;i<eventList.size();i++){
+			if(eventList.get(i).id==id){
+				return i;
+			}
+		}
+		return 0;
+	}
+	
 	public int eventAmount(){
 		return eventList.size();
 	}
