@@ -1,6 +1,8 @@
-package com.boxcubed.utils;
+package com.boxcubed.events;
 
 import java.util.ArrayList;
+
+import com.boxcubed.utils.Timer;
 
 import me.boxcubed.main.Objects.Clock;
 
@@ -18,13 +20,11 @@ public class EventHandler {
 		
 		for(int i=0;i<eventList.size();i++){
 			if(eventList.get(i).isTriggered()){
-				System.out.println("Event: Night");
 			}
 		}
 	}
 	
 	public void createEvent(String id,int type, float gameTime){
-		eventList.add(new Event(id, type, gameTime, this));
 	}
 	
 	public void removeEvent(String id){

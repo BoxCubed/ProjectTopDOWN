@@ -24,11 +24,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.boxcubed.events.EventHandler;
 import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.CleanInputProcessor;
-import com.boxcubed.utils.EventHandler;
 import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
 
