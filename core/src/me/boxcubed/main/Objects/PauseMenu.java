@@ -55,7 +55,7 @@ public class PauseMenu implements Renderable,Disposable {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 	private void initButton(){
-		resume.lis
+		
 	}
 	@Override
 	public void dispose() {

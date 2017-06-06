@@ -1,30 +1,46 @@
 package com.boxcubed.events;
 
-import java.util.ArrayList;
+import java.lang.reflect.Method;
+import java.util.HashSet;
 
 import com.boxcubed.utils.Timer;
 
-import me.boxcubed.main.Objects.Clock;
-
 public class EventHandler {
-	public static float gameTime;
-	ArrayList<Event> eventList;
+	HashSet<Class<? extends Event>> eventList;
+	HashSet<EventListener> listeners;
 	Timer timer;
 	
 	public EventHandler(){
-		eventList=new ArrayList<Event>();
+		eventList=new HashSet<Class<? extends Event>>();
+		listeners=new HashSet<EventListener>();
 	}
 	
-	public void update(Clock clock){
-		gameTime=clock.amToTimeFloat();
+	public void update(){
 		
-		for(int i=0;i<eventList.size();i++){
-			if(eventList.get(i).isTriggered()){
-			}
-		}
 	}
-	
-	public void createEvent(String id,int type, float gameTime){
+	/**
+	 * Register an event other listeners can listen to
+	 * @param event the event to add
+	 */
+	public void registerEvent(Class<? extends Event> event){
+		eventList.add(event);
+	}
+	public void unregisterEvent(Class<? extends Event> event){
+		eventList.remove(event);
+	}
+	/**
+	 * Calls an event
+	 */
+	public void callEvent(Event event){
+		for(EventListener e:listeners){
+			for(Method method:e.getClass().getMethods()){
+				if(method.isAnnotationPresent(EventMethod.class)){
+					//TODO
+					method.invoke(e, null);
+				}
+			}
+			
+		}
 	}
 	
 	public void removeEvent(String id){
