@@ -6,8 +6,8 @@ import java.util.HashSet;
 import com.boxcubed.utils.Timer;
 
 public class EventHandler {
-	HashSet<Class<? extends Event>> eventList;
-	HashSet<EventListener> listeners;
+	public HashSet<Class<? extends Event>> eventList;
+	public HashSet<EventListener> listeners;
 	Timer timer;
 	
 	public EventHandler(){

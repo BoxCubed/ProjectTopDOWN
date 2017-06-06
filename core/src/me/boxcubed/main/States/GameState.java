@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.events.EventHandler;
+import com.boxcubed.events.NightEvent;
 import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
@@ -104,7 +105,7 @@ public class GameState implements State, CleanInputProcessor {
 		clock = new Clock(gameWORLD);
 		eventHandler = new EventHandler();
 		
-		eventHandler.createEvent("Night", 0, 11f);
+		eventHandler.registerEvent(NightEvent.class);
 
 		World.setVelocityThreshold(20f);
 		// HUD initializing
@@ -132,7 +133,7 @@ public class GameState implements State, CleanInputProcessor {
 		// Adding player
 		if (TopDown.debug)
 			newPlayer(0);
-		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20, clock);
+		zombieSpawner = new Spawner(EntityType.ZOMBIE, new Vector2(100, 100), 100, 20, eventHandler);
 		// light
 		playerLight = new PlayerLight(new ConeLight(clock.rayHandler, 100, Color.YELLOW, 0, 100, 100, 90, 45));
 		// Making all the collision shapes
@@ -214,8 +215,6 @@ public class GameState implements State, CleanInputProcessor {
 			zombieGroan.stop();
 		}
 		
-		eventHandler.update(clock);
-
 		BoxoUtil.lerpToPos(new Vector2(
 				MathUtils.clamp(player.getPos(true).x + player.crossH.offX * 30, cam.viewportWidth / 2,
 						1576 - cam.viewportWidth / 2),

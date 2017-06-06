@@ -3,6 +3,7 @@ package me.boxcubed.main.Objects;
 import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
+import com.boxcubed.events.EventHandler;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.EntityType;
@@ -23,24 +24,24 @@ public class Spawner {
 	private float elapsedTime=0;
 	private float delay;
 	private int limit;
-	private Clock clock;
+	private EventHandler enventHandler;
 	/**
 	 * The total amount of entities this spawner spawned
 	 */
 	public int amount;
-	public Spawner(EntityType entity, Vector2 pos,float delay,int limit,Clock clock){
+	public Spawner(EntityType entity, Vector2 pos,float delay,int limit,EventHandler eventHandler){
 		this.pos=pos;
 		this.entity=entity;
 		this.delay=delay;
 		this.limit=limit;
-		this.clock=clock;
+		this.enventHandler=eventHandler;
 	}
 	/**
 	 * 
 	 * @param delta in same units as delay given
 	 */
 	public void update(float delta,int currentAmount){
-		if(clock.amlight>0.3f)return;
+		if(Clock.gameTime<11)return;
 		if(currentAmount<limit){  
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){
