@@ -102,9 +102,9 @@ public class GameState implements State, CleanInputProcessor {
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
 		clock = new Clock(gameWORLD);
-		eventHandler = new EventHandler(clock);
+		eventHandler = new EventHandler();
 		
-		eventHandler.createEvent("Night", 0);
+		eventHandler.createEvent("Night", 0, 11f);
 
 		World.setVelocityThreshold(20f);
 		// HUD initializing
@@ -213,6 +213,8 @@ public class GameState implements State, CleanInputProcessor {
 		if (groanTimer > 800) {
 			zombieGroan.stop();
 		}
+		
+		eventHandler.update(clock);
 
 		BoxoUtil.lerpToPos(new Vector2(
 				MathUtils.clamp(player.getPos(true).x + player.crossH.offX * 30, cam.viewportWidth / 2,

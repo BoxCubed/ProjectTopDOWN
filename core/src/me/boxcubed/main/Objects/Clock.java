@@ -38,7 +38,6 @@ public class Clock {
 			amlight-=0.0005f;
 			
 		}
-		
 	}
 
 	@SuppressWarnings("deprecation")
