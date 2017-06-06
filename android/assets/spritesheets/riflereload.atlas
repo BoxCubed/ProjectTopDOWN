@@ -1,0 +1,150 @@
+
+riflereload.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+survivor-reload_rifle
+  rotate: false
+  xy: 1, 658
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 0
+survivor-reload_rifle
+  rotate: false
+  xy: 1, 439
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 1
+survivor-reload_rifle
+  rotate: false
+  xy: 325, 658
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 10
+survivor-reload_rifle
+  rotate: false
+  xy: 1, 220
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 11
+survivor-reload_rifle
+  rotate: false
+  xy: 325, 439
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 12
+survivor-reload_rifle
+  rotate: false
+  xy: 649, 658
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 13
+survivor-reload_rifle
+  rotate: false
+  xy: 1, 1
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 14
+survivor-reload_rifle
+  rotate: false
+  xy: 325, 220
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 15
+survivor-reload_rifle
+  rotate: false
+  xy: 649, 439
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 16
+survivor-reload_rifle
+  rotate: false
+  xy: 325, 1
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 17
+survivor-reload_rifle
+  rotate: false
+  xy: 649, 220
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 18
+survivor-reload_rifle
+  rotate: false
+  xy: 649, 1
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 19
+
+riflereload2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+survivor-reload_rifle
+  rotate: false
+  xy: 1, 658
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 2
+survivor-reload_rifle
+  rotate: false
+  xy: 1, 439
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 3
+survivor-reload_rifle
+  rotate: false
+  xy: 325, 658
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 4
+survivor-reload_rifle
+  rotate: false
+  xy: 1, 220
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 5
+survivor-reload_rifle
+  rotate: false
+  xy: 325, 439
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 6
+survivor-reload_rifle
+  rotate: false
+  xy: 649, 658
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 7
+survivor-reload_rifle
+  rotate: false
+  xy: 1, 1
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 8
+survivor-reload_rifle
+  rotate: false
+  xy: 325, 220
+  size: 322, 217
+  orig: 322, 217
+  offset: 0, 0
+  index: 9

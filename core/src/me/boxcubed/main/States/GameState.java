@@ -28,8 +28,10 @@ import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
 import com.boxcubed.utils.CleanInputProcessor;
+import com.boxcubed.utils.EventHandler;
 import com.boxcubed.utils.GIFDecoder;
 import com.boxcubed.utils.Hud;
+
 import box2dLight.ConeLight;
 import me.boxcubed.main.TopDown;
 import me.boxcubed.main.Objects.Clock;
@@ -69,6 +71,7 @@ public class GameState implements State, CleanInputProcessor {
 	TiledMap tiledMap;
 	TiledMapRenderer tiledMapRenderer;
 	Box2DDebugRenderer b2dr;
+	EventHandler eventHandler;
 	Music ambientMusic;
 	Sound zombieGroan;
 	public Hud hud;
@@ -82,6 +85,7 @@ public class GameState implements State, CleanInputProcessor {
 	private HashMap<String, Player> clients = new HashMap<String, Player>();
 	private Assets assets = TopDown.assets;
 	public Animation<TextureRegion> anim;
+	
 
 	// sound system
 	/*
@@ -98,6 +102,9 @@ public class GameState implements State, CleanInputProcessor {
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
 		clock = new Clock(gameWORLD);
+		eventHandler = new EventHandler();
+		
+		eventHandler.createEvent("Night", 0, 11f);
 
 		World.setVelocityThreshold(20f);
 		// HUD initializing
@@ -115,7 +122,7 @@ public class GameState implements State, CleanInputProcessor {
 		// Lists
 		entities = new ArrayList<Entity>();
 		dispose = new ArrayList<Entity>();
-
+		
 		// sound stuff TODO get paulscode 3d sound library
 		ambientMusic = assets.get(Assets.ambient_MUSIC, Music.class);
 		ambientMusic.setLooping(true);
@@ -206,6 +213,8 @@ public class GameState implements State, CleanInputProcessor {
 		if (groanTimer > 800) {
 			zombieGroan.stop();
 		}
+		
+		eventHandler.update(clock);
 
 		BoxoUtil.lerpToPos(new Vector2(
 				MathUtils.clamp(player.getPos(true).x + player.crossH.offX * 30, cam.viewportWidth / 2,

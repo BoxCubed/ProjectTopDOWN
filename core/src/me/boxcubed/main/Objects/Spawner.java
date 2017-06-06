@@ -17,10 +17,6 @@ import me.boxcubed.main.States.GameState;
  *
  */
 public class Spawner {
-	/*
-	 * Map limits: y: 40-345
-	 * x: 22-680
-	 */
 	Random random=new Random();
 	EntityType entity;
 	Vector2 pos;
