@@ -25,8 +25,8 @@ public class SteeringAI implements Steerable<Vector2> {
 		this.boundingRadius=boundingRadius;
 		speedMax=0.1f;
 		speedMaxAcc=100f;
-		speedMaxAng=100;
-		speedMaxAngAcc=100;
+		speedMaxAng=50;
+		speedMaxAngAcc=50;
 		tagged=false;
 		steeringOutput=new SteeringAcceleration<Vector2>(new Vector2());
 	}	
@@ -53,7 +53,6 @@ public class SteeringAI implements Steerable<Vector2> {
 			anyAcc=true;
 		}else if(!getLinearVelocity().isZero()){
 			float newOr=vectorToAngle(getLinearVelocity());
-			//getBody().setAngularVelocity((newOr-getAngularVelocity())*delta);
 			setOrientation(newOr);
 		}
 		if(anyAcc){

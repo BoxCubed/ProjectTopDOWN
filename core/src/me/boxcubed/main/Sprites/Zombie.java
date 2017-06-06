@@ -180,10 +180,6 @@ public class Zombie extends Sprite implements LivingEntity {
 			sr.setColor(Color.RED);
 			sr.line(p1.scl(GameState.PPM), p2.scl(GameState.PPM));
 		}
-		/*sr.set(ShapeType.Filled);
-		sr.setColor(Color.GREEN);
-		float size=(float)(getHealth()/getMaxHealth()*40f);
-		sr.rect(getPos().x-10, getPos().y+20, size, 10);*/
 	}
 	
 	

@@ -22,38 +22,22 @@ public class Clock {
 		timer = new StopWatch();
 		rayHandler = new RayHandler(world);
 		progressTime = !TopDown.debug;
-		
 
+		timer.start();
 	}
 
 	public void updateLight(float delta) {
-
 		if (Gdx.input.isKeyPressed(Keys.EQUALS))
 			amlight += 0.01f;
 		if (Gdx.input.isKeyPressed(Keys.MINUS))
 			amlight -= 0.01f;
 		rayHandler.setAmbientLight(amlight);
 		rayHandler.update();
-		/*if (!progressTime)
-			return;
-		if (amlight < 0.07 || amlight > 1) {
-			night = !night;
-		}
-		if (night) {
-			timer.start();
-		}
-		if (timer.getElapsedTimeSecs() > 5) {
-			timer.stop();
-			amlight += 0.0005;
-		}
-		if (!night && !timer.isRunning()) {
-			amlight -= 0.0005 * delta;
-		}*/
-		
+
 		if(amlight>0.08){
 			amlight-=0.0005f;
+			
 		}
-
 		
 	}
 
@@ -78,6 +62,21 @@ public class Clock {
 			hrs = 12 - (amlight * 12);
 			mins = hrs * 60 - (int) hrs * 60;
 			return (int) hrs + ":" + (int) mins + "pm";
+		}
+
+		// return Float.toString(amlight);
+	}
+	
+	public float amToTimeFloat() {
+		float hrs, mins;
+		if (night) {
+			hrs = (amlight * 12);
+			mins = hrs * 60 - (int) hrs * 60;
+			return hrs+(mins)/100;
+		} else {
+			hrs = 12 - (amlight * 12);
+			mins = hrs * 60 - (int) hrs * 60;
+			return hrs+(mins)/100;
 		}
 
 		// return Float.toString(amlight);
