@@ -120,8 +120,7 @@ public class BoxoUtil implements InputProcessor{
 	 */
 	public static void clearScreen(){
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);	}
+		}
 	/**
 	 * 
 	 * Add an input processor. This allows multiple input processors to be used.
