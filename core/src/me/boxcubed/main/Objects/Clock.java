@@ -22,6 +22,7 @@ public class Clock {
 	private boolean night = false;
 	public float amlight = 1f;
 	public static float gameTime;
+	private boolean eventCalled=false;
 
 	public Clock(World world) {
 		timer = new StopWatch();
@@ -41,11 +42,12 @@ public class Clock {
 		rayHandler.update();
 
 		if(amlight>0.08){
+			eventCalled=false;
 			amlight-=0.0005f;
 			
 			
-		}else{
-			
+		}else if(!eventCalled){
+			eventCalled=true;
 				try {
 					EventHandler.callEvent(new NightEvent(amToTimeFloat()));
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

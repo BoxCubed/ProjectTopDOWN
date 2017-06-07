@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 import com.boxcubed.events.EventHandler;
+import com.boxcubed.events.ZombieSpawnEvent;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.EntityType;
@@ -24,17 +25,15 @@ public class Spawner {
 	private float elapsedTime=0;
 	private float delay;
 	private int limit;
-	private EventHandler enventHandler;
 	/**
 	 * The total amount of entities this spawner spawned
 	 */
 	public int amount;
-	public Spawner(EntityType entity, Vector2 pos,float delay,int limit,EventHandler eventHandler){
+	public Spawner(EntityType entity, Vector2 pos,float delay,int limit){
 		this.pos=pos;
 		this.entity=entity;
 		this.delay=delay;
 		this.limit=limit;
-		this.enventHandler=eventHandler;
 	}
 	/**
 	 * 
@@ -55,6 +54,8 @@ public class Spawner {
 			pos.y=random.nextInt(1570);
 			}
 			LivingEntity spawnEntity=null;
+			ZombieSpawnEvent e=new ZombieSpawnEvent(spawnEntity);
+			
 				if(entity.equals(EntityType.ZOMBIE))
 					
 					spawnEntity=new Zombie(GameState.instance.getWorld(),  GameState.instance.playerAI);
@@ -64,8 +65,17 @@ public class Spawner {
 					spawnEntity=new Player(GameState.instance.getWorld(),0);
 				
 				if(spawnEntity!=null){
+					spawnEntity.update(delta);
 				spawnEntity.getBody().setTransform(pos.scl(1f/GameState.PPM), spawnEntity.getBody().getAngle());
+				
+				try {
+					EventHandler.callEvent(e);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				if(!e.isCancelled())
 				GameState.instance.entities.add(spawnEntity);
+				else{spawnEntity.dispose();spawnEntity=null;}
 				}
 				elapsedTime=0;
 			
