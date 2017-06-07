@@ -18,7 +18,7 @@ import me.boxcubed.main.States.GameState;
  * @author ryan9
  *
  */
-public class Spawner implements EventListener{
+public class Spawner{
 	Random random=new Random();
 	EntityType entity;
 	Vector2 pos;
