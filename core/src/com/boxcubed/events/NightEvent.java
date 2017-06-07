@@ -10,6 +10,4 @@ public class NightEvent extends Event {
 	}
 	public float getTriggerTime(){return triggerTime;}
 
-	
-
 }
