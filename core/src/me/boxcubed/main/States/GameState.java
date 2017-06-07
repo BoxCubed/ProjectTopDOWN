@@ -158,7 +158,6 @@ public class GameState implements State, CleanInputProcessor,EventListener{
 	}
 	 @EventMethod
 	 public void onNight(NightEvent e){
-		 System.out.println("It is night!");
 	 }
 	public void createNewPlayer(String id) {// Used for the server
 		Player player1 = new Player(gameWORLD, 2);
@@ -190,9 +189,6 @@ public class GameState implements State, CleanInputProcessor,EventListener{
 		clients.forEach((id, player) -> player.update(delta));
 		if (player.state != 0)
 			player.connection.updatePlayers(delta);
-
-		// Updating Light TODO dont make this only for player aka make a
-		// Flashlight class and and handling in gamestate
 		playerLight.updateLightPos(player.getPos(false), player.rotation, delta, Gdx.input.isKeyPressed(Keys.L), true);
 		clock.updateLight(delta);
 
@@ -394,9 +390,6 @@ public class GameState implements State, CleanInputProcessor,EventListener{
 
 	@Override
 	public void resize(int width, int height) {
-		// cam = new OrthographicCamera(Gdx.graphics.getWidth() / 2,
-		// Gdx.graphics.getHeight() / 2);
-		// cam.update();
 	}
 
 	@Override

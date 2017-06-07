@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 import com.boxcubed.events.EventHandler;
+import com.boxcubed.events.EventListener;
+import com.boxcubed.events.NightEvent;
 
 import me.boxcubed.main.Objects.collision.MapBodyBuilder;
 import me.boxcubed.main.Objects.interfaces.EntityType;
@@ -17,15 +19,13 @@ import me.boxcubed.main.States.GameState;
  * @author ryan9
  *
  */
-public class Spawner {
+public class Spawner implements EventListener{
 	Random random=new Random();
 	EntityType entity;
 	Vector2 pos;
 	private float elapsedTime=0;
 	private float delay;
-	private int limit;
-	private EventHandler enventHandler;
-	/**
+	private int limit;	/**
 	 * The total amount of entities this spawner spawned
 	 */
 	public int amount;
@@ -34,14 +34,11 @@ public class Spawner {
 		this.entity=entity;
 		this.delay=delay;
 		this.limit=limit;
-		this.enventHandler=eventHandler;
+		eventHandler.registerListener(this);
 	}
-	/**
-	 * 
-	 * @param delta in same units as delay given
-	 */
+
 	public void update(float delta,int currentAmount){
-		if(Clock.gameTime<11)return;
+		if(Clock.gameTime>11)return;
 		if(currentAmount<limit){  
 			elapsedTime+=delta;
 		if(elapsedTime>=delay){
