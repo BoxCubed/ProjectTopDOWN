@@ -25,6 +25,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.boxcubed.events.EventHandler;
+import com.boxcubed.events.EventListener;
+import com.boxcubed.events.EventMethod;
+import com.boxcubed.events.NightEvent;
 import com.boxcubed.node_server.server;
 import com.boxcubed.utils.Assets;
 import com.boxcubed.utils.BoxoUtil;
@@ -50,7 +53,7 @@ import paulscode.sound.SoundSystemConfig;
 import paulscode.sound.SoundSystemException;
 import paulscode.sound.libraries.LibraryJavaSound;*/
 
-public class GameState implements State, CleanInputProcessor {
+public class GameState implements State, CleanInputProcessor,EventListener{
 	// get rid of that random box that spawns next to the player...DONE i
 	// think...
 	private World gameWORLD;
@@ -102,9 +105,10 @@ public class GameState implements State, CleanInputProcessor {
 		gameWORLD = new World(new Vector2(0, 0), true);
 		gameWORLD.setContactListener(new CollisionDetection());
 		clock = new Clock(gameWORLD);
+		//Events
 		eventHandler = new EventHandler();
 		
-		eventHandler.createEvent("Night", 0, 11f);
+		eventHandler.registerListener(this);
 
 		World.setVelocityThreshold(20f);
 		// HUD initializing
@@ -152,7 +156,10 @@ public class GameState implements State, CleanInputProcessor {
 		 */
 
 	}
-
+	 @EventMethod
+	 public void onNight(NightEvent e){
+		 System.out.println("It is night!");
+	 }
 	public void createNewPlayer(String id) {// Used for the server
 		Player player1 = new Player(gameWORLD, 2);
 		clients.put(id, player1);
@@ -214,7 +221,6 @@ public class GameState implements State, CleanInputProcessor {
 			zombieGroan.stop();
 		}
 		
-		eventHandler.update(clock);
 
 		BoxoUtil.lerpToPos(new Vector2(
 				MathUtils.clamp(player.getPos(true).x + player.crossH.offX * 30, cam.viewportWidth / 2,
@@ -416,5 +422,7 @@ public class GameState implements State, CleanInputProcessor {
 		BoxoUtil.addInputProcessor(this);
 		ambientMusic.play();
 	}
+
+	
 
 }

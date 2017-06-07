@@ -1,9 +1,13 @@
 package me.boxcubed.main.Objects;
 
+import java.lang.reflect.InvocationTargetException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
+import com.boxcubed.events.EventHandler;
+import com.boxcubed.events.NightEvent;
 
 import box2dLight.RayHandler;
 import me.boxcubed.main.TopDown;
@@ -37,6 +41,15 @@ public class Clock {
 		if(amlight>0.08){
 			amlight-=0.0005f;
 			
+			
+		}else{
+			
+				try {
+					EventHandler.callEvent(new NightEvent(amToTimeFloat()));
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 	}
 

@@ -1,62 +1,52 @@
 package com.boxcubed.events;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 
-import com.boxcubed.utils.Timer;
-
 public class EventHandler {
-	HashSet<Class<? extends Event>> eventList;
-	HashSet<EventListener> listeners;
-	Timer timer;
+	private static HashSet<EventListener> listeners;
 	
 	public EventHandler(){
-		eventList=new HashSet<Class<? extends Event>>();
 		listeners=new HashSet<EventListener>();
 	}
 	
-	public void update(){
-		
-	}
+	
 	/**
 	 * Register an event other listeners can listen to
 	 * @param event the event to add
 	 */
-	public void registerEvent(Class<? extends Event> event){
-		eventList.add(event);
+	public void registerListener(EventListener event){
+		listeners.add(event);
 	}
-	public void unregisterEvent(Class<? extends Event> event){
-		eventList.remove(event);
+	public void unregisterEvent(EventListener event){
+		listeners.remove(event);
 	}
 	/**
 	 * Calls an event
 	 */
-	public void callEvent(Event event){
+	public static void callEvent(Event event)throws IllegalAccessException,IllegalArgumentException,InvocationTargetException{
 		for(EventListener e:listeners){
 			for(Method method:e.getClass().getMethods()){
 				if(method.isAnnotationPresent(EventMethod.class)){
 					//TODO
-					method.invoke(e, null);
+						if(method.getParameterTypes().length>1) throw new IllegalArgumentException("The given Event "+event.getClass().getSimpleName()+" is not a valid event!\n "
+								+ "The parameters in method "+method.getName()+" has more than one parameter!");
+						if(!method.getReturnType().equals(Void.TYPE))throw new IllegalArgumentException("The given Event "+event.getClass().getSimpleName()+" is not a valid event!\n "
+								+ "The method "+method.getName()+" must not return a value!");
+						method.invoke(e, event);
+					}
 				}
 			}
 			
 		}
-	}
 	
-	public void removeEvent(String id){
-		eventList.remove(getEventIndex(id));
-	}
 	
-	public int getEventIndex(String id){
-		for(int i=0;i<eventList.size();i++){
-			if(eventList.get(i).id==id){
-				return i;
-			}
-		}
-		return 0;
-	}
-	
-	public int eventAmount(){
-		return eventList.size();
+	/**
+	 * The amount of registered Listeners
+	 * @return The amount of registered Listeners
+	 */
+	public int getAmountRegisteredListeners(){
+		return listeners.size();
 	}
 }
