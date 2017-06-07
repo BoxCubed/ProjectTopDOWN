@@ -21,6 +21,8 @@ public class Clock {
 	public boolean progressTime;
 	private boolean night = false;
 	public float amlight = 1f;
+	
+	public static float elapsedTime;
 	public static float gameTime;
 	private boolean eventCalled=false;
 
@@ -33,6 +35,7 @@ public class Clock {
 	}
 
 	public void updateLight(float delta) {
+		elapsedTime+=delta;
 		gameTime=amToTimeFloat();
 		if (Gdx.input.isKeyPressed(Keys.EQUALS))
 			amlight += 0.01f;
