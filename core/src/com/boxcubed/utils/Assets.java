@@ -26,7 +26,7 @@ public class Assets extends com.badlogic.gdx.assets.AssetManager {
 			ambient_MUSIC = "sounds/ambient_music.mp3", ZScreams_SOUND = "sounds/zombie_screams.mp3",buttonChange_SOUND="sounds/button-choose.wav",
 			menu_MUSIC="sounds/Drafty-Places.mp3",
 
-			Main_MAP = "maps/map2.tmx",
+			Main_MAP = "maps/map2.tmx",Test_MAP="maps/map.tmx",
 
 			scrollMenu_IMAGE = "img/menu.jpg", bullet_IMAGE = "img/bullet.png", crossHair_IMAGE = "img/crosshair.png",
 			logo_IMAGE = "img/logo.png", health_IMAGE = "img/health.png", mflash_IMAGE = "img/muzzle_flash.png",

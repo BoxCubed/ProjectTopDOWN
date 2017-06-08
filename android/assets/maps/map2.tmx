@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="27">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="28">
  <tileset firstgid="1" name="tileset_risk" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="Risk.png" width="512" height="512"/>
  </tileset>
@@ -8,6 +8,9 @@
    eJztnUly1DAUhpX0AsgRQsICQgVyhBBY0J2iyBGYFhkKCHABpgUkG4YLMB2A4QJMWyDAgmHFtGXYMayYit8FKhyVrX6yZPnZfou/nl932tb0+UmWpXSVUr1/6gawIc4hVql5aC6ADXGONltdHyHqdA20FlrXcquPhxzKrww+xqHPHaW+QF+hb512+xMO5VcGH7ugZ0jHc+gF9LLTbn/Go2yFj/L4cCnDnhI+yuYjq7weDCr1EHoErQwKH1XHj/eogw/QR+jToMSPGP6EpWzX4Pu10DpoqLO6j3oWWgpgl4WPVf6MJX6M4/st0Nak3jr/P0/aNJf21CR/t7LHj7zxR3LP59KeTH8j0rYJGotgNyta+qhpOgwtWuJH3viDMx871eoYZ+Yj73Pq92k7rWjp65cm07rGZs585OU97Zv9Rpf6SZfFNJGPWWLb0H5e/MiznPmYVdltKJ1ns99oljPVLhTko59tGx9mv5F6f8q6X3HmYxE6Ah2FjhH8mHykrdlvLNo2ufNxDjoPXYAuEvwy+aC2rbQ1x1Xp4yy7zJyP69AN6CZ0i+BXxUcuN8T27uqfUeXNnQxZ+FiBHkNPoKcEnxsf48T2zsmfsfBRl/iRZ3eVxEeZ/oSFj7rHj6bxUff40TQ+JH7w4oODL3zwai/CB6/2Inzwai/CB6/2EosP17GW6YfkI0n7IfV3PiumpczHxeLDdaxl+iH50G2qaL4Ta84JUX5HmY+LxYfrWMv0Q/PR88h3Ys05IcrvFhjx4TrWMn1ufJhzQpTfceKDW/zw5cOcE6L8jhMfnOKHrgsfPopYTnxwih+6Lnz4KGI58cEpfvQic8GRj1jxo9+7dEXy2UQ+YsUPSn4487EzEh+x4ocP7xz4mI3ER6z4IXyEiR8xn8fp4zbzEWt8QeEjeW9sSWW/J5b1mavN+26Z0H7PeFybcn5q/IjJB+f5j1h+rPEFhQ/O8x9N84UPXr7wwcsXPnj5wgcvX/Nh25tB+IjPR97eDHM14oNq9e+qTq+Nj7y9GbpEPmKuA8+yybsoOl39rE53WWne7HE/0Xzk7c0wR+TD57l3CJs8W3Ftl/rZV+j0THvcT0L1r3ye64Ww08r9vq3zHjo9CwH4sNU3hQ+f53rCh/DRj49+e4HVmQ8zb3Xgw9bfrDsfZt7qwIetv1l3Psy81YEPW3+z7nzY9qsIZaV/JeMPznxU/Z6K8LHaT+/Z0W/PcvOzYWg9NAKNQhsKtMuifMw7XCe9/8ySss/LF+Uj730AfUzlw8efxPm3QVPQdmiHY5v05YN6Her+V2X6MdYP7sH590L7oP3QAUc2ep58UK9D3f+qTD/G+trjOP8J6CR0CjotfFTKxyWc/zJ0BboKXRM+KuXjNs5/B7oL3YPuCx+V8vEK538NvYHeQu8c261v/4p6nbbw8R3n/wH9hH5Bvx3bbdeDj/nAfLiu0wnJR6j94YYHMP6ARqBRaMOA+5jYZ3xOvQ6FD9d1OiH5CLU/3CTKfxs0BW2HdgzE4yN0/HBdpxOSj1D7w+1B+e+F9kH7oQM15sN1nU5IPsraH67IXCMXPpoQP0y/yFw8l/5VE+JHk/hoQvxoEh8SP3jxUeX4XOIHr/F5WfHD5X9cCR/lx48ia2aXC/CRntOk/C9ml/W4VfDBYX/qtvnc9xdtm899/922+cIHL1/44OULH7x84SOun6xpHFP56xO7wkdU33xmkLWvt/ARzzefGWTt6y18VMdH1r7ewkd1fGTt6y18VMdHlhU+quMjyx5U1fw/ljbaRQIfum5c54jEulsbF9rqv3WdIxLrbin1po85tJ+mW0q96WMO7afJNl3ONgkfcWy6nG36A6GRgOc=
   </data>
  </layer>
+ <objectgroup name="Door">
+  <object id="27" x="1572" y="335" width="25" height="223"/>
+ </objectgroup>
  <objectgroup name="Objects">
   <object id="1" x="449.333" y="814.667" width="221.333" height="478.667"/>
   <object id="2" x="145.333" y="816" width="305.333" height="189.333"/>
