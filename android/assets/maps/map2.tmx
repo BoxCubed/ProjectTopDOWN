@@ -9,7 +9,7 @@
   </data>
  </layer>
  <objectgroup name="Door">
-  <object id="27" x="1572" y="335" width="25" height="223"/>
+  <object id="27" name="mainDoor" x="1572" y="335" width="25" height="223"/>
  </objectgroup>
  <objectgroup name="Objects">
   <object id="1" x="449.333" y="814.667" width="221.333" height="478.667"/>

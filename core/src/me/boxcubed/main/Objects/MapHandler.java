@@ -68,7 +68,7 @@ public class MapHandler {
 	public void update(float delta, OrthographicCamera cam) {
 		mapRenderer.setView(cam);
 		
-		if (mapRenderer.getMap() != maps.get(currentMap)&&maps.get(currentMap)!=null) {
+		if (currentMap!=-1&&mapRenderer.getMap() != maps.get(currentMap)&&maps.get(currentMap)!=null) {
 			mapRenderer.setMap(maps.get(currentMap));
 			Array<Body> bodies = new Array<>();
 			world.getBodies(bodies);
@@ -88,7 +88,7 @@ public class MapHandler {
 			RectangleMapObject rMo=(RectangleMapObject)mo;
 			try{
 			if(rMo.getRectangle().contains(GameState.instance.player.getPos(true))){
-					EventHandler.callEvent(new DoorTouchEvent(GameState.instance.player.getPos(true), mapRenderer.getMap(), currentMap));
+					EventHandler.callEvent(new DoorTouchEvent(GameState.instance.player.getPos(true), mapRenderer.getMap(), currentMap,rMo));
 				
 			}}catch(Exception e){}
 		}
